@@ -1,0 +1,98 @@
+# docker-compose.videoai.yml
+# Uruchamianie serwisów "video" pod profilem: aivideo
+# Wymaga istniejącej sieci zewnętrznej ${NETWORK_NAME} (tworzy ją start-all.ps1)
+
+name: proj-videoai
+
+services:
+  video_mediapipe:
+    profiles: ["aivideo"]
+    image: ${VIDEO_MEDIAPIPE_IMAGE:-ghcr.io/videodev/mediapipe-http:latest}
+    restart: unless-stopped
+    ports:
+      - "${MEDIAPIPE_HTTP:-8101}:8080"
+    environment:
+      - MODELS_DIR=/models
+    volumes:
+      - ${MEDIAPIPE_MODELS_DIR:-./ai/mediapipe/models}:/models:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+  video_openpose:
+    profiles: ["aivideo"]
+    # Jeśli chcesz budować lokalnie, ustaw w .env:
+    # VIDEO_OPENPOSE_IMAGE=local/openpose-http:dev
+    # a obraz zbuduj oddzielnie lub podmień sekcję na "build:"
+    image: ${VIDEO_OPENPOSE_IMAGE:-ghcr.io/videodev/openpose-http:latest}
+    # Przykład build (zamiast image):
+    # build:
+    #   context: ${VIDEO_OPENPOSE_BUILD_CONTEXT:-./ai/openpose}
+    #   dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${OPENPOSE_HTTP:-8102}:8080"
+    environment:
+      - MODELS_DIR=/models
+    volumes:
+      - ${OPENPOSE_MODELS_DIR:-./ai/openpose/models}:/models:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+  video_alphapose:
+    profiles: ["aivideo"]
+    image: ${VIDEO_ALPHAPOSE_IMAGE:-ghcr.io/videodev/alphapose-http:latest}
+    restart: unless-stopped
+    ports:
+      - "${ALPHAPOSE_HTTP:-8103}:8080"
+    environment:
+      - MODELS_DIR=/models
+    volumes:
+      - ${ALPHAPOSE_MODELS_DIR:-./ai/alphapose/models}:/models:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+  video_vitpose:
+    profiles: ["aivideo"]
+    image: ${VIDEO_VITPOSE_IMAGE:-ghcr.io/videodev/vitpose-http:latest}
+    restart: unless-stopped
+    ports:
+      - "${VITPOSE_HTTP:-8104}:8080"
+    environment:
+      - MODELS_DIR=/models
+    volumes:
+      - ${VITPOSE_MODELS_DIR:-./ai/vitpose/models}:/models:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+  video_poseformer:
+    profiles: ["aivideo"]
+    image: ${VIDEO_POSEFORMER_IMAGE:-ghcr.io/videodev/poseformer-http:latest}
+    restart: unless-stopped
+    ports:
+      - "${POSEFORMER_HTTP:-8105}:8080"
+    environment:
+      - MODELS_DIR=/models
+    volumes:
+      - ${POSEFORMER_MODELS_DIR:-./ai/poseformer/models}:/models:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+networks:
+  audioverse-net:
+    external: true
+    name: ${NETWORK_NAME:-audioverse-net}

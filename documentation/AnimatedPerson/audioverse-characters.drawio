@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" modified="2025-08-30T00:00:00.000Z" agent="AudioVerse Docs" version="20.8.10">
+  <diagram id="arch" name="Architecture">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+        <!-- Editor side -->
+        <mxCell id="editor" value="AnimatedPersons (List + Editor)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="storage" value="localStorage (judges list)" style="shape=document;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="260" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Game side -->
+        <mxCell id="page" value="AnimatedPersonsPage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="60" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="jurors" value="Jurors (x4) — API: playIntro, reactToScore, wave, cannon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="140" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="aperson" value="AnimatedPerson (SVG + framer-motion)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="230" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="helper" value="animationHelper (usePersonControls, runChoreo, playPose)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="140" width="360" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="dsl" value="choreoDSL (ChoreoBuilder, runSeq, runWave, runCannon, runRounds)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="220" width="360" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="bus" value="karaokeIntegration (scoreBus, attachScoreReactions, reactionForScore)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="660" y="60" width="360" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" edge="1" parent="1" source="editor" target="storage"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="storage" target="page"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="page" target="jurors"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="jurors" target="aperson"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="jurors" target="bus"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="jurors" target="helper"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="dsl" target="helper"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="jurors" target="dsl"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="flow" name="Score Reaction Flow">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+        <mxCell id="score" value="Karaoke Engine: emit score (simulateScore / real events)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="340" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="bus2" value="scoreBus" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="120" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="attach" value="attachScoreReactions()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="100" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="map" value="reactionForScore(score) → ChoreoBuilder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="100" width="300" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="run" value="runRounds(actors, programs, {score})" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="220" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="fm" value="framer-motion controls → SVG parts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="880" y="220" width="260" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge1" edge="1" parent="1" source="score" target="bus2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="bus2" target="attach"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="attach" target="map"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="map" target="run"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="run" target="fm"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

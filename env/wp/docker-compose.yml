@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  # === INSTANCJA 1 ===
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:php8.2-fpm
+    restart: unless-stopped
+    depends_on: [db]
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    volumes:
+      - wp_data:/var/www/html
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    depends_on: [db]
+    expose: ["8080"]
+
+  # === INSTANCJA 2 ===
+  db_n2d:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL2_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL2_DATABASE}
+      MYSQL_USER: ${MYSQL2_USER}
+      MYSQL_PASSWORD: ${MYSQL2_PASSWORD}
+    volumes:
+      - db2_data:/var/lib/mysql
+
+  wordpress_n2d:
+    image: wordpress:php8.2-fpm
+    restart: unless-stopped
+    depends_on: [db_n2d]
+    environment:
+      WORDPRESS_DB_HOST: db_n2d:3306
+      WORDPRESS_DB_USER: ${MYSQL2_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL2_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL2_DATABASE}
+    volumes:
+      - wp2_data:/var/www/html
+
+  adminer_n2d:
+    image: adminer:latest
+    restart: unless-stopped
+    depends_on: [db_n2d]
+    expose: ["8080"]
+
+  # === WSPÓLNY NGINX DLA OBU DOMEN ===
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+      - adminer
+      - wordpress_n2d
+      - adminer_n2d
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wp_data:/var/www/wizy:ro
+      - wp2_data:/var/www/nice2dev:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs_wizy:ro
+      - ./nginx/certs_nice2dev:/etc/nginx/certs_n2d:ro
+
+volumes:
+  db_data:
+  wp_data:
+  db2_data:
+  wp2_data:

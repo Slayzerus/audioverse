@@ -1,0 +1,46 @@
+﻿services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: audioverse
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: audioverse
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    restart: always
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    ports:
+      - "9092:9092"
+
+  minio:
+    image: minio/minio
+    restart: always
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+    command: server /data
+    ports:
+      - "9000:9000"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"

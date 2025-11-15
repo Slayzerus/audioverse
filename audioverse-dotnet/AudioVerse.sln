@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioVerse.API", "AudioVerse.API\AudioVerse.API.csproj", "{1B89CFA3-4DEB-477F-9185-D21F1FE54A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioVerse.Domain", "AudioVerse.Domain\AudioVerse.Domain.csproj", "{0AE5AB3A-EA86-43C3-B975-60A5151FAD9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioVerse.Infrastructure", "AudioVerse.Infrastructure\AudioVerse.Infrastructure.csproj", "{214CDE3A-0A6D-4437-823E-54650B898907}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioVerse.Application", "AudioVerse.Application\AudioVerse.Application.csproj", "{FFE2A5A0-05BA-4040-9211-D1B9B9C01F66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioVerse.IdentityServer", "AudioVerse.IdentityServer\AudioVerse.IdentityServer.csproj", "{D435E47C-0CB9-4F44-9E2C-53263485CB0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B89CFA3-4DEB-477F-9185-D21F1FE54A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B89CFA3-4DEB-477F-9185-D21F1FE54A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B89CFA3-4DEB-477F-9185-D21F1FE54A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B89CFA3-4DEB-477F-9185-D21F1FE54A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE5AB3A-EA86-43C3-B975-60A5151FAD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE5AB3A-EA86-43C3-B975-60A5151FAD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE5AB3A-EA86-43C3-B975-60A5151FAD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE5AB3A-EA86-43C3-B975-60A5151FAD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214CDE3A-0A6D-4437-823E-54650B898907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214CDE3A-0A6D-4437-823E-54650B898907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214CDE3A-0A6D-4437-823E-54650B898907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214CDE3A-0A6D-4437-823E-54650B898907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFE2A5A0-05BA-4040-9211-D1B9B9C01F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFE2A5A0-05BA-4040-9211-D1B9B9C01F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFE2A5A0-05BA-4040-9211-D1B9B9C01F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFE2A5A0-05BA-4040-9211-D1B9B9C01F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D435E47C-0CB9-4F44-9E2C-53263485CB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D435E47C-0CB9-4F44-9E2C-53263485CB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D435E47C-0CB9-4F44-9E2C-53263485CB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D435E47C-0CB9-4F44-9E2C-53263485CB0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

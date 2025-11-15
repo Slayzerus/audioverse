@@ -1,0 +1,654 @@
+
+=  =
+
+= Koncepcja =
+AudioVerse to innowacyjna aplikacja łącząca muzykę, rywalizację i społeczność. Oferuje użytkownikom różne sposoby interakcji z muzyką – od karaoke, przez komponowanie, po rywalizację w grach muzycznych i rap battles. Wszystkie funkcjonalności są ze sobą powiązane – użytkownicy mogą tworzyć playlisty karaoke zarówno z gotowych piosenek, jak i własnych kompozycji. W Rap Battles uczestnicy mogą korzystać z gotowych profesjonalnych beatów, własnych utworów lub generować bity w czasie rzeczywistym podczas bitwy.
+Dążymy do tego, aby nasza aplikacja do tworzenia muzyki była w pełni profesjonalna i jednocześnie darmowa. Chcemy umożliwiać użytkownikom tworzenie, edycję, remixowanie oraz zapisywanie pełnej historii utworów. Naszym celem jest stworzenie kilku interfejsów – od amatorskiego, przez semi-profesjonalny, aż po pełną wersję pro. Wszystkie te funkcje będą darmowe, z możliwością opcjonalnego pakietu Elite z dodatkowymi, zaawansowanymi opcjami, ale za symboliczną opłatą.
+= 2. Funkcjonalności =
+== 2.1. Główne sekcje aplikacji ==
+Planowane główne strony aplikacji:
+Play – przestrzeń do karaoke, śpiewania i zabawy muzyką.
+Enjoy – miejsce do słuchania i cieszenia się muzyką
+Explore – miejsce do odkrywania nowych twórców, utworów i inspiracji.
+Create – zaawansowane studio do tworzenia muzyki i remixowania.
+Battle – miejsce na rap battles, wyzwania muzyczne i rywalizację.
+=== 2.1.1. Play ===
+Play to sekcja przeznaczona dla miłośników karaoke i interaktywnej zabawy muzycznej. To miejsce, gdzie użytkownicy mogą śpiewać, nagrywać swoje występy oraz rywalizować z innymi.
+Karaoke dla każdegoMożliwość śpiewania do podkładów popularnych utworów.Tryb solo, duetowy lub grupowy z opcją oceny i rankingu.Dostęp do katalogu piosenek z różnych gatunków muzycznych.
+Nagrywanie i edycjaOpcja rejestrowania wokalu i obrazu w czasie rzeczywistym.Dodawanie efektów wizualnych i dźwiękowych do nagrań.Integracja z mediami społecznościowymi do udostępniania występów.
+Rywalizacja i interakcjaWyzwania wokalne na żywo – użytkownicy śpiewają na czas i zdobywają punkty.Turnieje karaoke – cotygodniowe i miesięczne rankingi najlepszych wykonawców.Opcja głosowania i komentowania przez społeczność.
+
+=== 2.1.2. Explore ===
+Explore - muzyczne newsy, recenzje i rekomendacje w AudioVerse
+W ramach AudioVerse planujemy wdrożenie sekcji informacyjnej poświęconej nowościom muzycznym, recenzjom i rekomendacjom utworów. Będzie to istotny element budowania zaangażowania użytkowników oraz dostarczania wartościowych treści.
+Aktualności muzyczne
+Publikowanie najnowszych informacji ze świata muzyki.
+Relacje z premier albumów, koncertów i wydarzeń muzycznych.
+Wywiady z artystami i twórcami muzycznymi.
+Rekomendacje i recenzje
+Redakcja AudioVerse przygotuje autorskie recenzje nowości muzycznych.
+Rekomendowanie albumów, singli i utworów pasujących do gustu użytkowników.
+Możliwość oceniania i komentowania przez społeczność.
+Rankingi i playlisty redakcyjne
+Tworzenie list najpopularniejszych utworów według różnych kryteriów (gatunki, trendy, klasyki).
+Playlisty tematyczne dostosowane do nastroju i preferencji użytkowników.
+W przyszłości planujemy wdrożenie automatycznego generowania playlist na podstawie preferencji użytkownika przy wsparciu AI.
+Integracja z algorytmami rekomendacji
+System będzie analizował preferencje muzyczne użytkowników, by dostarczać im spersonalizowane rekomendacje.
+AI pomoże w tworzeniu dynamicznych playlist dostosowanych do indywidualnego stylu słuchacza.
+Możliwość śledzenia aktywności muzycznej i dostosowywania poleceń w czasie rzeczywistym.
+Dzięki tej sekcji AudioVerse stanie się nie tylko platformą do tworzenia i zabawy muzyką, ale także miejscem, gdzie użytkownicy będą na bieżąco z najnowszymi trendami muzycznymi i odkryją nowe inspiracje.
+
+=== 2.1.3. Enjoy ===
+Enjoy to przestrzeń do słuchania muzyki, relaksu i tworzenia własnych list odtwarzania.
+Odtwarzanie muzykiMożliwość słuchania utworów tworzonych przez społeczność i profesjonalnych artystów.Personalizowane playlisty dostosowane do nastroju i preferencji użytkownika.Tryb "radio" – automatyczne rekomendacje oparte na gustach muzycznych.
+Tryb wizualnyAnimacje i wizualizacje zsynchronizowane z muzyką.Interaktywne tła dostosowane do odtwarzanej muzyki.
+Społeczność i interakcjaMożliwość śledzenia ulubionych artystów i ich nowości.Sekcja komentarzy i recenzji dla społeczności.Opcja tworzenia publicznych playlist i dzielenia się nimi z innymi użytkownikami.
+
+=== 2.1.4. Create ===
+Create to profesjonalne studio muzyczne dostępne dla każdego – od amatorów po profesjonalnych producentów muzycznych.
+Komponowanie i produkcjaMożliwość tworzenia własnych utworów z wykorzystaniem cyfrowych instrumentów.Biblioteka sampli i efektów dźwiękowych.Edytor MIDI i wsparcie dla kontrolerów muzycznych.
+Remixowanie i edycjaZaawansowane narzędzia do obróbki dźwięku.Możliwość miksowania i masteringu nagrań.Automatyczna korekcja wokalu i dostosowanie tonacji.
+Współpraca i publikacjaTryb online jam session – wspólne tworzenie utworów na żywo.Możliwość publikacji i sprzedaży własnych kompozycji w marketplace.Integracja z platformami streamingowymi.
+
+=== 2.1.5. Battle ===
+Battle to przestrzeń dla raperów i miłośników muzycznych pojedynków.
+Rap Battles na żywoRywalizacja na gotowych podkładach lub własnych beatach.Ocena przez społeczność i system rankingowy.Możliwość prowadzenia pojedynków w trybie freestyle.
+Wyzwania muzyczneUżytkownicy mogą uczestniczyć w cotygodniowych konkursach tematycznych.Opcja pojedynków drużynowych i indywidualnych.Nagrody dla najlepszych artystów i twórców beatów.
+System ocenianiaPunkty za kreatywność, flow, rymy i ogólną jakość wykonania.Rankingi lokalne i globalne.Integracja z AI analizującą technikę rapowania i udzielającą wskazówek.
+
+== 2.2. Tryby ==
+Karaoke oceniane w czasie rzeczywistym
+Ocenianie śpiewu na podstawie pitchu i AI
+Wsparcie dla wielu mikrofonów
+Tryb online do wspólnego śpiewania
+Nagrywanie audio i wideo
+Integracja z YouTube jako źródłem muzyki
+Tworzenie playlist z gotowych piosenek i własnych kompozycji
+Tworzenie muzyki
+Wirtualne instrumenty obsługiwane przez dotyk, klawiaturę, pady
+Możliwość nagrywania, publikowania i promowania utworów
+System oceniania i rankingów
+Możliwość dodawania wideo do nagrań
+Online jam sessions – wspólne tworzenie muzyki w czasie rzeczywistym z innymi użytkownikami
+Gry muzyczne
+Tryby inspirowane Guitar Hero, Dance Dance Revolution
+Sterowanie za pomocą klawiatury, padów, opcjonalnie gitary (np. Guitar Smith)
+Minigry oparte na rytmie i dopasowywaniu dźwięków
+Rap Battles
+Pojedynki na żywo z publicznością
+Możliwość używania własnych beatów, profesjonalnych podkładów lub tworzenia beatów w locie
+System oceniania i rankingów
+
+== 2.3. Dodatkowe formy rywalizacji i zabawy ==
+=== 2.3.1. Nowe tryby bitew muzycznych ===
+Wprowadzenie trybu "Challenge Mode" – użytkownicy dostają losowe frazy i muszą je wykorzystać w freestyle'u.
+Bitwy zespołowe, gdzie kilku użytkownikózy jeden występ.
+=== 2.3.2. Sezonowe wydarzenia tematyczne ===
+Organizacja eventów np. "Halloween Rap Battle", "Letnie Karaoke", wyzwania związane z nowościami muzycznymi.
+=== 2.3.3. Rozbudowany system rankingów ===
+Podział rankingów na kategorie: początkujący, zaawansowani, profesjonalni.
+Wprowadzenie lig i sezonowych turniejów.
+== 2.3.4. Tworzenie wirtualnych zespołów ==
+Możliwość zakładania wirtualnych zespołów przez użytkowników.
+Funkcje umożliwiające wspólne komponowanie, nagrywanie i udostępnianie muzyki.
+Integracja z systemem ocen i rankingów zespołowych.
+== 2.3.5. Organizacja koncertów na żywo ==
+Wprowadzenie funkcji transmisji live koncertów użytkowników.
+Możliwość organizowania wirtualnych wydarzeń muzycznych z udziałem publiczności.
+Interakcje w czasie rzeczywistym, takie jak reakcje, komentarze i napiwki dla artystów.
+== 2.3.6. Współpraca zespołowa w czasie rzeczywistym ==
+Możliwość jam sessions na żywo, gdzie użytkownicy mogą grać razem online.
+Synchronizacja dźwięku w czasie rzeczywistym, eliminacja opóźnień w transmisji.
+Opcja nagrywania wspólnych występów i udostępniania ich na platformie.
+=== 2.3.7. Codzienne wyzwania i eventy ===
+Wprowadzenie systemu codziennych wyzwań, które motywują użytkowników do interakcji.
+Wyzwania tematyczne, takie jak „stwórz utwór w 30 minut” czy „freestyle na losowy temat”.
+Możliwość zdobywania punktów i wirtualnych trofeów za udział w wyzwaniach.
+=== 2.3.8. Osiągnięcia i kolekcjonowanie ===
+System nagród za określone aktywności, np. „pierwszy występ na żywo” czy „100 wykonanych utworów”.
+Kolekcjonowanie specjalnych efektów dźwiękowych, wizualnych oraz awatarów.
+Możliwość personalizacji profilu poprzez zdobyte nagrody.
+=== 2.3.9. Rozwój VR i AR ===
+Eksperymentalna wersja AudioVerse w wirtualnej rzeczywistości, umożliwiająca organizowanie koncertów w VR.
+Możliwość tworzenia wirtualnych scen i przenoszenia się do muzycznych przestrzeni 3D.
+Integracja z goglami VR oraz aplikacjami rozszerzonej rzeczywistości.
+=== 2.3.10. Nagrody w aplikacji ===
+Możliwość zdobywania nagród w postaci sampli, instrumentów i efektów dźwiękowych oraz wizualnych.
+Użytkownicy biorący udział w wyzwaniach i konkursach mogą wygrywać ekskluzywne zestawy muzyczne dostępne tylko w aplikacji.
+Zdobyte nagrody można wykorzystywać w dalszej rozgrywce lub sprzedawać na marketplace.
+=== 2.3.11. Wideo jako część doświadczenia ===
+W wielu aspektach aplikacji użytkownicy będą mogli, ale nie musieli udostępniać i oglądać materiały wideo.
+Wideo stanie się integralną częścią karaoke, bitew rapowych i koncertów na żywo.
+Opcja dodawania efektów wizualnych do nagrań, integracja z AI poprawiającą jakość wideo.
+
+=== 2.3.10. Strona wizytówkowa i sklep zespołu ===
+Zakładanie stron zespołów i artystów – użytkownicy mogą tworzyć własne strony wizytówkowe, które będą pełniły funkcję centralnego miejsca ich działalności muzycznej.
+Personalizacja strony – możliwość dodania opisu, zdjęć, logo zespołu, linków do mediów społecznościowych i kontaktu.
+Publikowanie treści – użytkownicy mogą umieszczać swoje utwory, albumy, wideoklipy i zapowiedzi nadchodzących wydarzeń.
+Sklep zespołu – możliwość sprzedaży muzyki, sampli, merchu i biletów na koncerty bezpośrednio przez stronę wizytówkową.
+Integracja z marketplace – sprzedaż oferowanych produktów może być również synchronizowana z globalnym marketplace w AudioVerse.
+Opcje zarządzania – intuicyjny panel administracyjny umożliwiający aktualizację treści, dodawanie nowych utworów oraz śledzenie statystyk odsłon i sprzedaży.
+Wsparcie dla subskrypcji fanów – możliwość wprowadzenia modelu wsparcia, gdzie fani mogą wpłacać miesięczne subskrypcje w zamian za ekskluzywne treści i dostęp do premier.
+Baza linków do innych serwisów – opcja dodawania i zarządzania odnośnikami do platform streamingowych, social mediów, stron promocyjnych czy serwisów sprzedaży biletów, aby użytkownicy mogli łatwo kierować ruch na swoje inne kanały.
+
+= Cele =
+== Edukacyjne ==
+Nauka muzyki
+Kursy zapisu nutowego, podstaw harmonii i rytmu.
+Interaktywne lekcje gry na instrumentach.
+Materiały edukacyjne z zakresu produkcji muzycznej i miksowania.
+Historia muzyki
+Opowieści o ewolucji gatunków muzycznych.
+Biografie wielkich twórców i artystów.
+Wpływ muzyki na kulturę i społeczeństwo.
+== Społeczne ==
+AudioVerse nie jest tylko aplikacją, ale misją – chcemy promować muzykę, zachęcać do jej tworzenia i uczestnictwa w odbiorze. Pragniemy, aby każdy mógł znaleźć tu coś dla siebie: od spontanicznego śpiewania, przez naukę gry na instrumentach, po tworzenie profesjonalnych utworów. Naszym celem jest obecność na każdym karaoke, inspirowanie ludzi do tworzenia muzyki i oferowanie im narzędzi do nauki i rozwoju.
+Chcemy także zachęcać użytkowników do interakcji w prawdziwym świecie. Nasza platforma pozwoli na tworzenie zespołów online, które mogą stopniowo przekształcać się w realne zespoły muzyczne, spotykające się na próbach, nagrywające wspólne utwory i organizujące występy.
+== Rozrywkowe ==
+Jednym z kluczowych celów AudioVerse jest dostarczenie szerokiego spektrum rozrywki, tak aby każdy użytkownik mógł znaleźć coś dla siebie – niezależnie od poziomu zaangażowania, czasu, jakim dysponuje, czy roli, jaką chce pełnić w społeczności.
+Chcemy, aby rozrywka w AudioVerse była elastyczna:
+Szybka i spontaniczna 🎤 – użytkownik może wejść na chwilę, zaśpiewać ulubioną piosenkę i wrócić do swoich zajęć.
+Długofalowa i angażująca 🎼 – np. przygotowania do rap battle, doskonalenie umiejętności wokalnych, czy rywalizacja w sezonowych turniejach muzycznych.
+Dostępna na różnych poziomach partycypacji 🤝 – zarówno dla osób, które chcą śpiewać, tworzyć i rywalizować, jak i dla tych, którzy wolą słuchać, oceniać i kibicować.
+Chcemy, by AudioVerse było przestrzenią dla każdego – od amatorów karaoke, przez producentów muzycznych, aż po fanów śledzących muzyczne pojedynki i występy.
+== Kulturowe ==
+AudioVerse to nie tylko zabawa, ale także platforma wspierająca artystów, zwłaszcza tych niezależnych, którzy szukają możliwości dotarcia do nowych słuchaczy.
+🎶 Nasze cele w tym zakresie:
+Pomoc nowym artystom w zdobyciu widowni – użytkownicy mogą odkrywać nowe talenty poprzez playlisty, rekomendacje i bitwy muzyczne.
+Wsparcie niezależnych twórców – poprzez możliwość udostępniania swojej muzyki, sprzedaży beatów i współpracy z innymi.
+Promowanie szeroko pojętej muzyki – nie ograniczamy się do jednego gatunku czy stylu – chcemy, aby każda forma ekspresji muzycznej miała swoje miejsce na naszej platformie.
+AudioVerse łączy muzykę i ludzi, zarówno w formie zabawy, jak i profesjonalnej promocji twórczości.
+= Finanse =
+== Źródła finansowania ==
+Otwieramy się na dotacje, finansowanie publiczne i prywatne.
+Jesteśmy gotowi do współpracy z funduszami wspierającymi kulturę i sztukę.
+Możliwość crowdfundingowej kampanii dla wczesnych użytkowników i twórców.
+== Przychód ==
+Nasz własny sklep
+Marketplace dla twórców (sprzedaż sampli, utworów, licencji).
+Oficjalny sklep AudioVerse (kompilacje płyt, winyle, koszulki, gadżety).
+Ekskluzywne paczki premium (instrumenty, efekty dźwiękowe, unikalne beaty).
+Subskrypcje premium
+Dostęp do zaawansowanych funkcji (np. analiza głosu AI, zaawansowane instrumenty)
+Brak reklam
+Ekskluzywne rankingi i turnieje
+Mikropłatności
+Zakup wirtualnych przedmiotów, instrumentów, efektów dźwiękowych
+Personalizacja awatarów, tła wideo
+Bilety na turnieje i wydarzenia specjalne
+Reklamy
+Reklamy w wersji darmowej aplikacji
+Możliwość oglądania reklam w zamian za bonusy (np. darmowy dostęp do funkcji premium na określony czas)
+Partnerstwa i sponsorzy
+Współpraca z markami muzycznymi
+Promowanie artystów i firm muzycznych
+Integracja z wytwórniami w celu oferowania oficjalnych podkładów
+Konkursy sponsorowane, np. na napisanie piosenki firmowej
+Marketplace muzyczny
+Użytkownicy mogą sprzedawać i kupować własne bity, instrumentale
+Możliwość współpracy artystów poprzez platformę
+Sklep twórcy
+Każdy użytkownik może otworzyć własny sklep z merchandisem.
+Partnerstwa z drukarniami – możliwość wrzucenia grafiki, wyboru produktów (koszulki, bluzy, kubki itd.) i automatycznej realizacji zamówień.
+Produkcja fizycznych nośników
+Współpraca z firmami nagrywającymi płyty i winyle.
+Twórcy mogą zamówić własny nakład, a aplikacja uzyskuje prowizję od wytwórni (nie obciążając twórcy).
+== Koszty ==
+=== 4.3.1. Koszty pracy (estymacja godzinowa) ===
+Zakładamy, że zespół składa się z następujących ról:
+Frontend Developer – React (Web) + Flutter (Mobile)
+Backend Developer – .NET 9, MSSQL, Kubernetes
+AI/ML Engineer – analiza audio, korekcja wokalu
+UX/UI Designer – interfejs aplikacji
+DevOps Engineer – infrastruktura, CI/CD
+Marketing Specialist – promocja, social media
+Projekt Manager – koordynacja zespołu
+💰 Przy średniej stawce 50 USD/h (dla developerów) i 30 USD/h (marketing, QA, PM) całkowity koszt pracy to około 250 000 - 300 000 USD.
+
+=== 4.3.2. Koszty sprzętu i infrastruktury ===
+Serwery i hosting
+➡ Pierwszy rok działania (bez optymalizacji kosztów): około 66 000 USD.
+Sprzęt dla zespołu
+
+=== 4.3.3. Koszty licencji i oprogramowania ===
+Oprogramowanie deweloperskie
+➡ Rocznie: 36 000 USD.
+Licencje muzyczne (jeśli potrzebne)
+Licencja na podkłady muzyczne (np. Epidemic Sound, Artlist) – około 5000-10 000 USD rocznie
+Opłaty za prawa autorskie (w przypadku integracji z gotową muzyką) – mogą wynosić kilkadziesiąt tysięcy USD rocznie (do negocjacji z wytwórniami).
+=== 4.3.4. Podsumowanie kosztów startowych ===
+=== 4.3.5. Koszty AudioVerse – Pełna wersja vs MVP ===
+Koszty pracy (programiści, AI, marketing)
+Pełna wersja: 300 000 USD
+MVP: 150 000 USD
+Serwery i hosting (1 rok)
+Pełna wersja: 66 000 USD
+MVP: 30 000 USD
+Sprzęt dla zespołu
+Pełna wersja: 33 100 USD
+MVP: 10 000 USD
+Licencje i oprogramowanie (1 rok)
+Pełna wersja: 36 000 USD
+MVP: 15 000 USD
+Licencje muzyczne
+Pełna wersja: 50 000 USD
+MVP: 10 000 USD
+Łączny koszt
+Pełna wersja: 485 100 USD
+MVP: 215 000 USD
+== 4.4. Monetyzacja dla użytkowników ==
+=== 4.4.1. Możliwość zarabiania na treściach ===
+Dodanie systemu napiwków dla użytkowników (fanów), którzy chcą wspierać artystów.
+Opcjonalne subskrypcje premium dla artystów oferujące dodatkowe treści.
+=== 4.4.2. Crowdfunding dla twórców muzyki ===
+Użytkownicy mogą zbierać środki na wydanie albumu lub sprzęt muzyczny bezpośrednio w aplikacji.
+=== 4.4.3. Marketplace dla nauczycieli muzyki ===
+Możliwość prowadzenia lekcji śpiewu, miksowania i produkcji muzycznej poprzez platformę AudioVerse.
+=== 4.4.4. Marketplace i mikropłatności ===
+Możliwość zakupu efektów dźwiękowych, podkładów oraz gotowych kompozycji.
+System licencji dla twórców pozwalający na sprzedaż muzyki na zasadzie royalty-free lub ekskluzywnej licencji.
+Prowizja pobierana przez platformę od każdej transakcji (np. 10-15%).
+Możliwość sprzedaży sampli w formie paczek zawierających różne dźwięki w określonej ilości.
+Tworzenie paczek sampli dedykowanych konkretnym kontrolerom MIDI i instrumentom wirtualnym.
+Marketplace umożliwiający użytkownikom sprzedaż autorskich paczek sampli oraz kupowanie gotowych zestawów od innych twórców.
+
+=== 4.4.5. Reklamy i sponsoring ===
+Dynamiczne reklamy dopasowane do użytkownika na podstawie jego zainteresowań.
+Możliwość oglądania reklam w zamian za tymczasowy dostęp do funkcji premium.
+Program partnerski dla firm muzycznych i marek wspierających niezależnych artystów.
+Współpraca ze szkołami i uczelniami – możliwość wdrożenia AudioVerse jako narzędzia edukacyjnego w zajęciach muzycznych, produkcji dźwięku i kreatywnych kursach.
+Kooperacja z klubami muzycznymi i lokalami – organizacja wspólnych wydarzeń, konkursów karaoke i bitew muzycznych na żywo, promowanie nowych talentów na scenie.
+Partnerstwo z salami weselnymi i eventowymi – wdrożenie funkcji specjalnych playlist i interaktywnych atrakcji muzycznych dla gości weselnych oraz imprez tematycznych.
+Programy dla domów kultury i ośrodków artystycznych – wsparcie dla młodych talentów poprzez dostęp do profesjonalnych narzędzi muzycznych i platformy promocyjnej.
+Integracja z akademiami i kursami muzycznymi – partnerstwa z nauczycielami, szkołami wokalnymi i instrumentalnymi w celu organizowania warsztatów, lekcji online oraz indywidualnych sesji mentoringowych.
+=== 4.4.6. Efekty i filtry audio oraz wideo ===
+Wprowadzenie specjalnych efektów dźwiękowych i wizualnych dostępnych na marketplace.
+Możliwość stosowania efektów w czasie rzeczywistym podczas występów karaoke i bitew muzycznych.
+Ekskluzywne zestawy filtrów dostępne jako nagrody w wyzwaniach oraz opcje premium w sklepie aplikacji.
+
+= Marketing =
+Marketing i promocja
+Kampanie reklamowe w mediach społecznościowych i na YouTube
+Organizacja konkursów sponsorowanych, np. na stworzenie piosenki firmowej
+Współpraca z influencerami muzycznymi
+Wydarzenia i turnieje online angażujące społeczność
+Partnerstwa z wytwórniami muzycznymi i markami
+Slogany reklamowe
+"AudioVerse – każda nuta ma tu swoje miejsce!"
+"Twoja muzyka, Twoje zasady!"
+"Gra muzyczna, która zmienia świat dźwięków!"
+"Twórz, śpiewaj, rywalizuj – stań się gwiazdą AudioVerse!"
+"Muzyka łączy ludzi – dołącz do nas!"
+Motywy graficzne i kampanie reklamowe
+Kampania „Od amatora do mistrza” – pokazująca rozwój użytkowników na platformie.
+Kampania „Zmień pokój w scenę” – zachęcająca do karaoke i bitew muzycznych.
+Kampania „Twoja muzyka na świecie” – promująca sprzedaż utworów i interakcje globalne.
+Motywy graficzne związane z dźwiękiem, wibracjami i eksplozją kreatywności.
+Współprace i partnerstwa
+Wytwórnie muzyczne – promowanie nowych artystów, organizowanie konkursów, turniejów z nagrodami (np. Kontrakty).
+Producenci sprzętu muzycznego – integracja z mikrofonami, MIDI, kontrolerami.
+Organizatorzy wydarzeń – turnieje muzyczne, festiwale, karaoke na żywo.
+Sklepy z instrumentami – oferty specjalne dla użytkowników aplikacji.
+DJ, kluby, producenci muzyczni - rozszerzenie funkcjonalności o obsługę miksowania i DJ-ingu, by przyciągnąć nowych użytkowników.
+= 6. Plan realizacji =
+Podstawowy etap (funkcjonalności kluczowe) – 12-18 miesięcy
+Karaoke i nagrywanie utworów.
+Podstawowy edytor muzyczny z opcją remixowania.
+System rankingów i rywalizacji.
+Wersja przeglądarkowa aplikacji.
+System społecznościowy i profile użytkowników.
+Rozszerzenia (6-12 miesięcy po etapie podstawowym)
+Integracja z AI do generowania beatów i korekcji dźwięku.
+Pełnoprawny marketplace do sprzedaży utworów i sampli.
+Sklep z merchem i produktami muzycznymi.
+Wersja mobilna (iOS, Android).
+Współpraca z wytwórniami i producentami sprzętu.
+Dodatkowe funkcje (Nice-to-have, 12-24 miesiące)
+Integracja z konsolami i urządzeniami multimedialnymi.
+Opcjonalna subskrypcja Elite z dodatkowymi funkcjami.
+Możliwość organizowania koncertów online w ramach aplikacji.
+Zaawansowane opcje edycji dla profesjonalistów.
+Łączny czas realizacji projektu: 24-36 miesięcy, w zależności od finansowania i dostępnych zasobów.
+
+= 7. Społeczność =
+== 7.1. Zarys  ==
+AudioVerse to społeczność stworzona przez ludzi kochających muzykę – zarówno twórców, jak i fanów. To przestrzeń dla profesjonalistów, amatorów oraz tych, którzy chcą po prostu dobrze się bawić, śpiewając po kilku drinkach z przyjaciółmi.
+Otwartość i inkluzywność
+Każdy może znaleźć coś dla siebie – od karaoke, przez produkcję muzyki, po rap battles i gry rytmiczne.
+Użytkownicy mają pełną kontrolę nad swoim poziomem zaangażowania.
+Możliwość interakcji z innymi twórcami lub pozostania w pełni anonimowym użytkownikiem.
+Muzyczna rodzina
+Aplikacja od ludzi, którzy kochają muzykę, dla ludzi, którzy kochają muzykę.
+Wspólne wydarzenia, wyzwania i konkursy dla wszystkich grup użytkowników.
+Możliwość wsparcia ulubionych twórców poprzez dotacje, sprzedaż i interakcję.
+Rozszerzone możliwości dla rodzin i grup
+Obsługa do 4 mikrofonów i 4 padów, co pozwala na wspólne komponowanie i śpiewanie w grupach do 8 osób.
+Możliwość nagrywania wideo i tworzenia muzycznych wspomnień z rodziną i przyjaciółmi.
+Tryb rodzinny – intuicyjne interfejsy i gry rytmiczne dla dzieci i dorosłych.
+Obsługa sesji online dla rodzin i znajomych na odległość.
+== 7.2. Potencjalni użytkownicy ==
+Dzieci i młodzież
+Atrakcyjne, proste w obsłudze minigry rytmiczne (inspirowane Guitar Hero, Dance Dance Revolution)
+Możliwość nauki podstaw muzyki poprzez intuicyjne wirtualne instrumenty
+Tworzenie i udostępnianie nagrań łączących muzykę, śpiew i video
+Online jam sessions, umożliwiające współtworzenie muzyki z przyjaciółmi
+Amatorzy muzyki i domowi wokaliści
+Zaawansowany tryb karaoke z ocenianiem i playlistami
+Możliwość nagrywania i udostępniania własnych wykonań
+Opcja personalizowania występów i dodawania efektów audio-wizualnych
+Tworzenie własnych beatów i podkładów muzycznych
+Twórcy i producenci muzyczni
+Narzędzia do komponowania, edytowania i publikowania własnych utworów
+Marketplace umożliwiający sprzedaż beatów i instrumentalnych podkładów
+Współpraca i wspólne tworzenie muzyki na żywo z innymi użytkownikami
+Darmowa platforma dla nowych twórców – pierwsze studio, agent i scena w jednym
+Raperzy i freestylerzy
+Tryb Rap Battles z opcją rywalizacji na gotowych podkładach, własnych beatach lub generowanych w locie
+Możliwość organizowania pojedynków na żywo z publicznością
+System rankingów i wyzwań, motywujący do rywalizacji
+Gracze i miłośnicy rywalizacji
+Możliwość rywalizacji w grach muzycznych
+Tryb multiplayer w karaoke i Rap Battles
+System nagród, rankingów i turniejów online
+Firmy i marki muzyczne
+Możliwość organizowania sponsorowanych konkursów na piosenki firmowe
+Współpraca z artystami i użytkownikami aplikacji w celu promowania marek
+Reklamowanie produktów i usług poprzez interaktywne wyzwania
+== 7.3. Rozszerzenie aspektu społecznościowego ==
+=== 7.3.1. Lepsza integracja użytkowników ===
+Wprowadzenie systemu mentorów, w którym doświadczeni użytkownicy mogą pomagać nowym członkom społeczności.
+Możliwość tworzenia własnych grup muzycznych, zespołów lub kolektywów artystycznych w ramach aplikacji.
+=== 7.3.2. Forum, grupy tematyczne, pokoje muzyczne ===
+Stworzenie przestrzeni do dyskusji o muzyce, produkcji, stylach wokalnych.
+Pokoje tematyczne dla fanów konkretnych gatunków muzycznych.
+=== 7.3.3. System reputacji i ranking aktywności ===
+Przyznawanie punktów za aktywność, np. komentowanie, ocenianie, publikowanie treści.
+Możliwość zdobywania poziomów i odznak za zaangażowanie w społeczność.
+=== 7.3.4. System mentoringu i wsparcia dla twórców ===
+Możliwość mentorowania początkujących artystów przez bardziej doświadczonych użytkowników.
+Tworzenie specjalnych grup edukacyjnych, gdzie mentorzy mogą organizować warsztaty online.
+Specjalne oznaczenia dla mentorów w społeczności.
+=== 7.3.5. Ranking aktywności i nagrody społecznościowe ===
+Punkty za aktywność w aplikacji, takie jak oceny, komentarze i udzielanie się w społeczności.
+Możliwość odblokowywania osiągnięć i kolekcjonowania unikalnych elementów wizualnych.
+Nagrody miesięczne dla najbardziej aktywnych użytkowników.
+
+
+= Technologie =
+== Zastosowane technologie ==
+Hosting i infrastruktura
+Docker Linux
+Kubernetes dla skalowalności
+Backend
+.NET 9, Entity Framework, MSSQL, Mapster
+Backend głównie zapisuje dane i wyniki użytkowników, większość funkcjonalności działa na froncie
+Frontend
+Web: React, Web Audio API
+Mobile: Aplikacja na Android i iOS
+Sprzęt i przechowywanie danych
+Wymagana wydajna baza danych do przechowywania wyników, nagrań audio i wideo
+Skalowalna infrastruktura do obsługi nagrań użytkowników i playlist
+Serwery przystosowane do obsługi strumieniowania w czasie rzeczywistym dla tysięcy użytkowników
+== Platformy ==
+Przeglądarki (Web)
+Aplikacja startuje w wersji przeglądarkowej jako podstawowa wersja.
+Technologie: React, WebAssembly, WebAudio API.
+Mobile (Android/iOS)
+Po wersji webowej planujemy uproszczoną wersję mobilną.
+Technologie: Flutter lub React Native dla natywnego doświadczenia użytkownika.
+Konsole i urządzenia multimedialne
+Rozważamy rozszerzenie aplikacji na konsole (PlayStation, Xbox, Nintendo Switch).
+Technologie: Unity jako silnik do wieloplatformowej wersji mobilnej i konsolowej.
+
+== Bezpieczeństwo ==
+Bezpieczeństwo, prywatność i prawa autorskie
+Ochrona praw autorskich
+Twórcy zachowują pełne prawa autorskie do swoich utworów.
+Możliwość wyboru zakresu udostępniania treści – prywatnie, dla znajomych lub publicznie.
+Marketplace umożliwia sprzedaż utworów i uzyskiwanie dotacji od społeczności.
+Prywatność użytkowników
+Każdy użytkownik sam decyduje o poziomie swojego zaangażowania w społeczność.
+Możliwość całkowicie prywatnego korzystania z aplikacji bez interakcji z innymi.
+Opcja ukrycia profilu i zawartości przed innymi użytkownikami.
+Bezpieczeństwo społeczności
+Ścisłe respektowanie ograniczeń wiekowych i moderacja treści.
+Oddzielne strefy dla dorosłych i młodszych użytkowników.
+Filtry i algorytmy zapobiegające publikacji nieodpowiednich treści.
+Zgłaszanie treści przez użytkowników i szybka reakcja moderacji.
+Zakaz promocji szkodliwych, nieodpowiednich i nielegalnych treści.
+
+== Sztuczna inteligencja ==
+Dążymy do mocnej integracji AI w różnych aspektach aplikacji:
+Analiza i ocenianie występów karaoke oraz bitew rapowych.
+Tworzenie i generowanie beatów – AI będzie mogło stworzyć własny, losowy podkład muzyczny w wybranym stylu.
+Korekcja dźwięku – wsparcie dla użytkowników w poprawianiu wokalu i instrumentów.
+== 8.5. Rozbudowanie technologicznej strony projektu ==
+=== 8.5.1. Lepsza obsługa AI ===
+Algorytmy analizujące styl śpiewania i podpowiadające użytkownikom sposoby poprawy techniki wokalnej.
+=== 8.5.2. Tworzenie mashupów i remiksów ===
+Prosty sposób na łączenie różnych utworów i dźwięków.
+=== 8.5.3. Obsługa prawdziwych instrumentów i kontrolerów od pada po gitarę ===
+Jeśli da się to podpiąć, to da się na tym grać!
+Obsługa MIDI oraz cyfrowych instrumentów.
+Możliwość grania na gitarze, klawiaturze MIDI, perkusji elektronicznej itp.
+Konkursy na najbardziej egzotyczne instrumenty – zachęcanie do eksperymentowania i odkrywania rzadkich brzmień.
+== 8.6. Możliwości ekspansji na inne platformy ==
+=== 8.6.1. Wersja na konsole ===
+Wprowadzenie wersji AudioVerse na PlayStation, Xbox i Nintendo Switch.
+=== 8.6.2. VR / AR w muzyce ===
+Możliwość śpiewania lub komponowania muzyki w środowisku wirtualnej rzeczywistości.
+=== 8.6.3. Integracja z platformami społecznościowymi ===
+Uproszczone publikowanie utworów jako krótkich klipów na TikTok i Instagram Reels.
+== 8.7. Syntezator mowy ==
+Syntezator mowy może stanowić innowacyjne rozszerzenie funkcjonalności AudioVerse, pozwalając użytkownikom na wykorzystanie generowanego głosu jako instrumentu muzycznego lub efektu dźwiękowego. Może on znaleźć zastosowanie zarówno w tworzeniu wokali, narracji, jak i generowaniu unikalnych sampli dźwiękowych.
+Dzięki integracji z zaawansowanymi bibliotekami syntezy mowy, użytkownicy będą mogli:
+Generować wokale w różnych stylach muzycznych, np. syntetyczne chórki, robotyczne głosy, efekty hip-hopowe.
+Tworzyć unikalne dźwięki poprzez manipulację barwą, wysokością dźwięku, tempem i efektami modulacyjnymi.
+Eksperymentować z AI do generowania mowy śpiewanej (np. w stylu vocodera) lub mowy rapowanej na podstawie wprowadzonych tekstów.
+Możliwe integracje technologiczne
+Istnieje kilka głównych podejść do wdrożenia syntezatora mowy w AudioVerse:
+Google Text-to-Speech (TTS) API / Microsoft Azure Speech Services
+Zalety: Wysoka jakość generowanego dźwięku, obsługa wielu języków, możliwość kontroli tonacji i tempa.
+Wady: Wymaga połączenia z internetem, potencjalne koszty licencyjne przy intensywnym użytkowaniu.
+Festival / eSpeak (lokalne rozwiązania Open Source)
+Zalety: Możliwość pracy offline, duża konfigurowalność, darmowe i otwarte oprogramowanie.
+Wady: Mniej naturalne brzmienie w porównaniu do komercyjnych rozwiązań, konieczność dodatkowej obróbki dźwięku.
+RVC (Retrained Voice Cloning) i AI Voice Synth
+Zalety: Możliwość uczenia modeli na bazie próbek użytkowników, realistyczne wokale generowane na podstawie istniejących nagrań.
+Wady: Wysokie wymagania obliczeniowe, potencjalne zagrożenia związane z prawami autorskimi.
+Vocaloid / Synthesizer V – integracja z istniejącymi syntezatorami wokalnymi
+Zalety: Profesjonalne narzędzia do generowania śpiewu AI, używane w branży muzycznej.
+Wady: Wymaga licencji, ograniczona swoboda dostosowania w wersjach komercyjnych.
+Syntezator mowy może być wykorzystywany zarówno w czasie rzeczywistym (np. jako efekt wokalny w bitwach rapowych), jak i w trybie studyjnym do tworzenia unikalnych ścieżek dźwiękowych. Jego zastosowanie pozwoli użytkownikom AudioVerse na jeszcze większą kreatywność i eksperymentowanie z cyfrowym wokalem.
+
+= 9.Analiza rynku =
+== 9.1. Konkurencja ==
+=== 9.1.1. Aplikacje karaoke ===
+Smule
+Platformy: iOS, Android
+Data premiery: 2012
+Model biznesowy: Freemium
+Cena: Darmowa wersja z ograniczonymi funkcjami; subskrypcja VIP od około 7,99 USD miesięcznie
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+Yokee Karaoke
+Platformy: iOS, Android
+Data premiery: 2013
+Model biznesowy: Freemium
+Cena: Darmowa wersja z reklamami; subskrypcja premium od około 4,99 USD miesięcznie
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+KaraFun
+Platformy: Windows, macOS, iOS, Android, aplikacja webowa
+Data premiery: 2004
+Model biznesowy: Freemium
+Cena: Darmowa wersja z ograniczonym dostępem; subskrypcja premium od 9,99 USD miesięcznie
+Wymaga instalacji: Tak, dla aplikacji desktopowych i mobilnych; dostępna wersja webowa bez instalacji
+Wymaga rejestracji: Tak
+Karaoke One
+Platformy: Windows
+Data premiery: 2016
+Model biznesowy: Freemium
+Cena: Darmowa wersja z ograniczonymi funkcjami; opcje płatne za dodatkowe utwory
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+Obszary bez konkurencji w kategorii karaoke:
+Aplikacje na konsole (np. Xbox, PlayStation): Brak popularnych aplikacji karaoke dostępnych na tych platformach.
+Aplikacje webowe: Większość aplikacji karaoke wymaga instalacji; KaraFun oferuje wersję webową, ale poza tym konkurencja w tej kategorii jest ograniczona.
+=== 9.1.2. Aplikacje do tworzenia muzyki ===
+GarageBand
+Platformy: iOS, macOS
+Data premiery: 2004
+Model biznesowy: Darmowy
+Cena: Bezpłatna dla użytkowników urządzeń Apple
+Wymaga instalacji: Tak
+Wymaga rejestracji: Nie
+FL Studio
+Platformy: Windows, macOS
+Data premiery: 1998
+Model biznesowy: Jednorazowa opłata
+Cena: Wersje od 99 USD do 499 USD, w zależności od edycji
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+Ableton Live
+Platformy: Windows, macOS
+Data premiery: 2001
+Model biznesowy: Jednorazowa opłata
+Cena: Wersje od 99 USD do 749 USD, w zależności od edycji
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+Soundtrap by Spotify
+Platformy: Przeglądarka internetowa, iOS
+Data premiery: 2015
+Model biznesowy: Freemium
+Cena: Darmowa wersja z ograniczonymi funkcjami; subskrypcja premium od 9,99 USD miesięcznie
+Wymaga instalacji: Nie dla wersji przeglądarkowej; tak dla aplikacji iOS
+Wymaga rejestracji: Tak
+Amped Studio
+Platformy: Przeglądarka internetowa
+Data premiery: 2017
+Model biznesowy: Freemium
+Cena: Darmowa wersja z ograniczonymi funkcjami; subskrypcja premium od 4,99 USD miesięcznie
+Wymaga instalacji: Nie
+=== 9.1.3. Gry muzyczne i rywalizacyjne ===
+Guitar Hero
+Platformy: PlayStation 2, PlayStation 3, Xbox 360, Wii
+Data premiery: 2005
+Model biznesowy: Jednorazowy zakup
+Cena: Około 50 USD w momencie premiery; obecnie dostępna głównie na rynku wtórnym
+Wymaga instalacji: Tak
+Wymaga rejestracji: Nie
+Beat Saber
+Platformy: PC (Windows), PlayStation 4 (PS VR), Oculus Quest
+Data premiery: 2018
+Model biznesowy: Jednorazowy zakup
+Cena: Około 29,99 USD
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak, konto na platformie dystrybucji cyfrowej (np. Steam, PlayStation Network)
+osu!
+Platformy: Windows, macOS, Linux, iOS, Android
+Data premiery: 2007
+Model biznesowy: Darmowy
+Cena: Bezpłatna; opcjonalne wsparcie finansowe poprzez darowizny
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+Just Dance
+Platformy: Nintendo Wii, Wii U, Switch, PlayStation 3, PlayStation 4, PlayStation 5, Xbox 360, Xbox One, Xbox Series X/S
+Data premiery: 2009
+Model biznesowy: Jednorazowy zakup; opcjonalna subskrypcja Just Dance Unlimited
+Cena: Około 49,99 USD za grę; subskrypcja od 3,99 USD za 24 godziny do 24,99 USD za rok
+Wymaga instalacji: Tak
+Wymaga rejestracji: Nie, ale zalecane dla funkcji online
+Obszary bez konkurencji w kategorii gier muzycznych i rywalizacyjnych:
+Aplikacje webowe: Większość gier muzycznych wymaga instalacji; brak znaczących tytułów dostępnych bezpośrednio w przeglądarce.
+Integracja różnych form rywalizacji muzycznej: Brak aplikacji łączących karaoke, tworzenie muzyki i bitwy rapowe w jednej platformie.
+=== 9.1.4. Aplikacje społecznościowe z muzyką ===
+TikTok
+Platformy: iOS, Android
+Data premiery: 2016 (jako Douyin w Chinach), 2018 (jako TikTok globalnie)
+Model biznesowy: Darmowy z reklamami
+Cena: Bezpłatna
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+SoundCloud
+Platformy: Przeglądarka internetowa, iOS, Android
+Data premiery: 2007
+Model biznesowy: Freemium
+Cena: Bezpłatna wersja z ograniczeniami; subskrypcje Pro od 4,99 USD miesięcznie
+Wymaga instalacji: Nie dla wersji przeglądarkowej; tak dla aplikacji mobilnych
+Wymaga rejestracji: Tak
+Sesh
+Platformy: Przeglądarka internetowa
+Data premiery: 2022
+Model biznesowy: SaaS (Software as a Service)
+Cena: Opcje od 50 do 5 000 USD miesięcznie, w zależności od wielkości społeczności artysty
+Wymaga instalacji: Nie
+Wymaga rejestracji: Tak
+Triller
+Platformy: iOS, Android
+Data premiery: 2015
+Model biznesowy: Darmowy z opcjonalnymi zakupami w aplikacji
+Cena: Bezpłatna; opcjonalne zakupy w aplikacji
+Wymaga instalacji: Tak
+Wymaga rejestracji: Tak
+MySpace
+Platformy: Przeglądarka internetowa
+Data premiery: 2003
+Model biznesowy: Freemium
+Cena: Bezpłatna wersja z opcją reklam; dodatkowe funkcje premium dla artystów
+Wymaga instalacji: Nie
+Wymaga rejestracji: Tak
+Bandcamp
+Platformy: Przeglądarka internetowa, iOS, Android
+Data premiery: 2008
+Model biznesowy: Freemium, prowizja od sprzedaży muzyki
+Cena: Bezpłatne konto; platforma pobiera prowizję od sprzedaży utworów i albumów
+Wymaga instalacji: Nie dla wersji przeglądarkowej; tak dla aplikacji mobilnych
+Wymaga rejestracji: Tak
+
+
+== 9.2. Potencjalne zagrożenia ==
+Problemy z prawami autorskimi
+Integracja gotowych podkładów i utworów może wymagać licencji od wytwórni muzycznych.
+Możliwe konflikty związane z użytkowaniem muzyki przez społeczność.
+Trudność w budowie społeczności
+Konkurencja z wielkimi graczami jak TikTok i SoundCloud w obszarze interakcji muzycznych.
+Początkowa trudność w przyciągnięciu wystarczającej liczby użytkowników do stworzenia aktywnej platformy.
+Monetyzacja i finansowanie
+Koszty infrastruktury i utrzymania aplikacji mogą być wysokie, zwłaszcza w zakresie przechowywania nagrań i strumieniowania.
+Model freemium może wymagać bardzo precyzyjnego balansu między darmowymi funkcjami a płatnymi dodatkami.
+Techniczne wyzwania
+Synchronizacja nagrywania i edycji dźwięku w chmurze wymaga wysokiej jakości technologii.
+Konieczność optymalizacji aplikacji pod kątem wielu platform (web, mobile, konsole).
+== 9.3. Mocne strony ==
+Innowacyjność i szeroki wachlarz funkcji
+Łączy karaoke, produkcję muzyki, gry rytmiczne i rap battles w jednej aplikacji.
+Możliwość rywalizacji i współpracy w czasie rzeczywistym z innymi użytkownikami.
+Dostępność i łatwość użytkowania
+Wiele poziomów zaawansowania – od amatorskiego karaoke po profesjonalne studio.
+Przejrzysty interfejs z opcją rozszerzania funkcji dla bardziej zaawansowanych użytkowników.
+Silne aspekty społecznościowe
+Interakcje między użytkownikami – duety karaoke, wspólne tworzenie muzyki, bitwy rapowe.
+Możliwość komentowania, oceniania, tworzenia rankingów i wyzwań.
+Potencjał rozwoju i AI
+Integracja z AI, które pomoże w korekcji wokalu, rekomendacjach muzycznych i automatycznym tworzeniu beatów.
+Możliwość rozwoju funkcji w oparciu o zachowania użytkowników i ich aktywność na platformie.
+Silny model monetyzacji
+Możliwość sprzedaży utworów, sampli i beatów na marketplace.
+Pakiet Elite z dodatkowymi funkcjami bez wpływu na darmowe podstawy aplikacji.
+Opcja sponsoringu i partnerstw z markami muzycznymi i sprzętowymi.
+Konkurencja oferuje tylko wybrane funkcjonalności na wybranych platformach. Brakuje systemów wieloplatformowych. 
+
+
+= 10. Podsumowanie =
+AudioVerse to aplikacja łącząca karaoke, komponowanie muzyki, gry rytmiczne i rywalizację. Dzięki integracji ze źródłami muzycznymi i innowacyjnym podejściu do interakcji z muzyką, może stać się nowym standardem w branży muzyczno-rozrywkowej.
+
+
+
+
+
+
+
+
+

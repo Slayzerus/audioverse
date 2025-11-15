@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant UI as React UI
+  participant API as ResourceLibrary.API
+  participant CQ as MediatR CQRS
+  participant SVC as AiAudioService
+  participant DEM as Demucs
+
+  UI->>API: POST /api/aiAudio/separate?stems=4 (multipart: file)
+  API->>CQ: SeparateAudioCommand
+  CQ->>SVC: SeparateAsync(stream, stems)
+  SVC->>DEM: POST /separate?stems=4
+  DEM-->>SVC: application/zip (stems.zip)
+  SVC-->>CQ: byte[]
+  CQ-->>API: byte[] (zip)
+  API-->>UI: File(stems.zip)

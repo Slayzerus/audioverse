@@ -1,0 +1,156 @@
+.audio-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 0 0 5px;
+    background-color: black;
+    width: 100%;
+    margin: auto;
+}
+
+.editor-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #ddd;
+}
+
+.control-button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.control-button.recording {
+    background-color: red;
+    color: white;
+}
+
+.control-button.active-loop {
+    background-color: orange;
+}
+
+.layers-panel {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.layer-label {
+    font-weight: bold;
+}
+
+.add-layer-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 49px;
+}
+
+.layer-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.layer-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: black;
+    color:white;
+    /*background-color: #ccc;*/
+    border-radius: 0;
+    width: 100px;
+}
+
+.layer-button.active-layer {
+    /*background-color: #007bff;
+    color: white;*/
+    background-color: black;
+    color: gold;
+
+}
+
+.audio-timeline{
+    display:flex;
+    align-items:center;
+    justify-content: start;
+}
+
+.project-nav,
+.section-nav{
+    padding:0;
+    width: 100%;
+}
+
+.project-nav{
+    background-color: black;
+}
+
+.section-nav{
+    background-color: black;
+    display:flex;
+    /*background-color: #555555;*/
+}
+
+
+.project-button{
+    border-radius: 0;
+    background-color: black;
+    color:lightgray;
+    /*background-color: darkgray;
+    margin-right: 1px;
+    margin-bottom: 1px;*/
+}
+
+.section-button{
+    border-radius: 0;
+    background-color: black;
+    color:lightgray;
+    /*background-color: darkgray;
+    margin-right: 1px;
+    margin-bottom: 1px;*/
+}
+
+.project-button.active{
+    color: gold;
+    /*background-color: goldenrod;*/
+}
+
+.section-button.active{
+    color: gold;
+    /*background-color: goldenrod;*/
+}
+
+.timeline-nav-button{
+    margin-right: 0;
+    border-radius: 0;
+    font-size: 12px;
+    padding: 0 10px;
+    height: 33px;
+    width: 50px;
+    background-color: black;
+    border: none;
+}
+
+.timeline-nav{
+    display: flex;
+    width:100%;
+    background-color: black;
+}

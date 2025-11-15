@@ -1,0 +1,9 @@
+﻿services:
+  identity:
+    build: ./AudioVerse.Identity
+    restart: always
+    environment:
+      - ConnectionStrings__PostgresConnection=Host=postgres;Database=audioverse;Username=audioverse;Password=password
+      - JwtSettings__Secret=supersecretkeyyoushouldchange
+    ports:
+      - "5001:5001"

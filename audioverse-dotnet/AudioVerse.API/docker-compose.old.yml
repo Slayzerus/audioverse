@@ -1,0 +1,68 @@
+﻿version: "3.9"
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: audioverse
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: audioverse
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    ports:
+      - "9092:9092"
+
+  minio:
+    image: minio/minio
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+    command: server /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  api:
+    build: .
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+      - kafka
+      - minio
+    environment:
+      - ConnectionStrings__PostgresConnection=Host=postgres;Database=audioverse;Username=audioverse;Password=password
+      - ConnectionStrings__Redis=redis:6379
+      - ConnectionStrings__Elasticsearch=http://elasticsearch:9200
+      - ConnectionStrings__Kafka=PLAINTEXT://kafka:9092
+      - ConnectionStrings__Minio=http://minio:9000
+      - Minio__AccessKey=minio
+      - Minio__SecretKey=minio123
+    ports:
+      - "5000:5000"

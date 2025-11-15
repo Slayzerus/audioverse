@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DocxWikiConverter": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

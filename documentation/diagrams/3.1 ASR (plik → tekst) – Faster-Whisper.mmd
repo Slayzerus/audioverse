@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant UI as React UI
+  participant API as ResourceLibrary.API
+  participant CQ as MediatR CQRS
+  participant SVC as AiAudioService
+  participant FW as Faster-Whisper
+
+  UI->>API: POST /api/aiAudio/asr (multipart: file, language?)
+  API->>CQ: TranscribeAudioCommand
+  CQ->>SVC: TranscribeAsync(stream, language?)
+  SVC->>FW: POST /audio/transcriptions (OpenAI-compat)
+  FW-->>SVC: { text, language }
+  SVC-->>CQ: AsrResult
+  CQ-->>API: TranscribeResponseDto
+  API-->>UI: 200 { text, language }

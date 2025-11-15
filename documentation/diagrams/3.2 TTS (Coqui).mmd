@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant UI as React UI
+  participant API as ResourceLibrary.API
+  participant CQ as MediatR CQRS
+  participant SVC as AiAudioService
+  participant COQ as Coqui TTS
+
+  UI->>API: POST /api/aiAudio/tts/coqui { text, voice, rate? }
+  API->>CQ: SynthesizeWithCoquiCommand
+  CQ->>SVC: SynthesizeWithCoquiAsync(text, voice, rate?)
+  SVC->>COQ: POST /api/tts (JSON)
+  COQ-->>SVC: audio/wav
+  SVC-->>CQ: byte[]
+  CQ-->>API: byte[] (WAV)
+  API-->>UI: File(speech_coqui.wav)

@@ -1,0 +1,6 @@
+@AudioVerse.IdentityServer_HostAddress = http://localhost:5076
+
+GET {{AudioVerse.IdentityServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

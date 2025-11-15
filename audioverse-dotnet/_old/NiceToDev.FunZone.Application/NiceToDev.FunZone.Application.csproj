@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NiceToDev.FunZone.Domain\NiceToDev.FunZone.Domain.csproj" />
+    <ProjectReference Include="..\NiceToDev.FunZone.Infrastructure\NiceToDev.FunZone.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NiceToDev.EntityFramework">
+      <HintPath>..\..\..\NiceToDev.CommonTools.API\NiceToDev.CommonTools.API\bin\Debug\net9.0\NiceToDev.EntityFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

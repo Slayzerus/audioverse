@@ -1,0 +1,247 @@
+
+#root{
+  width: 100%;
+}
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: black;
+  color:white;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+.nav-link{
+  padding: 4px 5px;
+  height: 30px;
+  color:white;
+}
+
+.nav-link:hover{
+  color:bisque;
+}
+
+.active-nav{
+  color:darkgoldenrod;
+}
+
+.nav-drop{
+  color:white !important;
+}
+
+.nav-drop:hover{
+  color:white !important;
+}
+
+nav .navbar-nav.mr-auto.mt-2 .nav-item .nav-link{
+  color: white !important;
+}
+
+/*
+.active-nav{
+  !*background-color: lightskyblue;
+  color: black;*!
+  border-radius: 10px;
+}*/
+/*
+.active-nav:hover{
+  color:dimgray
+}*/
+
+.timeline-container {
+  padding: 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.control-button {
+  width: 50px;
+  height: 50px;
+  background-color: #eee;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-button:hover {
+  background-color: #ddd;
+}
+
+.recording {
+  background-color: red !important;
+  color: white;
+}
+
+.loop-checkbox {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+.sound-block {
+  background-color: #3498db; /* 🎨 Łagodniejszy niebieski */
+  width: 10px;
+  height: 20px;
+}
+
+
+
+/*
+
+.keyboard-container {
+  position: relative;
+  width: 500px;
+}
+
+.white-key {
+  width: 50px;
+  height: 150px;
+  background: white;
+  border: 1px solid black;
+  text-align: center;
+  line-height: 150px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.black-key {
+  width: 30px;
+  height: 90px;
+  background: black;
+  color: white;
+  text-align: center;
+  line-height: 90px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.white-key.pressed {
+  background: #ddd;
+}
+
+.black-key.pressed {
+  background: #444;
+}
+*/
+
+
+/*
+.layers-container {
+  display: flex;
+}
+
+.layers-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 2px;
+}
+
+.layer-button {
+  background-color: #444;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.layer-button.inactive {
+  background-color: #888;
+}
+
+.add-layer-button {
+  background-color: #6a5acd;
+  color: white;
+  font-size: 20px;
+  width: 100%;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.add-layer-button:hover {
+  background-color: #4b3fad;
+}*/
+
+/*
+.timeline-canvas {
+  width: 100%;
+  height: 30px;
+  background-color: #333;
+  border: 1px solid black;
+}
+*/

@@ -1,0 +1,6 @@
+@NiceToDev.FunZone_HostAddress = http://localhost:5288
+
+GET {{NiceToDev.FunZone_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

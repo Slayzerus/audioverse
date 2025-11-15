@@ -1,0 +1,91 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  name: 'Contabo'
+
+variables:
+  DOCKER_REGISTRY: 'docker.io'
+  DOCKER_IMAGE_API: 'slayzer/audioverse-api'
+  DOCKER_IMAGE_IDENTITY: 'slayzer/audioverse-identity'
+  DOCKER_IMAGE_REACT: 'slayzer/audioverse-react'
+  VPS_HOST: '194.163.129.84'
+  VPS_USER: 'root'
+  DEPLOY_DIR: '/home/audioverse'
+
+stages:
+  - stage: Build
+    displayName: 'Build & Push Docker Images'
+    jobs:
+      - job: BuildAndPush
+        displayName: 'Build & Push API, IdentityServer & React'
+        steps:
+          - task: Docker@2
+            displayName: 'Login to Docker Hub'
+            inputs:
+              command: 'login'
+              containerRegistry: 'DockerHubServiceConnection'
+
+          - script: |
+              # 🔥 Budowanie API i IdentityServer
+              docker build -t $(DOCKER_IMAGE_API):$(Build.BuildId) -f audioverse-dotnet/AudioVerse.API/Dockerfile audioverse-dotnet/
+              docker build -t $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId) -f audioverse-dotnet/AudioVerse.IdentityServer/Dockerfile audioverse-dotnet/
+              
+              # 🔥 Budowanie React
+              docker build -t $(DOCKER_IMAGE_REACT):$(Build.BuildId) -f audioverse-react/Dockerfile audioverse-react/
+
+              # 🔥 Tagowanie (latest)
+              docker tag $(DOCKER_IMAGE_API):$(Build.BuildId) $(DOCKER_IMAGE_API):latest
+              docker tag $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId) $(DOCKER_IMAGE_IDENTITY):latest
+              docker tag $(DOCKER_IMAGE_REACT):$(Build.BuildId) $(DOCKER_IMAGE_REACT):latest
+
+              # 🔥 Push do Docker Hub
+              docker push $(DOCKER_IMAGE_API):$(Build.BuildId)
+              docker push $(DOCKER_IMAGE_API):latest
+              docker push $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId)
+              docker push $(DOCKER_IMAGE_IDENTITY):latest
+              docker push $(DOCKER_IMAGE_REACT):$(Build.BuildId)
+              docker push $(DOCKER_IMAGE_REACT):latest
+            displayName: 'Build and Push Docker Images'
+
+  - stage: Deploy
+    displayName: 'Deploy to Contabo VPS'
+    dependsOn: Build
+    jobs:
+      - job: Deploy
+        displayName: 'Copy env to VPS & restart services'
+        steps:
+          # (opcjonalnie) upewnij się, że katalog docelowy istnieje
+          - task: SSH@0
+            displayName: 'Ensure deploy dir exists'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              inline: |
+                mkdir -p $(DEPLOY_DIR)
+
+          # 📂 Kopiowanie katalogu env z repo na serwer
+          - task: CopyFilesOverSSH@0
+            displayName: 'Copy env folder to VPS'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              sourceFolder: '$(Build.SourcesDirectory)/env'
+              contents: '**'
+              targetFolder: '$(DEPLOY_DIR)'   # wrzucamy do /home/audioverse/env
+              cleanTargetFolder: false
+              overwrite: true
+
+          # ▶️ Uruchomienie skryptu restart-all.sh w katalogu docker
+          - task: SSH@0
+            displayName: 'Run restart-all.sh on VPS'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              inline: |
+                cd $(DEPLOY_DIR)/docker
+                chmod +x restart-all.sh
+                ./restart-all.sh
+

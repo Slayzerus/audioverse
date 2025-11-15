@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant UI as React UI (Mic PCM 16k)
+  participant API as ResourceLibrary.API (WS)
+  participant CQ as MediatR Stream
+  participant SVC as AiAudioService
+  participant SC as Score Service (WS)
+
+  UI->>API: GET /api/aiAudio/score/live (WS)
+  API-->>UI: WS upgraded
+  UI->>API: binary PCM frames (16k, s16le)
+  API->>CQ: ScoreSingingLiveQuery(pcm stream)
+  CQ->>SVC: ScoreSingingLiveAsync(pcm stream)
+  SVC->>SC: WS connect + PCM
+  SC-->>SVC: JSON { score, partial_text }
+  SVC-->>CQ: SingingLiveUpdate
+  CQ-->>API: IAsyncEnumerable<update>
+  API-->>UI: WS text frames {InstantScore, PartialText}

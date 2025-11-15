@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "API+Identity",
+    "Projects": [
+      {
+        "Path": "AudioVerse.API\\AudioVerse.API.csproj",
+        "Action": "Start",
+        "DebugTarget": "AudioVerse.API"
+      },
+      {
+        "Path": "AudioVerse.IdentityServer\\AudioVerse.IdentityServer.csproj",
+        "Action": "Start",
+        "DebugTarget": "AudioVerse.IdentityServer"
+      }
+    ]
+  }
+]

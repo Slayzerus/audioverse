@@ -1,0 +1,1076 @@
+Struktura (z wykluczeniami: bin obj .git node_modules dist build .vs .idea coverage packages) dla: c:\Users\slayz\source\repos\AudioVerse
+
+.
+audioverse-dotnet
+audioverse-react
+documentation
+env
+tools
+.gitignore
+azure-pipelines.yml
+Export-FolderStructure.ps1
+ListContent.bat
+ListContent.txt
+ListContentNoFiles.txt
+README.md
+audioverse-dotnet\AudioVerse
+audioverse-dotnet\AudioVerse.API
+audioverse-dotnet\AudioVerse.Application
+audioverse-dotnet\AudioVerse.Domain
+audioverse-dotnet\AudioVerse.IdentityServer
+audioverse-dotnet\AudioVerse.Infrastructure
+audioverse-dotnet\_old
+audioverse-dotnet\.dockerignore
+audioverse-dotnet\AudioVerse.sln
+audioverse-dotnet\AudioVerse.slnLaunch
+audioverse-dotnet\AudioVerse\AudioVerse.csproj
+audioverse-dotnet\AudioVerse\Class1.cs
+audioverse-dotnet\AudioVerse.API\.config
+audioverse-dotnet\AudioVerse.API\Controllers
+audioverse-dotnet\AudioVerse.API\Middleware
+audioverse-dotnet\AudioVerse.API\Migrations
+audioverse-dotnet\AudioVerse.API\Properties
+audioverse-dotnet\AudioVerse.API\appsettings.Development.json
+audioverse-dotnet\AudioVerse.API\appsettings.json
+audioverse-dotnet\AudioVerse.API\AudioVerse.API.csproj
+audioverse-dotnet\AudioVerse.API\AudioVerse.API.http
+audioverse-dotnet\AudioVerse.API\docker-compose.old.yml
+audioverse-dotnet\AudioVerse.API\docker-compose.yml
+audioverse-dotnet\AudioVerse.API\Dockerfile
+audioverse-dotnet\AudioVerse.API\EditorSeeder.cs
+audioverse-dotnet\AudioVerse.API\IdentitySeeder.cs
+audioverse-dotnet\AudioVerse.API\Program.cs
+audioverse-dotnet\AudioVerse.API\.config\dotnet-tools.json
+audioverse-dotnet\AudioVerse.API\Controllers\DmxController.cs
+audioverse-dotnet\AudioVerse.API\Controllers\EditorController.cs
+audioverse-dotnet\AudioVerse.API\Controllers\KaraokeController.cs
+audioverse-dotnet\AudioVerse.API\Controllers\UserController.cs
+audioverse-dotnet\AudioVerse.API\Middleware\ExceptionHandlingMiddleware.cs
+audioverse-dotnet\AudioVerse.API\Middleware\JwtMiddleware.cs
+audioverse-dotnet\AudioVerse.API\Migrations\20250227184842_init.cs
+audioverse-dotnet\AudioVerse.API\Migrations\20250227184842_init.Designer.cs
+audioverse-dotnet\AudioVerse.API\Migrations\20250827102043_SomeChanges.cs
+audioverse-dotnet\AudioVerse.API\Migrations\20250827102043_SomeChanges.Designer.cs
+audioverse-dotnet\AudioVerse.API\Migrations\AudioVerseDbContextModelSnapshot.cs
+audioverse-dotnet\AudioVerse.API\Properties\launchSettings.json
+audioverse-dotnet\AudioVerse.Application\Commands
+audioverse-dotnet\AudioVerse.Application\Handlers
+audioverse-dotnet\AudioVerse.Application\Models
+audioverse-dotnet\AudioVerse.Application\Queries
+audioverse-dotnet\AudioVerse.Application\Services
+audioverse-dotnet\AudioVerse.Application\AudioVerse.Application.csproj
+audioverse-dotnet\AudioVerse.Application\DependencyInjection.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX
+audioverse-dotnet\AudioVerse.Application\Commands\Editor
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke
+audioverse-dotnet\AudioVerse.Application\Commands\User
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\BlackoutCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\ClosePortCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\ConfigureDmxCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\LoadUniverseCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\OpenPortCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\DMX\SetChannelValueCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddAudioClipCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddInputPresetCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddLayerCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddLayerItemCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddLayerItemsCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddLayerItemsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddProjectCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddSectionCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\AddTagToAudioClipCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Editor\RemoveTagFromAudioClipCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\AddKaraokeRoundCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\AddSongToRoundCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\AssignPlayerToPartyCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\CreateKaraokePartyCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\CreateKaraokePlayerCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\ParseUltrastarFileCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\SaveSingingResultsBatchCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\SaveSingingResultsCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\Karaoke\ScanFolderCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\User\LoginUserCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\User\LogoutUserCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\User\RefreshTokenCommand.cs
+audioverse-dotnet\AudioVerse.Application\Commands\User\RegisterUserCommand.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke
+audioverse-dotnet\AudioVerse.Application\Handlers\User
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\BlackoutHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\ClosePortHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\ConfigureDmxHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\GetDmxStateHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\ListFtdiDevicesHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\LoadUniverseHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\OpenPortHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\DMX\SetChannelValueHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddAudioClipHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddInputPresetHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddLayerHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddLayerItemHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddProjectHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddSectionHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\AddTagToAudioClipHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetAudioClipHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetAudioClipsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetInputPresetHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetInputPresetsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetProjectsDetailsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetProjectsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\GetProjectTemplatesHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Editor\RemoveTagFromAudioClipHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\AddKaraokeRoundHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\AddSongToRoundHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\AssignPlayerToPartyHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\CreateKaraokePartyHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\CreateKaraokePlayerHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\FilterSongsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetAllPartiesHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetAllPlayersHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetAllSongsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetCoverImageHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetPartyByIdHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetPartyWithPlayersHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetPlaylistWithSongsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\GetSongByIdHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\ParseUltrastarFileHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\SaveSingingResultsBatchHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\SaveSingingResultsHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\Karaoke\ScanFolderHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\User\LoginUserHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\User\LogoutUserHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\User\RefreshTokenHandler.cs
+audioverse-dotnet\AudioVerse.Application\Handlers\User\RegisterUserHandler.cs
+audioverse-dotnet\AudioVerse.Application\Models\TokenPair.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Dmx
+audioverse-dotnet\AudioVerse.Application\Queries\Editor
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke
+audioverse-dotnet\AudioVerse.Application\Queries\Dmx\GetDmxStateQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Dmx\ListFtdiDevicesQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetAudioClipQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetAudioClipsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetInputPresetQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetInputPresetsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetProjectDetailsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetProjectsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Editor\GetProjectTemplatesQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\FilterSongsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetAllPartiesQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetAllPlayersQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetAllSongsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetCoverImageQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetPartyByIdQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetPartyWithPlayersQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetPlaylistWithSongsQuery.cs
+audioverse-dotnet\AudioVerse.Application\Queries\Karaoke\GetSongByIdQuery.cs
+audioverse-dotnet\AudioVerse.Application\Services\DMX
+audioverse-dotnet\AudioVerse.Application\Services\DMX\DmxPort.cs
+audioverse-dotnet\AudioVerse.Application\Services\DMX\DmxState.cs
+audioverse-dotnet\AudioVerse.Application\Services\DMX\DmxWorker.cs
+audioverse-dotnet\AudioVerse.Application\Services\DMX\FtdiD2xxDmxPort.cs
+audioverse-dotnet\AudioVerse.Application\Services\DMX\IDmxPort.cs
+audioverse-dotnet\AudioVerse.Domain\Entities
+audioverse-dotnet\AudioVerse.Domain\Enums
+audioverse-dotnet\AudioVerse.Domain\Repositories
+audioverse-dotnet\AudioVerse.Domain\AudioVerse.Domain.csproj
+audioverse-dotnet\AudioVerse.Domain\Entities\Dmx
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke
+audioverse-dotnet\AudioVerse.Domain\Entities\UserProfile.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\UserProfilePlayer.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Dmx\DmxChannelSegment.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Dmx\DmxDeviceChannelInfo.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Dmx\DmxDeviceInfo.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioClip.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioClipTag.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioInputMapping.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioInputPreset.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioLayer.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioLayerItem.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioProject.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Editor\AudioSection.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeNote.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeParty.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePartyPlayer.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePartyPlaylist.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePartyRound.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePlayer.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePlaylist.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokePlaylistSong.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeSinging.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeSingingNote.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeSingingRecording.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeSongFile.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeTeam.cs
+audioverse-dotnet\AudioVerse.Domain\Entities\Karaoke\KaraokeTeamPlayer.cs
+audioverse-dotnet\AudioVerse.Domain\Enums\DmxChannelType.cs
+audioverse-dotnet\AudioVerse.Domain\Enums\KaraokeFormat.cs
+audioverse-dotnet\AudioVerse.Domain\Enums\RecordingType.cs
+audioverse-dotnet\AudioVerse.Domain\Repositories\IEditorRepository.cs
+audioverse-dotnet\AudioVerse.Domain\Repositories\IKaraokeRepository.cs
+audioverse-dotnet\AudioVerse.Domain\Repositories\IUserProfileRepository.cs
+audioverse-dotnet\AudioVerse.IdentityServer\Controllers
+audioverse-dotnet\AudioVerse.IdentityServer\Middleware
+audioverse-dotnet\AudioVerse.IdentityServer\Persistence
+audioverse-dotnet\AudioVerse.IdentityServer\Properties
+audioverse-dotnet\AudioVerse.IdentityServer\appsettings.Development.json
+audioverse-dotnet\AudioVerse.IdentityServer\appsettings.json
+audioverse-dotnet\AudioVerse.IdentityServer\AudioVerse.IdentityServer.csproj
+audioverse-dotnet\AudioVerse.IdentityServer\AudioVerse.IdentityServer.http
+audioverse-dotnet\AudioVerse.IdentityServer\docker-compose.yml
+audioverse-dotnet\AudioVerse.IdentityServer\Dockerfile
+audioverse-dotnet\AudioVerse.IdentityServer\Program.cs
+audioverse-dotnet\AudioVerse.IdentityServer\Controllers\AuthController.cs
+audioverse-dotnet\AudioVerse.IdentityServer\Middleware\ExceptionHandlingMiddleware.cs
+audioverse-dotnet\AudioVerse.IdentityServer\Persistence\IdentityDbContext.cs
+audioverse-dotnet\AudioVerse.IdentityServer\Properties\launchSettings.json
+audioverse-dotnet\AudioVerse.Infrastructure\DMX
+audioverse-dotnet\AudioVerse.Infrastructure\Persistence
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories
+audioverse-dotnet\AudioVerse.Infrastructure\AudioVerse.Infrastructure.csproj
+audioverse-dotnet\AudioVerse.Infrastructure\DependencyInjection.cs
+audioverse-dotnet\AudioVerse.Infrastructure\DMX\Fdti.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Persistence\AudioVerseDbContext.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\EditorRepository.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\EditorRepositoryEF.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\KaraokeRepository.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\KaraokeRepositoryEF.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\UserProfileRepository.cs
+audioverse-dotnet\AudioVerse.Infrastructure\Repositories\UserProfileRepositoryEF.cs
+audioverse-dotnet\_old\NiceToDev.FunZone
+audioverse-dotnet\_old\NiceToDev.FunZone.API
+audioverse-dotnet\_old\NiceToDev.FunZone.Application
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure
+audioverse-dotnet\_old\.dockerignore
+audioverse-dotnet\_old\.gitignore
+audioverse-dotnet\_old\NiceToDev.FunZone.sln
+audioverse-dotnet\_old\NiceToDev.FunZone\Controllers
+audioverse-dotnet\_old\NiceToDev.FunZone\Properties
+audioverse-dotnet\_old\NiceToDev.FunZone\appsettings.Development.json
+audioverse-dotnet\_old\NiceToDev.FunZone\appsettings.json
+audioverse-dotnet\_old\NiceToDev.FunZone\Dockerfile
+audioverse-dotnet\_old\NiceToDev.FunZone\NiceToDev.FunZone.csproj
+audioverse-dotnet\_old\NiceToDev.FunZone\NiceToDev.FunZone.http
+audioverse-dotnet\_old\NiceToDev.FunZone\Program.cs
+audioverse-dotnet\_old\NiceToDev.FunZone\WeatherForecast.cs
+audioverse-dotnet\_old\NiceToDev.FunZone\Controllers\WeatherForecastController.cs
+audioverse-dotnet\_old\NiceToDev.FunZone\Properties\launchSettings.json
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Controllers
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Properties
+audioverse-dotnet\_old\NiceToDev.FunZone.API\appsettings.Development.json
+audioverse-dotnet\_old\NiceToDev.FunZone.API\appsettings.json
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Dockerfile
+audioverse-dotnet\_old\NiceToDev.FunZone.API\NiceToDev.FunZone.API.csproj
+audioverse-dotnet\_old\NiceToDev.FunZone.API\NiceToDev.FunZone.API.http
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Program.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Controllers\GamesController.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Controllers\KaraokeController.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Controllers\ToolsController.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Controllers\YouTubeController.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations\20250202235310_Init.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations\20250202235310_Init.Designer.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations\20250203001202_Init2.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations\20250203001202_Init2.Designer.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Migrations\KaraokeDbContextModelSnapshot.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.API\Properties\launchSettings.json
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Interfaces
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Services
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Class1.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\NiceToDev.FunZone.Application.csproj
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Interfaces\IKaraokeService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Interfaces\ISteamApiService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Interfaces\ITextToSpeechService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Interfaces\IYouTubeService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models\SpeechToText
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models\SteamApiResponse.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models\SteamGame.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models\SpeechToText\OpenTTS
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Models\SpeechToText\OpenTTS\VoiceInfo.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Services\KaraokeService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Services\SteamApiService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Services\TextToSpeechService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Application\Services\YouTubeService.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Enums
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Repositories
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Class1.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\NiceToDev.FunZone.Domain.csproj
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeNote.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeParty.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePartyPlayer.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePartyPlaylist.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePartyRound.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePlayer.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePlaylist.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokePlaylistSong.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeSinging.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeSingingNote.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeSingingRecording.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeSongFile.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeTeam.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Entities\KaraokeTeamPlayer.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Enums\KaraokeFormat.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Enums\RecordingType.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Domain\Repositories\IKaraokeRepository.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\Database
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\Repositories
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\Class1.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\NiceToDev.FunZone.Infrastructure.csproj
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\Database\KaraokeDbContext.cs
+audioverse-dotnet\_old\NiceToDev.FunZone.Infrastructure\Repositories\KaraokeRepository.cs
+audioverse-react\public
+audioverse-react\src
+audioverse-react\.gitignore
+audioverse-react\Dockerfile
+audioverse-react\eslint.config.js
+audioverse-react\index.html
+audioverse-react\package-lock.json
+audioverse-react\package.json
+audioverse-react\README.md
+audioverse-react\tsconfig.app.json
+audioverse-react\tsconfig.json
+audioverse-react\tsconfig.node.json
+audioverse-react\vite.config.ts
+audioverse-react\public\audioClips
+audioverse-react\public\icon1.svg
+audioverse-react\public\icon2.svg
+audioverse-react\public\icon3.svg
+audioverse-react\public\icon4.svg
+audioverse-react\public\mic.svg
+audioverse-react\public\vite.svg
+audioverse-react\public\audioClips\A Real Freakin Drum Kit
+audioverse-react\public\audioClips\clap.wav
+audioverse-react\public\audioClips\hihat.wav
+audioverse-react\public\audioClips\kick.wav
+audioverse-react\public\audioClips\snare.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01.8ACSM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01BB1-snare-R2M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01BB1-snare-R4M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01CH.8ACSM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01CH12ACSM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01EG19THCM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01FL-snare-R4M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01FL.S3HIM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01FL.S3LOM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01FX18MDCM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01L1.UF-HiHat-M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01L2.UF-HiHat-M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01L3.UF-HiHat-A-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01LR-snare-R2C-R.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01PD.UF-HiHat-M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01PS.UF-HiHat-M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RI-snare-R4.M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RI.S3LOM-.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RI.S3LOM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RM-snare-R1M-.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RM-snare-R1M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RR-snare-R1C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RR-snare-R1M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01RR-snare-R2A-R.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01SS-snare-R4.M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01SS.S3LOM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01TP19THCM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-01TP20CHIM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02.TOM1C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02.TOM5C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02BB.S3LOM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02BL20RKRM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02FL-snare-R4M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02FL.S3HIM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02FL.S3LOM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02L4.UF-HiHat-A-R.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02LI-snare-R1C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02LI-snare-R1M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02LI-snare-R2C-R.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02LI-snare-R2M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02R3.UF-HiHat-A-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02R3.UF-HiHat-A-R.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02R3.UF-HiHat-M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-02R4.UF-HiHat-A-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03.TOM2C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03.TOM3C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03PD.UF-HiHat-A-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03PR-snare-R2M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03R4.UF-HiHat-A-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03RI.S3HIM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03RR.S3HIM.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03SS-snare-R1C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03SS-snare-R1M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03SS-snare-R2C-L.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-03SS-snare-R2M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-08.TOM4M.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F001.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F003.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F004.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F005.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F009.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F011.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F012.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F024.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F033.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F036.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F039.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F045.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F047.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F049.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F050.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F052.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F053.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-kick-F058.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-long-ride.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-snare-roll.wav
+audioverse-react\public\audioClips\A Real Freakin Drum Kit\real-soft-snare.wav
+audioverse-react\src\assets
+audioverse-react\src\components
+audioverse-react\src\hooks
+audioverse-react\src\models
+audioverse-react\src\pages
+audioverse-react\src\scripts
+audioverse-react\src\types
+audioverse-react\src\utils
+audioverse-react\src\App.css
+audioverse-react\src\App.tsx
+audioverse-react\src\index.css
+audioverse-react\src\KeyboardPad.css
+audioverse-react\src\main.tsx
+audioverse-react\src\vite-env.d.ts
+audioverse-react\src\assets\fonts
+audioverse-react\src\assets\react.svg
+audioverse-react\src\assets\fonts\fontspace.com
+audioverse-react\src\assets\fonts\fontspace.com\misc
+audioverse-react\src\assets\fonts\fontspace.com\Adistro-8MePB.otf
+audioverse-react\src\assets\fonts\fontspace.com\Adistro-YzX68.ttf
+audioverse-react\src\assets\fonts\fontspace.com\AlkalisRoundedDemoRegular-4nBzW.otf
+audioverse-react\src\assets\fonts\fontspace.com\ApayahLoe-9MmZ5.ttf
+audioverse-react\src\assets\fonts\fontspace.com\ApayahLoe-yYmO5.otf
+audioverse-react\src\assets\fonts\fontspace.com\Bitshow-3l83L.otf
+audioverse-react\src\assets\fonts\fontspace.com\Bitshow-xRZDK.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Cambridge-owYqx.otf
+audioverse-react\src\assets\fonts\fontspace.com\ChekguOke-BLWal.ttf
+audioverse-react\src\assets\fonts\fontspace.com\ChekguOke-R9pJl.otf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeFills-aYypo.otf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeFills-E4XJz.ttf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeNormal-0vOBG.ttf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeNormal-4n7MW.otf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeSoda-AR046.otf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeSoda-q2KB6.ttf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeSpark-1jnlg.otf
+audioverse-react\src\assets\fonts\fontspace.com\CoffeeSpark-R90nW.ttf
+audioverse-react\src\assets\fonts\fontspace.com\DarlingCoffee-q23Dd.otf
+audioverse-react\src\assets\fonts\fontspace.com\DarlingCoffee-V4qex.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Demogilkons-lx9wy.otf
+audioverse-react\src\assets\fonts\fontspace.com\DevinaGardenRegular-e9MOe.otf
+audioverse-react\src\assets\fonts\fontspace.com\Dogways-DYW91.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Dogways-pg8zr.otf
+audioverse-react\src\assets\fonts\fontspace.com\Fancake-LVZXZ.otf
+audioverse-react\src\assets\fonts\fontspace.com\Fancake-XGWxd.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Glametrix-oj9A.otf
+audioverse-react\src\assets\fonts\fontspace.com\GlametrixBold-4dW6.otf
+audioverse-react\src\assets\fonts\fontspace.com\GlametrixLight-0zjo.otf
+audioverse-react\src\assets\fonts\fontspace.com\Gokhan-OGdL6.otf
+audioverse-react\src\assets\fonts\fontspace.com\Gokhan-ZpnZ3.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HalahHalu-rv4PL.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HalahHalu-YqMj4.otf
+audioverse-react\src\assets\fonts\fontspace.com\Halu-5yr9z.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Halu-zrxl1.otf
+audioverse-react\src\assets\fonts\fontspace.com\HandyTimes-9MYA0.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HandyTimes-yYwpZ.otf
+audioverse-react\src\assets\fonts\fontspace.com\HelloMickeys-ARPB7.otf
+audioverse-react\src\assets\fonts\fontspace.com\HelloMickeys-q27zV.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HeyAugust-qZ73q.otf
+audioverse-react\src\assets\fonts\fontspace.com\HeyAugust-VGOqe.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HistoryOfWawa-3lMrz.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HistoryOfWawa-ZpgeK.otf
+audioverse-react\src\assets\fonts\fontspace.com\HowdyLemon-5yBlz.ttf
+audioverse-react\src\assets\fonts\fontspace.com\HowdyLemon-zr701.otf
+audioverse-react\src\assets\fonts\fontspace.com\info.txt
+audioverse-react\src\assets\fonts\fontspace.com\Jessycat-3lOE6.otf
+audioverse-react\src\assets\fonts\fontspace.com\Jessycat-xR7z5.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansBold-OVA7o.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansBoldItalic-EaJRg.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansLight-ZVEll.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansLightItalic-3zaKy.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansRegular-x3LYV.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansSemibold-p7Z0v.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansThin-DOL1x.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JosefinSansThinItalic-ALGeD.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JumpingChick-dry1x.ttf
+audioverse-react\src\assets\fonts\fontspace.com\JumpingChick-m28v2.otf
+audioverse-react\src\assets\fonts\fontspace.com\LonelyCake-5yljZ.otf
+audioverse-react\src\assets\fonts\fontspace.com\LonelyCake-6RnLq.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Luckybar-9MWw7.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Luckybar-yYZMq.otf
+audioverse-react\src\assets\fonts\fontspace.com\MainluxLight-DOAJx.otf
+audioverse-react\src\assets\fonts\fontspace.com\MangabeyRegular-rgqVO.otf
+audioverse-react\src\assets\fonts\fontspace.com\Mayorice-6RM46.otf
+audioverse-react\src\assets\fonts\fontspace.com\Mayorice-yYJy5.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBlack-3zOvZ.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBlack-ZVK6J.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBlackItalic-owBnV.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBlackItalic-x3728.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBold-DOWZd.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBold-p781R.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBoldItalic-4B3w9.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratBoldItalic-ALPax.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtrabold-qZ7Rx.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtrabold-VGO60.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtraboldItalic-0WDM4.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtraboldItalic-JRmqE.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtralight-GOJpy.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtralight-jEZ6j.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtralightItalic-eZw6x.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratExtralightItalic-z8dwG.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratItalic-5187x.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratItalic-WyzEz.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratLight-6YemM.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratLight-ywBvq.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratLightItalic-9YEL7.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratLightItalic-axBzx.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratMedium-lgZ6e.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratMedium-nRxlJ.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratMediumItalic-1GPK4.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratMediumItalic-EaqM4.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratRegular-BWBEl.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratRegular-RpK6l.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratSemibold-8M8PB.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratSemibold-Yz368.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratSemiboldItalic-OVZXA.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratSemiboldItalic-rg2B9.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratThin-K7B6D.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratThin-MVY6x.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratThinItalic-2O72w.otf
+audioverse-react\src\assets\fonts\fontspace.com\MontserratThinItalic-ZVK3J.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MoreJanuary-aY8r9.ttf
+audioverse-react\src\assets\fonts\fontspace.com\MoreJanuary-WpK4v.otf
+audioverse-react\src\assets\fonts\fontspace.com\Mostean-OGyLO.otf
+audioverse-react\src\assets\fonts\fontspace.com\Mostean-ZpgZq.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Ontel-8Mr62.otf
+audioverse-react\src\assets\fonts\fontspace.com\Ontel-YzV0a.ttf
+audioverse-react\src\assets\fonts\fontspace.com\OrtlandRegular-1jnr4.otf
+audioverse-react\src\assets\fonts\fontspace.com\Prida01-XezG.otf
+audioverse-react\src\assets\fonts\fontspace.com\Prida01black-g5rE.otf
+audioverse-react\src\assets\fonts\fontspace.com\Prida01bold-oOdx.otf
+audioverse-react\src\assets\fonts\fontspace.com\Prida01light-4MV4.otf
+audioverse-react\src\assets\fonts\fontspace.com\Quango-xlVR.otf
+audioverse-react\src\assets\fonts\fontspace.com\SalmaproMedium-yw9ad.otf
+audioverse-react\src\assets\fonts\fontspace.com\SalmaproMediumnarrow-9YlVj.otf
+audioverse-react\src\assets\fonts\fontspace.com\Sansilk-p71dD.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Sansilk-x32eO.otf
+audioverse-react\src\assets\fonts\fontspace.com\Sawer-aYMVK.otf
+audioverse-react\src\assets\fonts\fontspace.com\Sawer-E41EW.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Silvertones-0vj3z.ttf
+audioverse-react\src\assets\fonts\fontspace.com\Silvertones-4nWAK.otf
+audioverse-react\src\assets\fonts\fontspace.com\StoryMilky-1jZwL.ttf
+audioverse-react\src\assets\fonts\fontspace.com\StoryMilky-nAX8M.otf
+audioverse-react\src\assets\fonts\fontspace.com\TilakiaBernout-R9d66.otf
+audioverse-react\src\assets\fonts\fontspace.com\WinterMinie-3ljpz.ttf
+audioverse-react\src\assets\fonts\fontspace.com\WinterMinie-ZpZAK.otf
+audioverse-react\src\assets\fonts\fontspace.com\YangBagus-DYMX9.ttf
+audioverse-react\src\assets\fonts\fontspace.com\YangBagus-pgq61.otf
+audioverse-react\src\assets\fonts\fontspace.com\YayHoliday-G3rEy.ttf
+audioverse-react\src\assets\fonts\fontspace.com\YayHoliday-Jp23E.otf
+audioverse-react\src\assets\fonts\fontspace.com\ZtMotaRegular-jEg39.ttf
+audioverse-react\src\assets\fonts\fontspace.com\misc\4. Help File-e09e.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\5. Item Description-67d1.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\DESCRIPTION.en_us-19ff.html
+audioverse-react\src\assets\fonts\fontspace.com\misc\Glametrix-specimen-8353.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\Khurasan Read Me-d200.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\Montserrat-5829.css
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-01f4.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-2246.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-2d49.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-3541.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-3547.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-4164.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-5571.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-635f.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-678b.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-6ad2.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-6e08.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-6fd5.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-716d.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-73ed.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-7e89.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-7f57.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-812b.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-848c.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-92fd.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-a05d.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-a627.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-a70c.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-b45b.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-b9ba.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-c0cf.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-d722.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-e369.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-e451.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-f8c8.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info-fc4d.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\More Info.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\Mostean-65b8.woff
+audioverse-react\src\assets\fonts\fontspace.com\misc\OFL-34d0.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\OFL-7025.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\OFL_License-61e0.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\OFL_License-bf61.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\Prida01_specimen-04e7.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\READ FIRST.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\Read me please-47c7.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\Read Me-cbfc.pdf
+audioverse-react\src\assets\fonts\fontspace.com\misc\readme & license.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\README FONT.txt
+audioverse-react\src\assets\fonts\fontspace.com\misc\README-8bb5.md
+audioverse-react\src\components\animations
+audioverse-react\src\components\audioSourceComponents
+audioverse-react\src\components\controls
+audioverse-react\src\components\forms
+audioverse-react\src\components\games
+audioverse-react\src\components\lists
+audioverse-react\src\components\FontLoader.tsx
+audioverse-react\src\components\Navbar.tsx
+audioverse-react\src\components\UserContext.tsx
+audioverse-react\src\components\animations\rig
+audioverse-react\src\components\animations\shapes
+audioverse-react\src\components\animations\AnimatedPerson.tsx
+audioverse-react\src\components\animations\AnimatedPersonEditor.tsx
+audioverse-react\src\components\animations\AnimatedPersonList.tsx
+audioverse-react\src\components\animations\AnimatedPersonRig.tsx
+audioverse-react\src\components\animations\AnimatedPersons.tsx
+audioverse-react\src\components\animations\animationHelper.ts
+audioverse-react\src\components\animations\Audience.tsx
+audioverse-react\src\components\animations\AudiencePrograms.ts
+audioverse-react\src\components\animations\BodyRenderer.tsx
+audioverse-react\src\components\animations\characterTypes.ts
+audioverse-react\src\components\animations\choreoDSL.ts
+audioverse-react\src\components\animations\choreography.ts
+audioverse-react\src\components\animations\JudgesDemo.tsx
+audioverse-react\src\components\animations\Jurors.tsx
+audioverse-react\src\components\animations\karaokeIntegration.ts
+audioverse-react\src\components\animations\rig\choreoRigBridge.ts
+audioverse-react\src\components\animations\rig\ik.ts
+audioverse-react\src\components\animations\rig\poseOps.ts
+audioverse-react\src\components\animations\rig\presets.ts
+audioverse-react\src\components\animations\rig\RiggedBody.tsx
+audioverse-react\src\components\animations\rig\rigMath.ts
+audioverse-react\src\components\animations\rig\RigPlayer.tsx
+audioverse-react\src\components\animations\rig\rigTypes.ts
+audioverse-react\src\components\animations\shapes\arms.tsx
+audioverse-react\src\components\animations\shapes\eyes.tsx
+audioverse-react\src\components\animations\shapes\hair.tsx
+audioverse-react\src\components\animations\shapes\heads.tsx
+audioverse-react\src\components\animations\shapes\headwear.tsx
+audioverse-react\src\components\animations\shapes\legs.tsx
+audioverse-react\src\components\animations\shapes\mouths.tsx
+audioverse-react\src\components\animations\shapes\noses.tsx
+audioverse-react\src\components\animations\shapes\outfits.tsx
+audioverse-react\src\components\animations\shapes\torsos.tsx
+audioverse-react\src\components\controls\dance
+audioverse-react\src\components\controls\dmx
+audioverse-react\src\components\controls\editor
+audioverse-react\src\components\controls\input
+audioverse-react\src\components\controls\karaoke
+audioverse-react\src\components\controls\library
+audioverse-react\src\components\controls\player
+audioverse-react\src\components\controls\playlist
+audioverse-react\src\components\controls\AudioEditor.css
+audioverse-react\src\components\controls\SongFilter.tsx
+audioverse-react\src\components\controls\dance\PoseCamGame
+audioverse-react\src\components\controls\dance\index.ts
+audioverse-react\src\components\controls\dance\Pose3DLifter.tsx
+audioverse-react\src\components\controls\dance\Pose3DLifter.types.ts
+audioverse-react\src\components\controls\dance\PoseDetector.logic.ts
+audioverse-react\src\components\controls\dance\PoseDetector.tsx
+audioverse-react\src\components\controls\dance\PoseDetector.types.ts
+audioverse-react\src\components\controls\dance\PoseTracker.tsx
+audioverse-react\src\components\controls\dance\PoseTracker.types.ts
+audioverse-react\src\components\controls\dance\PoseCamGame\PoseCamGame.logic.ts
+audioverse-react\src\components\controls\dance\PoseCamGame\PoseCamGame.tsx
+audioverse-react\src\components\controls\dance\PoseCamGame\PoseCamGame.types.ts
+audioverse-react\src\components\controls\dmx\DmxChannelControls.tsx
+audioverse-react\src\components\controls\dmx\DmxEditor.tsx
+audioverse-react\src\components\controls\editor\audioClipEditor
+audioverse-react\src\components\controls\editor\nav
+audioverse-react\src\components\controls\editor\AudioClipAnalyzer.tsx
+audioverse-react\src\components\controls\editor\AudioClipBox.tsx
+audioverse-react\src\components\controls\editor\AudioClipInfo.tsx
+audioverse-react\src\components\controls\editor\AudioEditor.tsx
+audioverse-react\src\components\controls\editor\AudioLayerDetails.tsx
+audioverse-react\src\components\controls\editor\AudioSourceDetails.tsx
+audioverse-react\src\components\controls\editor\AudioTimeline.tsx
+audioverse-react\src\components\controls\editor\Waveform.tsx
+audioverse-react\src\components\controls\editor\audioClipEditor\AudioClipEditor.tsx
+audioverse-react\src\components\controls\editor\nav\AudioLayersNav.tsx
+audioverse-react\src\components\controls\editor\nav\AudioProjectNav.tsx
+audioverse-react\src\components\controls\editor\nav\AudioProjectSectionNav.tsx
+audioverse-react\src\components\controls\editor\nav\AudioTimelineNav.tsx
+audioverse-react\src\components\controls\editor\nav\SaveLoadControls.tsx
+audioverse-react\src\components\controls\input\settings
+audioverse-react\src\components\controls\input\source
+audioverse-react\src\components\controls\input\settings\AudioInputDevice.tsx
+audioverse-react\src\components\controls\input\settings\AudioInputDevices.tsx
+audioverse-react\src\components\controls\input\settings\AudioInputSelect.tsx
+audioverse-react\src\components\controls\input\settings\GamepadController.tsx
+audioverse-react\src\components\controls\input\source\mapping
+audioverse-react\src\components\controls\input\source\AudioClipLibrary.tsx
+audioverse-react\src\components\controls\input\source\AudioPitchLevel.tsx
+audioverse-react\src\components\controls\input\source\AudioRecorder.tsx
+audioverse-react\src\components\controls\input\source\AudioSource.tsx
+audioverse-react\src\components\controls\input\source\AudioVolumeLevel.tsx
+audioverse-react\src\components\controls\input\source\KeyboardPad.tsx
+audioverse-react\src\components\controls\input\source\SpeechSynth.tsx
+audioverse-react\src\components\controls\input\source\mapping\InputMappingSelect.tsx
+audioverse-react\src\components\controls\karaoke\KaraokeLyrics.tsx
+audioverse-react\src\components\controls\karaoke\KaraokeManager.tsx
+audioverse-react\src\components\controls\karaoke\KaraokeTimeline.tsx
+audioverse-react\src\components\controls\karaoke\KaraokeUploader.tsx
+audioverse-react\src\components\controls\library\LibraryList
+audioverse-react\src\components\controls\library\LibraryExplorer.tsx
+audioverse-react\src\components\controls\library\LibrarySearch.tsx
+audioverse-react\src\components\controls\library\LibrarySearchResult.tsx
+audioverse-react\src\components\controls\library\UltrastarList.tsx
+audioverse-react\src\components\controls\library\UltrastarRowItem.tsx
+audioverse-react\src\components\controls\library\UltrastarRowItem.types.ts
+audioverse-react\src\components\controls\library\LibraryList\AudioList.tsx
+audioverse-react\src\components\controls\library\LibraryList\index.ts
+audioverse-react\src\components\controls\library\LibraryList\LibraryList.logic.ts
+audioverse-react\src\components\controls\library\LibraryList\LibraryList.tsx
+audioverse-react\src\components\controls\library\LibraryList\LibraryList.types.ts
+audioverse-react\src\components\controls\library\LibraryList\LibraryListActionBar.tsx
+audioverse-react\src\components\controls\library\LibraryList\LibraryListAudioItem.tsx
+audioverse-react\src\components\controls\library\LibraryList\LibraryListAudioItem.types.tsx
+audioverse-react\src\components\controls\library\LibraryList\LibraryListSearchBar.tsx
+audioverse-react\src\components\controls\library\LibraryList\LibraryListTabs.tsx
+audioverse-react\src\components\controls\player\visualizer
+audioverse-react\src\components\controls\player\GenericPlayer.tsx
+audioverse-react\src\components\controls\player\GenericPlayerControls.tsx
+audioverse-react\src\components\controls\player\GenericPlayerStage.tsx
+audioverse-react\src\components\controls\player\GenericPlayerStageVisualizer.tsx
+audioverse-react\src\components\controls\player\GenericPlayerTrackList.tsx
+audioverse-react\src\components\controls\player\YouTubePlayer.tsx
+audioverse-react\src\components\controls\player\visualizer\modes
+audioverse-react\src\components\controls\player\visualizer\ModeSwitcher.tsx
+audioverse-react\src\components\controls\player\visualizer\StageVisualizer.tsx
+audioverse-react\src\components\controls\player\visualizer\types.ts
+audioverse-react\src\components\controls\player\visualizer\useLocalStorageState.ts
+audioverse-react\src\components\controls\player\visualizer\VuOverlay.tsx
+audioverse-react\src\components\controls\player\visualizer\modes\BarsMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\BlobFlowMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\ColorRipplesMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\CoverMode.tsx
+audioverse-react\src\components\controls\player\visualizer\modes\CozyFireplaceMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\EqualizerCircleMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\GridMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\ImageTornadoMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\LavaLampMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\NeonTrianglesMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\OrbitalsMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\PaletteMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\ParticlesMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\PlasmaBallMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\RadialMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\RaysMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\RiftMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\RingsMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\SpectrumMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\StarfieldMode.ts
+audioverse-react\src\components\controls\player\visualizer\modes\WaveformMode.ts
+audioverse-react\src\components\controls\playlist\GenericPlaylist.tsx
+audioverse-react\src\components\controls\playlist\GenericPlaylistItem.tsx
+audioverse-react\src\components\controls\playlist\PlaylistBrowser.tsx
+audioverse-react\src\components\controls\playlist\PlaylistList.tsx
+audioverse-react\src\components\controls\playlist\useLocalPlaylists.ts
+audioverse-react\src\components\forms\editor
+audioverse-react\src\components\forms\user
+audioverse-react\src\components\forms\PartyForm.tsx
+audioverse-react\src\components\forms\PlayerForm.tsx
+audioverse-react\src\components\forms\PlaylistForm.tsx
+audioverse-react\src\components\forms\editor\AudioClipUploadForm.tsx
+audioverse-react\src\components\forms\editor\AudioProjectForm.tsx
+audioverse-react\src\components\forms\editor\AudioProjectList.tsx
+audioverse-react\src\components\forms\user\loginForm.css
+audioverse-react\src\components\forms\user\LoginForm.tsx
+audioverse-react\src\components\forms\user\registrationForm.css
+audioverse-react\src\components\forms\user\RegistrationForm.tsx
+audioverse-react\src\components\games\HitThatNote.tsx
+audioverse-react\src\components\lists\AudioClipList.tsx
+audioverse-react\src\hooks\useSelection.ts
+audioverse-react\src\models\modelsAiAudio.ts
+audioverse-react\src\models\modelsAiVideo.ts
+audioverse-react\src\models\modelsAudio.ts
+audioverse-react\src\models\modelsAuth.ts
+audioverse-react\src\models\modelsDmx.ts
+audioverse-react\src\models\modelsEditor.ts
+audioverse-react\src\models\modelsKaraoke.ts
+audioverse-react\src\models\modelsMusicPlatform.ts
+audioverse-react\src\models\modelsPlaylists.ts
+audioverse-react\src\pages\create
+audioverse-react\src\pages\dmx
+audioverse-react\src\pages\enjoy
+audioverse-react\src\pages\explore
+audioverse-react\src\pages\party
+audioverse-react\src\pages\play
+audioverse-react\src\pages\profile
+audioverse-react\src\pages\settings
+audioverse-react\src\pages\HomePage.tsx
+audioverse-react\src\pages\LoginPage.tsx
+audioverse-react\src\pages\create\AnimatedPersonsPage.tsx
+audioverse-react\src\pages\create\AudioEditorPage.tsx
+audioverse-react\src\pages\create\CreatePage.tsx
+audioverse-react\src\pages\create\DmxEditorPage.tsx
+audioverse-react\src\pages\create\ProjectsPage.tsx
+audioverse-react\src\pages\dmx\DmxEditorPage.tsx
+audioverse-react\src\pages\enjoy\EnjoyPage.tsx
+audioverse-react\src\pages\enjoy\MusicPlayerPage.tsx
+audioverse-react\src\pages\explore\ExplorePage.tsx
+audioverse-react\src\pages\explore\LibraryPage.tsx
+audioverse-react\src\pages\party\DancePage.tsx
+audioverse-react\src\pages\party\KaraokePlaylistPage.tsx
+audioverse-react\src\pages\party\KaraokeRoundPage.tsx
+audioverse-react\src\pages\party\KaraokeSongBrowser.tsx
+audioverse-react\src\pages\party\PartiesPage.tsx
+audioverse-react\src\pages\play\PlayPage.tsx
+audioverse-react\src\pages\profile\PartyPage.tsx
+audioverse-react\src\pages\profile\PlayerPage.tsx
+audioverse-react\src\pages\settings\AudioSettingsPage.tsx
+audioverse-react\src\pages\settings\ControllerPage.tsx
+audioverse-react\src\pages\settings\DisplaySettingsPage.tsx
+audioverse-react\src\pages\settings\SettingsPage.tsx
+audioverse-react\src\scripts\api
+audioverse-react\src\scripts\games
+audioverse-react\src\scripts\input
+audioverse-react\src\scripts\karaoke
+audioverse-react\src\scripts\musicPlayer
+audioverse-react\src\scripts\audioContext.ts
+audioverse-react\src\scripts\audioKeyboard.ts
+audioverse-react\src\scripts\audioLayerDetails.ts
+audioverse-react\src\scripts\audioPlayback.ts
+audioverse-react\src\scripts\audioProject.ts
+audioverse-react\src\scripts\audioSource.ts
+audioverse-react\src\scripts\audioTimeline.ts
+audioverse-react\src\scripts\audioUtils.ts
+audioverse-react\src\scripts\generateSpeech.ts
+audioverse-react\src\scripts\instrumentPresets.ts
+audioverse-react\src\scripts\navbar.ts
+audioverse-react\src\scripts\recording.ts
+audioverse-react\src\scripts\textToSpeech.ts
+audioverse-react\src\scripts\ttsRecorder.ts
+audioverse-react\src\scripts\api\apiDmx.ts
+audioverse-react\src\scripts\api\apiEditor.ts
+audioverse-react\src\scripts\api\apiKaraoke.ts
+audioverse-react\src\scripts\api\apiLibrary.ts
+audioverse-react\src\scripts\api\apiLibraryAiAudio.ts
+audioverse-react\src\scripts\api\apiLibraryAiVideo.ts
+audioverse-react\src\scripts\api\apiLibraryStream.ts
+audioverse-react\src\scripts\api\apiLibraryUltrastar.ts
+audioverse-react\src\scripts\api\apiPlaylists.ts
+audioverse-react\src\scripts\api\apiTidalAuth.ts
+audioverse-react\src\scripts\api\apiUser.ts
+audioverse-react\src\scripts\api\audioverseApiClient.ts
+audioverse-react\src\scripts\api\libraryApiClient.ts
+audioverse-react\src\scripts\games\hitThatNote.ts
+audioverse-react\src\scripts\input\source
+audioverse-react\src\scripts\input\inputManager.ts
+audioverse-react\src\scripts\input\source\mapping
+audioverse-react\src\scripts\input\source\gamepad.ts
+audioverse-react\src\scripts\input\source\mapping\inputActionMapping.ts
+audioverse-react\src\scripts\input\source\mapping\inputType.ts
+audioverse-react\src\scripts\input\source\mapping\xboxControllerButtonNames.ts
+audioverse-react\src\scripts\karaoke\karaokeLyrics.ts
+audioverse-react\src\scripts\karaoke\karaokeTimeline.ts
+audioverse-react\src\scripts\musicPlayer\musicPlayerHooks.ts
+audioverse-react\src\scripts\musicPlayer\musicPlayerUtils.ts
+audioverse-react\src\types\lamejs.d.ts
+audioverse-react\src\utils\libraryMappers.ts
+audioverse-react\src\utils\libraryStyles.ts
+documentation\AnimatedPerson
+documentation\diagrams
+documentation\Architektura.docx
+documentation\AudioVerse.docx
+documentation\AudioVerse.wiki
+documentation\Contribution.docx
+documentation\photos.zip
+documentation\readme - ResourceLibrary.md
+documentation\Smokie - Living Next Door To Alice.txt
+documentation\Technologie.docx
+documentation\AnimatedPerson\AnimatedPerson_Readme.docx
+documentation\AnimatedPerson\audioverse-characters.drawio
+documentation\diagrams\3.1 ASR (plik  tekst) - Faster-Whisper.mmd
+documentation\diagrams\3.1 ASR (plik  tekst) - Faster-Whisper.png
+documentation\diagrams\3.2 TTS (Coqui).mmd
+documentation\diagrams\3.2 TTS (Coqui).png
+documentation\diagrams\3.3 Singing Score (live) - WebSocket.mmd
+documentation\diagrams\3.3 Singing Score (live) - WebSocket.png
+documentation\diagrams\3.4 Separation (Demucs).mmd
+documentation\diagrams\3.4 Separation (Demucs).png
+env\docker
+env\wp
+env\cert.sh
+env\install.sh
+env\install_azure_agent.sh
+env\install_docker.sh
+env\vsts-agent-linux-x64-4.258.1.tar.gz
+env\docker\ai
+env\docker\logs
+env\docker\nginx
+env\docker\.env
+env\docker\docker-compose.aiaudio.yml
+env\docker\docker-compose.core.yml
+env\docker\docker-compose.videoai.yml
+env\docker\docker-compose.videoai.yml.bak
+env\docker\docker-compose.yml
+env\docker\log.txt
+env\docker\restart-all.ps1
+env\docker\restart-all.sh
+env\docker\start-all.ps1
+env\docker\start-all.sh
+env\docker\stop-all.ps1
+env\docker\stop-all.sh
+env\docker\ai\alphapose
+env\docker\ai\audio_analysis
+env\docker\ai\audio_pitch
+env\docker\ai\audio_rhythm
+env\docker\ai\audio_separate
+env\docker\ai\audio_tags
+env\docker\ai\audio_tags_panns
+env\docker\ai\audio_vad
+env\docker\ai\mediapipe
+env\docker\ai\openpose
+env\docker\ai\poseformer
+env\docker\ai\sing_score
+env\docker\ai\vitpose
+env\docker\ai\alphapose\models
+env\docker\ai\alphapose\Dockerfile
+env\docker\ai\alphapose\main.py
+env\docker\ai\audio_analysis\Dockerfile
+env\docker\ai\audio_analysis\main.py
+env\docker\ai\audio_pitch\Dockerfile
+env\docker\ai\audio_pitch\main.py
+env\docker\ai\audio_rhythm\Dockerfile
+env\docker\ai\audio_rhythm\main.py
+env\docker\ai\audio_separate\Dockerfile
+env\docker\ai\audio_separate\main.py
+env\docker\ai\audio_tags\Dockerfile
+env\docker\ai\audio_tags\main.py
+env\docker\ai\audio_tags_panns\app.py
+env\docker\ai\audio_tags_panns\Dockerfile
+env\docker\ai\audio_vad\Dockerfile
+env\docker\ai\audio_vad\main.py
+env\docker\ai\mediapipe\models
+env\docker\ai\mediapipe\Dockerfile
+env\docker\ai\mediapipe\main.py
+env\docker\ai\mediapipe\requirements.txt
+env\docker\ai\openpose\models
+env\docker\ai\openpose\Dockerfile
+env\docker\ai\openpose\main.py
+env\docker\ai\poseformer\models
+env\docker\ai\poseformer\weights
+env\docker\ai\poseformer\Dockerfile
+env\docker\ai\poseformer\main.py
+env\docker\ai\poseformer\requirements.txt
+env\docker\ai\sing_score\Dockerfile
+env\docker\ai\sing_score\main.py
+env\docker\ai\vitpose\models
+env\docker\ai\vitpose\Dockerfile
+env\docker\ai\vitpose\main.py
+env\docker\logs\proj-aiaudio_20250901_155847.log
+env\docker\logs\proj-aiaudio_20250901_160801.log
+env\docker\logs\proj-aiaudio_20250901_161407.log
+env\docker\logs\proj-aiaudio_20250901_175855.log
+env\docker\logs\proj-aiaudio_20250901_210547.log
+env\docker\logs\proj-aiaudio_20250902_111324.log
+env\docker\logs\proj-aiaudio_20250902_143634.log
+env\docker\logs\proj-aiaudio_20250902_153726.log
+env\docker\logs\proj-aiaudio_20250902_153749.log
+env\docker\logs\proj-aiaudio_20250902_154545.log
+env\docker\logs\proj-aiaudio_20250902_172525.log
+env\docker\logs\proj-core_20250901_155847.log
+env\docker\logs\proj-videoai_20250901_155847.log
+env\docker\logs\start-all_20250901_154123.log
+env\docker\logs\start-all_20250901_154201.log
+env\docker\logs\start-all_20250901_155847.log
+env\docker\logs\start-all_20250901_160801.log
+env\docker\logs\start-all_20250901_161407.log
+env\docker\logs\start-all_20250901_175855.log
+env\docker\logs\start-all_20250901_210547.log
+env\docker\logs\start-all_20250902_111216.log
+env\docker\logs\start-all_20250902_111324.log
+env\docker\logs\start-all_20250902_143634.log
+env\docker\logs\start-all_20250902_153726.log
+env\docker\logs\start-all_20250902_153749.log
+env\docker\logs\start-all_20250902_154545.log
+env\docker\logs\start-all_20250902_172525.log
+env\docker\nginx\certs
+env\docker\nginx\conf.d
+env\docker\nginx\default.conf
+env\docker\nginx\nginx.conf
+env\docker\nginx\certs\certs_wizy
+env\docker\nginx\certs\cert_nice2dev
+env\docker\nginx\certs\certs_wizy\cert.txt
+env\docker\nginx\certs\certs_wizy\fullchain.pem
+env\docker\nginx\certs\certs_wizy\privkey.pem
+env\docker\nginx\certs\cert_nice2dev\fullchain.pem
+env\docker\nginx\certs\cert_nice2dev\privkey.pem
+env\wp\nginx
+env\wp\.env
+env\wp\backup_all.sh
+env\wp\backup_home.sh
+env\wp\backup_wizy.sh
+env\wp\docker-compose.yml
+env\wp\nginx\certs_nice2dev
+env\wp\nginx\certs_wizy
+env\wp\nginx\conf.d
+env\wp\nginx\SectigoPublicServerAuthenticationRootR46_USERTrust.crt
+env\wp\nginx\SSL2BUYEMEARSADomainValidationSecureServerCA.crt
+env\wp\nginx\STAR_nice2dev_com.crt
+env\wp\nginx\USERTrustRSACertificationAuthority.crt
+env\wp\nginx\certs_nice2dev\fullchain.pem
+env\wp\nginx\certs_nice2dev\privkey.pem
+env\wp\nginx\certs_wizy\fullchain.pem
+env\wp\nginx\certs_wizy\privkey.pem
+env\wp\nginx\conf.d\nice2dev.conf
+env\wp\nginx\conf.d\wizy.conf
+tools\DocxWikiConverter
+tools\DocxWikiConverter.exe
+tools\Export-Ultrastar.ps1
+tools\DocxWikiConverter\DocxWikiConverter
+tools\DocxWikiConverter\out
+tools\DocxWikiConverter\.dockerignore
+tools\DocxWikiConverter\DocxWikiConverter.sln
+tools\DocxWikiConverter\DocxWikiConverter\Properties
+tools\DocxWikiConverter\DocxWikiConverter\Dockerfile
+tools\DocxWikiConverter\DocxWikiConverter\DocxWikiConverter.csproj
+tools\DocxWikiConverter\DocxWikiConverter\DocxWikiConverter.csproj.user
+tools\DocxWikiConverter\DocxWikiConverter\Program.cs
+tools\DocxWikiConverter\DocxWikiConverter\Properties\PublishProfiles
+tools\DocxWikiConverter\DocxWikiConverter\Properties\launchSettings.json
+tools\DocxWikiConverter\DocxWikiConverter\Properties\PublishProfiles\FolderProfile.pubxml
+tools\DocxWikiConverter\DocxWikiConverter\Properties\PublishProfiles\FolderProfile.pubxml.user
+tools\DocxWikiConverter\out\runtimes
+tools\DocxWikiConverter\out\DocumentFormat.OpenXml.dll
+tools\DocxWikiConverter\out\DocumentFormat.OpenXml.Framework.dll
+tools\DocxWikiConverter\out\DocxWikiConverter.deps.json
+tools\DocxWikiConverter\out\DocxWikiConverter.dll
+tools\DocxWikiConverter\out\DocxWikiConverter.exe
+tools\DocxWikiConverter\out\DocxWikiConverter.pdb
+tools\DocxWikiConverter\out\DocxWikiConverter.runtimeconfig.json
+tools\DocxWikiConverter\out\SkiaSharp.dll
+tools\DocxWikiConverter\out\System.IO.Packaging.dll
+tools\DocxWikiConverter\out\Xceed.Document.NET.dll
+tools\DocxWikiConverter\out\Xceed.Drawing.NET.dll
+tools\DocxWikiConverter\out\Xceed.PDF.NET.dll
+tools\DocxWikiConverter\out\Xceed.Words.NET.dll
+tools\DocxWikiConverter\out\runtimes\osx
+tools\DocxWikiConverter\out\runtimes\win-arm64
+tools\DocxWikiConverter\out\runtimes\win-x64
+tools\DocxWikiConverter\out\runtimes\win-x86
+tools\DocxWikiConverter\out\runtimes\osx\native
+tools\DocxWikiConverter\out\runtimes\osx\native\libSkiaSharp.dylib
+tools\DocxWikiConverter\out\runtimes\win-arm64\native
+tools\DocxWikiConverter\out\runtimes\win-arm64\native\libSkiaSharp.dll
+tools\DocxWikiConverter\out\runtimes\win-x64\native
+tools\DocxWikiConverter\out\runtimes\win-x64\native\libSkiaSharp.dll
+tools\DocxWikiConverter\out\runtimes\win-x86\native
+tools\DocxWikiConverter\out\runtimes\win-x86\native\libSkiaSharp.dll

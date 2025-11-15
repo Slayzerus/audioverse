@@ -1,0 +1,133 @@
+﻿name: ${COMPOSE_PROJECT_NAME:-proj-core}
+
+services:
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ${HOST_DB_DIR}/data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  reverse-proxy:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # nginx.conf (loader) → /etc/nginx/nginx.conf
+      - "${HOST_CONF_DIR:-./nginx}/nginx.conf:/etc/nginx/nginx.conf:ro"
+      # default.conf (Twoje serwery) → /etc/nginx/conf.d/default.conf
+      - "${HOST_CONF_DIR:-./nginx}/default.conf:/etc/nginx/conf.d/default.conf:ro"
+      # certyfikaty
+      - "${HOST_CERTS_DIR:-./nginx/certs}:/certs:ro"
+    networks:
+      - "${NETWORK_NAME:-audioverse-net}"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+
+
+  identity:
+    image: ${IMAGE_IDENTITY}
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_URLS: "http://+:5002;https://+:5003"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    volumes:
+      - ${HOST_HTTPS_DIR}:/https:ro
+    ports:
+      - "${IDENTITY_HTTP:-5002}:5002"
+      - "${IDENTITY_HTTPS:-5003}:5003"
+    depends_on: [postgres, redis]
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  library:
+    image: ${IMAGE_LIBRARY}
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_URLS: "http://+:5004;https://+:5005"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    volumes:
+      - ${HOST_HTTPS_DIR}:/https:ro
+      - ${HOST_DATA_DIR}:/data
+    ports:
+      - "${LIBRARY_HTTP:-5004}:5004"
+      - "${LIBRARY_HTTPS:-5005}:5005"
+    depends_on: [postgres, reverse-proxy]
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  api:
+    image: ${IMAGE_API}
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_URLS: "http://+:5000;https://+:5001"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+    volumes:
+      - ${HOST_HTTPS_DIR}:/https:ro
+    ports:
+      - "${API_HTTP:-5000}:5000"
+      - "${API_HTTPS:-5001}:5001"
+    depends_on: [reverse-proxy, postgres, identity, library]
+    networks:
+      audioverse-net:
+        aliases: ["api"] 
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  react:
+    image: ${IMAGE_REACT}
+    restart: unless-stopped
+    ports:
+      - "${WEB_HTTP:-8081}:80"
+      - "${WEB_HTTPS:-8443}:443"
+    depends_on: [reverse-proxy, api, library]
+    volumes:
+      - ${HOST_CERTS_DIR}:/certs:ro
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+networks:
+  audioverse-net:
+    external: true
+    name: ${NETWORK_NAME:-audioverse-net}

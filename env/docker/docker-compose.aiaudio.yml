@@ -1,0 +1,115 @@
+# profil 'aiaudio' – uruchamiaj wraz z core (bez wystawiania portów na hosta)
+services:
+  asr_fw:
+    image: ${IMAGE_ASR_FW:-fedirz/faster-whisper-server:latest-cpu}
+    restart: unless-stopped
+    environment:
+      UVICORN_WORKERS: "1"
+    # ports:        # odkomentuj, jeśli chcesz testować z hosta
+    #   - "${ASR_FW_PORT:-8000}:8000"
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  asr_vosk:
+    image: alphacep/kaldi-en:latest
+    restart: unless-stopped
+    ports:
+      - "${ASR_VOSK_PORT:-8020}:2700"
+    networks:
+      - ${NETWORK_NAME}
+    healthcheck:
+      test: ["CMD-SHELL","nc -z 127.0.0.1 2700 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+
+  tts_piper:
+    image: ${IMAGE_TTS_PIPER:-artibex/piper-http:latest}
+    restart: unless-stopped
+    # ports:
+    #   - "${PIPER_HTTP:-5000}:5000"   # koliduje z API – zostawiam wyłączone
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  opentts:
+    image: ${IMAGE_OPENTTS:-synesthesiam/opentts:latest}
+    restart: unless-stopped
+    # ports:
+    #   - "${OPENTTS_HTTP:-5500}:5500"
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # --- lekkie mikroserwisy FastAPI (budowane lokalnie) ---
+  audio_vad:
+    build:
+      context: ./ai/audio_vad
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  audio_pitch:
+    build:
+      context: ./ai/audio_pitch
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  audio_separate:
+    build:
+      context: ./ai/audio_separate
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  audio_rhythm:
+    build:
+      context: ./ai/audio_rhythm
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  audio_analysis:
+    build:
+      context: ./ai/audio_analysis
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  sing_score:
+    build:
+      context: ./ai/sing_score
+    restart: unless-stopped
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+  audio_tags:
+    build:
+      context: ./ai/audio_tags_panns
+    restart: unless-stopped
+    # Jeśli trzymasz pliki PANNs w repo (patrz Twoja struktura "ai/"):
+    # volumes:
+    #   - ./ai/panns_data:/root/panns_data
+    profiles: ["aiaudio"]
+    networks: [audioverse-net]
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+
+networks:
+  audioverse-net:
+    external: true
+    name: ${NETWORK_NAME:-audioverse-net}
