@@ -1,3 +1,0 @@
-Źródło własne — diagram przepływu sesji karaoke
-audioverse-dotnet/AudioVerse.API/Docs/diagrams/09-karaoke-session-flow.drawio
-2026-02-20

@@ -1,3 +1,0 @@
-Źródło własne — zrzut ekranu Swagger UI
-audioverse-dotnet/AudioVerse.API (http://localhost:5000/swagger)
-2026-02-20

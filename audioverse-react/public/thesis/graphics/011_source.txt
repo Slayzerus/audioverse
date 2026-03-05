@@ -1,3 +1,0 @@
-Źródło własne — zrzut ekranu aplikacji AudioVerse
-audioverse-react/src/pages/party/KaraokeRankingPage.tsx
-2026-02-20

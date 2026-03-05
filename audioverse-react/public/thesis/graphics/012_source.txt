@@ -1,3 +1,0 @@
-Źródło własne — diagram kontenerów Docker Compose
-audioverse-dotnet/AudioVerse.API/Docs/diagrams/11-docker-containers.drawio
-2026-02-20
