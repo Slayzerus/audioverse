@@ -1,5 +1,6 @@
 // src/components/library/LibraryList/Tabs.tsx
 import * as React from "react";
+import { useTranslation } from 'react-i18next';
 import { rowBtn } from "../../../../utils/libraryStyles.ts";
 import type { Tab } from "./LibraryList.types.ts";
 
@@ -13,6 +14,7 @@ type TabsProps = {
 
 /// Two-button tabs switching between Audio and Ultrastar views.
 export const LibraryListTabs: React.FC<TabsProps> = ({ tab, onChange }) => {
+    const { t } = useTranslation();
     const active = "#4f46e5";
     return (
         <div style={{ display: "flex", gap: 6 }}>
@@ -25,7 +27,7 @@ export const LibraryListTabs: React.FC<TabsProps> = ({ tab, onChange }) => {
                 }}
                 onClick={() => onChange("audio")}
             >
-                Audio
+                {t('libraryTabs.audio', 'Audio')}
             </button>
             <button
                 type="button"
@@ -36,7 +38,7 @@ export const LibraryListTabs: React.FC<TabsProps> = ({ tab, onChange }) => {
                 }}
                 onClick={() => onChange("ultrastar")}
             >
-                Ultrastar
+                {t('libraryTabs.ultrastar', 'Ultrastar')}
             </button>
         </div>
     );

@@ -6,3 +6,4 @@ export { Pose3DLifter } from "./Pose3DLifter";
 export type { Pose3DLifterProps } from "./Pose3DLifter.types";
 export { PoseCamGame } from "./PoseCamGame/PoseCamGame";
 export type { PoseCamGameProps } from "./PoseCamGame/PoseCamGame.types";
+export { default as DanceClassificationPanel } from "./DanceClassificationPanel";

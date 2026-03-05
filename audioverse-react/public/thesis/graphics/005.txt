@@ -1,0 +1,15 @@
+Rysunek 3.3 — Schemat komunikacji między warstwami systemu AudioVerse
+
+CO PRZEDSTAWIA:
+Diagram architektoniczny pokazujący przepływ danych: przeglądarka →
+ASP.NET API → mikroserwisy AI (FastAPI) → PostgreSQL / MinIO.
+Dla każdego mikroserwisu podano protokół (HTTP/WebSocket) i średnią
+latencję. Strzałki pokazują kierunek komunikacji.
+
+JAK ZDOBYĆ:
+1. Otwórz plik diagramu:
+   audioverse-dotnet/AudioVerse.API/Docs/diagrams/01-system-architecture.drawio
+   Pełna ścieżka: c:\Users\Radko\source\repos\AudioVerse\audioverse-dotnet\AudioVerse.API\Docs\diagrams\01-system-architecture.drawio
+2. Otwórz w https://app.diagrams.net (File → Open from → Device)
+   lub dwuklik na plik .drawio jeśli masz zainstalowane draw.io desktop
+3. Eksportuj jako PNG: File → Export as → PNG (300 DPI, białe tło)

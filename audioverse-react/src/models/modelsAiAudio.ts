@@ -166,27 +166,33 @@ export interface WaveGanRequest {
 /* ========== Helpery do multipart/form-data ========== */
 export function toFormDataTranscribe(file: File, req?: TranscribeRequest): FormData {
     const fd = new FormData();
+    // Backend expects field name "File" (swagger uses capitalized File). Append both for compatibility.
     fd.append("file", file);
+    try { fd.append("File", file); } catch (_e) { /* Expected: duplicate FormData key may fail in some environments */ }
     if (req?.language) fd.append("language", req.language);
     return fd;
 }
 
 export function toFormDataAnalyze(file: File): FormData {
     const fd = new FormData();
+    // Some backends expect 'File' (capitalized). Include both keys to be compatible.
     fd.append("file", file);
+    try { fd.append("File", file); } catch (_e) { /* Expected: duplicate FormData key may fail in some environments */ }
     return fd;
 }
 
-export function toFormDataVad(file: File, aggressiveness?: number): FormData {
+export function toFormDataVad(file: File, _aggressiveness?: number): FormData {
     const fd = new FormData();
     fd.append("file", file);
-    // aggressiveness jest query paramem, nie w form-data – dołącz go do URL-a.
+    try { fd.append("File", file); } catch (_e) { /* Expected: duplicate FormData key may fail in some environments */ }
+    // aggressiveness is a query param, not in form-data – append it to the URL.
     return fd;
 }
 
 export function toFormDataSeparate(file: File): FormData {
     const fd = new FormData();
     fd.append("file", file);
+    try { fd.append("File", file); } catch (_e) { /* Expected: duplicate FormData key may fail in some environments */ }
     return fd;
 }
 

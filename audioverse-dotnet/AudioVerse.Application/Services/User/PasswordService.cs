@@ -1,4 +1,5 @@
-﻿using AudioVerse.Domain.Entities;
+﻿using AudioVerse.Domain.Entities.Auth;
+using AudioVerse.Domain.Entities.UserProfiles;
 using AudioVerse.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,20 +9,23 @@ namespace AudioVerse.Application.Services.User
     {
         private readonly IUserProfileRepository _repository;
         private readonly IPasswordHasher<UserProfile> _passwordHasher;
+        private readonly ISystemConfigRepository _configRepo;
         private PasswordRequirements _passwordRequirements;
 
         public PasswordService(
             IUserProfileRepository repository,
-            IPasswordHasher<UserProfile> passwordHasher)
+            IPasswordHasher<UserProfile> passwordHasher,
+            ISystemConfigRepository configRepo)
         {
             _repository = repository;
             _passwordHasher = passwordHasher;
+            _configRepo = configRepo;
             _passwordRequirements = new PasswordRequirements();
         }
 
         public void UpdatePasswordRequirements(PasswordRequirements requirements)
         {
-            _passwordRequirements = requirements;
+            _passwordRequirements = requirements;            
         }
 
         public async Task<(bool Success, List<string> Errors)> ValidatePasswordAsync(string password)
@@ -40,7 +44,7 @@ namespace AudioVerse.Application.Services.User
                 if (result == PasswordVerificationResult.Success ||
                     result == PasswordVerificationResult.SuccessRehashNeeded)
                 {
-                    return true; // Hasło znajduje się w historii
+                    return true;
                 }
             }
 
@@ -81,6 +85,17 @@ namespace AudioVerse.Application.Services.User
             }
 
             user.LastPasswordChangeDate = DateTime.UtcNow;
+        }
+
+        public async Task<List<PasswordRequirements>> GetActivePasswordRequirementsAsync()
+        {
+            var req = await _configRepo.GetPasswordRequirementsAsync();
+            return req != null ? [req] : [];
+        }
+
+        public async Task<PasswordRequirements?> GetCurrentPasswordRequirementAsync()
+        {
+            return await _configRepo.GetPasswordRequirementsAsync();
         }
     }
 }

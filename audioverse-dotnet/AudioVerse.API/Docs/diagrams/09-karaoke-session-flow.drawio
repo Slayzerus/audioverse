@@ -1,0 +1,71 @@
+<mxfile host="app.diagrams.net" modified="2025-02-25" type="device">
+  <diagram id="karaoke-flow" name="Przeplyw sesji karaoke">
+    <mxGraphModel dx="1600" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Przeplyw sesji karaoke - 5 faz" style="text;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="450" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Faza 1 -->
+        <mxCell id="p1" value="1. Konfiguracja wydarzenia&#xa;Organizator tworzy Event&#xa;+ KaraokeSession" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="210" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Faza 2 -->
+        <mxCell id="p2" value="2. Rejestracja uzytkownikow&#xa;Uzytkownicy dolaczaja&#xa;(EventParticipant)" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="310" y="80" width="210" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Faza 3 -->
+        <mxCell id="p3" value="3. Dolaczenie do sesji&#xa;Gracze dolaczaja&#xa;(KaraokeSessionPlayer)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="580" y="80" width="210" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Faza 4 -->
+        <mxCell id="p4" value="4. Rundy i spiewanie&#xa;Piosenki w rundach&#xa;Wynik, Nuty (real-time)" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="80" width="210" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Faza 5 -->
+        <mxCell id="p5" value="5. Wyniki&#xa;Podsumowanie, nagrania&#xa;Ranking" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="80" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="f1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="p1" target="p2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="p2" target="p3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="p3" target="p4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="p4" target="p5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Mapowanie na encje -->
+        <mxCell id="d1" value="Event" style="rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="85" y="210" width="120" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="EventParticipant" style="rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="355" y="210" width="120" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="d3" value="KaraokeSessionPlayer" style="rounded=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="615" y="210" width="140" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="d4" value="KaraokeSinging" style="rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="895" y="210" width="120" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="d5" value="Nagranie" style="rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="210" width="120" height="24" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dm1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="p1" target="d1" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dm2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="p2" target="d2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dm3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="p3" target="d3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dm4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="p4" target="d4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="dm5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="p5" target="d5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Notatka -->
+        <mxCell id="note" value="Rozdzielenie poziomow:&#xa;UserProfile (uzytkownik) &gt; RSVP (EventParticipant)&#xa;UserProfilePlayer (gracz) &gt; Sesja (KaraokeSessionPlayer)&#xa;KaraokeSinging &gt; Wynik w rundzie (punkty, nuty)" style="rounded=1;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#999;fontSize=10;align=left;spacingLeft=10;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="380" height="80" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

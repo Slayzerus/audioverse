@@ -1,0 +1,1157 @@
+/**
+ * VectorEditor — SVG-based vector drawing editor.
+ *
+ * Features:
+ *  - Tools: pointer / select, rectangle, ellipse, line, pen (polyline), text
+ *  - Fill & stroke colour + stroke-width editing per shape
+ *  - Shape list with selection, delete, reorder (bring to front / send to back)
+ *  - SVG import (paste or file) & export
+ *  - PNG rasterise export (via offscreen canvas)
+ *  - Undo / Redo
+ *  - Zoom & pan (wheel + middle-click)
+ *  - Keyboard shortcuts: Delete, Ctrl+Z, Ctrl+Y, V, R, C, L, P, T
+ */
+
+import React, { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import styles from "./VectorEditor.module.css";
+
+/* ─── types ─── */
+
+type VTool = "pointer" | "rect" | "ellipse" | "line" | "pen" | "text";
+
+interface VShape {
+  id: string;
+  type: "rect" | "ellipse" | "line" | "polyline" | "text";
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  // line / polyline
+  x2?: number;
+  y2?: number;
+  points?: { x: number; y: number }[];
+  // appearance
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+  // text
+  text?: string;
+  fontSize?: number;
+  // transform
+  rotation?: number;
+}
+
+interface HistEntry {
+  shapes: VShape[];
+}
+
+/* ─── helpers ─── */
+
+let _sid = 0;
+const sid = () => `s${++_sid}`;
+
+const cloneShapes = (s: VShape[]): VShape[] =>
+  JSON.parse(JSON.stringify(s));
+
+const downloadBlob = (blob: Blob, name: string) => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+const TOOLS: { id: VTool; icon: string; label: string; key: string }[] = [
+  { id: "pointer", icon: "↖", label: "Select", key: "V" },
+  { id: "rect", icon: "▢", label: "Rectangle", key: "R" },
+  { id: "ellipse", icon: "◯", label: "Ellipse", key: "C" },
+  { id: "line", icon: "╱", label: "Line", key: "L" },
+  { id: "pen", icon: "✎", label: "Pen (polyline)", key: "P" },
+  { id: "text", icon: "T", label: "Text", key: "T" },
+];
+
+/* ─── component ─── */
+
+export interface VectorEditorProps {
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+export const VectorEditor: React.FC<VectorEditorProps> = ({
+  width: artW = 512,
+  height: artH = 512,
+  className,
+}) => {
+  /* state */
+  const [shapes, setShapes] = useState<VShape[]>([]);
+  const [selId, setSelId] = useState<string | null>(null);
+  const [tool, setTool] = useState<VTool>("pointer");
+  const [fillCol, setFillCol] = useState("#5566cc");
+  const [strokeCol, setStrokeCol] = useState("#ffffff");
+  const [strokeW, setStrokeW] = useState(2);
+  const [fontSize, setFontSize] = useState(24);
+  const [zoom, setZoom] = useState(1);
+  const [px, setPx] = useState(0);
+  const [py, setPy] = useState(0);
+  const [dlgSvg, setDlgSvg] = useState(false);
+  const [svgText, setSvgText] = useState("");
+
+  /* refs */
+  const boxRef = useRef<HTMLDivElement>(null);
+  const drawing = useRef(false);
+  const startPt = useRef({ x: 0, y: 0 });
+  const pendingShape = useRef<VShape | null>(null);
+  const penPts = useRef<{ x: number; y: number }[]>([]);
+  const panning = useRef(false);
+  const panStart = useRef({ mx: 0, my: 0, px: 0, py: 0 });
+  const hist = useRef<HistEntry[]>([]);
+  const hIdx = useRef(-1);
+  const fInp = useRef<HTMLInputElement>(null);
+
+  /* selected shape */
+  const selShape = useMemo(
+    () => shapes.find((s) => s.id === selId) || null,
+    [shapes, selId],
+  );
+
+  /* history */
+  const snap = useCallback((s: VShape[]) => {
+    hist.current = hist.current.slice(0, hIdx.current + 1);
+    hist.current.push({ shapes: cloneShapes(s) });
+    if (hist.current.length > 50) hist.current.shift();
+    hIdx.current = hist.current.length - 1;
+  }, []);
+
+  const undo = useCallback(() => {
+    if (hIdx.current <= 0) return;
+    hIdx.current--;
+    setShapes(cloneShapes(hist.current[hIdx.current].shapes));
+  }, []);
+
+  const redo = useCallback(() => {
+    if (hIdx.current >= hist.current.length - 1) return;
+    hIdx.current++;
+    setShapes(cloneShapes(hist.current[hIdx.current].shapes));
+  }, []);
+
+  /* coordinate transform */
+  const scr2art = useCallback(
+    (cx: number, cy: number) => {
+      const r = boxRef.current?.getBoundingClientRect();
+      if (!r) return { x: 0, y: 0 };
+      return {
+        x: (cx - r.left - r.width / 2 - px) / zoom + artW / 2,
+        y: (cy - r.top - r.height / 2 - py) / zoom + artH / 2,
+      };
+    },
+    [px, py, zoom, artW, artH],
+  );
+
+  /* mouse handlers */
+  const onDown = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      e.preventDefault();
+      if (e.button === 1) {
+        panning.current = true;
+        panStart.current = { mx: e.clientX, my: e.clientY, px, py };
+        return;
+      }
+      if (e.button !== 0) return;
+
+      const p = scr2art(e.clientX, e.clientY);
+
+      if (tool === "pointer") {
+        // hit test (topmost first)
+        let hit: string | null = null;
+        for (let i = shapes.length - 1; i >= 0; i--) {
+          const s = shapes[i];
+          if (
+            p.x >= s.x &&
+            p.y >= s.y &&
+            p.x <= s.x + s.w &&
+            p.y <= s.y + s.h
+          ) {
+            hit = s.id;
+            break;
+          }
+        }
+        setSelId(hit);
+        if (hit) {
+          drawing.current = true;
+          startPt.current = p;
+        }
+        return;
+      }
+
+      if (tool === "pen") {
+        // add point
+        penPts.current.push(p);
+        if (penPts.current.length === 1) {
+          const ns: VShape = {
+            id: sid(),
+            type: "polyline",
+            x: p.x,
+            y: p.y,
+            w: 0,
+            h: 0,
+            points: [{ x: p.x, y: p.y }],
+            fill: "none",
+            stroke: strokeCol,
+            strokeWidth: strokeW,
+          };
+          pendingShape.current = ns;
+          setShapes((prev) => [...prev, ns]);
+        } else {
+          // update polyline
+          const pts = [...penPts.current];
+          const xs = pts.map((pp) => pp.x);
+          const ys = pts.map((pp) => pp.y);
+          setShapes((prev) =>
+            prev.map((s) =>
+              s.id === pendingShape.current?.id
+                ? {
+                  ...s,
+                  points: pts,
+                  x: Math.min(...xs),
+                  y: Math.min(...ys),
+                  w: Math.max(...xs) - Math.min(...xs),
+                  h: Math.max(...ys) - Math.min(...ys),
+                }
+                : s,
+            ),
+          );
+        }
+        return;
+      }
+
+      if (tool === "text") {
+        const txt = prompt("Enter text:", "Hello");
+        if (!txt) return;
+        const ns: VShape = {
+          id: sid(),
+          type: "text",
+          x: p.x,
+          y: p.y,
+          w: txt.length * fontSize * 0.6,
+          h: fontSize,
+          fill: fillCol,
+          stroke: "none",
+          strokeWidth: 0,
+          text: txt,
+          fontSize,
+        };
+        const next = [...shapes, ns];
+        snap(next);
+        setShapes(next);
+        setSelId(ns.id);
+        return;
+      }
+
+      // rect / ellipse / line — start drag
+      drawing.current = true;
+      startPt.current = p;
+      const ns: VShape = {
+        id: sid(),
+        type: tool === "line" ? "line" : tool === "ellipse" ? "ellipse" : "rect",
+        x: p.x,
+        y: p.y,
+        w: 0,
+        h: 0,
+        x2: p.x,
+        y2: p.y,
+        fill: tool === "line" ? "none" : fillCol,
+        stroke: strokeCol,
+        strokeWidth: strokeW,
+      };
+      pendingShape.current = ns;
+      setShapes((prev) => [...prev, ns]);
+    },
+    [tool, shapes, scr2art, px, py, fillCol, strokeCol, strokeW, fontSize, snap],
+  );
+
+  const onMove = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      if (panning.current) {
+        setPx(panStart.current.px + (e.clientX - panStart.current.mx));
+        setPy(panStart.current.py + (e.clientY - panStart.current.my));
+        return;
+      }
+      if (!drawing.current) return;
+
+      const p = scr2art(e.clientX, e.clientY);
+
+      if (tool === "pointer" && selId) {
+        // move selected shape
+        const dx = p.x - startPt.current.x;
+        const dy = p.y - startPt.current.y;
+        startPt.current = p;
+        setShapes((prev) =>
+          prev.map((s) =>
+            s.id === selId
+              ? {
+                ...s,
+                x: s.x + dx,
+                y: s.y + dy,
+                x2: s.x2 != null ? s.x2 + dx : undefined,
+                y2: s.y2 != null ? s.y2 + dy : undefined,
+                points: s.points?.map((pt) => ({
+                  x: pt.x + dx,
+                  y: pt.y + dy,
+                })),
+              }
+              : s,
+          ),
+        );
+        return;
+      }
+
+      if (!pendingShape.current) return;
+
+      if (
+        pendingShape.current.type === "rect" ||
+        pendingShape.current.type === "ellipse"
+      ) {
+        const x1 = Math.min(startPt.current.x, p.x);
+        const y1 = Math.min(startPt.current.y, p.y);
+        const w2 = Math.abs(p.x - startPt.current.x);
+        const h2 = Math.abs(p.y - startPt.current.y);
+        setShapes((prev) =>
+          prev.map((s) =>
+            s.id === pendingShape.current!.id
+              ? { ...s, x: x1, y: y1, w: w2, h: h2 }
+              : s,
+          ),
+        );
+      } else if (pendingShape.current.type === "line") {
+        setShapes((prev) =>
+          prev.map((s) =>
+            s.id === pendingShape.current!.id
+              ? {
+                ...s,
+                w: Math.abs(p.x - s.x),
+                h: Math.abs(p.y - s.y),
+                x2: p.x,
+                y2: p.y,
+              }
+              : s,
+          ),
+        );
+      }
+    },
+    [tool, scr2art, selId],
+  );
+
+  const onUp = useCallback(() => {
+    if (panning.current) {
+      panning.current = false;
+      return;
+    }
+    if (drawing.current) {
+      drawing.current = false;
+      if (pendingShape.current) {
+        snap(shapes);
+        pendingShape.current = null;
+      }
+    }
+  }, [shapes, snap]);
+
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    setZoom((z) => {
+      const n = e.deltaY < 0 ? z * 1.15 : z / 1.15;
+      return Math.max(0.1, Math.min(10, n));
+    });
+  }, []);
+
+  // finish polyline on double-click
+  const onDblClick = useCallback(() => {
+    if (tool === "pen" && pendingShape.current) {
+      snap(shapes);
+      setSelId(pendingShape.current.id);
+      pendingShape.current = null;
+      penPts.current = [];
+    }
+  }, [tool, shapes, snap]);
+
+  /* operations */
+  const deleteShape = useCallback(() => {
+    if (!selId) return;
+    const next = shapes.filter((s) => s.id !== selId);
+    snap(next);
+    setShapes(next);
+    setSelId(null);
+  }, [selId, shapes, snap]);
+
+  const bringToFront = useCallback(() => {
+    if (!selId) return;
+    const next = [
+      ...shapes.filter((s) => s.id !== selId),
+      shapes.find((s) => s.id === selId)!,
+    ];
+    snap(next);
+    setShapes(next);
+  }, [selId, shapes, snap]);
+
+  const sendToBack = useCallback(() => {
+    if (!selId) return;
+    const next = [
+      shapes.find((s) => s.id === selId)!,
+      ...shapes.filter((s) => s.id !== selId),
+    ];
+    snap(next);
+    setShapes(next);
+  }, [selId, shapes, snap]);
+
+  const updateSel = useCallback(
+    (patch: Partial<VShape>) => {
+      if (!selId) return;
+      const next = shapes.map((s) =>
+        s.id === selId ? { ...s, ...patch } : s,
+      );
+      setShapes(next);
+    },
+    [selId, shapes],
+  );
+
+  /* SVG export */
+  const buildSVG = useCallback(() => {
+    const parts: string[] = [
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${artW}" height="${artH}" viewBox="0 0 ${artW} ${artH}">`,
+    ];
+    for (const s of shapes) {
+      switch (s.type) {
+        case "rect":
+          parts.push(
+            `  <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />`,
+          );
+          break;
+        case "ellipse":
+          parts.push(
+            `  <ellipse cx="${s.x + s.w / 2}" cy="${s.y + s.h / 2}" rx="${s.w / 2}" ry="${s.h / 2}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />`,
+          );
+          break;
+        case "line":
+          parts.push(
+            `  <line x1="${s.x}" y1="${s.y}" x2="${s.x2}" y2="${s.y2}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />`,
+          );
+          break;
+        case "polyline":
+          if (s.points) {
+            const pts = s.points.map((p) => `${p.x},${p.y}`).join(" ");
+            parts.push(
+              `  <polyline points="${pts}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.strokeWidth}" />`,
+            );
+          }
+          break;
+        case "text":
+          parts.push(
+            `  <text x="${s.x}" y="${s.y + (s.fontSize || 24)}" font-size="${s.fontSize || 24}" fill="${s.fill}">${s.text || ""}</text>`,
+          );
+          break;
+      }
+    }
+    parts.push("</svg>");
+    return parts.join("\n");
+  }, [shapes, artW, artH]);
+
+  const exportSVG = useCallback(() => {
+    const svg = buildSVG();
+    downloadBlob(
+      new Blob([svg], { type: "image/svg+xml" }),
+      "drawing.svg",
+    );
+  }, [buildSVG]);
+
+  const exportPNG = useCallback(() => {
+    const svg = buildSVG();
+    const img = new Image();
+    img.onload = () => {
+      const cv = document.createElement("canvas");
+      cv.width = artW;
+      cv.height = artH;
+      cv.getContext("2d")!.drawImage(img, 0, 0);
+      cv.toBlob((b) => b && downloadBlob(b, "drawing.png"));
+    };
+    img.src =
+      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }, [buildSVG, artW, artH]);
+
+  /* SVG import */
+  const importSVGString = useCallback(
+    (raw: string) => {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(raw, "image/svg+xml");
+        const errs = doc.querySelector("parsererror");
+        if (errs) {
+          alert("Invalid SVG");
+          return;
+        }
+        const imported: VShape[] = [];
+        const elems = doc.querySelectorAll(
+          "rect, ellipse, circle, line, polyline, polygon, text",
+        );
+        elems.forEach((el) => {
+          const tag = el.tagName.toLowerCase();
+          const fill =
+            el.getAttribute("fill") || (tag === "line" ? "none" : "#cccccc");
+          const stroke = el.getAttribute("stroke") || "none";
+          const sw = parseFloat(el.getAttribute("stroke-width") || "1");
+          const base: Partial<VShape> = {
+            id: sid(),
+            fill,
+            stroke,
+            strokeWidth: sw,
+          };
+          switch (tag) {
+            case "rect": {
+              const x = parseFloat(el.getAttribute("x") || "0");
+              const y = parseFloat(el.getAttribute("y") || "0");
+              const w = parseFloat(el.getAttribute("width") || "0");
+              const h = parseFloat(el.getAttribute("height") || "0");
+              imported.push({
+                ...base,
+                type: "rect",
+                x,
+                y,
+                w,
+                h,
+              } as VShape);
+              break;
+            }
+            case "ellipse": {
+              const cx2 = parseFloat(el.getAttribute("cx") || "0");
+              const cy2 = parseFloat(el.getAttribute("cy") || "0");
+              const rx = parseFloat(el.getAttribute("rx") || "0");
+              const ry = parseFloat(el.getAttribute("ry") || "0");
+              imported.push({
+                ...base,
+                type: "ellipse",
+                x: cx2 - rx,
+                y: cy2 - ry,
+                w: rx * 2,
+                h: ry * 2,
+              } as VShape);
+              break;
+            }
+            case "circle": {
+              const cx2 = parseFloat(el.getAttribute("cx") || "0");
+              const cy2 = parseFloat(el.getAttribute("cy") || "0");
+              const r = parseFloat(el.getAttribute("r") || "0");
+              imported.push({
+                ...base,
+                type: "ellipse",
+                x: cx2 - r,
+                y: cy2 - r,
+                w: r * 2,
+                h: r * 2,
+              } as VShape);
+              break;
+            }
+            case "line": {
+              const x1 = parseFloat(el.getAttribute("x1") || "0");
+              const y1 = parseFloat(el.getAttribute("y1") || "0");
+              const x2 = parseFloat(el.getAttribute("x2") || "0");
+              const y2 = parseFloat(el.getAttribute("y2") || "0");
+              imported.push({
+                ...base,
+                type: "line",
+                x: x1,
+                y: y1,
+                x2: x2,
+                y2: y2,
+                w: Math.abs(x2 - x1),
+                h: Math.abs(y2 - y1),
+              } as VShape);
+              break;
+            }
+            case "polyline":
+            case "polygon": {
+              const raw2 = el.getAttribute("points") || "";
+              const pts = raw2
+                .trim()
+                .split(/\s+/)
+                .map((p) => {
+                  const [x, y] = p.split(",").map(Number);
+                  return { x: x || 0, y: y || 0 };
+                });
+              if (pts.length > 0) {
+                const xs = pts.map((p) => p.x);
+                const ys = pts.map((p) => p.y);
+                imported.push({
+                  ...base,
+                  type: "polyline",
+                  x: Math.min(...xs),
+                  y: Math.min(...ys),
+                  w: Math.max(...xs) - Math.min(...xs),
+                  h: Math.max(...ys) - Math.min(...ys),
+                  points: pts,
+                } as VShape);
+              }
+              break;
+            }
+            case "text": {
+              const x = parseFloat(el.getAttribute("x") || "0");
+              const y = parseFloat(el.getAttribute("y") || "0");
+              const fs = parseFloat(el.getAttribute("font-size") || "24");
+              const txt = el.textContent || "";
+              imported.push({
+                ...base,
+                type: "text",
+                x,
+                y: y - fs,
+                w: txt.length * fs * 0.6,
+                h: fs,
+                text: txt,
+                fontSize: fs,
+              } as VShape);
+              break;
+            }
+          }
+        });
+        if (imported.length === 0) {
+          alert("No supported shapes found in SVG.");
+          return;
+        }
+        const next = [...shapes, ...imported];
+        snap(next);
+        setShapes(next);
+        setDlgSvg(false);
+      } catch {
+        alert("Failed to parse SVG.");
+      }
+    },
+    [shapes, snap],
+  );
+
+  const openFile = useCallback(
+    async (file: File) => {
+      const txt = await file.text();
+      importSVGString(txt);
+    },
+    [importSVGString],
+  );
+
+  /* keyboard */
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.tagName === "INPUT" || t.tagName === "TEXTAREA") return;
+      if (e.ctrlKey && e.key === "z") { e.preventDefault(); undo(); return; }
+      if (e.ctrlKey && (e.key === "y" || (e.shiftKey && e.key === "Z"))) {
+        e.preventDefault(); redo(); return;
+      }
+      const km: Record<string, VTool> = {
+        v: "pointer", r: "rect", c: "ellipse", l: "line", p: "pen", t: "text",
+      };
+      if (km[e.key.toLowerCase()]) { setTool(km[e.key.toLowerCase()]); return; }
+      if (e.key === "Delete" || e.key === "Backspace") deleteShape();
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [undo, redo, deleteShape]);
+
+  /* render SVG elements */
+  const renderShape = (s: VShape) => {
+    const selected = s.id === selId;
+    const selStroke = selected ? "rgba(85,102,204,0.6)" : undefined;
+    switch (s.type) {
+      case "rect":
+        return (
+          <g key={s.id}>
+            <rect
+              x={s.x}
+              y={s.y}
+              width={s.w}
+              height={s.h}
+              fill={s.fill}
+              stroke={s.stroke}
+              strokeWidth={s.strokeWidth}
+            />
+            {selected && (
+              <rect
+                x={s.x - 1}
+                y={s.y - 1}
+                width={s.w + 2}
+                height={s.h + 2}
+                fill="none"
+                stroke={selStroke}
+                strokeWidth={2 / zoom}
+                strokeDasharray={`${4 / zoom}`}
+              />
+            )}
+          </g>
+        );
+      case "ellipse":
+        return (
+          <g key={s.id}>
+            <ellipse
+              cx={s.x + s.w / 2}
+              cy={s.y + s.h / 2}
+              rx={s.w / 2}
+              ry={s.h / 2}
+              fill={s.fill}
+              stroke={s.stroke}
+              strokeWidth={s.strokeWidth}
+            />
+            {selected && (
+              <rect
+                x={s.x - 1}
+                y={s.y - 1}
+                width={s.w + 2}
+                height={s.h + 2}
+                fill="none"
+                stroke={selStroke}
+                strokeWidth={2 / zoom}
+                strokeDasharray={`${4 / zoom}`}
+              />
+            )}
+          </g>
+        );
+      case "line":
+        return (
+          <g key={s.id}>
+            <line
+              x1={s.x}
+              y1={s.y}
+              x2={s.x2}
+              y2={s.y2}
+              stroke={s.stroke}
+              strokeWidth={s.strokeWidth}
+            />
+            {selected && (
+              <>
+                <circle cx={s.x} cy={s.y} r={4 / zoom} fill="#5566cc" />
+                <circle cx={s.x2} cy={s.y2} r={4 / zoom} fill="#5566cc" />
+              </>
+            )}
+          </g>
+        );
+      case "polyline":
+        if (!s.points?.length) return null;
+        return (
+          <g key={s.id}>
+            <polyline
+              points={s.points.map((p) => `${p.x},${p.y}`).join(" ")}
+              fill={s.fill}
+              stroke={s.stroke}
+              strokeWidth={s.strokeWidth}
+            />
+            {selected &&
+              s.points.map((p, i) => (
+                <circle
+                  key={i}
+                  cx={p.x}
+                  cy={p.y}
+                  r={3 / zoom}
+                  fill="#5566cc"
+                  stroke="#fff"
+                  strokeWidth={1 / zoom}
+                />
+              ))}
+          </g>
+        );
+      case "text":
+        return (
+          <g key={s.id}>
+            <text
+              x={s.x}
+              y={s.y + (s.fontSize || 24)}
+              fontSize={s.fontSize || 24}
+              fill={s.fill}
+              fontFamily="sans-serif"
+            >
+              {s.text}
+            </text>
+            {selected && (
+              <rect
+                x={s.x - 1}
+                y={s.y - 1}
+                width={s.w + 2}
+                height={s.h + 2}
+                fill="none"
+                stroke={selStroke}
+                strokeWidth={2 / zoom}
+                strokeDasharray={`${4 / zoom}`}
+              />
+            )}
+          </g>
+        );
+      default:
+        return null;
+    }
+  };
+
+  /* ── JSX ── */
+  return (
+    <div className={`${styles.root} ${className || ""}`}>
+      <input
+        ref={fInp}
+        type="file"
+        accept=".svg"
+        style={{ display: "none" }}
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) openFile(f);
+          e.target.value = "";
+        }}
+      />
+
+      {/* MENU BAR */}
+      <div className={styles.menuBar}>
+        <button className={styles.menuBtn} onClick={() => { snap([]); setShapes([]); setSelId(null); }}>
+          New
+        </button>
+        <button className={styles.menuBtn} onClick={() => fInp.current?.click()}>
+          Open SVG
+        </button>
+        <button className={styles.menuBtn} onClick={() => setDlgSvg(true)}>
+          Paste SVG
+        </button>
+        <div className={styles.menuSep} />
+        <button className={styles.menuBtn} onClick={exportSVG}>
+          Export SVG
+        </button>
+        <button className={styles.menuBtn} onClick={exportPNG}>
+          Export PNG
+        </button>
+        <div className={styles.menuSep} />
+        <button className={styles.menuBtn} onClick={undo}>
+          Undo
+        </button>
+        <button className={styles.menuBtn} onClick={redo}>
+          Redo
+        </button>
+        <div className={styles.menuSep} />
+        <button className={styles.menuBtn} onClick={deleteShape} disabled={!selId}>
+          Delete
+        </button>
+        <button className={styles.menuBtn} onClick={bringToFront} disabled={!selId}>
+          ↑ Front
+        </button>
+        <button className={styles.menuBtn} onClick={sendToBack} disabled={!selId}>
+          ↓ Back
+        </button>
+      </div>
+
+      {/* MAIN */}
+      <div className={styles.mainArea}>
+        {/* toolbar */}
+        <div className={styles.toolbar}>
+          {TOOLS.map((t) => (
+            <button
+              key={t.id}
+              className={`${styles.toolBtn} ${tool === t.id ? styles.toolBtnActive : ""}`}
+              onClick={() => {
+                setTool(t.id);
+                // finish pen if switching away
+                if (
+                  tool === "pen" &&
+                  t.id !== "pen" &&
+                  pendingShape.current
+                ) {
+                  snap(shapes);
+                  pendingShape.current = null;
+                  penPts.current = [];
+                }
+              }}
+              title={`${t.label} (${t.key})`}
+            >
+              {t.icon}
+            </button>
+          ))}
+        </div>
+
+        {/* canvas */}
+        <div ref={boxRef} className={styles.canvasContainer}>
+          <svg
+            viewBox={`0 0 ${artW} ${artH}`}
+            onMouseDown={onDown}
+            onMouseMove={onMove}
+            onMouseUp={onUp}
+            onMouseLeave={() => {
+              drawing.current = false;
+              panning.current = false;
+            }}
+            onDoubleClick={onDblClick}
+            onWheel={onWheel}
+            onContextMenu={(e) => e.preventDefault()}
+            style={{
+              transform: `translate(${px}px, ${py}px) scale(${zoom})`,
+              transformOrigin: "center center",
+              cursor:
+                tool === "pointer"
+                  ? "default"
+                  : tool === "pen"
+                    ? "crosshair"
+                    : "crosshair",
+            }}
+          >
+            {/* background */}
+            <rect
+              x={0}
+              y={0}
+              width={artW}
+              height={artH}
+              fill="#222"
+            />
+            {/* grid */}
+            {zoom >= 2 && (
+              <g opacity={0.08}>
+                {Array.from({ length: Math.floor(artW / 32) + 1 }, (_, i) => (
+                  <line
+                    key={`gx${i}`}
+                    x1={i * 32}
+                    y1={0}
+                    x2={i * 32}
+                    y2={artH}
+                    stroke="#fff"
+                    strokeWidth={1 / zoom}
+                  />
+                ))}
+                {Array.from({ length: Math.floor(artH / 32) + 1 }, (_, i) => (
+                  <line
+                    key={`gy${i}`}
+                    x1={0}
+                    y1={i * 32}
+                    x2={artW}
+                    y2={i * 32}
+                    stroke="#fff"
+                    strokeWidth={1 / zoom}
+                  />
+                ))}
+              </g>
+            )}
+
+            {/* shapes */}
+            {shapes.map(renderShape)}
+          </svg>
+        </div>
+
+        {/* right panel */}
+        <div className={styles.rightPanel}>
+          {/* fill / stroke */}
+          <div className={styles.panelSection}>
+            <div className={styles.panelTitle}>
+              <span>Appearance</span>
+            </div>
+            <div className={styles.propRow}>
+              <span className={styles.propLabel}>Fill</span>
+              <div
+                className={styles.propColorSwatch}
+                style={{ background: fillCol }}
+              >
+                <input
+                  type="color"
+                  value={fillCol}
+                  onChange={(e) => {
+                    setFillCol(e.target.value);
+                    updateSel({ fill: e.target.value });
+                  }}
+                />
+              </div>
+              <input
+                className={styles.propInput}
+                value={selShape?.fill || fillCol}
+                onChange={(e) => {
+                  setFillCol(e.target.value);
+                  updateSel({ fill: e.target.value });
+                }}
+              />
+            </div>
+            <div className={styles.propRow}>
+              <span className={styles.propLabel}>Stroke</span>
+              <div
+                className={styles.propColorSwatch}
+                style={{ background: strokeCol }}
+              >
+                <input
+                  type="color"
+                  value={strokeCol}
+                  onChange={(e) => {
+                    setStrokeCol(e.target.value);
+                    updateSel({ stroke: e.target.value });
+                  }}
+                />
+              </div>
+              <input
+                className={styles.propInput}
+                value={selShape?.stroke || strokeCol}
+                onChange={(e) => {
+                  setStrokeCol(e.target.value);
+                  updateSel({ stroke: e.target.value });
+                }}
+              />
+            </div>
+            <div className={styles.propRow}>
+              <span className={styles.propLabel}>Width</span>
+              <input
+                className={styles.propInput}
+                type="number"
+                min={0}
+                max={100}
+                value={selShape?.strokeWidth ?? strokeW}
+                onChange={(e) => {
+                  const v = +e.target.value;
+                  setStrokeW(v);
+                  updateSel({ strokeWidth: v });
+                }}
+              />
+            </div>
+            {(tool === "text" || selShape?.type === "text") && (
+              <div className={styles.propRow}>
+                <span className={styles.propLabel}>Font</span>
+                <input
+                  className={styles.propInput}
+                  type="number"
+                  min={8}
+                  max={200}
+                  value={selShape?.fontSize ?? fontSize}
+                  onChange={(e) => {
+                    const v = +e.target.value;
+                    setFontSize(v);
+                    updateSel({ fontSize: v });
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* shapes list */}
+          <div className={styles.panelSection}>
+            <div className={styles.panelTitle}>
+              <span>Shapes ({shapes.length})</span>
+            </div>
+            {[...shapes]
+              .reverse()
+              .map((s) => (
+                <div
+                  key={s.id}
+                  className={`${styles.shapeItem} ${s.id === selId ? styles.shapeItemActive : ""}`}
+                  onClick={() => {
+                    setSelId(s.id);
+                    setTool("pointer");
+                  }}
+                >
+                  <span className={styles.shapeIcon}>
+                    {s.type === "rect"
+                      ? "▢"
+                      : s.type === "ellipse"
+                        ? "◯"
+                        : s.type === "line"
+                          ? "╱"
+                          : s.type === "polyline"
+                            ? "✎"
+                            : "T"}
+                  </span>
+                  <span className={styles.shapeName}>
+                    {s.type}
+                    {s.text ? ` "${s.text}"` : ""}
+                  </span>
+                </div>
+              ))}
+            {shapes.length === 0 && (
+              <div style={{ color: "#555", fontSize: 11, padding: 4 }}>
+                No shapes yet. Use the tools to draw.
+              </div>
+            )}
+          </div>
+
+          {/* position / size (when selected) */}
+          {selShape && (
+            <div className={styles.panelSection}>
+              <div className={styles.panelTitle}>
+                <span>Transform</span>
+              </div>
+              <div className={styles.propRow}>
+                <span className={styles.propLabel}>X</span>
+                <input
+                  className={styles.propInput}
+                  type="number"
+                  value={Math.round(selShape.x)}
+                  onChange={(e) => updateSel({ x: +e.target.value })}
+                />
+              </div>
+              <div className={styles.propRow}>
+                <span className={styles.propLabel}>Y</span>
+                <input
+                  className={styles.propInput}
+                  type="number"
+                  value={Math.round(selShape.y)}
+                  onChange={(e) => updateSel({ y: +e.target.value })}
+                />
+              </div>
+              <div className={styles.propRow}>
+                <span className={styles.propLabel}>W</span>
+                <input
+                  className={styles.propInput}
+                  type="number"
+                  value={Math.round(selShape.w)}
+                  onChange={(e) => updateSel({ w: +e.target.value })}
+                />
+              </div>
+              <div className={styles.propRow}>
+                <span className={styles.propLabel}>H</span>
+                <input
+                  className={styles.propInput}
+                  type="number"
+                  value={Math.round(selShape.h)}
+                  onChange={(e) => updateSel({ h: +e.target.value })}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* STATUS */}
+      <div className={styles.statusBar}>
+        <span>
+          {artW}×{artH}
+        </span>
+        <span>Zoom {Math.round(zoom * 100)}%</span>
+        <span>{tool}</span>
+        <span>{shapes.length} shape(s)</span>
+        {selId && <span>Selected: {selShape?.type}</span>}
+      </div>
+
+      {/* SVG PASTE DIALOG */}
+      {dlgSvg && (
+        <div
+          className={styles.dialogOverlay}
+          onClick={() => setDlgSvg(false)}
+        >
+          <div
+            className={styles.dialog}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Paste SVG</h3>
+            <label>Paste SVG source code below:</label>
+            <textarea
+              value={svgText}
+              onChange={(e) => setSvgText(e.target.value)}
+              placeholder='<svg xmlns="http://www.w3.org/2000/svg" ...>'
+            />
+            <div className={styles.dialogActions}>
+              <button
+                className={styles.btnSecondary}
+                onClick={() => setDlgSvg(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className={styles.btnPrimary}
+                onClick={() => importSVGString(svgText)}
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default VectorEditor;

@@ -1,0 +1,222 @@
+#ARTIST:Nirvana
+#TITLE:The Man Who Sold The World (MTV Unplugged)
+#MP3:Nirvana - The Man Who Sold The World (MTV Unplugged).mp3
+#CREATOR:ceasarea
+#GENRE:Acoustic Rock
+#YEAR:1993
+#LANGUAGE:English
+#BPM:227.1
+#GAP:15820
+#VIDEO:v=fregObNcHC8,co=mtv-unplugged-in-new-york-5949485e55c8a.jpg,bg=nirvana-54dc843050470.jpg
+#START:1.5
+: 0 5 8 We 
+: 7 6 6 passed 
+: 16 5 4 u
+: 24 7 3 pon 
+: 33 2 1 the 
+: 38 2 1 stai
+: 41 6 3 ~r 
+- 49
+: 74 2 5 Spo
+: 77 3 6 ~ke 
+: 82 2 6 of 
+: 86 6 9 was 
+: 94 2 6 and 
+: 98 2 6 whe
+: 101 9 8 ~n 
+- 112
+: 132 4 8 Al
+: 138 3 6 thou
+: 142 3 4 ~gh 
+: 146 5 4 I 
+: 154 6 3 wa
+: 161 2 1 sn’t 
+: 166 9 3 there 
+- 177
+: 198 2 3 He 
+: 202 4 6 said 
+: 209 2 6 I 
+: 213 6 9 was 
+: 221 2 6 his 
+* 225 3 6 frie
+* 229 7 8 ~nd 
+- 238
+: 257 4 8 Which 
+: 264 5 11 came 
+: 273 5 11 as 
+: 281 4 9 a 
+: 288 3 8 sur
+: 292 10 6 prise 
+- 304
+: 321 3 6 I 
+* 329 5 13 spoke 
+: 337 5 13 in
+: 345 3 11 to
+: 349 2 9 ~ 
+: 353 5 9 his 
+: 361 6 8 eyes 
+- 369
+: 370 5 8 I 
+: 378 5 8 thought 
+: 386 5 8 you 
+: 394 6 9 died 
+: 402 3 8 a
+: 406 3 4 ~
+: 410 7 4 lone 
+- 419
+: 434 3 6 A
+: 438 2 8 ~ 
+: 442 3 6 lo
+: 446 3 4 ~ng 
+: 450 5 4 long 
+: 458 7 4 time 
+: 466 2 6 a
+: 470 9 3 go 
+- 481
+* 529 2 13 Oh 
+* 533 6 11 no 
+- 541
+: 561 2 13 Not 
+: 565 6 11 me 
+- 573
+: 592 4 11 We 
+: 599 3 11 ne
+: 603 7 9 ver 
+: 614 6 9 lost 
+: 623 2 11 con
+: 627 7 8 trol 
+- 636
+: 654 2 13 You’re 
+: 658 7 11 face 
+- 667
+: 685 2 13 To 
+: 689 7 11 face 
+- 698
+: 717 2 11 With 
+: 720 2 11 the 
+: 724 5 11 man 
+: 731 2 9 who 
+: 736 6 9 sold 
+: 744 2 11 the 
+: 748 7 8 world 
+- 757
+: 972 4 8 I 
+: 980 5 6 laughed 
+: 988 5 4 and 
+: 996 3 3 shoo
+: 1000 3 1 ~k 
+: 1004 2 1 his 
+: 1009 8 3 hand 
+- 1019
+: 1047 5 6 Made 
+: 1053 2 6 my 
+: 1058 3 6 wa
+: 1062 2 9 ~y 
+: 1066 3 6 back 
+* 1070 3 6 ho
+* 1074 6 8 ~me 
+- 1082
+: 1103 4 8 I 
+: 1111 5 6 searched 
+: 1119 4 4 for 
+: 1127 3 3 fo
+: 1131 3 1 ~rm 
+: 1135 2 1 and 
+: 1139 9 3 land 
+- 1150
+: 1170 2 3 For 
+: 1174 7 6 years 
+: 1183 2 6 and 
+: 1187 6 9 years 
+: 1195 2 6 I 
+: 1199 3 6 roa
+: 1203 4 8 ~med 
+- 1209
+: 1231 4 8 I 
+: 1239 6 11 gazed 
+: 1247 3 11 a
+: 1251 2 9 ~ 
+: 1255 3 9 ga
+: 1259 3 8 ~ze
+: 1263 2 8 less 
+: 1267 8 6 stare 
+- 1277
+: 1296 3 6 We 
+: 1303 6 13 marked 
+: 1311 5 13 a 
+: 1319 3 11 mi
+: 1323 3 9 ~l
+: 1327 5 9 lion 
+* 1335 6 8 hills 
+- 1343
+: 1344 5 8 I 
+: 1351 5 8 must 
+: 1359 5 8 have 
+: 1367 6 9 died 
+: 1375 3 8 a
+: 1379 3 4 ~
+: 1383 7 4 lone 
+- 1392
+: 1408 3 6 A
+: 1412 2 8 ~ 
+: 1416 3 6 lo
+: 1420 3 4 ~ng, 
+: 1424 5 4 long 
+: 1432 7 4 time 
+: 1440 2 6 a
+: 1444 8 3 go 
+- 1454
+: 1503 2 13 Who 
+: 1507 7 11 knows? 
+- 1516
+: 1534 2 13 Not 
+: 1538 7 11 me 
+- 1547
+: 1566 4 11 I 
+: 1573 3 11 ne
+: 1577 7 9 ver 
+: 1589 5 9 lost 
+: 1597 2 11 con
+: 1601 8 8 trol 
+- 1611
+* 1628 2 13 You’re 
+* 1632 7 11 face 
+- 1641
+: 1660 2 13 To 
+: 1664 7 11 face 
+- 1673
+: 1691 2 11 With 
+: 1694 2 11 the 
+: 1698 6 11 man 
+: 1706 2 9 who 
+: 1710 6 9 sold 
+: 1718 2 11 the 
+: 1722 7 8 world 
+- 1731
+: 1848 2 13 Who 
+: 1852 7 11 knows? 
+- 1861
+: 1879 2 13 Not 
+: 1884 7 11 me 
+- 1893
+: 1911 4 11 We 
+: 1918 3 11 ne
+: 1922 7 9 ver 
+: 1933 5 9 lost 
+: 1942 2 11 con
+: 1946 7 8 trol 
+- 1955
+: 1972 2 13 You’re 
+: 1976 7 11 face 
+- 1985
+: 2003 2 13 To 
+: 2007 7 11 face 
+- 2016
+: 2034 2 11 With 
+: 2037 2 11 the 
+: 2041 6 11 man 
+: 2049 2 9 who 
+* 2053 6 9 sold 
+* 2061 2 11 the 
+* 2065 7 8 world 
+E

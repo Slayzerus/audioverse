@@ -19,10 +19,10 @@ export type LegProps = {
 
 function pal(c: string[]) {
     return {
-        base: pick(c, 0, "#3B82F6"),
-        accent: pick(c, 1, "#2563EB"),
-        stroke: pick(c, 2, "#111"),
-        skin: "#FFD2B3",
+        base: pick(c, 0, "var(--anim-leg-base, #3B82F6)"),
+        accent: pick(c, 1, "var(--anim-leg-accent, #2563EB)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
+        skin: pick(c, 3, "var(--anim-skin, #FFD2B3)"),
     };
 }
 
@@ -46,7 +46,7 @@ export const Leg: React.FC<LegProps> = ({
             {variant === "bare" ? shin(skin) : shin(base)}
             {variant === "shorts" && <rect x={-10 * s} y={-2} width={20 * s} height={14} rx={4} fill={accent} stroke={stroke} />}
             {variant === "skirt" && <path d={`M${-16 * s} 8 l${32 * s} 0 l${-6 * s} 18 l${-20 * s} 0 z`} fill={accent} stroke={stroke} />}
-            {variant === "boot" && <rect x={-10 * s} y={44} width={20 * s} height={12} rx={3} fill="#222" stroke={stroke} />}
+            {variant === "boot" && <rect x={-10 * s} y={44} width={20 * s} height={12} rx={3} fill={"var(--surface-dark, #222)"} stroke={stroke} />}
         </g>
     );
 };

@@ -1,0 +1,353 @@
+﻿✅ 1. Zmieniem nazwy i pola niektórym encjom — DONE
+   - Namespace FQN zaktualizowane: KaraokeSessionRoundPlayer, KaraokeTeamPlayer, KaraokeSongFile,
+     KaraokeSongFileQueueItem, CouchGame, EventInvite → poprawne sub-namespace'y
+   - party.EventPlayers → GetParticipantsByEventQuery (osobne CQRS)
+   - KaraokeSession.EventPermission → EventPermission (standalone enum)
+   - party.Event.Id → party.Id (Event IS the root entity)
+   - Testy zaktualizowane: db.KaraokeParties → db.Events, usings poprawione
+
+✅ 2. Dodałem kilka encji (BoardGame Session/Round/Part/Player, Collection) — DONE
+   - BoardGameSession, BoardGameSessionRound, BoardGameSessionRoundPart, BoardGameSessionRoundPartPlayer
+   - BoardGameCollection, BoardGameCollectionBoardGame
+   - Pełne CQRS (Commands + Queries + Handlers) + IGameRepository + GameRepositoryEF
+   - Endpointy w BoardGamesController: sessions, rounds, parts, players, collections
+
+✅ 3. Analogicznie CouchGame — DONE
+   - CouchGameSession, CouchGameSessionPlayer
+   - CouchGameCollection, CouchGameCollectionCouchGame
+   - Pełne CQRS + repo + endpointy w CouchGamesController
+
+✅ 4. FRONT.md zaktualizowany — DONE
+   - Breaking changes: Event → Event mapping
+   - Nowe endpointy: BoardGame Sessions/Collections, CouchGame Sessions/Collections
+   - Aktualne enumy, istniejące endpointy
+
+✅ 5. Event scalona z Event — DONE
+   - Event.cs usunięte, KaraokeParties nie istnieje
+   - GetEventByIdQuery, GetEventByEventIdQuery → wrapery na Event
+   - Kontrolery: PermissionsController, InvitesController, PermissionsReadableController poprawione
+   - JoinKaraokeEventCommand, UpdateKaraokeEventCommand, GetEventDtoQuery — stworzone
+   Migracjami się nie przejmuje, zrobi user sam po wszystkich zmianach
+
+✅ 6. CRUD-y sprawdzone — DONE
+   - Multi-type files rozdzielone (1 typ/plik): AudioSamplePack, AudioEffect, EventBilling, EventPoll, DmxScene
+   - BoardGameSessionBoardGameCollection (pusty stub) usunięty
+   - Duplikat CouchGameHandlers.cs usunięty (był zdublowany z EventSubHandlers)
+
+✅ 7. Testy dopisane — DONE (132 → 146 testów)
+   - GameSessionsIntegrationTests: BoardGame/CouchGame Session + Collection CRUD (4 testy)
+   - EventLocationIntegrationTests: Create + Get + 404 (2 testy)
+   - BoardGameSubHandlerTests: 6 unit testów
+   - CouchGameSubHandlerTests: 7 unit testów
+
+
+
+
+
+
+
+================================================================================
+  AudioVerse — TODO / Roadmapa rozwoju
+  Ostatnia aktualizacja: 2025-06-20
+================================================================================
+
+LEGENDA PRIORYTETÓW: [P0] krytyczne / blokujące · [P1] ważne · [P2] rozbudowa · [P3] nice-to-have
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  0. TECH-DEBT / NAPRAWY  (zrobić PRZED nowymi ficzerami)                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 0.1  Testy integracyjne naprawione (82/82 PASS)
+- Program.cs + WebApplicationFactory — DONE
+- URL-e testów zaktualizowane na event-centric — DONE
+- JsonElement zamiast dynamic w testach (System.Text.Json) — DONE
+- Duplikat participant check w AssignPlayerToEventAsync — DONE
+- Izolacja testów (UserProfilePlayers zamiast party.EventPlayers) — DONE
+
+✅ 0.2  Deduplikacja rejestracji repozytoriów w DI — DONE
+- IDapperKaraokeRepository (marker, Dapper read-heavy paths)
+- IEfKaraokeRepository (marker, EF change-tracking paths)
+- IKaraokeRepository → KaraokeRepositoryEF (default)
+- DI rejestruje oba jawnie, bez duplikacji.
+
+✅ 0.3  KaraokeTeam dokończone — DONE
+- KaraokeTeam: Id, Name, EventId, CreatedByPlayerId, AvatarKey, Color
+- KaraokeTeamPlayer: Id, PlayerId, TeamId, JoinedAt, Role
+- KaraokeSession.TeamMode, KaraokeEventRound.TeamMode
+- CQRS (commands/queries/handlers), EF + Dapper repo
+- Endpointy: POST/GET/PUT/DELETE /api/karaoke/teams, teams/{id}/players
+
+✅ 0.4  [Obsolete] EventId usunięte — DONE
+- KaraokeEventPlayer: dodano Id (standalone PK), EventId → int?
+- KaraokeSession: EventId → int?
+- DbContext: PK zmieniony z composite {EventId,PlayerId} na Id
+- Nowy unique index UQ_KPP_Event_Player na {EventId,PlayerId}
+- AssignPlayerToEventAsync: duplikat check przejechany na EventId
+- IdentityDbContext zaktualizowany
+
+✅ 0.5  AudioClip.Data → MinIO (ObjectKey) — DONE
+- AudioClip: byte[] Data zastąpione string? ObjectKey
+- AddAudioClipHandler: upload do MinIO (bucket "audio-clips")
+- DeleteAudioClipHandler: kasowanie obiektu z MinIO przy usuwaniu
+- Nowy endpoint: GET /api/editor/audioclip/{id}/stream
+- EditorController: IFileStorage wstrzyknięte
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  1. EVENT / IMPREZA  — rozbudowa modelu                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 1.1  EventScheduleItem — DONE
+Encja + enum ScheduleCategory + CRUD /api/events/{eventId}/schedule
+
+✅ 1.2  EventMenuItem — DONE
+Encja + enum MenuItemCategory + CRUD /api/events/{eventId}/menu
+
+✅ 1.3  EventAttraction — DONE
+Encja + enum AttractionType + CRUD /api/events/{eventId}/attractions
+
+  ✅ 1.4  BoardGame + EventBoardGame — DONE
+          Encje + enum GameStatus + CRUD /api/board-games + /api/events/{eventId}/board-games
+          + BGG XML API2 integracja: GET /api/board-games/bgg/search?query=
+            GET /api/board-games/bgg/{bggId}, POST /api/board-games/import-bgg/{bggId}
+          + Pola: BggId, BggImageUrl, BggRating, BggYearPublished
+
+  ✅ 1.5  CouchGame + EventCouchGame — DONE
+          Encje + enum GamePlatform + CRUD /api/couch-games + /api/events/{eventId}/couch-games
+          + Steam Store API integracja: GET /api/couch-games/steam/search?query=
+            GET /api/couch-games/steam/{steamAppId}, POST /api/couch-games/import-steam/{steamAppId}
+          + Pola: SteamAppId, SteamHeaderImageUrl
+
+  ✅ 1.6  EventType rozszerzony — DONE (Workshop=4, GameNight=5, Screening=6)
+
+  ✅ 1.10 System ankiet (EventPoll) — DONE
+          EventPoll + EventPollOption + EventPollResponse
+          PollType: SingleChoice, MultiChoice, YesNo
+          PollOptionSource: Manual, BoardGames, CouchGames, Songs, MenuItems, Attractions
+          Auto-populate opcji z źródła (POST .../polls/{id}/populate)
+          Koszty: UnitCost na opcji, Quantity na odpowiedzi, TotalCost w wynikach
+          Token-based voting (AllowAnonymous): GET/POST /api/polls/view|vote/{token}
+          Email wysyłka: POST .../polls/{id}/send
+          Konsolidacja: GET .../polls/{id}/results (% + koszty)
+          CRUD: /api/events/{eventId}/polls
+
+  ✅ 1.11 System rozliczeń (EventBilling) — DONE
+          EventExpense + EventExpenseShare + EventPayment
+          Enumy: ExpenseCategory, SplitMethod, PaymentMethod, PaymentStatus
+          CRUD: /api/events/{eventId}/billing/expenses + /billing/payments
+          Split-equally: POST .../expenses/{id}/split-equally
+          Import z ankiet: POST .../billing/import-from-poll/{pollId}
+          Potwierdzanie wpłat: POST .../payments/{id}/confirm
+          Konsolidacja: GET .../billing/settlement
+            → TotalExpenses, TotalPayments, Balance per participant
+            → IsSettled flag, lista shares + payments per osoba
+          EventAttraction.Price — nowe pole
+✅ 1.7  Limity uczestników — DONE
+        Event.MaxParticipants, Event.WaitingListEnabled
+        AssignPlayerToEventAsync: capacity check → WaitingList auto-status
+
+✅ 1.8  Rola Bramkarz (Bouncer) — DONE
+        EventPermission.Bouncer = 16
+        Endpointy: GET .../bouncer/waiting, POST .../bouncer/validate|admit|reject/{playerId}
+        Flow: Waiting → Validation → Inside / Outside
+
+✅ 1.9  Typy dostępu do imprezy — DONE
+        KaraokeEventAccess.Link, KaraokeEvent.AccessToken
+        POST .../generate-link, GET /api/events/join/{token}
+        POST .../validate-code (hash check via HashHelper.Sha256)
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  2. KARAOKE — rozbudowa                                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 2.1  KaraokeTeam — DONE (zrealizowane w 0.3)
+
+✅ 2.2  KaraokeSongQueue — DONE
+Encja KaraokeSongQueueItem + enum SongQueueStatus
+CQRS + EF/Dapper repo + endpointy na KaraokeController
+GET/POST /api/karaoke/events/{eventId}/queue
+PATCH /api/karaoke/queue/{id}/status, DELETE /api/karaoke/queue/{id}
+
+✅ 2.3  FavoriteSong — DONE
+        Encja FavoriteSong + UQ index (PlayerId,SongId)
+        CQRS + EF/Dapper repo
+        GET/POST/DELETE /api/karaoke/players/{playerId}/favorites/{songId}
+        POST .../favorites/{songId}/queue/{eventId} (quick-add to queue)
+
+✅ 2.4  Zaawansowane wyszukiwanie piosenek — DONE
+        FilterSongsAdvancedAsync: search (title+artist), genre, language,
+        bpmMin/bpmMax, yearMin/yearMax, format, sortBy, desc
+        GET /api/karaoke/search-songs?q=&bpmMin=&sortBy=bpm&desc=true
+
+✅ 2.5  Import piosenek z zewnętrznych źródeł — DONE
+ISongMetadataClient + SongMetadataClient (YouTube oEmbed via noembed.com)
+KaraokeSongFile: ExternalSource, ExternalId, ExternalCoverUrl
+GET /api/karaoke/songs/youtube/search?query=
+GET /api/karaoke/songs/youtube/{videoId}
+POST /api/karaoke/songs/import-youtube/{videoId}
+Spotify: placeholder (wymaga OAuth client_credentials)
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  3. EDYTOR MUZYCZNY (AudioProject) — rozbudowa                            ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 3.1  AudioClip.Data → MinIO — DONE (zrealizowane w 0.5)
+
+✅ 3.2  AudioProjectCollaborator — DONE
+        Encja + enum CollaboratorPermission (View/Edit/Admin)
+        CRUD: /api/editor/project/{projectId}/collaborators
+
+✅ 3.3  Eksport projektu (mixdown) — DONE
+        AudioExportTask encja + enum ExportStatus
+        POST /api/editor/project/{id}/export → taskId
+        GET /api/editor/export/{taskId}/status
+        Background task z placeholder (TODO: ffmpeg/NAudio render)
+
+✅ 3.4  Efekty audio — DONE
+        AudioEffect + AudioLayerEffect encje
+        enum AudioEffectType: Reverb, Delay, EQ, Compressor, PitchShift, Filter, Distortion, Chorus
+        CRUD: /api/editor/effects + /api/editor/layers/{layerId}/effects
+
+✅ 3.5  Biblioteka sampli / pętle — DONE
+AudioSamplePack + AudioSample encje
+Filtrowanie: genre, instrument
+CRUD: /api/editor/sample-packs, /api/editor/sample-packs/{id}/samples
+DELETE /api/editor/samples/{id}
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  4. MODERACJA I BEZPIECZEŃSTWO                                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+  ✅ ZROBIONE: AbuseReport (zgłoszenia nadużyć) + ModerationController
+  ✅ ZROBIONE: HoneyToken, Captcha, reCAPTCHA, rate limiter, audit log
+
+✅ 4.1  Auto-filtrowanie wulgaryzmów — DONE
+IProfanityFilter + ProfanityFilter (słownik PL/EN)
+ProfanityMiddleware: skanuje JSON body (name/title/nickname/description)
+Blokuje POST/PUT z wulgarną treścią → 400
+
+✅ 4.2  UserBan — DONE
+Encja UserBan + middleware UserBanMiddleware
+Endpointy admin: POST users/{id}/ban, DELETE bans/{id}, GET users/{id}/bans
+
+✅ 4.3  Dwuskładnikowe uwierzytelnienie (2FA / TOTP) — DONE
+ITotpService + TotpService (Otp.NET / HMAC-SHA1)
+UserProfile: TotpEnabled, TotpSecret
+POST /api/user/totp/enable → secret + provisioning URI
+POST /api/user/totp/confirm (weryfikacja pierwszego kodu)
+POST /api/user/totp/verify (login flow, AllowAnonymous)
+POST /api/user/totp/disable
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  5. PANEL ADMINA                                                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+  ✅ ZROBIONE: AdminController (CRUD users, system config, audit, scoring)
+  ✅ ZROBIONE: ModerationAdminController (raporty nadużyć)
+
+✅ 5.1  Dashboard admina — DONE
+        GET /api/admin/dashboard
+        TotalUsers, ActiveEvents, TotalSongs, TotalParties,
+        TotalAbuseReports, PendingAbuseReports, ActiveBans,
+        TopSongs (top 10 by round count), RecentEvents (10)
+
+✅ 5.2  Zarządzanie eventami (admin) — DONE
+        GET /api/admin/events?page=&pageSize=&type=
+
+✅ 5.3  Logi real-time (SignalR) — DONE
+AdminHub.BroadcastLogEntry(level, message, source)
+IAuditLogBroadcaster → SignalRAuditLogBroadcaster
+AuditLogService auto-broadcasts nowe logi do AdminHub ("LogEntry" event)
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  6. DMX / OŚWIETLENIE                                                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+  ✅ ZROBIONE: DmxController, DmxWorker, DmxState, FTDI port, device info
+
+✅ 6.1  Scenariusze oświetleniowe (DmxScene) — DONE
+DmxScene + DmxSceneSequence + DmxSceneStep encje
+CRUD: /api/dmx/scenes, /api/dmx/sequences
+POST .../scenes/{id}/apply (natychmiastowe ustawienie kanałów)
+POST .../sequences/{id}/run (loop z hold/fade)
+
+✅ 6.2  Beat-reactive DMX — DONE
+POST /api/dmx/beat-reactive/start (BPM → strobe na scenie, N beatów)
+POST /api/dmx/beat-reactive/tap (pojedynczy flash z frontu, auto-off 100ms)
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  7. TESTY I JAKOŚĆ KODU                                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 7.1  Testy integracyjne naprawione (82/82 PASS) — patrz: 0.1
+
+✅ 7.2  Testy integracyjne nowych endpointów — DONE (104/104 PASS)
+EventSubResourcesIntegrationTests: Schedule, Menu, Attractions, BoardGames, CouchGames
+TeamsAndQueueIntegrationTests: Teams CRUD, Queue, Favorites, SearchSongs
+PollsIntegrationTests, BillingIntegrationTests
+EditorAndDmxIntegrationTests: Effects, Collaborators, Export, Scenes, Sequences, Health
+BouncerAndAccessIntegrationTests: AccessLink, Bouncer, AdminDashboard, AdminEvents
+
+✅ 7.3  Testy wydajnościowe (benchmark) — DONE
+AudioVerse.Benchmarks: BenchmarkDotNet (SongFilterBenchmarks, RankingBenchmarks)
+FilterByTitle, FilterByGenreAndLanguage, FilterByBpmRange, FullTextSearch,
+SortByBpmDescending, CombinedFilterAndSort, ComputeAvgRanking, ComputeTotalRanking
+Params: 100/1000/10000 songs, MemoryDiagnoser
+
+✅ 7.4  Testy bezpieczeństwa — DONE
+SecurityIntegrationTests (128/128 PASS):
+─ Auth negatywne: 401/403 bez tokena, z tokenem non-admin, expired token
+─ SQL injection smoke: parameterized queries nie crashują
+─ Fuzz JSON input: null, empty, malformed, XSS payloads → nie 500
+─ Profanity filter: blokuje wulgaryzmy → 400
+─ Path traversal: nie ujawnia plików systemowych
+
+✅ 7.5  Test coverage report (Coverlet) — DONE
+coverlet.collector + coverlet.msbuild w AudioVerse.Tests
+azure-pipelines.yml: /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+PublishCodeCoverageResults w Azure DevOps
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  8. INFRASTRUKTURA / DEVOPS                                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+✅ 8.1  Health check endpoint — DONE
+/health — AddDbContextCheck<AudioVerseDbContext>
+✅ 8.2  CI/CD pipeline (Azure DevOps) — DONE
+azure-pipelines.yml: Build → Test (coverage) → Publish → Docker push
+Trigger: main + develop, .NET 10 SDK, Coverlet cobertura
+Docker stage: build & push do DockerHub (main only)
+✅ 8.3  Docker Compose installer — DONE
+install-docker.ps1: interaktywny instalator PowerShell
+Generuje .env + docker-compose.yml (API, Postgres, Redis, MinIO, MailHog)
+Auto-detect Docker, opcja instalacji, docker compose up -d
+✅ 8.4  OpenTelemetry tracing — DONE
+OpenTelemetry.Extensions.Hosting + Instrumentation.AspNetCore + Http
+AddOpenTelemetry().WithTracing(): ASP.NET Core + HttpClient
+ConsoleExporter w Development, gotowe pod OTLP (Jaeger/Zipkin)
+
+================================================================================
+  PODSUMOWANIE CO JUŻ JEST ZROBIONE (nie powtarzać w TODO)
+================================================================================
+
+  ✅ Wersjonowanie KaraokeSongFile (KaraokeSongFileHistory + revert)
+  ✅ Endpointy kolaborantów (add/remove/update collaborator, permissions)
+  ✅ Moderacja treści (AbuseReport + ModerationController/AdminController)
+  ✅ Panel admina (users CRUD, system config, audit logs, scoring presets)
+  ✅ Imprezy: Public/Private/Invite/Code access (enum KaraokeEventAccess)
+  ✅ Wyszukiwanie piosenek (FilterSongs po title/artist/genre/language/year)
+  ✅ Event-centric API (Event → KaraokeEvent, participants, invites, sessions)
+  ✅ Permissions system (grant/revoke per participant, bulk, history)
+  ✅ SignalR: KaraokeHub (lobby, chat, WebRTC, scores), AdminHub, ModerationHub
+  ✅ MinIO/S3 storage (upload, presigned URLs, poster management)
+  ✅ DMX/FTDI oświetlenie (port, channels, blackout, universe)
+  ✅ Edytor muzyczny (projekty, sekcje, warstwy, itemy, klipy, presety)
+  ✅ Bezpieczeństwo (JWT, reCAPTCHA, HoneyToken, Captcha, rate limiter)
+  ✅ Email SMTP (MailHog dev, konfigurowalny)
+  ✅ Identity (register, login, refresh, OTP, password policy, guest login)
+  ✅ TOTP 2FA (Google Authenticator), profanity filter, user bans
+  ✅ Import piosenek YouTube (oEmbed metadata)
+  ✅ AudioSamplePack, AudioEffect, AudioProjectCollaborator, AudioExportTask
+  ✅ DmxScene/Sequence + beat-reactive DMX
+  ✅ OpenTelemetry tracing, Docker Compose installer
+  ✅ 104 testy integracyjne (Schedule, Menu, Attractions, BoardGames, CouchGames,
+    Teams, Queue, Favorites, Polls, Billing, Editor, DMX, Bouncer, Admin)

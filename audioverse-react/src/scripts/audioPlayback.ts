@@ -14,7 +14,6 @@ export interface AudioLayer {
 export class AudioPlayback {
     private audioContext: AudioContext | null = null;
     private animationRef: number | null = null;
-    private isPlaying: boolean = false;
     private isLooping: boolean = false;
     private isRecording: boolean = false;
     private currentTime: number = 0;
@@ -28,14 +27,12 @@ export class AudioPlayback {
     public playAudio(): void {
         if (!this.audioContext || this.layers.length === 0) return;
 
-        this.isPlaying = true;
         this.isRecording = false;
         this.audioContext.resume();
         this.startTimeline();
     }
 
     public stopAudio(): void {
-        this.isPlaying = false;
         this.isRecording = false;
         this.currentTime = 0;
         if (this.animationRef) cancelAnimationFrame(this.animationRef);

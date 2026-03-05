@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { GenericPlaylistItem } from "./GenericPlaylistItem";
 import type { SongDescriptorDto } from "../../../models/modelsPlaylists";
 
@@ -14,6 +15,7 @@ export interface GenericPlaylistProps {
 
     addButtonLabel?: string;
     emptyState?: React.ReactNode;
+    emptyStateKey?: string;
     readOnly?: boolean;
 
     autoFocusNewItem?: boolean;
@@ -37,11 +39,7 @@ const toRows = (arr: SongDescriptorDto[] | undefined): PlaylistRow[] =>
 const stripIds = (rows: PlaylistRow[]): SongDescriptorDto[] =>
     rows.map(({ id: _id, ...rest }) => rest);
 
-const defaultEmptyState = (
-    <div style={{ padding: "0.75rem", color: "#777", fontStyle: "italic" }}>
-        Brak utworów. Dodaj pierwszy poniżej.
-    </div>
-);
+const defaultEmptyState = null;
 
 /// <summary>
 /// Parses a single line into SongDescriptorDto:
@@ -75,12 +73,13 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
                                                                     onChange,
                                                                     allowVersion = true,
                                                                     maxItems,
-                                                                    addButtonLabel = "Dodaj utwór",
+                                                                    addButtonLabel,
                                                                     emptyState = defaultEmptyState,
                                                                     readOnly = false,
                                                                     autoFocusNewItem = true, // reserved for future autofocus logic
                                                                     enableBulkPaste = true,
                                                                 }) => {
+    const { t } = useTranslation();
     const isControlled = value !== undefined;
     const [rows, setRows] = useState<PlaylistRow[]>(() => (value ? toRows(value) : toRows(defaultValue)));
     const [bulkText, setBulkText] = useState<string>("");
@@ -92,6 +91,7 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
     // controlled sync
     useEffect(() => {
         if (isControlled) setRows(toRows(value));
+        // JSON.stringify provides deep comparison for the controlled value
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isControlled, JSON.stringify(value)]);
 
@@ -209,10 +209,17 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
 
     useEffect(() => { /* reserved for autofocus */ }, [rows.length, autoFocusNewItem]);
 
+    const resolvedEmptyState = emptyState ?? (
+        <div style={{ padding: "0.75rem", color: "#777", fontStyle: "italic" }}>
+            {t('genericPlaylist.emptyState', 'No songs. Add the first one below.')}
+        </div>
+    );
+    const resolvedAddLabel = addButtonLabel ?? t('genericPlaylist.addSong', 'Add song');
+
     return (
         <div className="gp-container" style={{ border: "1px solid #e5e7eb", borderRadius: 8, padding: 12 }}>
             <div className="gp-header" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                <h3 style={{ margin: 0, fontSize: 16 }}>Playlist</h3>
+                <h3 style={{ margin: 0, fontSize: 16 }}>{t('genericPlaylist.playlist', 'Playlist')}</h3>
                 <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
                     <button
                         type="button"
@@ -220,15 +227,15 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
                         disabled={!canAddMore || readOnly}
                         className="gp-add"
                         style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #d1d5db", background: "#f9fafb" }}
-                        aria-label="Dodaj utwór"
+                        aria-label={resolvedAddLabel}
                     >
-                        + {addButtonLabel}
+                        + {resolvedAddLabel}
                     </button>
                 </div>
             </div>
 
             {rows.length === 0 ? (
-                <div className="gp-empty">{emptyState}</div>
+                <div className="gp-empty">{resolvedEmptyState}</div>
             ) : (
                 <ol className="gp-list" style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 8 }}>
                     {rows.map((row, idx) => {
@@ -249,22 +256,31 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
                                 }}
                             >
                                 <GenericPlaylistItem
-                                    id={row.id}
-                                    index={idx}
-                                    lp={idx + 1}
-                                    onChangeLp={(n: number) => changeLp(row.id, n)}
-                                    artist={row.artist}
-                                    title={row.title}
-                                    version={allowVersion ? (row.version ?? undefined) : undefined}
-                                    allowVersion={allowVersion}
-                                    onChange={(patch) => updateRow(row.id, patch)}
-                                    onRemove={() => removeRow(row.id)}
-                                    onMoveUp={() => moveRowBy(row.id, -1)}
-                                    onMoveDown={() => moveRowBy(row.id, 1)}
-                                    canMoveUp={idx > 0}
-                                    canMoveDown={idx < rows.length - 1}
-                                    readOnly={readOnly}
-                                    dragHandleProps={{ onDragStart: onDragStart(row.id) }}
+                                    data={{
+                                        id: row.id,
+                                        index: idx,
+                                        lp: idx + 1,
+                                        artist: row.artist,
+                                        title: row.title,
+                                        version: allowVersion ? (row.version ?? undefined) : undefined,
+                                        sourcesAvailable: undefined,
+                                    }}
+                                    display={{
+                                        allowVersion,
+                                        dragHandleProps: { onDragStart: onDragStart(row.id) },
+                                    }}
+                                    callbacks={{
+                                        onChange: (patch) => updateRow(row.id, patch),
+                                        onRemove: () => removeRow(row.id),
+                                        onMoveUp: () => moveRowBy(row.id, -1),
+                                        onMoveDown: () => moveRowBy(row.id, 1),
+                                        onChangeLp: (n: number) => changeLp(row.id, n),
+                                    }}
+                                    state={{
+                                        readOnly,
+                                        canMoveUp: idx > 0,
+                                        canMoveDown: idx < rows.length - 1,
+                                    }}
                                 />
                             </li>
                         );
@@ -275,18 +291,18 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
             {enableBulkPaste && !readOnly && (
                 <div style={{ marginTop: 12 }}>
                     <details>
-                        <summary style={{ cursor: "pointer", color: "#374151" }}>Wklej wiele pozycji naraz</summary>
+                        <summary style={{ cursor: "pointer", color: "#374151" }}>{t('genericPlaylist.bulkPasteSummary', 'Paste multiple items at once')}</summary>
                         <div style={{ marginTop: 6 }}>
               <textarea
                   value={bulkText}
                   onChange={(e) => setBulkText(e.target.value)}
-                  placeholder={`Wklej linie w formacie:\nArtist - Title (Version)\nArtist – Title [Remastered 2011]\nLUB: Artist;Title;Version`}
+                  placeholder={t('genericPlaylist.bulkPastePlaceholder', 'Paste lines in format:\nArtist - Title (Version)\nArtist – Title [Remastered 2011]\nOR: Artist;Title;Version')}
                   rows={3}
                   style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: 6, padding: 8, fontFamily: "inherit" }}
               />
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 }}>
                                 <div style={{ color: "#6b7280", fontSize: 12 }}>
-                                    Każda linia zostanie dodana jako osobny utwór.
+                                    {t('genericPlaylist.bulkPasteHint', 'Each line will be added as a separate song.')}
                                 </div>
                                 <button
                                     type="button"
@@ -294,7 +310,7 @@ export const GenericPlaylist: React.FC<GenericPlaylistProps> = ({
                                     disabled={!bulkText.trim()}
                                     style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #d1d5db", background: "#f9fafb" }}
                                 >
-                                    Dodaj z listy
+                                    {t('genericPlaylist.addFromList', 'Add from list')}
                                 </button>
                             </div>
                         </div>

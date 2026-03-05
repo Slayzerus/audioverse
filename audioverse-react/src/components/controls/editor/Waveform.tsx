@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { logger } from "../../../utils/logger";
+const log = logger.scoped('Waveform');
 
 interface WaveformProps {
     audioBlob: Blob | null;
@@ -11,7 +13,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioBlob, currentTime, duration })
 
     useEffect(() => {
         if (!audioBlob || !canvasRef.current || !duration || duration === Infinity) {
-            console.warn("⚠️ Nie można narysować wykresu – niepoprawny czas trwania:", duration);
+            log.warn("Nie można narysować wykresu – niepoprawny czas trwania:", duration);
             return;
         }
 
@@ -39,7 +41,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioBlob, currentTime, duration })
                 waveform[i] = slice.reduce((a, b) => Math.abs(a) + Math.abs(b), 0) / slice.length;
             }
 
-            // Rysowanie wykresu fali dźwiękowej
+            // Drawing the sound wave chart
             ctx.beginPath();
             ctx.strokeStyle = "#007bff";
             ctx.lineWidth = 2;
@@ -55,10 +57,9 @@ const Waveform: React.FC<WaveformProps> = ({ audioBlob, currentTime, duration })
             }
             ctx.stroke();
 
-            // Rysowanie linii postępu (czerwonej)
+            // Drawing the progress line (red)
             if (duration > 0) {
                 const progressX = Math.max(0, Math.min((currentTime / duration) * canvas.width, canvas.width));
-                console.log("🎚 Rysowanie linii postępu, X:", progressX, "duration:", duration, "currentTime:", currentTime);
 
                 ctx.beginPath();
                 ctx.strokeStyle = "red";
@@ -72,7 +73,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioBlob, currentTime, duration })
         drawWaveform();
     }, [audioBlob, currentTime, duration]);
 
-    return <canvas ref={canvasRef} width={600} height={200} style={{ border: "1px solid black" }} />;
+    return <canvas ref={canvasRef} width={600} height={200} style={{ border: "1px solid black" }}  role="img" aria-label="Waveform canvas"/>;
 };
 
 export default Waveform;

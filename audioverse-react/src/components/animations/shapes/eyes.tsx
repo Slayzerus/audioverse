@@ -19,10 +19,10 @@ export type EyesProps = {
 
 function pal(c: string[]) {
     return {
-        sclera: pick(c, 0, "#FFFFFF"),
-        iris: pick(c, 1, "#2563EB"),
-        pupil: pick(c, 2, "#111"),
-        highlight: "#FFF",
+        sclera: pick(c, 0, "var(--white, #FFFFFF)"),
+        iris: pick(c, 1, "var(--anim-eye-iris, #2563EB)"),
+        pupil: pick(c, 2, "var(--anim-stroke, #111)"),
+        highlight: pick(c, 3, "var(--white, #FFF)"),
     };
 }
 
@@ -62,13 +62,13 @@ export const EyesAnime: React.FC<EyesProps> = ({ colors, spread = 18, y = -6, sc
                 <ellipse cx={0} cy={0} rx={8} ry={10} fill={c.sclera} />
                 <ellipse cx={-1} cy={-1} rx={5} ry={6.5} fill={c.iris} />
                 <ellipse cx={-1} cy={-1} rx={2.6} ry={3.2} fill={c.pupil} />
-                <circle cx={-3} cy={-4} r={2} fill="#fff" />
+                <circle cx={-3} cy={-4} r={2} fill={c.highlight} />
             </g>
             <g transform={`translate(${spread} ${y})`}>
                 <ellipse cx={0} cy={0} rx={8} ry={10} fill={c.sclera} />
                 <ellipse cx={1} cy={-1} rx={5} ry={6.5} fill={c.iris} />
                 <ellipse cx={1} cy={-1} rx={2.6} ry={3.2} fill={c.pupil} />
-                <circle cx={3} cy={-4} r={2} fill="#fff" />
+                <circle cx={3} cy={-4} r={2} fill={c.highlight} />
             </g>
             {eyebrows && (<>
                 <path d={`M${-spread - 10} ${y - 10} q10 -8 20 0`} />

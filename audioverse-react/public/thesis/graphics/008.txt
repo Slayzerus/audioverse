@@ -1,0 +1,17 @@
+Rysunek 4.5 — Swagger UI endpointu modułu laboratoryjnego
+
+CO PRZEDSTAWIA:
+Widok Swagger UI z listą wszystkich 9 endpointów modułu laboratoryjnego
+(/api/karaoke/lab): GET /health, POST /pitch/crepe, POST /pitch/pyin,
+POST /pitch/compare, POST /pitch/separation-effect, POST /score/dtw,
+POST /batch/pitch, POST /benchmark/latency, POST /report/pdf.
+Widoczne opisy, metody HTTP i możliwość testowania.
+
+JAK ZDOBYĆ:
+1. Uruchom system: docker compose up -d
+2. Otwórz Swagger UI: http://localhost:5000/swagger
+3. Przewiń do sekcji "Laboratory" (LaboratoryController)
+4. Rozwiń wszystkie endpointy, żeby widać było pełną listę
+5. Zrób screenshot całej sekcji (może wymagać scrollowania —
+   użyj narzędzia "full page screenshot" w Chrome DevTools:
+   Ctrl+Shift+I → Ctrl+Shift+P → "Capture full size screenshot")

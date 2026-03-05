@@ -1,15 +1,122 @@
+@import "./components/common/GamepadFocusStyle.css";
 
 #root{
   width: 100%;
 }
+
+/* Theme CSS variables are now applied dynamically by ThemeContext via inline style on :root.
+   The static definitions below serve as fallback defaults only. */
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #242424;
+  --bg-elevated: #2a2a2a;
+  --text-primary: rgba(255,255,255,0.95);
+  --text-secondary: rgba(255,255,255,0.75);
+  --text-tertiary: rgba(255,255,255,0.55);
+  --text-disabled: rgba(255,255,255,0.35);
+  --border-primary: rgba(255,255,255,0.15);
+  --border-secondary: rgba(255,255,255,0.08);
+  --accent-primary: #4caf50;
+  --accent-secondary: #66bb6a;
+  --accent-hover: #388e3c;
+  --link-color: #646cff;
+  --link-hover: #535bf2;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.5);
+  --nav-bg: #0a0a0a;
+  --nav-text: rgba(255,255,255,0.9);
+  --nav-active: goldenrod;
+  --nav-hover: gold;
+  --dropdown-bg: #1a1a1a;
+  --dropdown-text: #ffffff;
+  --dropdown-hover-bg: rgba(255,255,255,0.08);
+  --input-bg: #1a1a1a;
+  --input-text: #ffffff;
+  --input-border: rgba(255,255,255,0.2);
+  --input-focus-border: #4caf50;
+  --card-bg: #1a1a1a;
+  --card-border: rgba(255,255,255,0.12);
+  --btn-bg: #1a1a1a;
+  --btn-text: #ffffff;
+  --btn-border: rgba(255,255,255,0.2);
+  --btn-hover-bg: #2a2a2a;
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #444;
+
+  /* ── UI accent blue (tabs, badges, active states) ── */
+  --accent-blue: #5566cc;
+  --accent-blue-dark: #4455aa;
+
+  /* ── Surfaces ── */
+  --bg-modal: #1e1e2e;
+
+  /* ── Text ── */
+  --text-muted: #777;
+
+  /* ── Special ── */
+  --star-color: #ffcc00;
+  --overlay-bg-start: #1e293b;
+  --overlay-bg-end: #0f172a;
+
+  /* ── Gray palette ── */
+  --color-white: #fff;
+  --color-black: #000;
+  --gray-100: #eee;
+  --gray-200: #ddd;
+  --gray-300: #ccc;
+  --gray-400: #bbb;
+  --gray-500: #aaa;
+  --gray-550: #999;
+  --gray-600: #888;
+  --gray-700: #666;
+  --gray-750: #555;
+  --gray-800: #444;
+  --gray-850: #333;
+  --gray-900: #222;
+  --gray-950: #111;
+
+  /* ── Game palette ── */
+  --game-gold: #f1c40f;
+  --game-gold-bright: #ffd700;
+  --game-blue: #3498db;
+  --game-blue-dark: #2980b9;
+  --game-emerald: #2ecc71;
+  --game-green-dark: #27ae60;
+  --game-red: #e74c3c;
+  --game-purple: #8e44ad;
+  --game-orange: #e67e22;
+  --game-orange-bright: #ffa500;
+
+  /* ── Editor palette (shared by Model, Pixel, Vector editors) ── */
+  --editor-bg-deep: #1a1a2e;
+  --editor-bg-deeper: #16162a;
+  --editor-bg-deepest: #111122;
+  --editor-bg-dark: #2a2a4a;
+  --editor-bg-mid: #3a3a6a;
+  --editor-panel: #1e1e38;
+  --editor-surface: #2a2a5a;
+  --editor-accent: #5566cc;
+  --editor-text-secondary: #6666a8;
+  --editor-text-muted: #8888a8;
+  --editor-text-light: #a0a0b8;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Reduce default font size by ~2px (from 16px -> 14px) per request */
+  font-size: 14px;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,11 +126,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--link-color);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--link-hover);
 }
 
 body {
@@ -31,8 +138,89 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: black;
-  color:white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.song-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.song-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.song-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  padding: 18px 24px;
+  border-radius: 10px;
+  gap: 8px;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.card{
+  padding: 10px;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border-color: var(--card-border);
+}
+
+.card-body{
+  padding: 0px;
+}
+.song-card:hover{
+  background-color: var(--btn-hover-bg);
+  color: var(--text-primary);
+}
+
+.song-card__title {
+  font-weight: 700;
+}
+
+.song-card__year {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.song-card__loading {
+  font-size: 16px;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 900px) {
+  .song-card {
+    font-size: 20px;
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .song-controls-bar label {
+    font-size: 14px;
+  }
+
+  .song-card {
+    font-size: 18px;
+    padding: 14px 18px;
+  }
+
+  .song-card__year,
+  .song-card__loading {
+    font-size: 14px;
+  }
 }
 
 h1 {
@@ -42,61 +230,62 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--btn-border);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent-primary);
+  background-color: var(--btn-hover-bg);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px solid var(--focus-color, #4caf50);
+  outline-offset: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Hide focus outline on <main> when clicked (mouse) — keep it for keyboard (skip-nav) */
+#main-content:focus:not(:focus-visible) {
+  outline: none;
 }
+#main-content:focus-visible {
+  outline: 2px solid var(--focus-color, #4caf50);
+  outline-offset: -2px;
+}
+
+/* @media (prefers-color-scheme) removed — theme is controlled by ThemeContext */
 
 
 .nav-link{
   padding: 4px 5px;
   height: 30px;
-  color:white;
+  color: var(--nav-text);
 }
 
 .nav-link:hover{
-  color:bisque;
+  color: var(--nav-hover);
 }
 
 .active-nav{
-  color:darkgoldenrod;
+  color: var(--nav-active);
 }
 
 .nav-drop{
-  color:white !important;
+  color: var(--dropdown-text) !important;
 }
 
 .nav-drop:hover{
-  color:white !important;
+  color: var(--nav-hover) !important;
 }
 
 nav .navbar-nav.mr-auto.mt-2 .nav-item .nav-link{
-  color: white !important;
+  color: var(--nav-text) !important;
 }
 
 /*
@@ -127,17 +316,19 @@ nav .navbar-nav.mr-auto.mt-2 .nav-item .nav-link{
 .control-button {
   width: 50px;
   height: 50px;
-  background-color: #eee;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
   font-size: 24px;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s ease;
 }
 
 .control-button:hover {
-  background-color: #ddd;
+  background-color: var(--bg-elevated);
 }
 
 .recording {
@@ -245,3 +436,88 @@ nav .navbar-nav.mr-auto.mt-2 .nav-item .nav-link{
   border: 1px solid black;
 }
 */
+
+/* ===== Wiki content styles ===== */
+.wiki-content {
+  line-height: 1.7;
+}
+.wiki-content h1,
+.wiki-content h2,
+.wiki-content h3,
+.wiki-content h4,
+.wiki-content h5,
+.wiki-content h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+.wiki-content h1 { font-size: 1.75rem; border-bottom: 1px solid var(--border-secondary, rgba(255,255,255,.08)); padding-bottom: .3em; }
+.wiki-content h2 { font-size: 1.4rem;  border-bottom: 1px solid var(--border-secondary, rgba(255,255,255,.08)); padding-bottom: .25em; }
+.wiki-content h3 { font-size: 1.15rem; }
+
+.wiki-content p { margin-bottom: .8em; }
+
+.wiki-content ul,
+.wiki-content ol {
+  padding-left: 1.8em;
+  margin-bottom: .8em;
+}
+.wiki-content li { margin-bottom: .25em; }
+
+.wiki-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+.wiki-content th,
+.wiki-content td {
+  border: 1px solid var(--border-primary, rgba(255,255,255,.15));
+  padding: .45em .75em;
+  text-align: left;
+}
+.wiki-content th {
+  background: var(--bg-elevated, #2a2a2a);
+  font-weight: 600;
+}
+.wiki-content tr:nth-child(even) {
+  background: var(--bg-secondary, #1a1a1a);
+}
+
+.wiki-content code {
+  background: var(--bg-elevated, #2a2a2a);
+  padding: .15em .35em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.wiki-content pre {
+  background: var(--bg-secondary, #1a1a1a);
+  border: 1px solid var(--border-secondary, rgba(255,255,255,.08));
+  border-radius: 6px;
+  padding: 1em;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+.wiki-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.wiki-content blockquote {
+  border-left: 4px solid var(--accent-primary, #4caf50);
+  padding: .5em 1em;
+  margin: .8em 0;
+  background: var(--bg-secondary, #1a1a1a);
+  border-radius: 0 6px 6px 0;
+}
+.wiki-content blockquote p:last-child { margin-bottom: 0; }
+
+.wiki-content img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.wiki-content hr {
+  border: none;
+  border-top: 1px solid var(--border-secondary, rgba(255,255,255,.08));
+  margin: 1.5em 0;
+}

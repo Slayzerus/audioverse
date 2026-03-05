@@ -1,0 +1,116 @@
+<mxfile host="app.diagrams.net" modified="2026-02-26" type="device">
+  <diagram id="karaoke-flow" name="Karaoke Data Flow">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;Karaoke Data Flow&lt;/b&gt;" style="text;html=1;fontSize=22;align=center;" vertex="1" parent="1">
+          <mxGeometry x="500" y="10" width="400" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ USER INPUT ═══ -->
+        <mxCell id="input-group" value="&lt;b&gt;User Input&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="280" height="140" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mic" value="🎤 &lt;b&gt;Microphone&lt;/b&gt;&lt;br&gt;getUserMedia()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4fd;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="110" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lyrics" value="📜 &lt;b&gt;Lyrics&lt;/b&gt;&lt;br&gt;UltraStar format" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f4fd;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="190" y="110" width="120" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ KARAOKE MANAGER ═══ -->
+        <mxCell id="manager" value="&lt;b&gt;useKaraokeManager&lt;/b&gt;&lt;br&gt;(863 lines)&lt;br&gt;Central orchestrator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="400" y="80" width="200" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-hooks -->
+        <mxCell id="pitch-hook" value="&lt;b&gt;useKaraokePitch&lt;/b&gt;&lt;br&gt;AudioPitchAnalyzer&lt;br&gt;ACF + YIN algorithm" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="160" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="scoring-hook" value="&lt;b&gt;useKaraokeScoring&lt;/b&gt;&lt;br&gt;scoreSinging()&lt;br&gt;pitch + timing + bonus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="540" y="200" width="160" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="transcription" value="&lt;b&gt;useKaraokeTranscription&lt;/b&gt;&lt;br&gt;Real-time text overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="720" y="200" width="170" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ TIMELINE ═══ -->
+        <mxCell id="timeline" value="&lt;b&gt;karaokeTimeline&lt;/b&gt;&lt;br&gt;Canvas rendering engine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="400" y="310" width="200" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tl-notes" value="Notes renderer&lt;br&gt;karaokeTimelineNotes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="300" y="400" width="150" height="45" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tl-ball" value="Bouncing ball&lt;br&gt;karaokeTimelineBall" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="470" y="400" width="150" height="45" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tl-ui" value="UI overlays&lt;br&gt;karaokeTimelineUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="640" y="400" width="150" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ API / BACKEND ═══ -->
+        <mxCell id="api" value="&lt;b&gt;API Layer&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="310" width="230" height="200" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api-songs" value="apiKaraokeSongs&lt;br&gt;ranking, history, activity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="55" y="350" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api-campaigns" value="apiCampaigns&lt;br&gt;progress, skills, XP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="55" y="400" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api-singing" value="apiSinging&lt;br&gt;submit score, recording" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="55" y="450" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ OUTPUT ═══ -->
+        <mxCell id="output" value="&lt;b&gt;Output&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="860" y="310" width="250" height="200" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="canvas" value="🖥️ Canvas (Timeline)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="350" width="200" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="score-display" value="📊 Score Display" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="395" width="200" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="recording" value="🎧 Audio Recording" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="440" width="200" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="signalr" value="📡 SignalR (live sync)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="485" width="200" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ ARROWS ═══ -->
+        <mxCell id="a1" value="audio stream" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" source="mic" target="manager" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a2" value="note data" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" source="lyrics" target="manager" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" source="manager" target="pitch-hook" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" source="manager" target="scoring-hook" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" source="manager" target="transcription" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a6" value="draw" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;" edge="1" source="pitch-hook" target="timeline" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;" edge="1" source="timeline" target="tl-notes" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;" edge="1" source="timeline" target="tl-ball" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a9" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;" edge="1" source="timeline" target="tl-ui" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a10" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;" edge="1" source="timeline" target="canvas" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a11" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;" edge="1" source="scoring-hook" target="score-display" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a12" value="submit" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;" edge="1" source="scoring-hook" target="api-singing" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

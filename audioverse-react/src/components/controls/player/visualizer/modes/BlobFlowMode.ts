@@ -33,7 +33,7 @@ export function drawBlobFlow(
         pts.push([x, y]);
     }
 
-    // rysowanie gładkiego bloba
+    // drawing a smooth blob
     g.fillStyle = `hsla(${baseHue}, 70%, 55%, .22)`;
     g.strokeStyle = `hsla(${(baseHue + 40) % 360}, 90%, 65%, .9)`;
     g.lineWidth = 2;

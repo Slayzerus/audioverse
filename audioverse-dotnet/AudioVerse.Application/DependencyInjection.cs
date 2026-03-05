@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AudioVerse.Application.Services.DMX;
+using AudioVerse.Application.Services.User;
+using AudioVerse.Application.Services.Security;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AudioVerse.Application.Services.DMX;
 
 namespace AudioVerse.Application
 {
@@ -12,6 +14,17 @@ namespace AudioVerse.Application
             services.AddSingleton<IDmxPort, FtdiD2xxDmxPort>();
             services.AddSingleton<DmxWorker>();
             services.AddHostedService<DmxWorker>();
+            services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuditLogService, AuditLogService>();
+            services.AddScoped<IOtpService, OtpService>();
+            services.AddScoped<ILoginAttemptService, LoginAttemptService>();
+            services.AddScoped<ICaptchaService, CaptchaService>();
+            services.AddScoped<IHoneyTokenService, HoneyTokenService>();
+            services.AddScoped<IRecaptchaService, RecaptchaService>();
+            services.AddScoped<ICustomHashService, CustomHashService>();
+            services.AddScoped<AudioVerse.Application.Services.Utils.IDanceClassificationService, AudioVerse.Application.Services.Utils.DanceClassificationService>();
+            services.AddScoped<IPlayerLinkSyncService, PlayerLinkSyncService>();
 
             return services;
         }

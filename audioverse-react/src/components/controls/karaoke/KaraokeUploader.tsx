@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { parseUltrastar } from "../../../scripts/api/apiKaraoke";
 import { KaraokeSongFile } from "../../../models/modelsKaraoke";
 
@@ -7,6 +8,7 @@ interface KaraokeUploaderProps {
 }
 
 const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
+    const { t } = useTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [uploaded, setUploaded] = useState(false);
 
@@ -45,7 +47,7 @@ const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
                     onSongUpload(parsedSong);
                     setUploaded(true); // Ukryj upload i pokaż "Change Song"
                 } catch (error) {
-                    console.error("Błąd parsowania pliku Ultrastar:", error);
+                    void error;
                 }
             }
         };
@@ -64,7 +66,7 @@ const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
                         alignItems: "center",
                         justifyContent: "center",
                         padding: "20px",
-                        border: "2px dashed #ccc",
+                        border: "2px dashed var(--border-muted, #ccc)",
                         borderRadius: "8px",
                         cursor: "pointer"
                     }}
@@ -72,13 +74,13 @@ const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
                     onDrop={handleDrop}
                     onDragOver={(e) => e.preventDefault()}
                 >
-                    <p>Click or drag & drop to upload an Ultrastar file (.txt)</p>
+                    <p>{t('karaokeUploader.dropPrompt', 'Click or drag & drop to upload an Ultrastar file (.txt)')}</p>
                     <input
                         type="file"
                         accept=".txt"
                         ref={fileInputRef}
                         style={{ display: "none" }}
-                        onChange={(e) => e.target.files && handleFileUpload(e.target.files[0])}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => e.target.files && handleFileUpload(e.target.files[0])}
                     />
                 </div>
             ) : (
@@ -89,8 +91,8 @@ const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
                     }}
                     style={{
                         fontSize: "16px",
-                        backgroundColor: "#007bff",
-                        color: "#fff",
+                        backgroundColor: "var(--primary, #007bff)",
+                        color: "var(--btn-text, #fff)",
                         border: "none",
                         borderRadius: "10px",
                         cursor: "pointer",
@@ -98,7 +100,7 @@ const KaraokeUploader: React.FC<KaraokeUploaderProps> = ({ onSongUpload }) => {
                         height: "45px"
                     }}
                 >
-                    🎵 Change Song
+                    {t('karaokeUploader.changeSong', 'Change Song')}
                 </button>
             )}
         </div>

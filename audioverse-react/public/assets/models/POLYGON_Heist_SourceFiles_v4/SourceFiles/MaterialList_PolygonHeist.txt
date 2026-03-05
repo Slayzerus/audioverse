@@ -1,0 +1,2048 @@
+-------------------
+Folder Name: Characters
+-------------------
+Prefab Name: Character_Female_FBI_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_Overall_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_Shirt_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_SuitVest_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_FBI
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_Overall_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_Shirt_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_SuitVest_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_SWAT_01
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Character_Material_01 (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Character_Swat_Glass_01 (No Albedo Texture)
+
+-------------------
+Folder Name: Environment
+-------------------
+Prefab Name: SM_Env_Ceiling_01
+    Mesh Name: SM_Env_Ceiling_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_02
+    Mesh Name: SM_Env_Ceiling_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_03
+    Mesh Name: SM_Env_Ceiling_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_04
+    Mesh Name: SM_Env_Ceiling_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_05
+    Mesh Name: SM_Env_Ceiling_05
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_06
+    Mesh Name: SM_Env_Ceiling_06
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_07
+    Mesh Name: SM_Env_Ceiling_07
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_08
+    Mesh Name: SM_Env_Ceiling_08
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Ceiling_Light_01
+    Mesh Name: SM_Env_Ceiling_Light_01
+        Slot: Emission (No Albedo Texture)
+
+Prefab Name: SM_Env_Ceiling_Light_02
+    Mesh Name: SM_Env_Ceiling_Light_02
+        Slot: Emission (No Albedo Texture)
+
+Prefab Name: SM_Env_Ceiling_Light_03
+    Mesh Name: SM_Env_Ceiling_Light_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Door_01
+    Mesh Name: SM_Env_Door_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Door_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Door_02
+    Mesh Name: SM_Env_Door_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Door_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Door_03
+    Mesh Name: SM_Env_Door_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Floor_01
+    Mesh Name: SM_Env_Floor_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Floor_02
+    Mesh Name: SM_Env_Floor_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_01
+    Mesh Name: SM_Env_Pillar_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_02
+    Mesh Name: SM_Env_Pillar_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_01
+    Mesh Name: SM_Env_Pillar_Exterior_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_02
+    Mesh Name: SM_Env_Pillar_Exterior_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_03
+    Mesh Name: SM_Env_Pillar_Exterior_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_04
+    Mesh Name: SM_Env_Pillar_Exterior_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_Floor_01
+    Mesh Name: SM_Env_Pillar_Exterior_Floor_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_Floor_02
+    Mesh Name: SM_Env_Pillar_Exterior_Floor_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_Floor_03
+    Mesh Name: SM_Env_Pillar_Exterior_Floor_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Exterior_Floor_04
+    Mesh Name: SM_Env_Pillar_Exterior_Floor_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Interior_01
+    Mesh Name: SM_Env_Pillar_Interior_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Interior_02
+    Mesh Name: SM_Env_Pillar_Interior_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Interior_03
+    Mesh Name: SM_Env_Pillar_Interior_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Pillar_Interior_04
+    Mesh Name: SM_Env_Pillar_Interior_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Railing_01
+    Mesh Name: SM_Env_Railing_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Railing_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Road_01
+    Mesh Name: SM_Env_Road_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Roof_01
+    Mesh Name: SM_Env_Roof_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Roof_02
+    Mesh Name: SM_Env_Roof_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Roof_03
+    Mesh Name: SM_Env_Roof_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Roof_04
+    Mesh Name: SM_Env_Roof_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Roof_05
+    Mesh Name: SM_Env_Roof_05
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Sidewalk_01
+    Mesh Name: SM_Env_Sidewalk_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Sidewalk_Straight_01
+    Mesh Name: SM_Env_Sidewalk_Straight_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Skylight_01
+    Mesh Name: SM_Env_Skylight_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Skylight_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Stairway_01
+    Mesh Name: SM_Env_Stairway_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Steps_01
+    Mesh Name: SM_Env_Steps_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Steps_02
+    Mesh Name: SM_Env_Steps_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Steps_03
+    Mesh Name: SM_Env_Steps_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Steps_04
+    Mesh Name: SM_Env_Steps_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Steps_Edge_01
+    Mesh Name: SM_Env_Steps_Edge_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_VaultDoor_Frame_01
+    Mesh Name: SM_Env_VaultDoor_Frame_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_VaultDoor_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_VaultDoor_Handle_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_VaultDoor_Handle_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_VaultGate_Door_01
+    Mesh Name: SM_Env_VaultGate_Door_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_VaultGate_Frame_01
+    Mesh Name: SM_Env_VaultGate_Frame_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_VaultGate_Wall_01
+    Mesh Name: SM_Env_VaultGate_Wall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_01
+    Mesh Name: SM_Env_Wall_Exterior_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Door_01
+    Mesh Name: SM_Env_Wall_Exterior_Door_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_DoubleDoor_01
+    Mesh Name: SM_Env_Wall_Exterior_DoubleDoor_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Ground_01
+    Mesh Name: SM_Env_Wall_Exterior_Ground_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Window_01
+    Mesh Name: SM_Env_Wall_Exterior_Window_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Exterior_Window_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Window_02
+    Mesh Name: SM_Env_Wall_Exterior_Window_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Exterior_Window_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Window_Ground_01
+    Mesh Name: SM_Env_Wall_Exterior_Window_Ground_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Exterior_Window_Ground_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Exterior_Window_Ground_02
+    Mesh Name: SM_Env_Wall_Exterior_Window_Ground_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Exterior_Window_Ground_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Glass_01
+    Mesh Name: SM_Env_Wall_Glass_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Glass_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Glass_DoorFrame_01
+    Mesh Name: SM_Env_Wall_Glass_DoorFrame_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Glass_DoorFrame_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Glass_DoorFrame_Panels_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Glass_Ground_01
+    Mesh Name: SM_Env_Wall_Glass_Ground_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Glass_Ground_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Glass_Ground_Panels_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_01
+    Mesh Name: SM_Env_Wall_Interior_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Door_01
+    Mesh Name: SM_Env_Wall_Interior_Door_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Door_Alt_01
+    Mesh Name: SM_Env_Wall_Interior_Door_Alt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_DoubleDoor_01
+    Mesh Name: SM_Env_Wall_Interior_DoubleDoor_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_DoubleDoor_Alt_01
+    Mesh Name: SM_Env_Wall_Interior_DoubleDoor_Alt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Ground_01
+    Mesh Name: SM_Env_Wall_Interior_Ground_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Window_01
+    Mesh Name: SM_Env_Wall_Interior_Window_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Interior_Window_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Window_02
+    Mesh Name: SM_Env_Wall_Interior_Window_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Interior_Window_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Window_Ground_01
+    Mesh Name: SM_Env_Wall_Interior_Window_Ground_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Interior_Window_Ground_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Interior_Window_Ground_02
+    Mesh Name: SM_Env_Wall_Interior_Window_Ground_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Env_Wall_Interior_Window_Ground_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Window_Blinds_01
+    Mesh Name: SM_Env_Wall_Window_Blinds_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Env_Wall_Window_Panels_01
+    Mesh Name: SM_Env_Wall_Window_Panels_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: FX
+-------------------
+Prefab Name: BloodSplat_FX
+    Mesh Name: BloodSplat_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+Prefab Name: Bullet_Shell_FX
+    Mesh Name: Bullet_Shell_FX
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Drill_Sparks_FX
+    Mesh Name: Drill_Sparks_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+Prefab Name: Explosion_Smoke_FX
+    Mesh Name: Explosion_Smoke_FX
+        Slot: Sprites-Default (Uses custom shader)
+    Mesh Name: Explosion_Rubble_FX
+        Slot: Sprites-Default (Uses custom shader)
+    Mesh Name: Explosion_Fire_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+Prefab Name: FlashBang_FX
+    Mesh Name: FlashBang_FX
+        Slot: Emission (No Albedo Texture)
+    Mesh Name: FlashBand_Smoke_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+Prefab Name: GunShot_Smoke_FX
+    Mesh Name: GunShot_Smoke_FX
+        Slot: Sprites-Default (Uses custom shader)
+    Mesh Name: GunShot_Sparks_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+Prefab Name: Money_FX
+    Mesh Name: Money_FX
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Smoke_FX
+    Mesh Name: Smoke_FX
+        Slot: Sprites-Default (Uses custom shader)
+
+-------------------
+Folder Name: Items
+-------------------
+Prefab Name: SM_Item_AmmoPack_01
+    Mesh Name: SM_Item_AmmoPack_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_AmmoPack_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_AmmoPack_Supplies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_AmmoPack_02
+    Mesh Name: SM_Item_AmmoPack_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Bomb_01
+    Mesh Name: SM_Item_Bomb_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Briefcase_01
+    Mesh Name: SM_Item_Briefcase_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Briefcase_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Briefcase_Money_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Briefcase_02
+    Mesh Name: SM_Item_Briefcase_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Crowbar_01
+    Mesh Name: SM_Item_Crowbar_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_DuffleBag_01
+    Mesh Name: SM_Item_DuffleBag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_DuffleBag_Empty_01
+    Mesh Name: SM_Item_DuffleBag_Empty_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_DuffleBag_Full_01
+    Mesh Name: SM_Item_DuffleBag_Full_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_DuffleBag_Open_Empty_01
+    Mesh Name: SM_Item_DuffleBag_Open_Empty_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_DuffleBag_Open_Full_01
+    Mesh Name: SM_Item_DuffleBag_Open_Full_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Hacksaw_01
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Hammer_01
+    Mesh Name: SM_Item_Hammer_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Handcuffs_01
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_HealthKit_01
+    Mesh Name: SM_Item_HealthKit_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_HealthKit_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_HealthKit_Supplies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_HealthKit_02
+    Mesh Name: SM_Item_HealthKit_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mallet_01
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Pouch_01
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Rope_01
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_ScrewDriver_01
+    Mesh Name: SM_Item_ScrewDriver_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_WalkieTalkie_01
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Wirecutter_01
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Wrench_01
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_ZipTies_01
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: Masks
+-------------------
+Prefab Name: SM_Item_Hair_Eyebrow_Man_01
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Hair_Eyebrow_Woman_01
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Hair_Man_01
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Hair_Woman_01
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Alien_01
+    Mesh Name: SM_Item_Mask_Alien_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Balaclava_01
+    Mesh Name: SM_Item_Mask_Balaclava_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Beanie_01
+    Mesh Name: SM_Item_Mask_Beanie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Chicken_01
+    Mesh Name: SM_Item_Mask_Chicken_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Clown_01
+    Mesh Name: SM_Item_Mask_Clown_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Construction_01
+    Mesh Name: SM_Item_Mask_Construction_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Fox_01
+    Mesh Name: SM_Item_Mask_Fox_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Gas_01
+    Mesh Name: SM_Item_Mask_Gas_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Glasses_01
+    Mesh Name: SM_Item_Mask_Glasses_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Hat_01
+    Mesh Name: SM_Item_Mask_Hat_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Hockey_01
+    Mesh Name: SM_Item_Mask_Hockey_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Horse_01
+    Mesh Name: SM_Item_Mask_Horse_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Luchador_01
+    Mesh Name: SM_Item_Mask_Luchador_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Panda_01
+    Mesh Name: SM_Item_Mask_Panda_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_PaperBag_01
+    Mesh Name: SM_Item_Mask_PaperBag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Simple_Man_01
+    Mesh Name: SM_Item_Mask_Simple_Man_01
+        Slot: SimplePeopleMasks_White_Blonde_Mat (SimplePeopleMasks_White_Blonde)
+
+Prefab Name: SM_Item_Mask_Simple_Robber_01
+    Mesh Name: SM_Item_Mask_Simple_Robber_01
+        Slot: SimplePeopleMasks_White_Blonde_Mat (SimplePeopleMasks_White_Blonde)
+
+Prefab Name: SM_Item_Mask_Simple_Woman_01
+    Mesh Name: SM_Item_Mask_Simple_Woman_01
+        Slot: SimplePeopleMasks_White_Blonde_Mat (SimplePeopleMasks_White_Blonde)
+
+Prefab Name: SM_Item_Mask_Tiger_01
+    Mesh Name: SM_Item_Mask_Tiger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_Trump_01
+    Mesh Name: SM_Item_Mask_Trump_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Item_Mask_WeldersMask_01
+    Mesh Name: SM_Item_Mask_WeldersMask_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: Props
+-------------------
+Prefab Name: SM_Prop_Aircon_01
+    Mesh Name: SM_Prop_Aircon_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_AirVent_01
+    Mesh Name: SM_Prop_AirVent_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_AlarmButton_01
+    Mesh Name: SM_Prop_AlarmButton_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_ATM_01
+    Mesh Name: SM_Prop_ATM_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Bin_01
+    Mesh Name: SM_Prop_Bin_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Box_01
+    Mesh Name: SM_Prop_Box_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_Box_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Camera_01
+    Mesh Name: SM_Prop_Camera_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_Camera_Head_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_CoffeeTable_02
+    Mesh Name: SM_Prop_CoffeeTable_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_CoffeTable_01
+    Mesh Name: SM_Prop_CoffeTable_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_CoffeTable_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Computer_01
+    Mesh Name: SM_Prop_Computer_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Computer_Keyboard_01
+    Mesh Name: SM_Prop_Computer_Keyboard_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Computer_Mouse_01
+    Mesh Name: SM_Prop_Computer_Mouse_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Computer_Screen_01
+    Mesh Name: SM_Prop_Computer_Screen_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Couch_01
+    Mesh Name: SM_Prop_Couch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Couch_02
+    Mesh Name: SM_Prop_Couch_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_DeskLight_01
+    Mesh Name: SM_Prop_DeskLight_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Desk_01
+    Mesh Name: SM_Prop_Desk_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_Desk_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Desk_02
+    Mesh Name: SM_Prop_Desk_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Desk_03
+    Mesh Name: SM_Prop_Desk_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_DisplayCase_01
+    Mesh Name: SM_Prop_DisplayCase_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_DisplayCase_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_DisplayCase_Glass_1_Broken
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_DisplayCase_02
+    Mesh Name: SM_Prop_DisplayCase_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_DisplayCase_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_DisplayCase_Glass_02_Broken
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Drawers_01
+    Mesh Name: SM_Prop_Drawers_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Drill_01
+    Mesh Name: SM_Prop_Drill_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Fire_Detector_01
+    Mesh Name: SM_Prop_Fire_Detector_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Flag_Pole_01
+    Mesh Name: SM_Prop_Flag_Pole_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Flag_Straight_01
+    Mesh Name: SM_Prop_Flag_Straight_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Flag_Wall_01
+    Mesh Name: SM_Prop_Flag_Wall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Flag_Wall_02
+    Mesh Name: SM_Prop_Flag_Wall_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Folder_01
+    Mesh Name: SM_Prop_Folder_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Folder_02
+    Mesh Name: SM_Prop_Folder_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Folder_03
+    Mesh Name: SM_Prop_Folder_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Folder_04
+    Mesh Name: SM_Prop_Folder_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Folder_05
+    Mesh Name: SM_Prop_Folder_05
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_GoldBar_01
+    Mesh Name: SM_Prop_GoldBar_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_GoldBar_02
+    Mesh Name: SM_Prop_GoldBar_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_01
+    Mesh Name: SM_Prop_Jewellery_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_02
+    Mesh Name: SM_Prop_Jewellery_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_03
+    Mesh Name: SM_Prop_Jewellery_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_04
+    Mesh Name: SM_Prop_Jewellery_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Necklace_01
+    Mesh Name: SM_Prop_Jewellery_Necklace_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Necklace_02
+    Mesh Name: SM_Prop_Jewellery_Necklace_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Necklace_03
+    Mesh Name: SM_Prop_Jewellery_Necklace_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Necklace_04
+    Mesh Name: SM_Prop_Jewellery_Necklace_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Rings_01
+    Mesh Name: SM_Prop_Jewellery_Rings_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Jewellery_Ring_01
+    Mesh Name: SM_Prop_Jewellery_Ring_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_MetalDetector_01
+    Mesh Name: SM_Prop_MetalDetector_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_MetalDetector_Baggage_01
+    Mesh Name: SM_Prop_MetalDetector_Baggage_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_01
+    Mesh Name: SM_Prop_Money_Note_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_02
+    Mesh Name: SM_Prop_Money_Note_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_03
+    Mesh Name: SM_Prop_Money_Note_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_04
+    Mesh Name: SM_Prop_Money_Note_04
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_05
+    Mesh Name: SM_Prop_Money_Note_05
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_06
+    Mesh Name: SM_Prop_Money_Note_06
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Note_07
+    Mesh Name: SM_Prop_Money_Note_07
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Roll_01
+    Mesh Name: SM_Prop_Money_Roll_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Roll_02
+    Mesh Name: SM_Prop_Money_Roll_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Stack_01
+    Mesh Name: SM_Prop_Money_Stack_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Stack_02
+    Mesh Name: SM_Prop_Money_Stack_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Money_Stack_03
+    Mesh Name: SM_Prop_Money_Stack_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Pillar_01
+    Mesh Name: SM_Prop_Pillar_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Pillar_02
+    Mesh Name: SM_Prop_Pillar_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Plant_01
+    Mesh Name: SM_Prop_Plant_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Plant_02
+    Mesh Name: SM_Prop_Plant_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Plant_03
+    Mesh Name: SM_Prop_Plant_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_RopeBarrier_01
+    Mesh Name: SM_Prop_RopeBarrier_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_RopeBarrier_02
+    Mesh Name: SM_Prop_RopeBarrier_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_RopeBarrier_03
+    Mesh Name: SM_Prop_RopeBarrier_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_RopeBarrier_Pole_01
+    Mesh Name: SM_Prop_RopeBarrier_Pole_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_RopeBarrier_Pole_02
+    Mesh Name: SM_Prop_RopeBarrier_Pole_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Rug_01
+    Mesh Name: SM_Prop_Rug_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Rug_02
+    Mesh Name: SM_Prop_Rug_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBoxes_01
+    Mesh Name: SM_Prop_SafeDepositBoxes_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBoxes_Empty_01
+    Mesh Name: SM_Prop_SafeDepositBoxes_Empty_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBoxes_Half_01
+    Mesh Name: SM_Prop_SafeDepositBoxes_Half_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBoxes_Looted_01
+    Mesh Name: SM_Prop_SafeDepositBoxes_Looted_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBox_Container_01
+    Mesh Name: SM_Prop_SafeDepositBox_Container_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_SafeDepositBox_Container_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBox_Container_02
+    Mesh Name: SM_Prop_SafeDepositBox_Container_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_SafeDepositBox_Container_Lid_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBox_Cover_01
+    Mesh Name: SM_Prop_SafeDepositBox_Cover_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBox_Cover_02
+    Mesh Name: SM_Prop_SafeDepositBox_Cover_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_SafeDepositBox_Cover_03
+    Mesh Name: SM_Prop_SafeDepositBox_Cover_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Seat_01
+    Mesh Name: SM_Prop_Seat_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Seat_02
+    Mesh Name: SM_Prop_Seat_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Shelf_01
+    Mesh Name: SM_Prop_Shelf_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Sign_Bank_01
+    Mesh Name: SM_Prop_Sign_Bank_01
+        Slot: PolygonHeist_Material_03_A (PolygonHeist_Texture_03_A)
+
+Prefab Name: SM_Prop_Sign_Base_01
+    Mesh Name: SM_Prop_Sign_Base_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Sign_Jewellery_01
+    Mesh Name: SM_Prop_Sign_Jewellery_01
+        Slot: PolygonHeist_Material_03_A (PolygonHeist_Texture_03_A)
+
+Prefab Name: SM_Prop_Sign_Money_Bank_01
+    Mesh Name: SM_Prop_Sign_Money_Bank_01
+        Slot: PolygonHeist_Material_03_A (PolygonHeist_Texture_03_A)
+
+Prefab Name: SM_Prop_Sprinkler_01
+    Mesh Name: SM_Prop_Sprinkler_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Statue_01
+    Mesh Name: SM_Prop_Statue_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Table_01
+    Mesh Name: SM_Prop_Table_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_Table_02
+    Mesh Name: SM_Prop_Table_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_TellerDesk_01
+    Mesh Name: SM_Prop_TellerDesk_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_TellerDesk_02
+    Mesh Name: SM_Prop_TellerDesk_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_TellerDesk_03
+    Mesh Name: SM_Prop_TellerDesk_03
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_TellerDesk_Barrier_01
+    Mesh Name: SM_Prop_TellerDesk_Barrier_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_TellerDesk_Barrier_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_TellerDesk_Barrier_02
+    Mesh Name: SM_Prop_TellerDesk_Barrier_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_TellerDesk_Barrier_Glass_02
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_VaultTrolley_01
+    Mesh Name: SM_Prop_VaultTrolley_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Prop_WaterCooler_01
+    Mesh Name: SM_Prop_WaterCooler_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Prop_WaterCooler_Tank_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: Vehicles
+-------------------
+Prefab Name: SM_Veh_Car_Police_Heist_01
+    Mesh Name: SM_Veh_Car_Police_Heist_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Glass
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Plates
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_SteeringW
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Wheel_fl
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Wheel_fr
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Wheel_rl
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Car_Police_Heist_Wheel_rr
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Veh_Helicopter_01
+    Mesh Name: SM_Veh_Helicopter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Helicopter_Blades_Back_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Helicopter_Blades_Main_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Helicopter_Glass_01
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Helicopter_Stick_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_Helicopter_Stick_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Veh_SwatVan_01
+    Mesh Name: SM_Veh_SwatVan_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Door_l
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Door_l_Glass
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Door_r
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Door_r_Glass
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Glass
+        Slot: PolygonHeist_Material_01_A_Glass (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Steering_Wheel_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Wheel_fl
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Wheel_fr
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Wheel_rl
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Veh_SwatVan_Wheel_rr
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: Weapons
+-------------------
+Prefab Name: SM_Wep_Ammo_BulletLarge_01
+    Mesh Name: SM_Wep_Ammo_BulletLarge_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Ammo_BulletLarge_02
+    Mesh Name: SM_Wep_Ammo_BulletLarge_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Ammo_BulletSmall_01
+    Mesh Name: SM_Wep_Ammo_BulletSmall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Ammo_BulletSmall_02
+    Mesh Name: SM_Wep_Ammo_BulletSmall_02
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Ammo_Shotgun_01
+    Mesh Name: SM_Wep_Ammo_Shotgun_01
+        Slot: PolygonHeist_Material_03_A (PolygonHeist_Texture_03_A)
+
+Prefab Name: SM_Wep_Attachment_Grip_01
+    Mesh Name: SM_Wep_Attachment_Grip_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Attachment_M4Rail_01
+    Mesh Name: SM_Wep_Attachment_M4Rail_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Attachment_Redot_01
+    Mesh Name: SM_Wep_Attachment_Redot_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Attachment_Silencer_01
+    Mesh Name: SM_Wep_Attachment_Silencer_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Attachment_SniperScope_01
+    Mesh Name: SM_Wep_Attachment_SniperScope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Attachment_Torch_01
+    Mesh Name: SM_Wep_Attachment_Torch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Crosshair_01
+    Mesh Name: SM_Wep_Crosshair_01
+        Slot: Emission_Red (No Albedo Texture)
+
+Prefab Name: SM_Wep_Crosshair_02
+    Mesh Name: SM_Wep_Crosshair_02
+        Slot: Emission_Red (No Albedo Texture)
+
+Prefab Name: SM_Wep_Crosshair_03
+    Mesh Name: SM_Wep_Crosshair_03
+        Slot: Emission_Red (No Albedo Texture)
+
+Prefab Name: SM_Wep_Crosshair_04
+    Mesh Name: SM_Wep_Crosshair_04
+        Slot: Emission_Red (No Albedo Texture)
+
+Prefab Name: SM_Wep_Crosshair_05
+    Mesh Name: SM_Wep_Crosshair_05
+        Slot: Emission_Red (No Albedo Texture)
+
+Prefab Name: SM_Wep_Crosshair_Sniper_01
+    Mesh Name: SM_Wep_Crosshair_Sniper_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Flashbang_Base_01
+    Mesh Name: SM_Wep_Flashbang_Base_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Flashbang_Clip_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Flashbang_Pin_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Grenade_Base_01
+    Mesh Name: SM_Wep_Grenade_Base_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Grenade_Clip_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Grenade_Pin_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Holster_01
+    Mesh Name: SM_Wep_Holster_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_PistolBandit_01
+    Mesh Name: SM_Wep_PistolBandit_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolBandit_Mag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolBandit_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolBandit_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_PistolSwat_01
+    Mesh Name: SM_Wep_PistolSwat_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolSwat_Mag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolSwat_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_PistolSwat_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_RifleBandit_01
+    Mesh Name: SM_Wep_RifleBandit_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleBandit_Mag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleBandit_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleBandit_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_RifleSwat_01
+    Mesh Name: SM_Wep_RifleSwat_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleSwat_ChargeHandle_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleSwat_Mag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleSwat_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleSwat_Stock_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_RifleSwat_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_Shotgun_01
+    Mesh Name: SM_Wep_Shotgun_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Shotgun_Pump_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Shotgun_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_Shotgun_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_SMG_01
+    Mesh Name: SM_Wep_SMG_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_SMG_Mag_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_SMG_Slide_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_SMG_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: SM_Wep_SniperSwat_01
+    Mesh Name: SM_Wep_SniperSwat_01
+        Slot: PolygonHeist_Material_04_A (PolygonHeist_Texture_04_A)
+    Mesh Name: SM_Wep_SniperSwat_Bolt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Wep_SniperSwat_Mag_01
+        Slot: PolygonHeist_Material_02_A (PolygonHeist_Texture_02_A)
+    Mesh Name: SM_Wep_SniperSwat_Trigger_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+-------------------
+Folder Name: FixedScaleCharacters
+-------------------
+Prefab Name: Character_Female_FBI_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_Overall_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_Shirt_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Female_SuitVest_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Woman_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_FBI_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_Overall_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_Shirt_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_SuitVest_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hair_Eyebrow_Man_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+
+Prefab Name: Character_Male_SWAT_01_FixedScale
+    Mesh Name: Character_Female_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Female_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_FBI
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Overall_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_Shirt_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SuitVest_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Character_Male_SWAT_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Duffel_Bag
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Hacksaw_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Handcuffs_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Mallet_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Pouch_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Rope_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_WalkieTalkie_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wirecutter_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_Wrench_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: SM_Item_ZipTies_01
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+    Mesh Name: Item_Swat_Glass
+        Slot: PolygonHeist_Material_01_A (PolygonHeist_Texture_01_A)
+

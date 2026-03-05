@@ -1,0 +1,3 @@
+Źródło własne — zrzut ekranu terminala z wynikami testów
+audioverse-react (Vitest), audioverse-dotnet (xUnit)
+2026-02-20

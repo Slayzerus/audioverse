@@ -1,0 +1,301 @@
+/* GameVoiceChat.module.css — floating voice+chat panel for in-game */
+
+/* ── Minimized badge ─────────────────────────────────────── */
+
+.minimizedBadge {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--gray-200);
+  font-size: 0.9rem;
+}
+.minimizedBadge:hover {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: rgba(52, 152, 219, 0.5);
+}
+
+.badgeIcon {
+  font-size: 1.1rem;
+}
+
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--game-red);
+  animation: pulse 1.5s infinite;
+}
+
+.peerCount {
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+/* ── Full panel ──────────────────────────────────────────── */
+
+.panel {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 90;
+  width: 320px;
+  max-height: 420px;
+  background: rgba(10, 10, 20, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--gray-200);
+  font-size: 0.9rem;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 6px;
+}
+
+.tabRow {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+.tabBtn {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tabBtn:hover {
+  color: var(--gray-300);
+}
+.activeTabBtn {
+  color: var(--game-blue);
+  border-bottom-color: var(--game-blue);
+}
+
+.minimizeBtn {
+  background: none;
+  border: none;
+  color: var(--gray-700);
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.minimizeBtn:hover {
+  color: var(--gray-300);
+}
+
+/* ── Tab content ─────────────────────────────────────────── */
+
+.tabContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 6px;
+  overflow-y: auto;
+  max-height: 340px;
+}
+
+/* ── Voice player rows ───────────────────────────────────── */
+
+.playerRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s;
+}
+.speaking {
+  background: rgba(46, 204, 113, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(46, 204, 113, 0.3);
+}
+
+.playerDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.playerName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.youBadge {
+  font-size: 0.7rem;
+  opacity: 0.4;
+  text-transform: uppercase;
+}
+
+.muteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 2px;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.muteBtn:hover {
+  opacity: 1;
+}
+.muted {
+  opacity: 0.4;
+}
+
+.volumeSlider {
+  width: 50px;
+  height: 4px;
+  accent-color: var(--game-blue);
+}
+
+.emptyHint {
+  text-align: center;
+  opacity: 0.4;
+  font-style: italic;
+  margin: 12px 0;
+  font-size: 0.85rem;
+}
+
+.pttHint {
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  padding: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+}
+
+/* ── Chat ────────────────────────────────────────────────── */
+
+.chatMessages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 260px;
+  min-height: 80px;
+}
+
+.chatMsg {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.ownMsg {
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.chatSender {
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.chatText {
+  font-size: 0.85rem;
+  word-break: break-word;
+}
+
+.chatInputRow {
+  display: flex;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.chatInput {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--color-white);
+  font-size: 0.85rem;
+}
+.chatInput:focus {
+  outline: none;
+  border-color: var(--game-blue);
+}
+
+.sendBtn {
+  background: var(--game-blue);
+  border: none;
+  color: var(--color-white);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sendBtn:hover {
+  background: var(--game-blue-dark);
+}
+
+/* ── Settings ────────────────────────────────────────────── */
+
+.settingGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settingLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.settingSelect {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 6px 8px;
+  color: var(--color-white);
+  font-size: 0.85rem;
+}
+
+.settingHint {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

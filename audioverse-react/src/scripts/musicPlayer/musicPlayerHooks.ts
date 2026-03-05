@@ -2,6 +2,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { extractVideoId, isAudioFile, isM3U8, isYouTubeUrl } from "./musicPlayerUtils";
 import type { PlayerSource, PlayerTrack } from "../../models/modelsAudio";
+import { logger } from "../../utils/logger";
+
+const log = logger.scoped('musicPlayerHooks');
 
 /// <summary>
 /// Minimal shape of a YouTube IFrame API player used by this hook.
@@ -114,7 +117,7 @@ export function useGenericPlayer(tracks: PlayerTrack[], initialIndex = 0, autoPl
         } else {
             const a = audioRef.current;
             if (a) {
-                a.play().then(() => setIsPlaying(true)).catch(() => void 0);
+                a.play().then(() => setIsPlaying(true)).catch((e) => log.debug('Audio play() rejected', e));
             }
         }
     }, [source]);
@@ -185,7 +188,7 @@ export function useGenericPlayer(tracks: PlayerTrack[], initialIndex = 0, autoPl
             };
             rafRef.current = window.requestAnimationFrame(tick);
             if (autoPlay) {
-                try { ytRef.current?.playVideo(); setIsPlaying(true); } catch { /* no-op */ }
+                try { ytRef.current?.playVideo(); setIsPlaying(true); } catch (e) { log.debug('YouTube playVideo() failed (player not ready or autoplay blocked)', e); }
             }
             return () => {
                 if (rafRef.current) cancelAnimationFrame(rafRef.current);

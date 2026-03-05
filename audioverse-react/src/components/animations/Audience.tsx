@@ -23,8 +23,8 @@ function makeAudience(n: number): CharacterConfig[] {
             size: 150 + Math.round(Math.random() * 40) - 20,
             outfit: recolor(DEFAULT_CHARACTER.outfit, 3),
             hair: recolor(DEFAULT_CHARACTER.hair, 2),
-            headwear: Math.random() < 0.3 ? recolor(DEFAULT_CHARACTER.headwear, 2) : { variant: "none", colors: ["#111"] },
-            prop: Math.random() < 0.25 ? { variant: "star", colors: [rnd(), rnd(), "#111"] } : { variant: "none", colors: ["#111"] },
+            headwear: Math.random() < 0.3 ? recolor(DEFAULT_CHARACTER.headwear, 2) : { variant: "none", colors: ["var(--anim-stroke, #111)"] },
+            prop: Math.random() < 0.25 ? { variant: "star", colors: [rnd(), rnd(), "var(--anim-stroke, #111)"] } : { variant: "none", colors: ["var(--anim-stroke, #111)"] },
         });
     }
     return arr;

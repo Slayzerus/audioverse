@@ -7,7 +7,7 @@ import { seq } from "./choreoDSL";
 import type { ChoreoBuilder } from "./choreoDSL";
 import type { RunContext } from "./choreoDSL";
 
-/* -------------------- Event bus Wyników -------------------- */
+/* -------------------- Results event bus -------------------- */
 export type ScoreEvent = { score: number; at: number };
 
 type ScoreHandler = (e: ScoreEvent) => void;
@@ -104,7 +104,7 @@ export async function playIntro(actors: PersonControls[]): Promise<void> {
     await runRounds(actors, programs);
 }
 
-/* -------------------- Utils do testów -------------------- */
+/* -------------------- Test utilities -------------------- */
 export const simulateScore = (score: number) => scoreBus.push(score);
 
 // Podłączenie reakcji jurorów do busa wyników

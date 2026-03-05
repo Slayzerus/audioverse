@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.0">
+  <diagram id="routing" name="Routing Structure">
+    <mxGraphModel dx="1895" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=22;align=center;" value="&lt;b&gt;AudioVerse React Routing Structure&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="500" x="500" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="root" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" value="&lt;b&gt;createBrowserRouter&lt;/b&gt;&lt;br&gt;React Router v6" vertex="1">
+          <mxGeometry height="60" width="200" x="640" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rootLayout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="&lt;b&gt;RootLayout&lt;/b&gt;&lt;br&gt;(NavBar, Sidebar, ToastProvider, &lt;br&gt;QueryClient, i18n, Outlet)" vertex="1">
+          <mxGeometry height="60" width="300" x="590" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="public" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=14;" value="&lt;b&gt;Public Routes&lt;/b&gt; (no auth)" vertex="1">
+          <mxGeometry height="680" width="500" x="30" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-routes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" value="&lt;b&gt;Auth&lt;/b&gt;&lt;br&gt;/login · /register&lt;br&gt;/first-login-password-change&lt;br&gt;7× OAuth callbacks" vertex="1">
+          <mxGeometry height="70" width="220" x="50" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="party-routes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" value="&lt;b&gt;Party / Play&lt;/b&gt;&lt;br&gt;/play · /parties · /parties/:id&lt;br&gt;/songs · /karaoke-playlists&lt;br&gt;/rounds · /ranking · /dance&lt;br&gt;/join · /jam-session · /hit-that-note" vertex="1">
+          <mxGeometry height="80" width="220" x="290" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="settings-routes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;" value="&lt;b&gt;Settings&lt;/b&gt;&lt;br&gt;/settings · controller · audio&lt;br&gt;display · live-score · vocal-effects&lt;br&gt;linked-accounts · youtube-subs" vertex="1">
+          <mxGeometry height="70" width="220" x="290" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="catchall" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;fontStyle=2;" value="&lt;b&gt;404 Catch-all&lt;/b&gt;&lt;br&gt;/* → NotFoundPage" vertex="1">
+          <mxGeometry height="40" width="200" x="170" y="755" as="geometry" />
+        </mxCell>
+        <mxCell id="authLayout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=14;" value="&lt;b&gt;AuthLayout&lt;/b&gt; (requires login)" vertex="1">
+          <mxGeometry height="300" width="360" x="580" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-profile" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" value="&lt;b&gt;Profile&lt;/b&gt;&lt;br&gt;/profile · change-password&lt;br&gt;settings · players" vertex="1">
+          <mxGeometry height="55" width="150" x="600" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="adminLayout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;fontSize=14;" value="&lt;b&gt;AdminLayout&lt;/b&gt; (admin role)" vertex="1">
+          <mxGeometry height="420" width="370" x="990" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-core" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" value="&lt;b&gt;Core Admin&lt;/b&gt;&lt;br&gt;/admin · /admin/users&lt;br&gt;/admin/settings" vertex="1">
+          <mxGeometry height="55" width="160" x="1010" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-security" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" value="&lt;b&gt;Security&lt;/b&gt;&lt;br&gt;/admin/password-requirements&lt;br&gt;/admin/otp · honeytokens&lt;br&gt;/admin/security-dashboard" vertex="1">
+          <mxGeometry height="70" width="160" x="1185" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-audit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" value="&lt;b&gt;Audit&lt;/b&gt;&lt;br&gt;/admin/audit-logs&lt;br&gt;/admin/login-attempts&lt;br&gt;/admin/audit" vertex="1">
+          <mxGeometry height="65" width="160" x="1010" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-content" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" value="&lt;b&gt;Content&lt;/b&gt;&lt;br&gt;/admin/scoring-presets · skins&lt;br&gt;/admin/news-feeds · moderation&lt;br&gt;/admin/asset-manager" vertex="1">
+          <mxGeometry height="70" width="160" x="1185" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-tools" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;" value="&lt;b&gt;Tools&lt;/b&gt;&lt;br&gt;/admin/feature-visibility&lt;br&gt;/admin/notifications&lt;br&gt;/admin/integrations&lt;br&gt;/admin/diagrams" vertex="1">
+          <mxGeometry height="80" width="180" x="1070" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="root" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" target="rootLayout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="rootLayout" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#d6b656;" target="public" value="public">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="rootLayout" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#9673a6;" target="authLayout" value="auth guard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="rootLayout" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;" target="adminLayout" value="admin guard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

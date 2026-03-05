@@ -15,9 +15,9 @@ export type HairProps = {
 
 function pal(c: string[]) {
     return {
-        base: pick(c, 0, "#2C3A4A"),
-        accent: pick(c, 1, "#455166"),
-        stroke: pick(c, 2, "#111"),
+        base: pick(c, 0, "var(--anim-hair-base, #2C3A4A)"),
+        accent: pick(c, 1, "var(--anim-hair-accent, #455166)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
     };
 }
 
@@ -42,7 +42,7 @@ export const HairLong: React.FC<HairProps> = ({ colors, scale = 1, transform, st
     );
 };
 
-export const HairCurly: React.FC<HairProps> = ({ colors, scale = 1, transform, strokeWidth = 1.2 }) => {
+export const HairCurly: React.FC<HairProps> = ({ colors, scale = 1, transform, strokeWidth: _strokeWidth = 1.2 }) => {
     const { base, stroke } = pal(colors);
     const curl = (x: number) => <circle key={x} cx={x} cy={-32} r={6} fill={base} stroke={stroke} />;
     return <g transform={`${transform ?? ""} scale(${scale})`}>{[-24,-12,0,12,24].map(curl)}</g>;

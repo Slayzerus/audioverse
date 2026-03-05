@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using AudioVerse.Domain.Repositories;
-using AudioVerse.Domain.Entities.Karaoke;
 using AudioVerse.Application.Queries.Karaoke;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSongFiles;
 
 namespace AudioVerse.Application.Handlers.Karaoke
 {

@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`karaokeScoring regression — fixture bundles > partial-hits fixture scores deterministically 1`] = `505`;
+
+exports[`karaokeScoring regression — fixture bundles > simple-scale fixture scores deterministically with normal preset 1`] = `1000`;

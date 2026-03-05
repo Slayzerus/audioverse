@@ -2,7 +2,7 @@
 using AudioVerse.Application.Services.DMX;
 using AudioVerse.Application.Commands.DMX;
 
-namespace AudioVerse.Application.Handler.DMX
+namespace AudioVerse.Application.Handlers.DMX
 {
     public sealed class LoadUniverseHandler : IRequestHandler<LoadUniverseCommand, Unit>
     {

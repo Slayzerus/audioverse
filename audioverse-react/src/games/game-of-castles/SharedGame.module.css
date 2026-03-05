@@ -1,0 +1,196 @@
+/* Styles for Game of Castles (HoMM-style turn-based strategy) */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  position: relative;
+  min-height: 70vh;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scoreItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gray-100);
+  transition: opacity 0.3s;
+}
+
+.scoreColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.scoreValue {
+  min-width: 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameViewport {
+  position: relative;
+  width: 900px;
+  height: 640px;
+  border: 2px solid #8B7355;
+  border-radius: 4px;
+  background: #1a1510;
+  box-shadow: 0 0 20px rgba(139, 115, 85, 0.3);
+  cursor: default;
+  user-select: none;
+}
+
+.gameViewport:focus {
+  outline: 2px solid var(--game-gold-bright);
+  outline-offset: 2px;
+}
+
+.canvas {
+  display: block;
+  width: 900px;
+  height: 640px;
+  image-rendering: pixelated;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.4rem 1rem;
+  background: #3a3020;
+  color: var(--gray-200);
+  border: 1px solid #8B7355;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: monospace;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn:hover {
+  background: #5a4a3a;
+  border-color: var(--game-gold-bright);
+  color: var(--color-white);
+}
+
+.btn:active {
+  background: #6a5a4a;
+}
+
+.btnPrimary {
+  composes: btn;
+  background: #3a6e3a;
+  border-color: #5a9e5a;
+}
+
+.btnPrimary:hover {
+  background: #4a8e4a;
+  border-color: #6abe6a;
+}
+
+.btnDanger {
+  composes: btn;
+  background: #6a2020;
+  border-color: #a44;
+}
+
+.btnDanger:hover {
+  background: #8a3030;
+  border-color: #c66;
+}
+
+.info {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gray-550);
+  text-align: center;
+  max-width: 900px;
+}
+
+.setupPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 2rem;
+  background: #1e1812;
+  border: 2px solid #8B7355;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 0 30px rgba(139, 115, 85, 0.2);
+}
+
+.setupPanel h2 {
+  color: var(--game-gold-bright);
+  font-family: monospace;
+  margin: 0;
+}
+
+.setupRow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.setupRow label {
+  color: var(--gray-300);
+  font-family: monospace;
+  font-size: 0.9rem;
+  min-width: 120px;
+}
+
+.setupRow select,
+.setupRow input {
+  background: #2a2018;
+  color: var(--gray-100);
+  border: 1px solid #8B7355;
+  border-radius: 3px;
+  padding: 0.3rem 0.5rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.overlayPanel {
+  background: #2a2018;
+  border: 2px solid var(--game-gold-bright);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--gray-100);
+  font-family: monospace;
+  max-width: 400px;
+}
+
+.overlayPanel h2 {
+  color: var(--game-gold-bright);
+  margin-top: 0;
+}

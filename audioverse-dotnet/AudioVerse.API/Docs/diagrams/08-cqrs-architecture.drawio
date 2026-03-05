@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" modified="2025-02-25" type="device">
+  <diagram id="cqrs" name="Czysta architektura + CQRS">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Czysta architektura + CQRS (MediatR)" style="text;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="10" width="500" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- WARSTWY -->
+        <mxCell id="l4" value="AudioVerse.API (kontrolery, huby, middleware)" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;align=center;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="520" height="340" as="geometry"/>
+        </mxCell>
+        <mxCell id="l3" value="AudioVerse.Application (komendy, zapytania, serwisy)" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;align=center;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="440" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="l2" value="AudioVerse.Domain (encje, enumy, interfejsy)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;align=center;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="140" width="360" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- PRZEPLYW CQRS -->
+        <mxCell id="cmd" value="Komenda&#xa;(IRequest)" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="650" y="80" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="qry" value="Zapytanie&#xa;(IRequest&lt;T&gt;)" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="650" y="160" width="130" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="med" value="MediatR&#xa;Potok" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;align=center;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="830" y="110" width="130" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="handler" value="Handler&#xa;(logika biznesowa)" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="110" width="150" height="60" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="fc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" source="cmd" target="med" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="fq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" source="qry" target="med" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="fh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="med" target="handler" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Infrastruktura -->
+        <mxCell id="infra" value="AudioVerse.Infrastructure&#xa;(EF Core, MinIO, Redis, klienci HTTP)" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;spacingTop=6;spacingBottom=6;" vertex="1" parent="1">
+          <mxGeometry x="650" y="260" width="510" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="fi" value="implementuje" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;fontSize=9;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" source="infra" target="l2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="fhi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="handler" target="infra" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,108 @@
+/* Animacje fade/slide */
+.fade-in {
+  animation: fadeIn 0.35s cubic-bezier(.4,0,.2,1);
+}
+.slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(.4,0,.2,1);
+}
+.slide-in-bottom {
+  animation: slideInBottom 0.4s cubic-bezier(.4,0,.2,1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slideInBottom {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+:root {
+  --bs-body-color: var(--text-primary);
+  --bs-secondary-color: color-mix(in srgb, var(--text-primary) 72%, transparent);
+}
+
+.form-control,
+.form-select {
+  background: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-tertiary) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-focus-border) !important;
+  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--input-focus-border) 25%, transparent) !important;
+}
+
+.form-control:disabled,
+.form-select:disabled,
+.form-control[readonly] {
+  background: var(--bg-secondary) !important;
+  color: var(--text-secondary) !important;
+}
+
+html body .text-muted,
+html body .text-secondary,
+html body small.text-muted,
+html body .small.text-muted {
+  --bs-text-opacity: 1;
+  color: var(--text-primary) !important;
+  color: color-mix(in srgb, var(--text-primary) 72%, transparent) !important;
+}
+
+.card-title,
+.card-text,
+.list-group-item {
+  color: var(--text-primary) !important;
+}
+
+.list-group-item {
+  background: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+}
+
+.btn-outline-secondary {
+  color: var(--text-primary) !important;
+  color: color-mix(in srgb, var(--text-primary) 78%, transparent) !important;
+  border-color: var(--btn-border) !important;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+  background: var(--btn-hover-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+/* AudioVerse Themes: unified — CSS vars set by ThemeContext on :root */
+/* Legacy .audioverse-light/.audioverse-dark classes removed — use theme system */
+.audio-editor, .audio-editor .card, .audio-editor .layer-selection, .audio-editor .form-control, .audio-editor .form-select {
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+.audio-editor .card {
+  background: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+}
+.audio-editor .btn, .audio-editor .btn-outline-secondary, .audio-editor .btn-outline-primary, .audio-editor .btn-outline-success, .audio-editor .btn-outline-danger {
+  background: var(--btn-bg) !important;
+  color: var(--btn-text) !important;
+  border-color: var(--btn-border) !important;
+}
+.audio-editor input, .audio-editor select {
+  background: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
+}

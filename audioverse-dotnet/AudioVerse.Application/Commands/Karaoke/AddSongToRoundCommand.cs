@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using AudioVerse.Domain.Entities.Karaoke;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSingings;
 
 namespace AudioVerse.Application.Commands.Karaoke
 {

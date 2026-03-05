@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { getAllParties } from "../../scripts/api/apiKaraoke.ts";
-import { KaraokeParty } from "../../models/modelsKaraoke.ts";
-
+import React, { useState } from "react";
+import { Modal } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import PartiesList from '../../components/party/PartiesList';
+import { Focusable } from "../../components/common/Focusable";
+import CreatePartyForm from "../../components/forms/CreatePartyForm";
 
 const PartiesPage: React.FC = () => {
-    const [parties, setParties] = useState<KaraokeParty[]>([]);
-
-    useEffect(() => {
-        getAllParties()
-            .then(response => setParties(response))
-            .catch(error => console.error("Error fetching parties", error));
-    }, []);
+    const { t } = useTranslation();
+    const [showCreate, setShowCreate] = useState(false);
 
     return (
-        <div>
-            <h1>Lista imprez karaoke</h1>
+        <div className="container mt-4">
+            <div className="d-flex align-items-center mb-4" style={{ position: 'relative' }}>
+                <h1 className="mb-0" style={{ flex: 1, textAlign: 'center' }}>{t("partiesPage.title")}</h1>
+                <Focusable id="parties-add-btn" style={{ position: 'absolute', right: 0 }}>
+                    <button
+                        className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: 48, height: 48, fontSize: 24 }}
+                        title={t("partiesPage.newParty")}
+                        onClick={() => setShowCreate(true)}
+                    >
+                        +
+                    </button>
+                </Focusable>
+            </div>
 
-            <ul id="bij-bąki" style={{ display: "none" }}>
-                <li><a href="http://173.212.245.15:3000" target="_blank"> Wiki</a></li>
-                <li><a href="http://173.212.245.15:8080" target="_blank">🗃️ Adminer (PostgreSQL GUI)</a></li>
-                <li><a href="http://173.212.245.15:5601" target="_blank">📊 Kibana</a></li>
-                <li><a href="http://173.212.245.15:8001" target="_blank">📡 Kong API Gateway Admin</a></li>
-                <li><a href="http://173.212.245.15:8000" target="_blank">📡 Kong API Gateway Proxy</a></li>
-                <li><a href="http://173.212.245.15:8089" target="_blank">🔥 Locust UI (Testy wydajnościowe)</a></li>
-                <li><a href="http://173.212.245.15:8081" target="_blank">🔗 Kafka UI</a></li>
-                <li><a href="http://173.212.245.15:9001" target="_blank">📮 MinIO UI (Przechowywanie plików)</a></li>
-                <li>Nie działają:</li>
-                <li><a href="http://173.212.245.15:5000/swagger" target="_blank">🚀 API (Swagger?)</a></li>
-                <li><a href="http://173.212.245.15:5001" target="_blank">🛂 Identity Server UI</a></li>
-                <li><a href="http://173.212.245.15:3000" target="_blank">🎭 Playwright UI</a></li>
-            </ul>
+            <Modal show={showCreate} onHide={() => setShowCreate(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>{t("partiesPage.newParty")}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <CreatePartyForm onCreated={() => setShowCreate(false)} />
+                </Modal.Body>
+            </Modal>
+
+            <PartiesList />
         </div>
     );
 };

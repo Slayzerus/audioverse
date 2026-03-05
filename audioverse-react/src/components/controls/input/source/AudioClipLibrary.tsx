@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import AudioClipUploadForm from "../../../forms/editor/AudioClipUploadForm.tsx";
 import AudioClipList from "../../../lists/AudioClipList";
 import { AudioClip } from "../../../../models/modelsEditor.ts";
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const AudioClipLibrary: React.FC<Props> = ({ onAudioClipSelect }) => {
+    const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedClip, setSelectedClip] = useState<AudioClip | null>(null);
 
@@ -30,21 +32,21 @@ const AudioClipLibrary: React.FC<Props> = ({ onAudioClipSelect }) => {
             justifyContent: "center",
             flexDirection: "column"
         }}>
-            <h1>Biblioteka AudioClipów</h1>
+            <h1>{t('clipLibrary.title', 'AudioClip Library')}</h1>
             <button onClick={openModal} style={{
                 padding: "10px 20px",
                 fontSize: "16px",
                 cursor: "pointer",
                 marginBottom: "20px"
             }}>
-                🎵 Dodaj AudioClip
+                🎵 {t('clipLibrary.addClip', 'Add AudioClip')}
             </button>
 
             <AudioClipList onSelect={handleClipSelect} />
 
             {/* Modal dla formularza uploadu */}
             {isModalOpen && (
-                <div style={{
+                <div role="dialog" aria-modal="true" aria-labelledby="audioclip-upload-title" style={{
                     position: "fixed",
                     top: 0, left: 0,
                     width: "100%", height: "100%",
@@ -57,10 +59,11 @@ const AudioClipLibrary: React.FC<Props> = ({ onAudioClipSelect }) => {
                         backgroundColor: "white",
                         padding: "20px",
                         borderRadius: "8px",
-                        width: "400px",
+                        width: "90vw",
+                        maxWidth: "400px",
                         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
                     }}>
-                        <h2>Dodaj Nowy AudioClip</h2>
+                        <h2 id="audioclip-upload-title">{t('clipLibrary.addNew', 'Add New AudioClip')}</h2>
                         <AudioClipUploadForm />
                         <button onClick={closeModal} style={{
                             marginTop: "10px",
@@ -71,7 +74,7 @@ const AudioClipLibrary: React.FC<Props> = ({ onAudioClipSelect }) => {
                             borderRadius: "4px",
                             cursor: "pointer"
                         }}>
-                            ❌ Zamknij
+                            ❌ {t('clipLibrary.close', 'Close')}
                         </button>
                     </div>
                 </div>

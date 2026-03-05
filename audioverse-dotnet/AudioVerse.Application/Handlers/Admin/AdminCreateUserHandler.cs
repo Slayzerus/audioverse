@@ -1,5 +1,5 @@
 ﻿using AudioVerse.Application.Commands.Admin;
-using AudioVerse.Domain.Entities;
+using AudioVerse.Domain.Entities.UserProfiles;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

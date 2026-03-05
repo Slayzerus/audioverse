@@ -14,17 +14,31 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@fortawesome/*": ["node_modules/@fortawesome/*"]
+      "@fortawesome/*": ["node_modules/@fortawesome/*"],
+      "@hl/shared": ["../honest-living/packages/shared/src"],
+      "@hl/shared/*": ["../honest-living/packages/shared/src/*"],
+      "@hl/game-engine": ["../honest-living/packages/game-engine/src"],
+      "@hl/game-engine/*": ["../honest-living/packages/game-engine/src/*"]
     },
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": false
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/__tests__",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "tests",
+    "__tests__"
+  ]
 }

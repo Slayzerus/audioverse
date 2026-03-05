@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using AudioVerse.Application.Services.DMX;
+using AudioVerse.Application.Commands.DMX;
 
-namespace AudioVerse.Application.Commands.DMX
+namespace AudioVerse.Application.Handlers.DMX
 {
     public sealed class ClosePortHandler : IRequestHandler<ClosePortCommand, Unit>
     {

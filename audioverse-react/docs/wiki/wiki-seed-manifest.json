@@ -1,0 +1,302 @@
+[
+    {
+        "slug": "frontend/architecture",
+        "title": "Frontend — Architektura i przegląd",
+        "category": "Frontend — React",
+        "sortOrder": 0,
+        "isPublished": true,
+        "tags": "react,typescript,vite,architecture,overview",
+        "icon": "layers",
+        "sourceFile": "frontend-architecture.md"
+    },
+    {
+        "slug": "frontend/karaoke-system",
+        "title": "System Karaoke — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 1,
+        "isPublished": true,
+        "tags": "karaoke,pitch,scoring,ultrastar,mic",
+        "icon": "music",
+        "sourceFile": "karaoke-system.md"
+    },
+    {
+        "slug": "frontend/karaoke-editor",
+        "title": "Edytor Karaoke",
+        "category": "Frontend — React",
+        "sortOrder": 2,
+        "isPublished": true,
+        "tags": "editor,ultrastar,metadata,spotify,demucs",
+        "icon": "edit",
+        "sourceFile": "karaoke-editor.md"
+    },
+    {
+        "slug": "frontend/audio-processing",
+        "title": "Przetwarzanie Audio — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 3,
+        "isPublished": true,
+        "tags": "audio,webaudio,pitch,fft,hanning,crepe,librosa",
+        "icon": "radio",
+        "sourceFile": "audio-processing.md"
+    },
+    {
+        "slug": "frontend/api-client",
+        "title": "Warstwa API — Klient Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 4,
+        "isPublished": true,
+        "tags": "api,axios,react-query,websocket,rest",
+        "icon": "globe",
+        "sourceFile": "api-client.md"
+    },
+    {
+        "slug": "frontend/ui-components",
+        "title": "Komponenty UI — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 5,
+        "isPublished": true,
+        "tags": "components,ui,layout,animations,midi",
+        "icon": "layout",
+        "sourceFile": "ui-components.md"
+    },
+    {
+        "slug": "frontend/state-management",
+        "title": "Zarządzanie stanem — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 6,
+        "isPublished": true,
+        "tags": "state,context,react-query,localstorage",
+        "icon": "database",
+        "sourceFile": "state-management.md"
+    },
+    {
+        "slug": "frontend/testing",
+        "title": "Testy — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 7,
+        "isPublished": true,
+        "tags": "tests,vitest,playwright,cypress,coverage",
+        "icon": "check-circle",
+        "sourceFile": "testing.md"
+    },
+    {
+        "slug": "frontend/i18n",
+        "title": "Internacjonalizacja (i18n)",
+        "category": "Frontend — React",
+        "sortOrder": 8,
+        "isPublished": true,
+        "tags": "i18n,translations,react-i18next,polish,english",
+        "icon": "globe",
+        "sourceFile": "i18n.md"
+    },
+    {
+        "slug": "frontend/authentication",
+        "title": "Autentykacja & OAuth — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 9,
+        "isPublished": true,
+        "tags": "auth,jwt,oauth,login,captcha,totp,security",
+        "icon": "lock",
+        "sourceFile": "authentication.md"
+    },
+    {
+        "slug": "frontend/games-interactions",
+        "title": "Gry i interakcje — Frontend",
+        "category": "Frontend — React",
+        "sortOrder": 10,
+        "isPublished": true,
+        "tags": "games,pad,quiz,party,webrtc,multiplayer",
+        "icon": "star",
+        "sourceFile": "games-interactions.md"
+    },
+    {
+        "slug": "frontend/honest-living-game",
+        "title": "Honest Living — Gra RPG (Phaser)",
+        "category": "Frontend — React",
+        "sortOrder": 11,
+        "isPublished": true,
+        "tags": "phaser,rpg,game,zustand,combat,farming",
+        "icon": "swords",
+        "sourceFile": "honest-living-game.md"
+    },
+    {
+        "slug": "frontend/audio-editor",
+        "title": "Audio Editor (DAW)",
+        "category": "Frontend — React",
+        "sortOrder": 12,
+        "isPublished": true,
+        "tags": "daw,editor,audio,layers,effects,tutorial",
+        "icon": "sliders-horizontal",
+        "sourceFile": "audio-editor.md"
+    },
+    {
+        "slug": "frontend/midi-automation",
+        "title": "MIDI & Automatyzacja",
+        "category": "Frontend — React",
+        "sortOrder": 13,
+        "isPublished": true,
+        "tags": "midi,automation,cc,arpeggiator,lfo,sequencer",
+        "icon": "piano",
+        "sourceFile": "midi-automation.md"
+    },
+    {
+        "slug": "frontend/party-system",
+        "title": "System imprez & wydarzeń",
+        "category": "Frontend — React",
+        "sortOrder": 14,
+        "isPublished": true,
+        "tags": "party,event,qr,chat,rounds,comments",
+        "icon": "party-popper",
+        "sourceFile": "party-system.md"
+    },
+    {
+        "slug": "frontend/mini-games",
+        "title": "Mini-gry & Jam Session",
+        "category": "Frontend — React",
+        "sortOrder": 15,
+        "isPublished": true,
+        "tags": "games,couch,quiz,hitThatNote,jam,drumkit",
+        "icon": "gamepad-2",
+        "sourceFile": "mini-games.md"
+    },
+    {
+        "slug": "frontend/animated-person",
+        "title": "Animowane postacie (SVG + IK)",
+        "category": "Frontend — React",
+        "sortOrder": 16,
+        "isPublished": true,
+        "tags": "svg,animation,ik,rig,juror,audience,choreo",
+        "icon": "person-standing",
+        "sourceFile": "animated-person.md"
+    },
+    {
+        "slug": "frontend/playlist-manager",
+        "title": "Playlist Manager",
+        "category": "Frontend — React",
+        "sortOrder": 17,
+        "isPublished": true,
+        "tags": "playlist,dynamic,import,export,spotify,tidal,dualpane",
+        "icon": "list-music",
+        "sourceFile": "playlist-manager.md"
+    },
+    {
+        "slug": "frontend/player-visualizer",
+        "title": "Player & Wizualizacje",
+        "category": "Frontend — React",
+        "sortOrder": 18,
+        "isPublished": true,
+        "tags": "player,visualizer,hls,vu,spectrum,particles",
+        "icon": "play-circle",
+        "sourceFile": "player-visualizer.md"
+    },
+    {
+        "slug": "frontend/theming-system",
+        "title": "System motywów & Glossy Bar",
+        "category": "Frontend — React",
+        "sortOrder": 19,
+        "isPublished": true,
+        "tags": "theme,dark,light,glossy,bar,texture,gradient",
+        "icon": "palette",
+        "sourceFile": "theming-system.md"
+    },
+    {
+        "slug": "frontend/security-audit",
+        "title": "Audyt bezpieczeństwa",
+        "category": "Frontend — React",
+        "sortOrder": 20,
+        "isPublished": true,
+        "tags": "audit,security,honeytokens,login-attempts,otp",
+        "icon": "shield",
+        "sourceFile": "security-audit.md"
+    },
+    {
+        "slug": "frontend/dmx-lighting",
+        "title": "DMX-512 Oświetlenie",
+        "category": "Frontend — React",
+        "sortOrder": 21,
+        "isPublished": true,
+        "tags": "dmx,lighting,ftdi,scenes,sequences,beat",
+        "icon": "lightbulb",
+        "sourceFile": "dmx-lighting.md"
+    },
+    {
+        "slug": "frontend/gamepad-navigation",
+        "title": "Nawigacja gamepadem",
+        "category": "Frontend — React",
+        "sortOrder": 22,
+        "isPublished": true,
+        "tags": "gamepad,spatial,focusable,navigation,dead-zone",
+        "icon": "joystick",
+        "sourceFile": "gamepad-navigation.md"
+    },
+    {
+        "slug": "frontend/help-tutorial-system",
+        "title": "Pomoc & Tutorial",
+        "category": "Frontend — React",
+        "sortOrder": 23,
+        "isPublished": true,
+        "tags": "help,tutorial,wiki,overlay,spotlight",
+        "icon": "help-circle",
+        "sourceFile": "help-tutorial-system.md"
+    },
+    {
+        "slug": "frontend/multiplayer-realtime",
+        "title": "Multiplayer & Real-time",
+        "category": "Frontend — React",
+        "sortOrder": 24,
+        "isPublished": true,
+        "tags": "websocket,webrtc,signalr,offline,p2p,latency",
+        "icon": "wifi",
+        "sourceFile": "multiplayer-realtime.md"
+    },
+    {
+        "slug": "frontend/tuning-harness",
+        "title": "Tuning Harness — kalibracja scoringu",
+        "category": "Frontend — React",
+        "sortOrder": 25,
+        "isPublished": true,
+        "tags": "tuning,scoring,heatmap,fixtures,presets,offset",
+        "icon": "settings",
+        "sourceFile": "tuning-harness.md"
+    },
+    {
+        "slug": "frontend/karaoke-timeline-rendering",
+        "title": "Karaoke Timeline — rendering",
+        "category": "Frontend — React",
+        "sortOrder": 26,
+        "isPublished": true,
+        "tags": "canvas,timeline,animation,glossy,smoothing,particles",
+        "icon": "film",
+        "sourceFile": "karaoke-timeline-rendering.md"
+    },
+    {
+        "slug": "frontend/dance-pose",
+        "title": "Dance & Pose Detection",
+        "category": "Frontend — React",
+        "sortOrder": 27,
+        "isPublished": true,
+        "tags": "pose,dance,mediapipe,webcam,choreo,classification",
+        "icon": "body",
+        "sourceFile": "dance-pose.md"
+    },
+    {
+        "slug": "frontend/library-explorer",
+        "title": "Library Explorer & Song Browser",
+        "category": "Frontend — React",
+        "sortOrder": 28,
+        "isPublished": true,
+        "tags": "library,songs,search,ultrastar,audio,catalog,spotify",
+        "icon": "library",
+        "sourceFile": "library-explorer.md"
+    },
+    {
+        "slug": "frontend/data-models",
+        "title": "Modele danych — referencja",
+        "category": "Frontend — React",
+        "sortOrder": 29,
+        "isPublished": true,
+        "tags": "models,typescript,interfaces,enums,dto,entities",
+        "icon": "file-type",
+        "sourceFile": "data-models.md"
+    }
+]

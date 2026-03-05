@@ -1,0 +1,18 @@
+Rysunek 3.2 — Porównanie trajektorii F0 wykrytych przez pYIN i CREPE
+
+CO PRZEDSTAWIA:
+Wykres liniowy z dwoma trajektoriami F0 dla tego samego 5-sekundowego pliku
+wokalnego. Oś Y: częstotliwość [Hz], oś X: czas [s]. Linia niebieska — pYIN,
+czerwona — CREPE, szara przerywana — referencja (ground truth).
+Widoczne różnice w wygładzeniu i dokładności obu algorytmów.
+
+JAK ZDOBYĆ:
+1. Uruchom system: docker compose up -d
+2. Otwórz moduł laboratoryjny: http://localhost:5173/admin/lab
+3. Zakładka "Pitch" → "Compare" — wgraj plik WAV z czystym wokalem
+   (3-5 sekund, np. fragment acapella)
+4. Endpoint: POST /api/karaoke/lab/pitch/compare
+5. Alternatywnie: wygeneruj raport PDF (POST /api/karaoke/lab/report/pdf)
+   i wyeksportuj wykres trajektorii F0 ze strony raportu
+6. Jeśli wykres nie jest dostępny bezpośrednio — użyj danych z odpowiedzi
+   JSON (tablice track[]) i narysuj w Pythonie (matplotlib)

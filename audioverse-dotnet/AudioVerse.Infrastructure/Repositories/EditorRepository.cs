@@ -232,6 +232,78 @@ namespace AudioVerse.Infrastructure.Repositories
             return await _db.ExecuteAsync(sql, new { Id = mappingId }) > 0;
         }
 
+        public async Task<bool> UpdateProjectAsync(AudioProject project)
+        {
+            var sql = "UPDATE AudioProjects SET Name = @Name, IsTemplate = @IsTemplate, Volume = @Volume WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, project) > 0;
+        }
+
+        public async Task<bool> DeleteProjectAsync(int projectId)
+        {
+            var sql = "DELETE FROM AudioProjects WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, new { Id = projectId }) > 0;
+        }
+
+        public async Task<bool> UpdateSectionAsync(AudioSection section)
+        {
+            var sql = "UPDATE AudioSections SET Name = @Name, OrderNumber = @OrderNumber WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, section) > 0;
+        }
+
+        public async Task<bool> DeleteSectionAsync(int sectionId)
+        {
+            var sql = "DELETE FROM AudioSections WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, new { Id = sectionId }) > 0;
+        }
+
+        public async Task<bool> UpdateLayerAsync(AudioLayer layer)
+        {
+            var sql = "UPDATE AudioLayers SET Name = @Name, AudioClipId = @AudioClipId WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, layer) > 0;
+        }
+
+        public async Task<bool> DeleteLayerAsync(int layerId)
+        {
+            var sql = "DELETE FROM AudioLayers WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, new { Id = layerId }) > 0;
+        }
+
+        public async Task<bool> DeleteLayerItemAsync(int itemId)
+        {
+            var sql = "DELETE FROM AudioLayerItems WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, new { Id = itemId }) > 0;
+        }
+
+        public async Task<bool> DeleteAudioClipAsync(int clipId)
+        {
+            var sql = "DELETE FROM AudioClips WHERE Id = @Id";
+            return await _db.ExecuteAsync(sql, new { Id = clipId }) > 0;
+        }
+
+        // ── New interface members (delegated to EF implementation via DI) ──
+
+        public Task<IEnumerable<AudioEffect>> GetEffectsAsync() => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioEffect?> GetEffectByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddEffectAsync(AudioEffect effect) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task RemoveEffectAsync(AudioEffect effect) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task SaveChangesAsync() => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<IEnumerable<AudioLayerEffect>> GetLayerEffectsAsync(int layerId) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioLayerEffect?> GetLayerEffectByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddLayerEffectAsync(AudioLayerEffect layerEffect) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task RemoveLayerEffectAsync(AudioLayerEffect layerEffect) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<IEnumerable<AudioProjectCollaborator>> GetCollaboratorsAsync(int projectId) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioProjectCollaborator?> GetCollaboratorByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddCollaboratorAsync(AudioProjectCollaborator collaborator) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task RemoveCollaboratorAsync(AudioProjectCollaborator collaborator) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddExportTaskAsync(AudioExportTask task) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioExportTask?> GetExportTaskByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<IEnumerable<AudioSamplePack>> GetSamplePacksAsync(string? genre, string? instrument) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioSamplePack?> GetSamplePackByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddSamplePackAsync(AudioSamplePack pack) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task RemoveSamplePackAsync(AudioSamplePack pack) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<int> AddSampleAsync(AudioSample sample) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task<AudioSample?> GetSampleByIdAsync(int id) => throw new NotImplementedException("Use EditorRepositoryEF");
+        public Task RemoveSampleAsync(AudioSample sample) => throw new NotImplementedException("Use EditorRepositoryEF");
     }
 }
 

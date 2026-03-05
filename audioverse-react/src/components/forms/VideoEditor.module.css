@@ -1,0 +1,528 @@
+/* ============================================================
+   VideoEditor.module.css — shared CSS module for all
+   VideoEditor sub-components (wrapper, toolbar, left-panel,
+   timeline).
+   ============================================================ */
+
+/* ── VideoEditor.tsx (wrapper) ────────────────────────────── */
+
+.loadingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 400px;
+  color: #aaa;
+  background: #1a1a1e;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: #1a1a1e;
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+}
+
+.hiddenVideo {
+  display: none;
+}
+
+.mainArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.canvasViewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #111115;
+  overflow: hidden;
+}
+
+.canvasCenter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ── VideoEditorToolbar.tsx ───────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid #333;
+  background: #222226;
+}
+
+.toolbarGroup {
+  display: flex;
+  gap: 6.5px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  background: #444;
+  margin: 0 4px;
+}
+
+.toolbarTitle {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.saveBtn {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── VideoEditorLeftPanel.tsx ─────────────────────────────── */
+
+.panel {
+  width: 280px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #333;
+  background: #222226;
+  overflow: hidden;
+}
+
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid #333;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  flex: 1 0 25%;
+  padding: 6px 2px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  transition: all 0.15s;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  color: #999;
+}
+
+.tabIcon {
+  font-size: 14px;
+}
+
+.panelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+
+/* -- Pill buttons (category pills, animation pills) -- */
+
+.pillGroup {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.pill {
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: none;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.pillAnim {
+  composes: pill;
+  border-radius: 8px;
+  font-size: 10px;
+}
+
+/* -- Selection card grids -- */
+
+.cardGrid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.cardGrid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.selcard {
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.selcardSpeed {
+  composes: selcard;
+  font-size: 11px;
+  padding: 10px 4px;
+}
+
+.cardIconLg {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.cardIcon {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.cardIconSm {
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+/* -- Slider / Form controls -- */
+
+.sliderGroup {
+  margin-bottom: 8px;
+}
+
+.sliderGroup12 {
+  margin-bottom: 12px;
+}
+
+.sliderLabel {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.sectionLabel8 {
+  composes: sectionLabel;
+  margin-bottom: 8px;
+}
+
+.labelSmall {
+  font-size: 11px;
+  color: #888;
+}
+
+.labelXs {
+  font-size: 10px;
+  color: #888;
+}
+
+.hint {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.accentBold {
+  font-weight: 700;
+}
+
+.inputRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.sliderFlex {
+  flex: 1;
+}
+
+.timeValue {
+  font-size: 11px;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* -- Info card -- */
+
+.infoCard {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #2a2a30;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.infoCardSm {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #2a2a30;
+  font-size: 11px;
+  color: #888;
+}
+
+.infoLabel {
+  color: #888;
+}
+
+/* -- Text tab -- */
+
+.textarea {
+  width: 100%;
+  background: #2a2a30;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.textFormatBtn {
+  min-width: 32px;
+}
+
+.boldBtn {
+  composes: textFormatBtn;
+  font-weight: 700;
+}
+
+.italicBtn {
+  composes: textFormatBtn;
+  font-style: italic;
+}
+
+.colorInput {
+  width: 32px;
+  height: 31px;
+  padding: 2px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: #2a2a30;
+  cursor: pointer;
+}
+
+.selectedTextCard {
+  padding: 8px;
+  border-radius: 8px;
+  background: #2a2a30;
+  margin-bottom: 10px;
+}
+
+.editingTitle {
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.editTextarea {
+  width: 100%;
+  background: #1a1a1e;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 11px;
+}
+
+.rangeGroup {
+  flex: 1;
+}
+
+.timeXs {
+  font-size: 9px;
+  color: #666;
+}
+
+/* -- Overlay list -- */
+
+.overlayItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  margin-bottom: 3px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.overlayText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+}
+
+.overlayTime {
+  color: #666;
+  font-size: 10px;
+}
+
+/* -- Misc -- */
+
+.hr {
+  border-color: #333;
+}
+
+.note {
+  font-size: 10px;
+  color: #666;
+}
+
+.rotationBtn {
+  flex: 1;
+}
+
+.mb14 {
+  margin-bottom: 14px;
+}
+
+/* ── VideoEditorTimeline.tsx ──────────────────────────────── */
+
+.timelineContainer {
+  padding: 10px 16px;
+  border-top: 1px solid #333;
+  background: #222226;
+}
+
+.progressBar {
+  position: relative;
+  height: 32px;
+  border-radius: 6px;
+  background: #333;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.trimArea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  transition: left 0.05s linear;
+}
+
+.playheadDot {
+  position: absolute;
+  top: -4px;
+  left: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.trimHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: #ff9800;
+  cursor: ew-resize;
+  transform: translateX(-4px);
+}
+
+.trimHandleStart {
+  composes: trimHandle;
+  border-radius: 4px 0 0 4px;
+}
+
+.trimHandleEnd {
+  composes: trimHandle;
+  border-radius: 0 4px 4px 0;
+}
+
+.textMarker {
+  position: absolute;
+  bottom: 2px;
+  height: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.playbackControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.timeDisplay {
+  font-size: 11px;
+  color: #888;
+  min-width: 50px;
+}
+
+.timeDisplayRight {
+  composes: timeDisplay;
+  text-align: right;
+}
+
+.skipBtn {
+  padding: 4px 8px;
+}
+
+.playBtn {
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.speedLabel {
+  font-size: 11px;
+  color: #666;
+}
+
+.timelineDivider {
+  width: 1px;
+  height: 20px;
+  background: #444;
+}

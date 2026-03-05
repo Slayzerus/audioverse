@@ -11,12 +11,12 @@ export const AudioRowItem: React.FC<LibraryListAudioItemProps> = ({
     return (
         <tr style={{ borderBottom: "1px solid #f1f5f9" }}>
             <td style={{ padding: 6, width: 28 }}>
-                <input type="checkbox" checked={checked} onChange={onToggle} />
+                <input type="checkbox" checked={checked} onChange={onToggle} aria-label={`Select ${r.title}`} />
             </td>
             <td style={{ padding: 6, width: 44 }}>
                 {r.albumDetails?.coverUrl ? (
                     <img
-                        alt=""
+                        alt={r.title || 'Album cover'}
                         src={r.albumDetails.coverUrl}
                         style={{
                             width: 36,

@@ -3,5 +3,5 @@ using MediatR;
 
 namespace AudioVerse.Application.Commands.User
 {
-    public record LoginUserCommand(string Username, string Password) : IRequest<(string accessToken, string refreshToken)>;
+    public record LoginUserCommand(string Username, string Password) : IRequest<LoginResponse>;
 }

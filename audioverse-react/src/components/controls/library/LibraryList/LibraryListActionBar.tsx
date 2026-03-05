@@ -1,5 +1,6 @@
 // src/components/library/LibraryList/ActionBar.tsx
 import * as React from "react";
+import { useTranslation } from 'react-i18next';
 import { rowBtn } from "../../../../utils/libraryStyles.ts";
 
 /// Props for the top-right action bar.
@@ -27,6 +28,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
                                                         onAddToQueue,
                                                         onAddDescriptors,
                                                     }) => {
+    const { t } = useTranslation();
     return (
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
             <button
@@ -35,7 +37,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
                 disabled={!isAudioTab || selectedTracksCount === 0}
                 onClick={onPlayNow}
             >
-                Play now ({selectedTracksCount})
+                {t('libraryActions.playNow', 'Play now')} ({selectedTracksCount})
             </button>
             <button
                 type="button"
@@ -43,7 +45,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
                 disabled={!isAudioTab || selectedTracksCount === 0}
                 onClick={onAddToQueue}
             >
-                Do kolejki ({selectedTracksCount})
+                {t('libraryActions.addToQueue', 'Add to queue')} ({selectedTracksCount})
             </button>
             <button
                 type="button"
@@ -51,7 +53,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
                 disabled={selectedDescriptorsCount === 0}
                 onClick={onAddDescriptors}
             >
-                Do playlisty ({selectedDescriptorsCount})
+                {t('libraryActions.addToPlaylist', 'Add to playlist')} ({selectedDescriptorsCount})
             </button>
         </div>
     );

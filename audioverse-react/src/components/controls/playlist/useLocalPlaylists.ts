@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { SongDescriptorDto } from "../../../models/modelsPlaylists";
+import { loadUserSettings, syncSettingToBackend } from "../../../scripts/settingsSync";
 
 export type LocalPlaylist = {
     id: string;
@@ -19,11 +20,35 @@ function load(): LocalPlaylist[] {
     }
 }
 function save(data: LocalPlaylist[]) {
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch {}
+    const json = JSON.stringify(data);
+    try { localStorage.setItem(KEY, json); } catch { /* Best-effort — no action needed on failure */ }
+    syncSettingToBackend({ localPlaylists: json });
 }
 
 export function useLocalPlaylists() {
     const [data, setData] = useState<LocalPlaylist[]>(() => load());
+    const hydrated = useRef(false);
+
+    // Hydrate from backend once
+    useEffect(() => {
+        if (hydrated.current) return;
+        hydrated.current = true;
+        loadUserSettings().then(s => {
+            if (s?.localPlaylists) {
+                try {
+                    const remote = JSON.parse(s.localPlaylists) as LocalPlaylist[];
+                    if (Array.isArray(remote) && remote.length > 0) {
+                        setData(prev => {
+                            // Merge: keep local items, add remote ones not already present
+                            const ids = new Set(prev.map(p => p.id));
+                            const toAdd = remote.filter(r => !ids.has(r.id));
+                            return toAdd.length > 0 ? [...prev, ...toAdd] : prev;
+                        });
+                    }
+                } catch { /* Expected: remote playlist sync may return malformed data */ }
+            }
+        });
+    }, []);
 
     useEffect(() => { save(data); }, [data]);
 

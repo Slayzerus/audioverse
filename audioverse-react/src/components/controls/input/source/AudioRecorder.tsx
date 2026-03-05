@@ -25,11 +25,9 @@ const AudioRecorderComponent: React.FC<AudioRecorderProps> = ({ onAudioRecorded 
 
     const stopRecording = async () => {
         if (!recorderRef.current) return;
-        const recordings = await recorderRef.current.stopRecording();
+        const audioBlob = await recorderRef.current.stopRecording();
         setRecording(false);
-
-        if (selectedDevice && recordings[selectedDevice]) {
-            const audioBlob = recordings[selectedDevice]; // Pobranie nagranego audio
+        if (audioBlob) {
             setAudioBlob(audioBlob);
             onAudioRecorded(audioBlob); // 🔥 Przekazanie nagrania na zewnątrz!
         }
@@ -58,7 +56,7 @@ const AudioRecorderComponent: React.FC<AudioRecorderProps> = ({ onAudioRecorded 
                 <h6 className="text-center mb-2">🎤 Audio Recorder</h6>
 
                 <div className="d-flex flex-wrap align-items-center gap-2">
-                    {/* Komponent wyboru wejścia audio */}
+                    {/* Audio input selection component */}
                     <AudioInputSelect
                         selectedDevice={selectedDevice}
                         onDeviceChange={setSelectedDevice}

@@ -1,4 +1,4 @@
-﻿using System.IO.Ports;
+using System.IO.Ports;
 
 
 namespace AudioVerse.Application.Services.DMX
@@ -37,8 +37,8 @@ namespace AudioVerse.Application.Services.DMX
             {
                 if (_port != null)
                 {
-                    try { _port.DiscardOutBuffer(); } catch { }
-                    try { _port.Close(); } catch { }
+                    try { _port.DiscardOutBuffer(); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException) { }
+                    try { _port.Close(); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException) { }
                     _port.Dispose();
                     _port = null;
                 }
@@ -56,15 +56,15 @@ namespace AudioVerse.Application.Services.DMX
                 if (useBreak)
                 {
                     p.BreakState = true;
-                    Thread.Sleep(1);   // ≥ 88 µs
+                    Thread.Sleep(1);   // = 88 �s
                     p.BreakState = false;
-                    Thread.Sleep(1);   // ≥ 8 µs
+                    Thread.Sleep(1);   // = 8 �s
                 }
 
-                // ← to działa w .NET 6+ (Stream ma Write(ReadOnlySpan<byte>))
+                // ? to dziala w .NET 6+ (Stream ma Write(ReadOnlySpan<byte>))
                 p.BaseStream.Write(frame);
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException)
             {
                 // log/ignore
             }

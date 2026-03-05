@@ -1,0 +1,106 @@
+/* TitleCard — fullscreen animated intro before a mini-game starts */
+
+.titleCard {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #1a1a3e 0%, #0a0a1a 80%);
+  color: var(--color-white);
+  animation: titleFadeIn 0.4s ease-out;
+}
+
+.titleIcon {
+  font-size: 5rem;
+  margin-bottom: 0.5rem;
+  animation: titleBounce 0.6s ease-out;
+}
+
+.titleName {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  margin-bottom: 0.4rem;
+  animation: titleSlideUp 0.5s ease-out 0.1s both;
+}
+
+.titleDesc {
+  font-size: 1.1rem;
+  opacity: 0.7;
+  max-width: 500px;
+  text-align: center;
+  line-height: 1.5;
+  animation: titleSlideUp 0.5s ease-out 0.2s both;
+}
+
+.titlePlayers {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  opacity: 0.5;
+  animation: titleSlideUp 0.5s ease-out 0.3s both;
+}
+
+.titleSkip {
+  position: absolute;
+  bottom: 2rem;
+  font-size: 0.8rem;
+  opacity: 0.4;
+  animation: titlePulse 2s infinite;
+}
+
+/* Transition wipe that plays after title card */
+.wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  pointer-events: none;
+}
+
+.wipeBar {
+  position: absolute;
+  width: 100%;
+  background: var(--gray-950);
+  animation: wipeSlide 0.5s ease-in-out forwards;
+}
+
+.wipeTop {
+  top: 0;
+  height: 50%;
+  transform-origin: top;
+}
+
+.wipeBottom {
+  bottom: 0;
+  height: 50%;
+  transform-origin: bottom;
+}
+
+@keyframes titleFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes titleBounce {
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60% { transform: scale(1.2) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes titleSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes titlePulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes wipeSlide {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}

@@ -1,42 +1,184 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591;CS8981;CS1587;CS1572;CS1573</NoWarn>
     <UserSecretsId>242e56a7-b436-424b-8f02-4f649e8fca45</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="9.0.0" />
-    <PackageReference Include="Elastic.Serilog.Sinks" Version="9.0.0" />
-    <PackageReference Include="MediatR" Version="13.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-    <PackageReference Include="Serilog" Version="4.3.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
+    <None Remove="Seed\Bananarama - Cruel Summer.txt" />
+    <None Remove="Seed\Bill Withers - Ain’t No Sunshine.txt" />
+    <None Remove="Seed\Dan Hartman - Relight My Fire.txt" />
+    <None Remove="Seed\Dave Stewart - Heart Of Stone.txt" />
+    <None Remove="Seed\Elvis Presley vs. JXL - A Little Less Conversation.txt" />
+    <None Remove="Seed\Erasure - Always.txt" />
+    <None Remove="Seed\Gorillaz feat. Shaun Ryder - DARE.txt" />
+    <None Remove="Seed\HIM - Join Me %28In Death%29.txt" />
+    <None Remove="Seed\Keane - Somewhere Only We Know.txt" />
+    <None Remove="Seed\Nickelback - Rockstar.txt" />
+    <None Remove="Seed\Nirvana - Smells Like Teen Spirit.txt" />
+    <None Remove="Seed\Nirvana - The Man Who Sold The World %28MTV Unplugged%29.txt" />
+    <None Remove="Seed\poster.jpg" />
+    <None Remove="Seed\Robbie Williams - Supreme.txt" />
+    <None Remove="Seed\The Sisters of Mercy - Temple Of Love.txt" />
+    <None Remove="Seed\The Zutons - Valerie.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.15.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="QuestPDF" Version="2026.2.2" />
+    <PackageReference Include="QuestPDF.Markdown" Version="1.47.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.11.8" />
+    <PackageReference Include="Elastic.CommonSchema.Serilog" Version="9.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="Elastic.Serilog.Sinks" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
     <ProjectReference Include="..\AudioVerse.Application\AudioVerse.Application.csproj" />
     <ProjectReference Include="..\AudioVerse.Domain\AudioVerse.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Seed\Ultrastar\Bananarama - Cruel Summer.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Bill Withers - Ain’t No Sunshine.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Dan Hartman - Relight My Fire.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Dave Stewart - Heart Of Stone.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Elvis Presley vs. JXL - A Little Less Conversation.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Erasure - Always.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Gorillaz feat. Shaun Ryder - DARE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\HIM - Join Me %28In Death%29.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Keane - Somewhere Only We Know.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Nickelback - Rockstar.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Nirvana - Smells Like Teen Spirit.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Nirvana - The Man Who Sold The World %28MTV Unplugged%29.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\poster.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\Robbie Williams - Supreme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\The Sisters of Mercy - Temple Of Love.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Seed\Ultrastar\The Zutons - Valerie.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Seed\Soundfonts\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Seed\Music\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Seed\Samples\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Karaoke\Models\Requests\" />
+    <Folder Include="Areas\SongInformation\" />
+    <Folder Include="Infrastructure\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Seed\Samples\Weird Drums\.DS_Store" />
+  </ItemGroup>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       Post-build: generate swagger.json → audioverse-react
+       Runs only when the sibling react repo folder exists.
+       On a fresh machine: dotnet tool restore (from .config/dotnet-tools.json)
+       ════════════════════════════════════════════════════════════════ -->
+  <PropertyGroup>
+    <ReactApiDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\audioverse-react\src\scripts\api'))</ReactApiDir>
+    <SolutionRoot>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</SolutionRoot>
+  </PropertyGroup>
+
+  <Target Name="GenerateSwaggerJson" AfterTargets="Build" Condition="Exists('$(ReactApiDir)') AND '$(BuildingInsideVisualStudio)' != 'true'">
+    <Exec Command="dotnet tool restore --no-cache" WorkingDirectory="$(SolutionRoot)" ContinueOnError="true" StandardOutputImportance="low" Timeout="15000" />
+    <Exec Command="dotnet swagger tofile --output &quot;$(ReactApiDir)\swagger.audioverse.json&quot; &quot;$(TargetDir)$(TargetFileName)&quot; all" WorkingDirectory="$(SolutionRoot)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development;ASPNETCORE_CONTENTROOT=$(MSBuildProjectDirectory)" ContinueOnError="WarnAndContinue" StandardOutputImportance="low" Timeout="60000" />
+    <Message Text="✅ swagger.audioverse.json → $(ReactApiDir)" Importance="high" Condition="Exists('$(ReactApiDir)\swagger.audioverse.json')" />
+  </Target>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       Post-build: automatyczna generacja diagramów .drawio
+       Skanuje [DiagramNode] / [DiagramRelation] atrybuty w Domain
+       i generuje Docs/diagrams/auto-data-model.drawio.
+       Wyłącz: dotnet build -p:GenerateDiagrams=false
+       ════════════════════════════════════════════════════════════════ -->
+  <PropertyGroup>
+    <GenerateDiagrams Condition="'$(GenerateDiagrams)' == ''">true</GenerateDiagrams>
+    <DiagramGeneratorProject>$(MSBuildProjectDirectory)\..\AudioVerse.DiagramGenerator\AudioVerse.DiagramGenerator.csproj</DiagramGeneratorProject>
+    <DiagramOutputPath>$(MSBuildProjectDirectory)\Docs\diagrams\auto-data-model.drawio</DiagramOutputPath>
+  </PropertyGroup>
+
+  <Target Name="GenerateDiagrams" AfterTargets="Build" Condition="'$(GenerateDiagrams)' == 'true' AND Exists('$(DiagramGeneratorProject)') AND '$(BuildingInsideVisualStudio)' != 'true'">
+    <Exec Command="dotnet run --project &quot;$(DiagramGeneratorProject)&quot; --no-build -- &quot;$(DiagramOutputPath)&quot;" WorkingDirectory="$(SolutionRoot)" ContinueOnError="WarnAndContinue" StandardOutputImportance="low" Timeout="30000" />
+    <Message Text="📊 auto-data-model.drawio wygenerowano → $(DiagramOutputPath)" Importance="high" Condition="Exists('$(DiagramOutputPath)')" />
+  </Target>
 
 </Project>

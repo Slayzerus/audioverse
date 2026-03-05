@@ -1,0 +1,72 @@
+<mxfile host="app.diagrams.net" modified="2025-02-25" type="device">
+  <diagram id="audio-radio" name="Model danych - Audio, Radio, Edytor">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Audio, Radio, Edytor, Media" style="text;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="450" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- BIBLIOTEKA MUZYCZNA -->
+        <mxCell id="ml" value="Biblioteka muzyczna" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="500" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="song" value="Utwor&#xa;Tytul, ISRC, Czas trwania" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="artist" value="Artysta&#xa;Nazwa, Bio, Zdjecie" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="220" y="100" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="album" value="Album&#xa;Tytul, Rok, Okladka" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="380" y="100" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="genre" value="Gatunek&#xa;Nazwa" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="170" width="100" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="rs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="song" target="artist" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ra" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="artist" target="album" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- PLIKI KARAOKE -->
+        <mxCell id="ksf" value="Plik karaoke&#xa;Tekst (JSON), Audio&#xa;Wokal, Akompaniament" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="600" y="100" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="rk" value="1:1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;fontSize=9;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="song" target="ksf" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="560" y="125"/><mxPoint x="560" y="130"/></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- RADIO -->
+        <mxCell id="radio-grp" value="Radio" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="400" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="station" value="Stacja radiowa&#xa;Nazwa, URL streamu, Wlasciciel" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="340" width="180" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="playlist" value="Playlista radiowa&#xa;Kolejka, Teraz gra" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="260" y="340" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="rsp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="station" target="playlist" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- EDYTOR AUDIO -->
+        <mxCell id="editor-grp" value="Edytor audio" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=12;verticalAlign=top;align=center;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="500" y="300" width="300" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="project" value="Projekt audio&#xa;Nazwa, Sciezki, BPM" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="520" y="340" width="140" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="track" value="Sciezka audio&#xa;Nazwa, Plik, Efekty" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="680" y="340" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="rpt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="project" target="track" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- KATALOG MEDIOW -->
+        <mxCell id="mcat" value="Katalog mediow&#xa;Ksiazki, Filmy, Seriale, Sport" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" vertex="1" parent="1">
+          <mxGeometry x="860" y="340" width="220" height="50" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

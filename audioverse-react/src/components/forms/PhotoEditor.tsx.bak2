@@ -1,0 +1,44 @@
+/* PhotoEditor.tsx — Full-featured, client-side photo editor.
+ *
+ * Refactored: logic lives in usePhotoEditor hook,
+ * UI is split into Toolbar / LeftPanel / Canvas sub-components.
+ */
+
+import type { PhotoEditorProps } from "./photoEditorTypes";
+import { usePhotoEditor } from "./usePhotoEditor";
+import PhotoEditorToolbar from "./PhotoEditorToolbar";
+import PhotoEditorLeftPanel from "./PhotoEditorLeftPanel";
+import PhotoEditorCanvas from "./PhotoEditorCanvas";
+
+// ── Component ──
+
+export default function PhotoEditor(props: PhotoEditorProps) {
+    const api = usePhotoEditor(props);
+
+    if (api.loading || !api.image) {
+        return (
+            <div style={{
+                display: "flex", alignItems: "center", justifyContent: "center",
+                width: "100%", minHeight: 400, color: "#aaa",
+            }}>
+                <i className="fa fa-spinner fa-spin fa-2x" />
+            </div>
+        );
+    }
+
+    return (
+        <div style={{
+            display: "flex", flexDirection: "column",
+            width: "100%", maxHeight: "85vh",
+            background: "#1a1a1e", borderRadius: 12,
+            overflow: "hidden", color: "#eee",
+            fontFamily: "'Segoe UI', sans-serif", fontSize: 13,
+        }}>
+            <PhotoEditorToolbar api={api} />
+            <div style={{ display: "flex", flex: 1, overflow: "hidden", minHeight: 0 }}>
+                <PhotoEditorLeftPanel api={api} />
+                <PhotoEditorCanvas api={api} />
+            </div>
+        </div>
+    );
+}

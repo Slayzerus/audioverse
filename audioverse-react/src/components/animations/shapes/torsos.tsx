@@ -15,9 +15,9 @@ export type TorsoProps = {
 
 function pal(c: string[]) {
     return {
-        skin: pick(c, 0, "#FFD2B3"),
-        shade: pick(c, 1, "#F2C4A9"),
-        stroke: pick(c, 2, "#111"),
+        skin: pick(c, 0, "var(--anim-skin, #FFD2B3)"),
+        shade: pick(c, 1, "var(--anim-skin-shade, #F2C4A9)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
     };
 }
 

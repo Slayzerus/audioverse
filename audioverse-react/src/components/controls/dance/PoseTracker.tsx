@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { postPoseVideo, labelForEngine } from "../../../scripts/api/apiLibraryAiVideo";
 import { Pose2DSequenceResult, PoseEngine, MIME } from "../../../models/modelsAiVideo";
 import { PoseTrackerProps } from "./PoseTracker.types";
 
 /// Simple test harness for full-video 2D pose tracking.
 export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "mediapipe", onResult }) => {
+    const { t } = useTranslation();
     const [engine, setEngine] = useState<PoseEngine>(initialEngine);
     const [file, setFile] = useState<File | null>(null);
     const [busy, setBusy] = useState(false);
@@ -18,7 +20,7 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
         setError(null);
         if (f) {
             if (f.type !== MIME.videoMp4) {
-                setError("Accepted: MP4.");
+                setError(t('poseTracker.acceptedMp4', 'Accepted: MP4.'));
                 setFile(null);
                 return;
             }
@@ -31,7 +33,7 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
     /// Executes tracking using current engine and file.
     const onRun = async () => {
         if (!file) {
-            setError("Select a video first.");
+            setError(t('poseTracker.selectVideo', 'Select a video first.'));
             return;
         }
         setBusy(true);
@@ -40,8 +42,8 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
             const res = await postPoseVideo(engine, file);
             setResult(res);
             onResult?.(res);
-        } catch (e: any) {
-            setError(String(e?.message ?? e));
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : String(e));
         } finally {
             setBusy(false);
         }
@@ -52,7 +54,7 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
     return (
         <div style={{ display: "grid", gap: 12 }}>
             <fieldset style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <legend>Engine</legend>
+                <legend>{t('poseTracker.engine', 'Engine')}</legend>
                 <select
                     value={engine}
                     onChange={(e) => setEngine(e.target.value as PoseEngine)}
@@ -85,7 +87,7 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Summary</div>
+                    <div style={{ marginBottom: 6 }}>{t('poseTracker.summary', 'Summary')}</div>
                     <div style={{ border: "1px solid #ddd", padding: 8 }}>
                         <div>Model: {result?.model ?? "-"}</div>
                         <div>FPS: {result?.fps ?? "-"}</div>
@@ -94,7 +96,7 @@ export const PoseTracker: React.FC<PoseTrackerProps> = ({ initialEngine = "media
                     </div>
                 </div>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Response JSON</div>
+                    <div style={{ marginBottom: 6 }}>{t('poseTracker.responseJson', 'Response JSON')}</div>
                     <pre
                         style={{
                             margin: 0,

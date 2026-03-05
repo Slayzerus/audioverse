@@ -20,11 +20,11 @@ namespace AudioVerse.Domain.Entities.Dmx
             Channels.Count == Footprint &&
             Channels.All(c => c.IsValid);
 
-        public static DmxDeviceInfo Light4MePartyIvV2_17ch =>
+        public static DmxDeviceInfo Light4MeEventIvV2_17ch =>
             new()
             {
                 Manufacturer = "LIGHT4ME",
-                Model = "Party IV V2",
+                Model = "Event IV V2",
                 Version = null,
                 ModeName = "17ch",
                 Footprint = 17,

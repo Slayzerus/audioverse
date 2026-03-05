@@ -48,7 +48,7 @@ type Props = {
     imageCount?: number;
 };
 
-const barBg = "#0f172a";
+const barBg = "var(--player-bg, #0f172a)";
 
 const StageVisualizer: React.FC<Props> = ({
                                               kind,
@@ -102,7 +102,7 @@ const StageVisualizer: React.FC<Props> = ({
     const particlesRef = useRef<Particle[]>([]);
     const [vu, setVu] = useState(0);
 
-    // stany trybów
+    // mode states
     const tornadoRef = useRef<ImageTornadoState | null>(null);
     const ripplesRef = useRef<RipplesState | null>(null);
     const starfieldRef = useRef<StarfieldState | null>(null);
@@ -125,7 +125,7 @@ const StageVisualizer: React.FC<Props> = ({
         if (!audio) return;
 
         if (!sourceNodeRef.current) {
-            try { sourceNodeRef.current = ctx.createMediaElementSource(audio); } catch {}
+            try { sourceNodeRef.current = ctx.createMediaElementSource(audio); } catch { /* Best-effort — no action needed on failure */ }
         }
 
         if (!analyserRef.current) {
@@ -133,8 +133,8 @@ const StageVisualizer: React.FC<Props> = ({
             analyser.fftSize = 2048;
             analyser.smoothingTimeConstant = 0.85;
             analyserRef.current = analyser;
-            try { sourceNodeRef.current?.connect(analyser); } catch {}
-            try { analyser.connect(ctx.destination); } catch {}
+            try { sourceNodeRef.current?.connect(analyser); } catch { /* Best-effort — no action needed on failure */ }
+            try { analyser.connect(ctx.destination); } catch { /* Best-effort — no action needed on failure */ }
         }
 
         const analyser = analyserRef.current!;
@@ -154,7 +154,7 @@ const StageVisualizer: React.FC<Props> = ({
         const onResize = () => setupCanvas();
         window.addEventListener("resize", onResize);
 
-        // pre-init niektórych trybów zależnych od rozmiaru
+        // pre-init some modes depending on size
         ensureStarfield(starfieldRef, 220, canvasRef.current!.width, canvasRef.current!.height);
 
         const draw = async () => {
@@ -163,7 +163,7 @@ const StageVisualizer: React.FC<Props> = ({
             const ratio = Math.max(1, Math.floor(window.devicePixelRatio || 1));
             const w = c.width / ratio;
             const h = c.height / ratio;
-            const t = performance.now() * 0.001; // sekundy – do animacji trybów
+            const t = performance.now() * 0.001; // seconds – for mode animations
 
             // Rift też potrzebuje time-domain:
             const isTime = mode === "waveform" || mode === "rift";
@@ -275,6 +275,8 @@ const StageVisualizer: React.FC<Props> = ({
                             height,
                             borderRadius: 8,
                         }}
+                        role="img"
+                        aria-label="Stage visualizer canvas"
                     />
                 )}
             </div>

@@ -4,19 +4,16 @@ export class GamepadManager {
     private gamepads: GamepadState[] = [];
 
     constructor() {
-        console.log("Initializing GamepadManager...");
         window.addEventListener("gamepadconnected", this.connectHandler);
         window.addEventListener("gamepaddisconnected", this.disconnectHandler);
         this.pollGamepads();
     }
 
     private connectHandler = (event: GamepadEvent) => {
-        console.log("Gamepad connected:", event.gamepad);
         this.updateGamepad(event.gamepad);
     };
 
     private disconnectHandler = (event: GamepadEvent) => {
-        console.log("Gamepad disconnected:", event.gamepad.id);
         this.gamepads = this.gamepads.filter(gp => gp.id !== event.gamepad.index);
         this.notifyListeners();
     };

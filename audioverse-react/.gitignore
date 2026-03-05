@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SoundFont files (large binaries, stored on backend)
+*.sf2
+*.SF2

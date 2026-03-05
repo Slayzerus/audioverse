@@ -1,0 +1,452 @@
+/* AdminSkinsPage.module.css — extracted from inline styles */
+
+.loading {
+    padding: 20px;
+}
+
+.root {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* ── Left panel ── */
+.leftPanel {
+    width: 50%;
+    border-right: 1.5px solid var(--border-secondary);
+    overflow-y: auto;
+    position: relative;
+    background: var(--bg-secondary);
+}
+
+.leftPanelInner {
+    padding: 20px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.toolbarBtn {
+    padding: 8px 12px;
+}
+
+.savedMsg {
+    margin-left: 8px;
+}
+
+.themeList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.themeItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.themeEmoji {
+    font-size: 28px;
+}
+
+.themeInfo {
+    flex: 1;
+}
+
+.themeName {
+    font-weight: 600;
+}
+
+.themeDesc {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.themeSecondary {
+    color: var(--text-secondary);
+}
+
+.themeTertiary {
+    color: var(--text-tertiary);
+}
+
+.themeDarkBadge {
+    font-size: 12px;
+}
+
+.editBtn {
+    font-size: 13px;
+    margin-right: 4px;
+}
+
+.deleteBtn {
+    font-size: 13px;
+    color: var(--error);
+}
+
+/* ── Modal ── */
+.modalOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.modalCard {
+    background: var(--card-bg);
+    border-radius: 12px;
+    margin-top: 40px;
+    padding: 24px;
+    min-width: 420px;
+    max-width: 520px;
+    box-shadow: var(--shadow-lg);
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.emojiInput {
+    font-size: 24px;
+    width: 48px;
+    margin-left: 8px;
+}
+
+.nameInput {
+    width: 220px;
+    margin-left: 8px;
+}
+
+.descInput {
+    width: 260px;
+    margin-left: 8px;
+}
+
+.checkboxInput {
+    margin-left: 8px;
+}
+
+.varsTitle {
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+.varsContainer {
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    padding: 8px;
+    background: var(--card-bg);
+}
+
+.varRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.varLabel {
+    width: 130px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.varTextInput {
+    flex: 1;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.varColorInput {
+    width: 32px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.modalActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* ── Right panel (preview) ── */
+.rightPanel {
+    width: 50%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.previewNavbar {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+    gap: 10px;
+}
+
+.navBrand {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.navLink {
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.navLinkActive {
+    font-weight: 700;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.mainContent {
+    flex: 1;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    min-height: 0;
+}
+
+.sidebar {
+    width: 90px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.accentBar {
+    height: 6px;
+    border-radius: 3px;
+}
+
+.sidebarSpacer {
+    height: 4px;
+}
+
+.sidebarLink {
+    font-size: 9px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.sidebarText {
+    font-size: 9px;
+    cursor: pointer;
+}
+
+.scrollbarTrack {
+    height: 8px;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+.scrollbarThumb {
+    position: absolute;
+    left: 8px;
+    top: 0;
+    width: 28px;
+    height: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.contentColumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.titleBar {
+    border-radius: 6px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.titleEmoji {
+    font-size: 20px;
+}
+
+.titleName {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.titleDesc {
+    font-size: 10px;
+}
+
+.cardPreview {
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.inputRow {
+    display: flex;
+    gap: 6px;
+}
+
+.inputPreview {
+    flex: 1;
+    height: 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
+.inputText {
+    font-size: 9px;
+    opacity: 0.5;
+}
+
+.inputTextFocused {
+    font-size: 9px;
+}
+
+.buttonsRow {
+    display: flex;
+    gap: 6px;
+}
+
+.buttonPreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.bordersRow {
+    display: flex;
+    gap: 6px;
+}
+
+.borderPreview {
+    flex: 1;
+    height: 0;
+    cursor: pointer;
+}
+
+.dropdownRow {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.dropdownPreview {
+    border-radius: 6px;
+    padding: 4px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dropdownItem {
+    font-size: 9px;
+}
+
+.dropdownItemHovered {
+    font-size: 9px;
+    border-radius: 3px;
+    padding: 1px 4px;
+    cursor: pointer;
+}
+
+.elevatedPreview {
+    border-radius: 6px;
+    padding: 8px 12px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.elevatedText {
+    font-size: 9px;
+}
+
+.statusRow {
+    display: flex;
+    gap: 4px;
+}
+
+.statusBadge {
+    flex: 1;
+    height: 18px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statusLabel {
+    font-size: 8px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.shadowsRow {
+    display: flex;
+    gap: 6px;
+}
+
+.shadowPreview {
+    flex: 1;
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shadowLabel {
+    font-size: 8px;
+}
+
+.previewHint {
+    text-align: center;
+    padding: 4px 0 8px;
+    font-size: 10px;
+}

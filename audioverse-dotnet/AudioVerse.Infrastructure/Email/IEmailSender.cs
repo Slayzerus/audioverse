@@ -1,0 +1,7 @@
+namespace AudioVerse.Infrastructure.Email
+{
+    public interface IEmailSender
+    {
+        Task SendAsync(string to, string subject, string body, bool html = true);
+    }
+}

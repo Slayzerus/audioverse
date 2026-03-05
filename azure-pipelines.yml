@@ -3,6 +3,11 @@ trigger:
     include:
       - main
       - develop
+  paths:
+    exclude:
+      - '**/*.md'
+      - 'documentation/**'
+      - 'examples/**'
 
 pool:
   name: 'Contabo'
@@ -12,16 +17,226 @@ variables:
   DOCKER_IMAGE_API: 'slayzer/audioverse-api'
   DOCKER_IMAGE_IDENTITY: 'slayzer/audioverse-identity'
   DOCKER_IMAGE_REACT: 'slayzer/audioverse-react'
+  DOCKER_IMAGE_STORYBOOK: 'slayzer/audioverse-storybook'
   VPS_HOST: '194.163.129.84'
   VPS_USER: 'root'
   DEPLOY_DIR: '/home/audioverse'
+  DOTNET_VERSION: '10.0.x'
 
 stages:
+  # ================================================================
+  # STAGE 0: Load devopsvariables.json + detect changes
+  # ================================================================
+  - stage: Detect
+    displayName: 'Detect Changes'
+    jobs:
+      - job: DetectChanges
+        displayName: 'Load config & check which projects changed'
+        steps:
+          - checkout: self
+            fetchDepth: 2
+
+          - script: |
+              # ?? Load devopsvariables.json ??
+              CONFIG_FILE="$(Build.SourcesDirectory)/devopsvariables.json"
+              if [ -f "$CONFIG_FILE" ]; then
+                echo "Loading devopsvariables.json"
+                CLEAR_DB=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('ClearDb', False)).lower())")
+                RUN_TESTS=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('RunTests', True)).lower())")
+                FORCE_REBUILD=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('ForceRebuild', False)).lower())")
+                ONLY_PUSH=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('OnlyPush', False)).lower())")
+                CLEAN_AGENT=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('CleanAgentWorkDir', True)).lower())")
+                PRUNE_DOCKER=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('PruneDockerAfterDeploy', True)).lower())")
+                SKIP_AI=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('SkipAiBuild', False)).lower())")
+                CREPE_MODE=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(d.get('CrepeGpuOrCpu', 'cpu').lower())")
+                SKIP_HC=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('SkipHealthCheck', False)).lower())")
+                FORCE_RECREATE=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(str(d.get('ForceRecreateAllContainers', False)).lower())")
+                WAIT_API=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(d.get('WaitForApiSeconds', 45))")
+                MAX_LOG=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(d.get('MaxLogTailLines', 50))")
+                REACT_PORT=$(python3 -c "import json; d=json.load(open('$CONFIG_FILE')); print(d.get('ReactPort', 3080))")
+              else
+                echo "devopsvariables.json not found � using defaults"
+                CLEAR_DB=false; RUN_TESTS=true; FORCE_REBUILD=false; ONLY_PUSH=false
+                CLEAN_AGENT=true; PRUNE_DOCKER=true; SKIP_AI=false; SKIP_HC=false
+                FORCE_RECREATE=false; WAIT_API=45; MAX_LOG=50; REACT_PORT=3080; CREPE_MODE=cpu
+              fi
+
+              echo "Config: ClearDb=$CLEAR_DB RunTests=$RUN_TESTS ForceRebuild=$FORCE_REBUILD OnlyPush=$ONLY_PUSH"
+              echo "  CleanAgent=$CLEAN_AGENT PruneDocker=$PRUNE_DOCKER SkipAi=$SKIP_AI SkipHC=$SKIP_HC CrepeMode=$CREPE_MODE"
+              echo "  ForceRecreate=$FORCE_RECREATE WaitApi=$WAIT_API MaxLog=$MAX_LOG ReactPort=$REACT_PORT"
+
+              echo "##vso[task.setvariable variable=CFG_CLEAR_DB;isOutput=true]$CLEAR_DB"
+              echo "##vso[task.setvariable variable=CFG_RUN_TESTS;isOutput=true]$RUN_TESTS"
+              echo "##vso[task.setvariable variable=CFG_FORCE_REBUILD;isOutput=true]$FORCE_REBUILD"
+              echo "##vso[task.setvariable variable=CFG_ONLY_PUSH;isOutput=true]$ONLY_PUSH"
+              echo "##vso[task.setvariable variable=CFG_CLEAN_AGENT;isOutput=true]$CLEAN_AGENT"
+              echo "##vso[task.setvariable variable=CFG_PRUNE_DOCKER;isOutput=true]$PRUNE_DOCKER"
+              echo "##vso[task.setvariable variable=CFG_SKIP_AI;isOutput=true]$SKIP_AI"
+              echo "##vso[task.setvariable variable=CFG_SKIP_HC;isOutput=true]$SKIP_HC"
+              echo "##vso[task.setvariable variable=CFG_CREPE_MODE;isOutput=true]$CREPE_MODE"
+              echo "##vso[task.setvariable variable=CFG_FORCE_RECREATE;isOutput=true]$FORCE_RECREATE"
+              echo "##vso[task.setvariable variable=CFG_WAIT_API;isOutput=true]$WAIT_API"
+              echo "##vso[task.setvariable variable=CFG_MAX_LOG;isOutput=true]$MAX_LOG"
+              echo "##vso[task.setvariable variable=CFG_REACT_PORT;isOutput=true]$REACT_PORT"
+            name: config
+            displayName: 'Load devopsvariables.json'
+
+          - script: |
+              BASE=$(git rev-parse HEAD~1 2>/dev/null || git rev-parse HEAD)
+              echo "Comparing HEAD against $BASE"
+
+              CHANGED_DOTNET="false"
+              CHANGED_REACT="false"
+              CHANGED_FLUTTER="false"
+              CHANGED_UTILS="false"
+              CHANGED_ENV="false"
+
+              if git diff --name-only $BASE HEAD | grep -q '^audioverse-dotnet/'; then CHANGED_DOTNET="true"; fi
+              if git diff --name-only $BASE HEAD | grep -q '^audioverse-react/'; then CHANGED_REACT="true"; fi
+              if git diff --name-only $BASE HEAD | grep -q '^audioverse-flutter/'; then CHANGED_FLUTTER="true"; fi
+              if git diff --name-only $BASE HEAD | grep -q '^utils/'; then CHANGED_UTILS="true"; fi
+              if git diff --name-only $BASE HEAD | grep -q '^env/'; then CHANGED_ENV="true"; fi
+
+              # ForceRebuild from devopsvariables.json
+              FORCE_REBUILD="$(config.CFG_FORCE_REBUILD)"
+              if [ "$FORCE_REBUILD" = "true" ]; then
+                echo "ForceRebuild=true ? forcing all builds"
+                CHANGED_DOTNET="true"
+                CHANGED_REACT="true"
+              fi
+
+              # Force build if Docker images don't exist on Docker Hub yet
+              check_image() {
+                local image=$1
+                local status=$(curl -s -o /dev/null -w "%{http_code}" "https://hub.docker.com/v2/repositories/$image/tags/latest" 2>/dev/null || echo "000")
+                [ "$status" = "200" ]
+              }
+
+              if [ "$CHANGED_DOTNET" = "false" ]; then
+                if ! check_image "$(DOCKER_IMAGE_API)"; then
+                  echo "WARN: $(DOCKER_IMAGE_API):latest not found on Docker Hub - forcing dotnet build"
+                  CHANGED_DOTNET="true"
+                fi
+              fi
+              if [ "$CHANGED_REACT" = "false" ]; then
+                if ! check_image "$(DOCKER_IMAGE_REACT)"; then
+                  echo "WARN: $(DOCKER_IMAGE_REACT):latest not found on Docker Hub - forcing react build"
+                  CHANGED_REACT="true"
+                fi
+              fi
+
+              echo "dotnet=$CHANGED_DOTNET react=$CHANGED_REACT flutter=$CHANGED_FLUTTER utils=$CHANGED_UTILS env=$CHANGED_ENV"
+
+              echo "##vso[task.setvariable variable=CHANGED_DOTNET;isOutput=true]$CHANGED_DOTNET"
+              echo "##vso[task.setvariable variable=CHANGED_REACT;isOutput=true]$CHANGED_REACT"
+              echo "##vso[task.setvariable variable=CHANGED_FLUTTER;isOutput=true]$CHANGED_FLUTTER"
+              echo "##vso[task.setvariable variable=CHANGED_UTILS;isOutput=true]$CHANGED_UTILS"
+              echo "##vso[task.setvariable variable=CHANGED_ENV;isOutput=true]$CHANGED_ENV"
+            name: changes
+            displayName: 'Detect changed folders'
+
+  # ================================================================
+  # STAGE 1: Test - only test projects that changed
+  # ================================================================
+  - stage: Test
+    displayName: 'Run Tests'
+    dependsOn: Detect
+    condition: eq(stageDependencies.Detect.DetectChanges.outputs['config.CFG_RUN_TESTS'], 'true')
+    variables:
+      CHANGED_DOTNET: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'] ]
+      CHANGED_REACT: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'] ]
+      CHANGED_UTILS: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_UTILS'] ]
+    jobs:
+      - job: TestDotnet
+        displayName: '.NET - build & verify'
+        condition: eq(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'], 'true')
+        steps:
+          - task: UseDotNet@2
+            displayName: 'Use .NET $(DOTNET_VERSION)'
+            inputs:
+              packageType: 'sdk'
+              version: '$(DOTNET_VERSION)'
+
+          - script: |
+              cd audioverse-dotnet
+              dotnet restore
+              dotnet build --no-restore --configuration Release
+            displayName: 'Restore & build .NET solution'
+
+      - job: TestReact
+        displayName: 'React - lint & unit tests'
+        condition: eq(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'], 'true')
+        continueOnError: true
+        steps:
+          - task: NodeTool@0
+            displayName: 'Use Node.js 20.x'
+            inputs:
+              versionSpec: '20.x'
+
+          - script: |
+              cd audioverse-react
+              npm ci
+              npm run build
+              npx vitest run --reporter=default 2>&1
+            displayName: 'Install, build & test audioverse-react'
+
+      - job: ValidateUtils
+        displayName: 'Utils - validate Dockerfiles exist'
+        condition: eq(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_UTILS'], 'true')
+        steps:
+          - script: |
+              echo "Validating utils/ai/ Dockerfiles..."
+              MISSING=0
+              for dir in utils/ai/*/; do
+                if [ ! -f "${dir}Dockerfile" ]; then
+                  echo "  MISSING: ${dir}Dockerfile"
+                  MISSING=1
+                else
+                  echo "  OK: ${dir}Dockerfile"
+                fi
+              done
+              if [ -f "utils/librosa/Dockerfile" ]; then
+                echo "  OK: utils/librosa/Dockerfile"
+              else
+                echo "  MISSING: utils/librosa/Dockerfile"
+                MISSING=1
+              fi
+              if [ "$MISSING" -eq 1 ]; then
+                echo "Some Dockerfiles are missing!"
+                exit 1
+              fi
+              echo "All Dockerfiles present."
+            displayName: 'Check all utils Dockerfiles'
+
+      - job: NoChanges
+        displayName: 'No testable changes detected'
+        condition: |
+          and(
+            ne(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'], 'true'),
+            ne(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'], 'true'),
+            ne(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_UTILS'], 'true')
+          )
+        steps:
+          - script: echo "No code changes in dotnet/react/utils - skipping tests."
+            displayName: 'Skip'
+
+  # ================================================================
+  # STAGE 2: Build - Docker images only for changed projects
+  # ================================================================
   - stage: Build
     displayName: 'Build & Push Docker Images'
+    dependsOn:
+      - Detect
+      - Test
+    condition: not(canceled())
+    variables:
+      CHANGED_DOTNET: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'] ]
+      CHANGED_REACT: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'] ]
+      CFG_ONLY_PUSH: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_ONLY_PUSH'] ]
     jobs:
-      - job: BuildAndPush
-        displayName: 'Build & Push API, IdentityServer & React'
+      - job: BuildDotnet
+        displayName: 'Build & Push API + IdentityServer'
+        condition: eq(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'], 'true')
         steps:
           - task: Docker@2
             displayName: 'Login to Docker Hub'
@@ -30,62 +245,580 @@ stages:
               containerRegistry: 'DockerHubServiceConnection'
 
           - script: |
-              # 🔥 Budowanie API i IdentityServer
               docker build -t $(DOCKER_IMAGE_API):$(Build.BuildId) -f audioverse-dotnet/AudioVerse.API/Dockerfile audioverse-dotnet/
               docker build -t $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId) -f audioverse-dotnet/AudioVerse.IdentityServer/Dockerfile audioverse-dotnet/
-              
-              # 🔥 Budowanie React
-              docker build -t $(DOCKER_IMAGE_REACT):$(Build.BuildId) -f audioverse-react/Dockerfile audioverse-react/
-
-              # 🔥 Tagowanie (latest)
               docker tag $(DOCKER_IMAGE_API):$(Build.BuildId) $(DOCKER_IMAGE_API):latest
               docker tag $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId) $(DOCKER_IMAGE_IDENTITY):latest
-              docker tag $(DOCKER_IMAGE_REACT):$(Build.BuildId) $(DOCKER_IMAGE_REACT):latest
-
-              # 🔥 Push do Docker Hub
               docker push $(DOCKER_IMAGE_API):$(Build.BuildId)
               docker push $(DOCKER_IMAGE_API):latest
               docker push $(DOCKER_IMAGE_IDENTITY):$(Build.BuildId)
               docker push $(DOCKER_IMAGE_IDENTITY):latest
+            displayName: 'Build & push .NET images'
+
+      - job: BuildReact
+        displayName: 'Build & Push React'
+        condition: eq(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'], 'true')
+        steps:
+          - task: Docker@2
+            displayName: 'Login to Docker Hub'
+            inputs:
+              command: 'login'
+              containerRegistry: 'DockerHubServiceConnection'
+
+          - script: |
+              docker build -t $(DOCKER_IMAGE_REACT):$(Build.BuildId) -f audioverse-react/Dockerfile .
+              docker tag $(DOCKER_IMAGE_REACT):$(Build.BuildId) $(DOCKER_IMAGE_REACT):latest
               docker push $(DOCKER_IMAGE_REACT):$(Build.BuildId)
               docker push $(DOCKER_IMAGE_REACT):latest
-            displayName: 'Build and Push Docker Images'
 
+              docker build -t $(DOCKER_IMAGE_STORYBOOK):$(Build.BuildId) -f audioverse-react/Dockerfile.storybook .
+              docker tag $(DOCKER_IMAGE_STORYBOOK):$(Build.BuildId) $(DOCKER_IMAGE_STORYBOOK):latest
+              docker push $(DOCKER_IMAGE_STORYBOOK):$(Build.BuildId)
+              docker push $(DOCKER_IMAGE_STORYBOOK):latest
+            displayName: 'Build & push React + Storybook images'
+
+      - job: NoBuild
+        displayName: 'No images to build'
+        condition: |
+          and(
+            ne(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'], 'true'),
+            ne(stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'], 'true')
+          )
+        steps:
+          - script: echo "No dotnet/react changes - skipping Docker build."
+            displayName: 'Skip'
+
+  # ================================================================
+  # STAGE 3: Deploy - sync files to VPS, pull images, restart
+  # Skipped when OnlyPush=true (pipeline stops after Build & Push)
+  # ================================================================
   - stage: Deploy
     displayName: 'Deploy to Contabo VPS'
-    dependsOn: Build
+    dependsOn:
+      - Detect
+      - Build
+    condition: |
+      and(
+        not(canceled()),
+        ne(stageDependencies.Detect.DetectChanges.outputs['config.CFG_ONLY_PUSH'], 'true')
+      )
+    variables:
+      CHANGED_DOTNET: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_DOTNET'] ]
+      CHANGED_REACT: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_REACT'] ]
+      CHANGED_UTILS: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_UTILS'] ]
+      CHANGED_ENV: $[ stageDependencies.Detect.DetectChanges.outputs['changes.CHANGED_ENV'] ]
+      CFG_CLEAR_DB: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_CLEAR_DB'] ]
+      CFG_PRUNE_DOCKER: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_PRUNE_DOCKER'] ]
+      CFG_SKIP_AI: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_SKIP_AI'] ]
+      CFG_FORCE_RECREATE: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_FORCE_RECREATE'] ]
+      CFG_CLEAN_AGENT: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_CLEAN_AGENT'] ]
     jobs:
       - job: Deploy
-        displayName: 'Copy env to VPS & restart services'
+        displayName: 'Sync files & restart services'
         steps:
-          # (opcjonalnie) upewnij się, że katalog docelowy istnieje
+          # 1. Ensure directories exist on VPS
           - task: SSH@0
-            displayName: 'Ensure deploy dir exists'
+            displayName: 'Ensure deploy directories'
             inputs:
               sshEndpoint: 'ContaboSSH'
               runOptions: 'inline'
+              failOnStdErr: false
               inline: |
-                mkdir -p $(DEPLOY_DIR)
+                mkdir -p $(DEPLOY_DIR)/docker/nginx
+                mkdir -p $(DEPLOY_DIR)/docker/utils
+                mkdir -p $(DEPLOY_DIR)/docker/ai
+                mkdir -p $(DEPLOY_DIR)/docker/logs
 
-          # 📂 Kopiowanie katalogu env z repo na serwer
+          # 2. Always sync docker compose files, scripts and nginx config
+          #    (small files, fast copy � ensures VPS always has latest)
           - task: CopyFilesOverSSH@0
-            displayName: 'Copy env folder to VPS'
+            displayName: 'Copy env/docker/ to VPS'
             inputs:
               sshEndpoint: 'ContaboSSH'
-              sourceFolder: '$(Build.SourcesDirectory)/env'
-              contents: '**'
-              targetFolder: '$(DEPLOY_DIR)'   # wrzucamy do /home/audioverse/env
+              sourceFolder: '$(Build.SourcesDirectory)/env/docker'
+              contents: |
+                docker-compose.yml
+                .env
+                restart-all.sh
+                start-all.sh
+                stop-all.sh
+                nginx/nginx.conf
+                nginx/default.conf
+              targetFolder: '$(DEPLOY_DIR)/docker'
               cleanTargetFolder: false
               overwrite: true
 
-          # ▶️ Uruchomienie skryptu restart-all.sh w katalogu docker
+          # 3. Copy SSL certs from repo and fallback to self-signed if missing
+          - task: CopyFilesOverSSH@0
+            displayName: 'Copy SSL certs to VPS'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              sourceFolder: '$(Build.SourcesDirectory)/env/certs'
+              contents: |
+                fullchain.pem
+                privkey.pem
+              targetFolder: '$(DEPLOY_DIR)/docker/nginx/certs'
+              cleanTargetFolder: false
+              overwrite: true
+
           - task: SSH@0
-            displayName: 'Run restart-all.sh on VPS'
+            displayName: 'Verify certs (generate self-signed if copy failed)'
             inputs:
               sshEndpoint: 'ContaboSSH'
               runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                CERT_DIR="$(DEPLOY_DIR)/docker/nginx/certs"
+                mkdir -p "$CERT_DIR"
+                if [ -f "$CERT_DIR/fullchain.pem" ] && [ -f "$CERT_DIR/privkey.pem" ]; then
+                  echo "Certs present at $CERT_DIR"
+                  openssl x509 -in "$CERT_DIR/fullchain.pem" -noout -subject -enddate 2>/dev/null || echo "  WARN: could not read cert"
+                else
+                  echo "Certs missing after copy � generating self-signed placeholder so nginx can start"
+                  openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+                    -keyout "$CERT_DIR/privkey.pem" \
+                    -out "$CERT_DIR/fullchain.pem" \
+                    -subj "/CN=audioverse.io" 2>/dev/null
+                  echo "Self-signed certs created. Replace with real certs for production."
+                fi
+
+          # 4. Copy utils/ when changed OR when missing on VPS
+          - task: SSH@0
+            displayName: 'Check if utils need initial copy'
+            name: checkUtils
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                if [ -d "$(DEPLOY_DIR)/docker/utils/ai/sing_score" ]; then
+                  echo "Utils already present on VPS"
+                  echo "##vso[task.setvariable variable=UTILS_MISSING;isOutput=true]false"
+                else
+                  echo "Utils missing on VPS - need initial copy"
+                  echo "##vso[task.setvariable variable=UTILS_MISSING;isOutput=true]true"
+                fi
+
+          - task: CopyFilesOverSSH@0
+            displayName: 'Copy utils/ to VPS docker/utils/'
+            condition: or(eq(variables.CHANGED_UTILS, 'true'), eq(variables['Deploy.checkUtils.UTILS_MISSING'], 'true'))
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              sourceFolder: '$(Build.SourcesDirectory)/utils'
+              contents: '**'
+              targetFolder: '$(DEPLOY_DIR)/docker/utils'
+              cleanTargetFolder: false
+              overwrite: true
+
+          # 5. Patch .env for Linux paths + correct image tags
+          - task: SSH@0
+            displayName: 'Patch .env for Linux & create network'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
               inline: |
                 cd $(DEPLOY_DIR)/docker
-                chmod +x restart-all.sh
-                ./restart-all.sh
+                chmod +x restart-all.sh start-all.sh stop-all.sh 2>/dev/null || true
 
+                # Fix Windows paths to Linux
+                sed -i 's|C:/Home/AudioVerse|$(DEPLOY_DIR)|g' .env
+                sed -i 's|HOST_ROOT=.*|HOST_ROOT=$(DEPLOY_DIR)|' .env
+                sed -i 's|HOST_CONF_DIR=.*|HOST_CONF_DIR=./nginx|' .env
+                sed -i 's|HOST_CERTS_DIR=.*|HOST_CERTS_DIR=./nginx/certs|' .env
+                sed -i 's|HOST_DB_DIR=.*|HOST_DB_DIR=$(DEPLOY_DIR)/data/postgres|' .env
+                sed -i 's|HOST_DATA_DIR=.*|HOST_DATA_DIR=$(DEPLOY_DIR)/data|' .env
+
+                # Ensure correct image tags
+                sed -i 's|IMAGE_API=.*|IMAGE_API=$(DOCKER_IMAGE_API):latest|' .env
+                sed -i 's|IMAGE_IDENTITY=.*|IMAGE_IDENTITY=$(DOCKER_IMAGE_IDENTITY):latest|' .env
+                sed -i 's|IMAGE_REACT=.*|IMAGE_REACT=$(DOCKER_IMAGE_REACT):latest|' .env
+                sed -i 's|IMAGE_STORYBOOK=.*|IMAGE_STORYBOOK=$(DOCKER_IMAGE_STORYBOOK):latest|' .env
+                # Add IMAGE_STORYBOOK if missing
+                grep -q '^IMAGE_STORYBOOK=' .env || echo "IMAGE_STORYBOOK=$(DOCKER_IMAGE_STORYBOOK):latest" >> .env
+
+                # Sync DB credentials from installer .env if it exists
+                INSTALLER_ENV="$(DEPLOY_DIR)/../installer/.env"
+                if [ -f "$INSTALLER_ENV" ]; then
+                  PG_USER=$(grep '^POSTGRES_USER=' "$INSTALLER_ENV" | cut -d= -f2)
+                  PG_PASS=$(grep '^POSTGRES_PASSWORD=' "$INSTALLER_ENV" | cut -d= -f2)
+                  PG_DB=$(grep '^POSTGRES_DB=' "$INSTALLER_ENV" | cut -d= -f2)
+                  [ -n "$PG_USER" ] && sed -i "s|POSTGRES_USER=.*|POSTGRES_USER=$PG_USER|" .env
+                  [ -n "$PG_PASS" ] && sed -i "s|POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$PG_PASS|" .env
+                  [ -n "$PG_DB" ]   && sed -i "s|POSTGRES_DB=.*|POSTGRES_DB=$PG_DB|" .env
+                  echo "Synced DB credentials from installer .env"
+                fi
+
+                # Ensure data dirs exist
+                mkdir -p $(DEPLOY_DIR)/data/postgres/data
+                mkdir -p $(DEPLOY_DIR)/data/redis
+                mkdir -p $(DEPLOY_DIR)/docker/nginx/certs
+
+                # Ensure docker network exists (required by compose external network)
+                if ! docker network inspect audioverse-net >/dev/null 2>&1; then
+                  docker network create audioverse-net
+                  echo "Created docker network: audioverse-net"
+                else
+                  echo "Docker network audioverse-net already exists"
+                fi
+
+                # Cleanup: remove old split compose files
+                rm -f docker-compose.core.yml docker-compose.aiaudio.yml docker-compose.videoai.yml 2>/dev/null || true
+                rm -f docker-compose-old.yml docker-compose.videoai.yml.bak 2>/dev/null || true
+
+                echo "=== .env after patching ==="
+                cat .env
+
+          # 6. Symlink ai/ -> utils/ai/
+          - task: SSH@0
+            displayName: 'Symlink docker/ai -> docker/utils/ai'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                cd $(DEPLOY_DIR)/docker
+                if [ -L ai ]; then rm ai; fi
+                if [ -d ai ] && [ ! -L ai ]; then
+                  echo "WARNING: ai/ is a real directory, backing up"
+                  mv ai ai.bak.$(date +%s)
+                fi
+                ln -sf utils/ai ai
+                echo "Symlink: ai -> utils/ai"
+
+          # 7. Build AI images if utils/ changed or were just copied (skip if SkipAiBuild=true)
+          - task: SSH@0
+            displayName: 'Build AI images on VPS'
+            condition: |
+              and(
+                ne(variables.CFG_SKIP_AI, 'true'),
+                or(eq(variables.CHANGED_UTILS, 'true'), eq(variables['Deploy.checkUtils.UTILS_MISSING'], 'true'))
+              )
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                cd $(DEPLOY_DIR)/docker
+                echo "=== Building AI images (aiaudio profile) ==="
+                docker compose --profile aiaudio build --parallel 2>&1 || true
+                echo "=== Building Video AI images (videoai profile) ==="
+                docker compose --profile videoai build --parallel 2>&1 || true
+                echo "=== Done ==="
+
+          # 8. Pull app images, stop old containers, start everything
+          - task: SSH@0
+            displayName: 'Pull images & start services'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                cd $(DEPLOY_DIR)/docker
+
+                echo "=== Pulling latest app images ==="
+                docker pull $(DOCKER_IMAGE_API):latest      2>&1 || echo "WARN: Could not pull API image"
+                docker pull $(DOCKER_IMAGE_IDENTITY):latest  2>&1 || echo "WARN: Could not pull Identity image"
+                docker pull $(DOCKER_IMAGE_REACT):latest     2>&1 || echo "WARN: Could not pull React image"
+                docker pull $(DOCKER_IMAGE_STORYBOOK):latest 2>&1 || echo "WARN: Could not pull Storybook image"
+
+                # Stop old split-project containers (one-time migration)
+                for old_proj in proj-core av-core av-aiaudio av-videoai; do
+                  if docker compose -p "$old_proj" ps -q 2>/dev/null | grep -q .; then
+                    echo "=== Stopping old $old_proj containers ==="
+                    docker compose -p "$old_proj" down --remove-orphans 2>&1 || true
+                  fi
+                done
+
+                echo ""
+                echo "=== Validating docker-compose.yml ==="
+                docker compose config --quiet 2>&1 && echo "  OK" || echo "  INVALID"
+
+                echo ""
+                echo "=== Starting infra (postgres, redis, nginx) ==="
+                docker compose up -d postgres redis reverse-proxy 2>&1 || echo "WARN: infra failed"
+
+                echo "Waiting for postgres to become healthy..."
+                for i in $(seq 1 30); do
+                  if docker exec av-postgres pg_isready -U postgres 2>/dev/null; then
+                    echo "Postgres is ready."
+                    break
+                  fi
+                  sleep 2
+                done
+
+                # Ensure app DB user exists (volume may have been initialized with different credentials)
+                echo ""
+                echo "=== Ensuring DB user and database exist ==="
+                PG_USER=$(grep '^POSTGRES_USER=' .env | cut -d= -f2)
+                PG_PASS=$(grep '^POSTGRES_PASSWORD=' .env | cut -d= -f2)
+                PG_DB=$(grep '^POSTGRES_DB=' .env | cut -d= -f2)
+                docker exec av-postgres psql -U postgres -tc "SELECT 1 FROM pg_roles WHERE rolname='${PG_USER}'" | grep -q 1 || \
+                  docker exec av-postgres psql -U postgres -c "CREATE ROLE ${PG_USER} WITH LOGIN PASSWORD '${PG_PASS}';"
+                docker exec av-postgres psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='${PG_DB}'" | grep -q 1 || \
+                  docker exec av-postgres psql -U postgres -c "CREATE DATABASE ${PG_DB} OWNER ${PG_USER};"
+                docker exec av-postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ${PG_DB} TO ${PG_USER};"
+                docker exec av-postgres psql -U postgres -d "${PG_DB}" -c "GRANT ALL ON SCHEMA public TO ${PG_USER};"
+                echo "DB user '${PG_USER}' and database '${PG_DB}' ready."
+
+                # ?? ClearDb: drop and recreate database if configured ??
+                CLEAR_DB="$(CFG_CLEAR_DB)"
+                if [ "$CLEAR_DB" = "true" ]; then
+                  echo ""
+                  echo "=== ClearDb=true: DROPPING and recreating database ==="
+                  docker exec av-postgres psql -U postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='${PG_DB}' AND pid <> pg_backend_pid();" 2>/dev/null || true
+                  docker exec av-postgres psql -U postgres -c "DROP DATABASE IF EXISTS ${PG_DB};"
+                  docker exec av-postgres psql -U postgres -c "CREATE DATABASE ${PG_DB} OWNER ${PG_USER};"
+                  docker exec av-postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ${PG_DB} TO ${PG_USER};"
+                  docker exec av-postgres psql -U postgres -d "${PG_DB}" -c "GRANT ALL ON SCHEMA public TO ${PG_USER};"
+                  echo "Database ${PG_DB} has been cleared and recreated."
+                fi
+
+                echo ""
+                echo "=== Starting app services ==="
+                FORCE_RECREATE="$(CFG_FORCE_RECREATE)"
+                if [ "$FORCE_RECREATE" = "true" ]; then
+                  echo "ForceRecreateAllContainers=true"
+                  docker compose up -d --force-recreate 2>&1 || echo "WARN: compose up failed"
+                else
+                  docker compose up -d 2>&1 || echo "WARN: compose up failed"
+                fi
+
+                echo ""
+                echo "=== Force-recreating nginx, react and storybook ==="
+                docker compose up -d --force-recreate --no-deps reverse-proxy react storybook 2>&1 || echo "WARN: recreate failed"
+
+                echo ""
+                echo "=== Validating nginx config inside container ==="
+                docker exec av-nginx nginx -t 2>&1 || echo "WARN: nginx config invalid!"
+                echo ""
+                echo "=== Nginx error log (last 10 lines) ==="
+                docker logs av-nginx --tail=10 2>&1 || true
+
+                echo ""
+                echo "=== Starting AI Audio services ==="
+                docker compose --profile aiaudio up -d 2>&1 || echo "WARN: aiaudio profile failed"
+
+                echo ""
+                echo "=== Running containers ==="
+                docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null
+
+                echo ""
+                echo "=== Exited containers ==="
+                docker ps -a --filter "status=exited" --format "table {{.Names}}\t{{.Status}}" 2>/dev/null || true
+
+          # 9. Prune unused Docker resources to free disk space
+          - task: SSH@0
+            displayName: 'Prune Docker (images, volumes, build cache)'
+            condition: eq(variables.CFG_PRUNE_DOCKER, 'true')
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                echo "=== Docker disk usage BEFORE prune ==="
+                docker system df 2>/dev/null || true
+                echo ""
+                echo "=== Pruning unused images (older than 48h) ==="
+                docker image prune -a --filter "until=48h" -f 2>&1 || true
+                echo "=== Pruning unused volumes ==="
+                docker volume prune -f 2>&1 || true
+                echo "=== Pruning build cache ==="
+                docker builder prune -f --keep-storage=2GB 2>&1 || true
+                echo ""
+                echo "=== Docker disk usage AFTER prune ==="
+                docker system df 2>/dev/null || true
+
+          # 10. Clean agent _work directory
+          - task: Bash@3
+            displayName: 'Clean agent work directory'
+            condition: eq(variables.CFG_CLEAN_AGENT, 'true')
+            inputs:
+              targetType: 'inline'
+              script: |
+                WORK_DIR="/home/devops/agent/_work"
+                if [ -d "$WORK_DIR" ]; then
+                  echo "Cleaning agent work dir: $WORK_DIR"
+                  CURRENT_DIR=$(basename "$(System.DefaultWorkingDirectory)")
+                  find "$WORK_DIR" -mindepth 1 -maxdepth 1 -type d ! -name "$CURRENT_DIR" ! -name "_temp" ! -name "_tool" -exec rm -rf {} + 2>/dev/null || true
+                  echo "Cleaned old build directories"
+                  du -sh "$WORK_DIR" 2>/dev/null || true
+                else
+                  echo "Agent work dir not found at $WORK_DIR"
+                fi
+
+  # ================================================================
+  # STAGE 4: Verify - health checks after deploy
+  # Skipped when SkipHealthCheck=true or OnlyPush=true
+  # ================================================================
+  - stage: Verify
+    displayName: 'Post-Deploy Health Check'
+    dependsOn:
+      - Detect
+      - Deploy
+    condition: |
+      and(
+        not(canceled()),
+        ne(stageDependencies.Detect.DetectChanges.outputs['config.CFG_SKIP_HC'], 'true'),
+        ne(stageDependencies.Detect.DetectChanges.outputs['config.CFG_ONLY_PUSH'], 'true')
+      )
+    variables:
+      CFG_WAIT_API: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_WAIT_API'] ]
+      CFG_MAX_LOG: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_MAX_LOG'] ]
+      CFG_REACT_PORT: $[ stageDependencies.Detect.DetectChanges.outputs['config.CFG_REACT_PORT'] ]
+    jobs:
+      - job: HealthCheck
+        displayName: 'Verify services are running'
+        steps:
+          - task: SSH@0
+            displayName: 'Wait for services to start'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                WAIT_SEC=$(CFG_WAIT_API)
+                [ -z "$WAIT_SEC" ] && WAIT_SEC=45
+                echo "Waiting ${WAIT_SEC}s for services to initialize..."
+                sleep $WAIT_SEC
+
+          - task: SSH@0
+            displayName: 'Check core services'
+            inputs:
+              sshEndpoint: 'ContaboSSH'
+              runOptions: 'inline'
+              failOnStdErr: false
+              inline: |
+                FAILED=0
+                WARN=0
+
+                check_port() {
+                  local name=$1 port=$2
+                  if nc -z -w3 127.0.0.1 $port 2>/dev/null; then
+                    echo "  OK   $name (:$port)"
+                    return 0
+                  fi
+                  return 1
+                }
+
+                check_required() {
+                  local name=$1 port=$2
+                  if ! check_port "$name" "$port"; then
+                    echo "  FAIL $name (:$port) - DOWN"
+                    FAILED=1
+                  fi
+                }
+
+                check_optional() {
+                  local name=$1 port=$2
+                  if ! check_port "$name" "$port"; then
+                    echo "  WARN $name (:$port) - DOWN (optional)"
+                    WARN=1
+                  fi
+                }
+
+                # Wait up to 60s for API to respond (it runs EF migrations on start)
+                check_with_retry() {
+                  local name=$1 port=$2 retries=${3:-12} delay=${4:-5}
+                  for i in $(seq 1 $retries); do
+                    if check_port "$name" "$port"; then
+                      return 0
+                    fi
+                    [ $i -lt $retries ] && sleep $delay
+                  done
+                  echo "  FAIL $name (:$port) - DOWN after ${retries} retries"
+                  FAILED=1
+                  return 1
+                }
+
+                echo "=== Infrastructure ==="
+                check_required "PostgreSQL" 5432
+                check_required "Redis"      6379
+                check_required "Nginx HTTP" 80
+
+                echo ""
+                echo "=== App Services (with retry) ==="
+                check_with_retry "Identity" 5002 6 5
+                check_with_retry "API"      5000 12 5
+
+                echo ""
+                echo "=== Frontend ==="
+                check_optional "React" $(CFG_REACT_PORT)
+                check_optional "Storybook" 6006
+
+                echo ""
+                echo "=== AI Services ==="
+                check_optional "sing_score"      8082
+                check_optional "audio_pitch"     8084
+                check_optional "audio_separate"  8086
+                check_optional "librosa"         8088
+
+                echo ""
+                echo "=== API Health Endpoint ==="
+                HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 http://127.0.0.1:5000/health 2>/dev/null || echo "000")
+                if [ "$HTTP_CODE" = "200" ]; then
+                  echo "  OK   API /health - 200"
+                elif [ "$HTTP_CODE" = "000" ]; then
+                  echo "  WARN API /health - not responding (API may still be starting)"
+                else
+                  echo "  WARN API /health - HTTP $HTTP_CODE"
+                fi
+
+                echo ""
+                echo "=== Frontend (HTTPS) ==="
+                FRONT_CODE=$(curl -sk -o /dev/null -w "%{http_code}" --max-time 10 https://127.0.0.1/ -H "Host: audioverse.io" 2>/dev/null || echo "000")
+                if [ "$FRONT_CODE" = "200" ]; then
+                  echo "  OK   audioverse.io (HTTPS) - 200"
+                elif [ "$FRONT_CODE" = "000" ] || [ "$FRONT_CODE" = "444" ]; then
+                  echo "  FAIL audioverse.io (HTTPS) - $FRONT_CODE (nginx server_name mismatch or cert issue)"
+                  WARN=1
+                else
+                  echo "  WARN audioverse.io (HTTPS) - HTTP $FRONT_CODE"
+                  WARN=1
+                fi
+
+                SB_CODE=$(curl -sk -o /dev/null -w "%{http_code}" --max-time 10 https://127.0.0.1/ -H "Host: storybook.audioverse.io" 2>/dev/null || echo "000")
+                if [ "$SB_CODE" = "200" ]; then
+                  echo "  OK   storybook.audioverse.io (HTTPS) - 200"
+                elif [ "$SB_CODE" = "000" ] || [ "$SB_CODE" = "444" ]; then
+                  echo "  WARN storybook.audioverse.io (HTTPS) - $SB_CODE"
+                  WARN=1
+                else
+                  echo "  WARN storybook.audioverse.io (HTTPS) - HTTP $SB_CODE"
+                  WARN=1
+                fi
+
+                echo ""
+                echo "=== Nginx config validation ==="
+                docker exec av-nginx nginx -t 2>&1 || echo "  FAIL nginx config invalid"
+
+                echo ""
+                echo "=== Container Status ==="
+                docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || true
+
+                if [ "$FAILED" -eq 1 ]; then
+                  echo ""
+                  echo "CRITICAL: Required services are not responding."
+                  cd $(DEPLOY_DIR)/docker
+
+                  echo ""
+                  echo "=== Logs: av-identity (last $(CFG_MAX_LOG) lines) ==="
+                  docker logs av-identity --tail=$(CFG_MAX_LOG) 2>&1 || true
+
+                  echo ""
+                  echo "=== Logs: av-api (last $(CFG_MAX_LOG) lines) ==="
+                  docker logs av-api --tail=$(CFG_MAX_LOG) 2>&1 || true
+
+                  echo ""
+                  echo "=== Memory ==="
+                  free -m 2>/dev/null || true
+                  exit 1
+                fi
+
+                if [ "$WARN" -eq 1 ]; then
+                  echo ""
+                  echo "Some optional services are down � pipeline passes."
+                fi
+
+                echo ""
+                echo "All required services are healthy."

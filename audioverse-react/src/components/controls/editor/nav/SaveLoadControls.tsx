@@ -1,5 +1,8 @@
 import React, { useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { AudioProject } from "../../../../models/modelsEditor.ts";
+import { logger } from "../../../../utils/logger";
+const log = logger.scoped('SaveLoadControls');
 
 interface SaveLoadControlsProps {
     project: AudioProject | null;
@@ -8,6 +11,7 @@ interface SaveLoadControlsProps {
 
 const SaveLoadControls: React.FC<SaveLoadControlsProps> = ({ project, onLoadProject }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     // 📌 Zapis do pliku JSON
     const handleSave = () => {
@@ -18,7 +22,7 @@ const SaveLoadControls: React.FC<SaveLoadControlsProps> = ({ project, onLoadProj
         const a = document.createElement("a");
 
         a.href = url;
-        a.download = `${project.name.replace(/\s+/g, "_")}.json`; // Nazwa pliku zgodna z nazwą projektu
+        a.download = `${project.name.replace(/\s+/g, "_")}.json`; // Filename matching the project name
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -37,7 +41,7 @@ const SaveLoadControls: React.FC<SaveLoadControlsProps> = ({ project, onLoadProj
                     const loadedProject: AudioProject = JSON.parse(e.target.result as string);
                     onLoadProject(loadedProject);
                 } catch (error) {
-                    console.error("Błąd wczytywania projektu:", error);
+                    log.error("Error loading project:", error);
                 }
             }
         };
@@ -46,8 +50,8 @@ const SaveLoadControls: React.FC<SaveLoadControlsProps> = ({ project, onLoadProj
 
     return (
         <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-            <button onClick={handleSave} className="btn btn-success">💾 Save</button>
-            <button onClick={() => fileInputRef.current?.click()} className="btn btn-primary">📂 Load</button>
+            <button onClick={handleSave} className="btn btn-success">{t('saveLoad.save', '💾 Save')}</button>
+            <button onClick={() => fileInputRef.current?.click()} className="btn btn-primary">{t('saveLoad.load', '📂 Load')}</button>
             <input
                 type="file"
                 accept=".json"
@@ -59,4 +63,4 @@ const SaveLoadControls: React.FC<SaveLoadControlsProps> = ({ project, onLoadProj
     );
 };
 
-export default SaveLoadControls;
+export default React.memo(SaveLoadControls);

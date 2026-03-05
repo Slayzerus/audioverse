@@ -5,7 +5,7 @@ type Props = {
     modes: VisualizerMode[];
     active: VisualizerMode;
     setActive: (m: VisualizerMode) => void;
-    /** Ile wierszy (domyślnie 2) */
+    /** How many rows (default 2) */
     rows?: number;
 };
 
@@ -56,18 +56,18 @@ export const ModeSwitcher: React.FC<Props> = ({
                 position: "absolute",
                 top: 10,
                 right: 10,
-                pointerEvents: "auto", // musi być, żeby dało się klikać nad iframe YouTube
+                pointerEvents: "auto", // must be, so you can click above the YouTube iframe
                 zIndex: 9999,
             }}
         >
             <div
                 style={{
                     display: "grid",
-                    // <-- kluczowe: wypełniaj po kolumnach, a nie po wierszach
+                    // <-- key: fill by columns, not by rows
                     gridAutoFlow: "column",
-                    // <-- dokładnie r wierszy
+                    // <-- exactly r rows
                     gridTemplateRows: `repeat(${r}, auto)`,
-                    // nie pozwól, żeby kolumna się rozciągała — każda „na miarę”
+                    // don't let the column stretch — each custom-fit
                     gridAutoColumns: "max-content",
                     gap: 6,
                     background: "rgba(2,6,23,.5)",

@@ -1,0 +1,174 @@
+Tytuł: Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji
+
+Autor: [Imię i nazwisko autora]
+
+Promotor: [Imię i nazwisko promotora]
+
+Wydział: [Wydział]                         Kierunek: [Kierunek studiów]
+
+Rok: 2026
+
+=========================================
+
+Spis treści
+1. Wstęp
+2. Analiza literatury
+3. Cel i zakres pracy
+4. Ocena dostępnych rozwiązań i własna propozycja
+5. Metody i modele obliczeniowe
+6. Protokół eksperymentu i przygotowanie danych
+7. Wyniki i analiza (struktura oczekiwana)
+8. Dyskusja i ograniczenia
+9. Wnioski i rekomendacje
+10. Wykaz literatury
+Załączniki (A–E)
+
+1. Wstęp
+
+Śpiew i ocena intonacji są jednocześnie zadaniem perceptualnym i technicznym. Celem pracy jest zaprojektowanie, implementacja i ewaluacja pipeline'u umożliwiającego ocenę intonacji użytkownika w kontekście gry karaoke, przy zachowaniu wysokich standardów reproducibility i dokumentacji eksperymentów. W pracy łączymy metody sygnałowe (YIN/pYIN) oraz metody oparte na głębokim uczeniu (CREPE), oceniamy wpływ separacji źródeł (Demucs/Spleeter) oraz przygotowujemy komplet plików i skryptów ułatwiających powtórzenie eksperymentów.
+
+Wstęp zawiera motywację praktyczną (zastosowanie w aplikacjach edukacyjnych i rozrywkowych), ograniczenia projektu (brak implementacji frontend/UI w tej pracy) oraz opis struktury dokumentu.
+
+2. Analiza literatury
+
+2.1. Metody klasyczne
+Klasyczne techniki estymacji F0 (autokorelacja, cepstrum, YIN) są dobrze udokumentowane i efektywne w warunkach monofonicznych. W rozdziale tym przedstawiono zalety i ograniczenia tych metod, wskazując scenariusze, w których zawodzą (miks z akompaniamentem, transjenty perkusyjne).
+
+2.2. Metody probabilistyczne (pYIN)
+pYIN wprowadza probabilistyczne traktowanie kandydatów f0 per ramka, co pozwala na modelowanie niepewności i lepsze wygładzanie trajektorii przez algorytmy Viterbi/Dynamic Programming. Omawiamy praktyczne aspekty implementacji i parametryzacji.
+
+2.3. Metody uczenia maszynowego (CREPE i warianty)
+Modele konwolucyjne takie jak CREPE uczą bezpośrednio reprezentacji użytecznej do estymacji F0. Dyskutujemy wymagania danych treningowych, techniki augmentacji używane w literaturze oraz praktyczne warianty implementacyjne (ONNX, quantized models, wasm).
+
+2.4. Separacja źródeł
+Przeglądamy współczesne modele separacji (Demucs, Spleeter, Open-Unmix), ich wpływ na jakość sygnału wokalnego oraz na artefakty, które mogą wpływać na estymację F0. Zawieramy krótkie porównanie wydajności i jakości wyników oraz wskazówki wyboru modelu w zależności od celów eksperymentu.
+
+2.5. Zbiory danych i benchmarki
+Opisujemy zbiory referencyjne (MIR-1K, MedleyDB, iKala, MDB-stem), ich ograniczenia licencyjne oraz przydatność do oceny metod estymacji pitch w kontekście śpiewu.
+
+2.6. Metryki i podejścia do oceny
+Przegląd metryk wartościowych (RMSE, error w centach, Accuracy@T) oraz metryk voicing (VR, VFA). Omawiamy także metryki kalibracji confidences (Brier score, reliability diagrams) oraz procedury statystyczne stosowane w literaturze.
+
+3. Cel i zakres pracy
+
+3.1. Cele szczegółowe
+- Opracować reproducible pipeline oceny F0 dla aplikacji karaoke.
+- Porównać pYIN i CREPE w scenariuszach CLEAN, MIX, SEP i AUG.
+- Zmierzyć wpływ różnych poziomów SNR, pitch-shift oraz kompresji na metryki estymacji.
+
+3.2. Hipotezy badawcze
+- H1: CREPE osiąga niższy RMSE w miksach z akompaniamentem niż pYIN.
+- H2: Zastosowanie separacji poprawia metryki estymacji dla obu metod, ale może wprowadzać lokalne artefakty.
+
+4. Ocena dostępnych rozwiązań i własna propozycja
+
+4.1. Analiza kompromisów
+Omówienie kompromisów: jakość vs wydajność (CREPE GPU vs pYIN CPU), artefakty separacji vs korzyści redukcji interferencji harmonicznych, koszt obliczeniowy a możliwość wdrożenia w mobilnym środowisku.
+
+4.2. Proponowany pipeline (operacyjny)
+Opis kroków operacyjnych:
+- Standaryzacja plików (WAV PCM16, resampling, RMS normalization).
+- (Opcjonalnie) Separacja: uruchomienie Demucs/Spleeter z zapisem wersji modelu i logów.
+- Preprocessing: bandpass 80–5000 Hz, prosty VAD, usuwanie clippingu.
+- Estymacja: pYIN (librosa.pyin) i CREPE (pretrained) uruchamiane równolegle z zapisaniem confidences.
+- Postprocessing: median/kalman filtering, Viterbi smoothing, oznaczanie ramek niepewnych.
+- Zapisy: `results/per_record/*.csv`, `manifest.json`, oraz agregacja do `results/aggregated/aggregated_results.csv`.
+
+4.3. Pseudokod i odporność pipeline'u
+Krótki pseudokod operacyjny z retry i logowaniem błędów. Wskazówki dotyczące testów jednostkowych dla etapów preprocessing i alignment oraz sanity-checks na dystrybucji f0_gt.
+
+5. Metody i modele obliczeniowe
+
+5.1. Parametry analizy i trade-offs
+Szczegółowa dyskusja parametrów: `n_fft`, `hop_length`, windowing, projekt filtru FIR Hamming rzędu 512, zero-phase filtering dla analiz offline, sugestie dotyczące wartości domyślnych i sposobu dokumentacji w `manifest.json`.
+
+5.2. Implementacyjne szczegóły pYIN
+Opis mechaniki pYIN: kandydaci, macierz emisji, Viterbi, entropia rozkładów jako miara pewności; praktyczne ustawienia `fmin=65 Hz (C2)` do `fmax=2093 Hz (C7)` oraz heurystyki detekcji voicing.
+
+5.3. Implementacyjne szczegóły CREPE
+Opis logitów → softmax → oczekiwana wartość; tempering, metody kalibracji confidences (Brier minimization), wpływ `step_size` na rozdzielczość czasową i obciążenie obliczeniowe.
+
+6. Protokół eksperymentu i przygotowanie danych
+
+6.1. Zasady przygotowania zbioru
+Szczegółowy opis generacji syntetycznych miksów: pomiar RMS, miksowanie do zadanego SNR, zapis metadanych (source_ids, SNR, processing_steps). Procedury augmentacji: pitch-shift (PSOLA/phase-vocoder), mp3 compression testy.
+
+6.2. Procedura testowa i zapisy wyników
+Instrukcja krok-po-kroku: uruchomienie `scripts/run_analysis.py --input data/raw --output results/per_record --mode MIX --separate false`, strukturę pliku CSV per-record oraz wzorzec `aggregated_results.csv`.
+
+6.3. Kontrola jakości i sanity checks
+Automatyczne testy: wykrywanie clippingu, minimalna długość plików, rozkład f0_gt, liczność ramek voiced; zapisywanie wyników kontroli do `results/qc/`.
+
+7. Wyniki i analiza (szczegóły metryk)
+
+7.1. Metryki wartościowe
+Prezentujemy wzory i interpretację: RMSE (Hz), error w centach, mediany i kwartyle; przykłady interpretacji różnic między metodami.
+
+7.2. Metryki voicing
+Definicje VR, VFA, F1 dla voicing; sposoby agregacji per-file i per-experiment.
+
+7.3. Kalibracja confidences i diagnostyka
+Brier score, reliability diagrams, jak przygotować binning confidences i interpretować odchylenia od idealnej kalibracji.
+
+7.4. Testy statystyczne
+Wybór testów (paired t-test, Wilcoxon), obliczanie Cohen's d, procedura korekcji FDR dla wielu porównań; przykładowy raport wyników.
+
+8. Dyskusja i ograniczenia
+
+8.1. Analiza źródeł błędów
+Szczegółowa dyskusja typowych powodów outlierów: transjenty, artefakty separacji, niskie SNR, pitch-shift i kompresja stratna.
+
+8.2. Ograniczenia projektu
+Dyskusja ograniczeń: brak badań z udziałem użytkowników, zależność od jakości zbiorów referencyjnych, kompromisy deploymentowe.
+
+9. Wnioski i rekomendacje
+
+9.1. Rekomendacje techniczne
+Praktyczne zalecenia dla implementatora: ustawienia pYIN/CREPE, kiedy stosować separację, minimalne wymagania dla danych, lista metryk do raportowania.
+
+9.2. Dalsze prace
+Sugestie: fine-tuning CREPE na danych śpiewu, integracja realtime i badania użytkowe oceniające wpływ feedbacku gry na poprawę intonacji.
+
+10. Wykaz literatury
+
+Główne pozycje i odwołania zostały umieszczone w `Bibliografia.bib`. Najważniejsze pozycje to prace Mauch & Dixon (pYIN), prace przeglądowe Lerch i Müller oraz publikacje dotyczące CREPE i separacji źródeł.
+
+Załączniki (A–E)
+
+A. Dockerfile (szablon)
+```
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY scripts/ scripts/
+COPY data/ data/
+CMD ["python", "scripts/run_analysis.py", "--input", "data/raw", "--output", "results/per_record"]
+```
+
+B. Przykładowy `requirements.txt`
+numpy
+scipy
+librosa
+pandas
+matplotlib
+soundfile
+crepe
+onnxruntime
+torch
+
+C. Pseudokod i przykłady CLI
+- Zob. sekcja 4.9 i Appendix C w `Praca_dyplomowa_nagotowo.md`.
+
+D. Szablony plików wynikowych i `manifest.json` schema
+- Przykładowy `per_record` CSV header: `time,f0_ref,f0_pyin,conf_pyin,f0_crepe,conf_crepe,voicing_pyin,voicing_crepe,frame_valid`.
+
+E. Placeholders for figures
+- `fig_RMSE_boxplot.png`, `fig_f0_trajectory_<id>.png` (umieścić w `figures/`).
+
+Koniec dokumentu. Po twoim potwierdzeniu mogę:
+- (A) rozszerzyć każdą sekcję do długości odpowiadającej ~40 stronom przez dopisanie rozdziałów, case studies i rozbudowanych przykładów (tekst bez uruchamiania skryptów),
+- (B) wygenerować LaTeX-ready wersję i przygotować polecenia do konwersji na PDF,
+- (C) wstawić wygenerowane (syntetyczne) wykresy i CSVy uruchamiając skrypt generujący dane syntetyczne.
+
+

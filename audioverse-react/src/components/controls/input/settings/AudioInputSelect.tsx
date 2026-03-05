@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AudioPitchLevel from "../source/AudioPitchLevel.tsx";
 import AudioVolumeLevel from "../source/AudioVolumeLevel.tsx";
+import { logger } from "../../../../utils/logger";
+const log = logger.scoped('AudioInputSelect');
 
 interface AudioInputSelectProps {
     selectedDevice: string | null;
@@ -23,7 +25,7 @@ const AudioInputSelect: React.FC<AudioInputSelectProps> = ({ selectedDevice, onD
                     onDeviceChange(mics[0].deviceId);
                 }
             } catch (error) {
-                console.error("Brak dostępu do mikrofonu!", error);
+                log.error("Microphone access denied", error);
             }
         }
         getDevices();
@@ -37,18 +39,25 @@ const AudioInputSelect: React.FC<AudioInputSelectProps> = ({ selectedDevice, onD
                 value={selectedDevice || ""}
                 onChange={(e) => onDeviceChange(e.target.value)}
                 disabled={disabled}
-                style={{ fontSize: "11px", width: "320px", marginRight:"10px" }}
+                style={{ fontSize: "11px", width: 'min(320px, 100%)', marginRight:"10px" }}
+                aria-label="Input device"
             >
                 {audioDevices.map((device) => (
                     <option key={device.deviceId} value={device.deviceId}>
-                        {device.label || `Mikrofon ${device.deviceId}`}
+                        {device.label || `Microphone ${device.deviceId}`}
                     </option>
                 ))}
             </select>
 
             {selectedDevice && (
                 <div>
-                    <AudioPitchLevel deviceId={selectedDevice} />
+                    <AudioPitchLevel
+                        deviceId={selectedDevice}
+                        smoothingWindow={5}
+                        hysteresisFrames={5}
+                        rmsThreshold={0.02}
+                        useHanning={false}
+                    />
                     <AudioVolumeLevel deviceId={selectedDevice} />
                 </div>
             )}

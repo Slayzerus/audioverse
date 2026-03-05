@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+  .audio-editor-root {
+    flex-direction: column !important;
+    min-height: auto !important;
+  }
+  .audio-editor-root .audio-editor-sidebar {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-primary) !important;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+}

@@ -61,7 +61,7 @@ export function drawImageTornado(
     w: number, h: number,
     energy: number, baseHue: number,
     stateRef: React.MutableRefObject<ImageTornadoState | null>,
-    urls: string[], count: number
+    _urls: string[], _count: number
 ) {
     const st = stateRef.current;
     if (!st?.ready) return;
@@ -91,7 +91,7 @@ export function drawImageTornado(
         const wImg = 64 * scale;
         const hImg = 64 * scale;
 
-        // neonowa poświata
+        // neon glow
         g.save();
         g.globalAlpha = 0.12 + (1 - s.z / depth) * 0.2;
         g.fillStyle = `hsl(${(baseHue + (1 - s.z / depth) * 60) % 360}, 90%, 60%)`;

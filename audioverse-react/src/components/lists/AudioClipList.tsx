@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { getAudioClips } from "../../scripts/api/apiEditor";
 import AudioClipBox from "../controls/editor/AudioClipBox";
 import { AudioClip } from "../../models/modelsEditor.ts";
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const AudioClipList: React.FC<Props> = ({ onSelect }) => {
+    const { t } = useTranslation();
     const [clips, setClips] = useState<AudioClip[]>([]);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const AudioClipList: React.FC<Props> = ({ onSelect }) => {
 
     return (
         <div>
-            <h2>Lista AudioClipów</h2>
+            <h2>{t('clipList.heading', 'Audio Clips List')}</h2>
             <div style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",

@@ -1,0 +1,265 @@
+/* VectorEditor.module.css — SVG vector editor dark UI */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--editor-bg-deep);
+  color: var(--gray-200);
+  font-family: 'Segoe UI', 'Consolas', monospace;
+  font-size: 12px;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* ── Menu bar ── */
+.menuBar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--editor-bg-deeper);
+  border-bottom: 1px solid var(--editor-bg-dark);
+  padding: 0 4px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.menuBtn {
+  background: none;
+  border: none;
+  color: var(--editor-text-light);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  border-radius: 3px;
+}
+.menuBtn:hover { background: var(--editor-bg-dark); color: var(--color-white); }
+.menuSep { width: 1px; height: 16px; background: var(--gray-850); margin: 0 4px; }
+.menuLabel {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: var(--gray-600);
+  gap: 2px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  width: 38px;
+  background: var(--editor-panel);
+  border-right: 1px solid var(--editor-bg-dark);
+  padding: 4px 2px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.toolBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--editor-text-muted);
+  transition: all 0.1s;
+}
+.toolBtn:hover { background: var(--editor-bg-dark); color: var(--gray-300); }
+.toolBtnActive {
+  background: var(--editor-bg-mid) !important;
+  border-color: var(--editor-accent) !important;
+  color: var(--color-white) !important;
+}
+
+/* ── Main area ── */
+.mainArea {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.canvasContainer {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--editor-bg-deepest);
+}
+.canvasContainer svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Right panel ── */
+.rightPanel {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  background: var(--editor-bg-deep);
+  border-left: 1px solid var(--editor-bg-dark);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.panelSection {
+  border-bottom: 1px solid var(--editor-bg-dark);
+  padding: 6px 8px;
+}
+.panelTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--editor-text-secondary);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panelTitle button {
+  background: none;
+  border: none;
+  color: var(--editor-text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.panelTitle button:hover { color: var(--gray-500); }
+
+/* ── Shape list ── */
+.shapeItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.shapeItem:hover { background: rgba(255,255,255,0.04); }
+.shapeItemActive { background: var(--editor-surface) !important; border: 1px solid var(--accent-blue-dark); }
+.shapeIcon { font-size: 14px; opacity: 0.7; flex-shrink: 0; }
+.shapeName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Property row ── */
+.propRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.propLabel {
+  font-size: 10px;
+  color: var(--gray-600);
+  min-width: 40px;
+}
+.propInput {
+  flex: 1;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+.propColorSwatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  position: relative;
+}
+.propColorSwatch input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Status bar ── */
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--gray-700);
+  background: var(--gray-950);
+  border-top: 1px solid var(--gray-900);
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Dialogs ── */
+.dialogOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.dialog {
+  background: var(--editor-panel);
+  border: 1px solid var(--editor-bg-mid);
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.dialog h3 { margin: 0 0 12px; font-size: 14px; color: var(--gray-300); }
+.dialog label { display: block; font-size: 11px; color: var(--gray-600); margin: 8px 0 2px; }
+.dialog input,
+.dialog select,
+.dialog textarea {
+  width: 100%;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.dialog textarea { min-height: 120px; font-family: monospace; resize: vertical; }
+.dialogActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.dialogActions button {
+  padding: 4px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.btnPrimary { background: var(--editor-accent); color: var(--color-white); }
+.btnPrimary:hover { background: #6677dd; }
+.btnSecondary { background: var(--gray-850); color: var(--gray-500); }
+.btnSecondary:hover { background: var(--gray-800); color: var(--gray-200); }
+
+/* SVG selection handles */
+.handleGroup circle {
+  fill: var(--editor-accent);
+  stroke: var(--color-white);
+  stroke-width: 1;
+  cursor: pointer;
+}
+.handleGroup circle:hover {
+  fill: #7788ee;
+}

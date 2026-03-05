@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using AudioVerse.Domain.Entities.Karaoke;
 using System.Collections.Generic;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSongFiles;
 
 namespace AudioVerse.Application.Queries.Karaoke
 {
-    public record GetAllSongsQuery() : IRequest<IEnumerable<KaraokeSongFile>>;
+    public record GetAllSongsQuery(bool IncludeInDevelopment = false) : IRequest<IEnumerable<KaraokeSongFile>>;
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import AnimatedPerson from "./AnimatedPerson";
 import type { PersonControls } from "./animationHelper";
 import { seq, runWave, runCannon, runRounds } from "./choreoDSL";
@@ -14,31 +14,31 @@ import { DEFAULT_CHARACTER, type CharacterConfig } from "./characterTypes";
 const J1: CharacterConfig = {
     ...DEFAULT_CHARACTER,
     name: "J1",
-    outfit: { variant: "hoodie", colors: ["#e11d48", "#be123c", "#111"] },
-    hair: { variant: "curly", colors: ["#2d3142", "#4f5d75"] },
-    headwear: { variant: "headphones", colors: ["#111", "#6b7280"] },
-    prop: { variant: "mic", colors: ["#111", "#666", "#ccc"] },
+    outfit: { variant: "hoodie", colors: ["var(--anim-outfit-j1-1, #e11d48)", "var(--anim-outfit-j1-2, #be123c)", "var(--anim-stroke, #111)"] },
+    hair: { variant: "curly", colors: ["var(--anim-hair-j1-1, #2d3142)", "var(--anim-hair-j1-2, #4f5d75)"] },
+    headwear: { variant: "headphones", colors: ["var(--anim-stroke, #111)", "var(--anim-headwear-1, #6b7280)"] },
+    prop: { variant: "mic", colors: ["var(--anim-stroke, #111)", "var(--anim-prop-2, #666)", "var(--anim-prop-3, #ccc)"] },
 };
 
 const J2: CharacterConfig = {
     ...DEFAULT_CHARACTER,
     name: "J2",
-    outfit: { variant: "suit", colors: ["#10b981", "#059669", "#111"] },
-    hair: { variant: "short", colors: ["#111827", "#374151"] },
+    outfit: { variant: "suit", colors: ["var(--anim-outfit-j2-1, #10b981)", "var(--anim-outfit-j2-2, #059669)", "var(--anim-stroke, #111)"] },
+    hair: { variant: "short", colors: ["var(--anim-hair-j2-1, #111827)", "var(--anim-hair-j2-2, #374151)"] },
 };
 
 const J3: CharacterConfig = {
     ...DEFAULT_CHARACTER,
     name: "J3",
-    outfit: { variant: "tee", colors: ["#f59e0b", "#d97706", "#111"] },
-    hair: { variant: "long", colors: ["#78350f", "#a16207"] },
+    outfit: { variant: "tee", colors: ["var(--anim-outfit-j3-1, #f59e0b)", "var(--anim-outfit-j3-2, #d97706)", "var(--anim-stroke, #111)"] },
+    hair: { variant: "long", colors: ["var(--anim-hair-j3-1, #78350f)", "var(--anim-hair-j3-2, #a16207)"] },
 };
 
 const J4: CharacterConfig = {
     ...DEFAULT_CHARACTER,
     name: "J4",
-    outfit: { variant: "dress", colors: ["#6366f1", "#4338ca", "#111"] },
-    hair: { variant: "mohawk", colors: ["#4c1d95", "#7c3aed"] },
+    outfit: { variant: "dress", colors: ["var(--anim-outfit-j4-1, #6366f1)", "var(--anim-outfit-j4-2, #4338ca)", "var(--anim-stroke, #111)"] },
+    hair: { variant: "mohawk", colors: ["var(--anim-hair-j4-1, #4c1d95)", "var(--anim-hair-j4-2, #7c3aed)"] },
 };
 
 // Jeden juror – pełny showcase (demo)

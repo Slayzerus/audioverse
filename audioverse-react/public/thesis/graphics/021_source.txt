@@ -1,0 +1,3 @@
+Źródło własne — diagram architektury CQRS z MediatR
+audioverse-dotnet/AudioVerse.API/Docs/diagrams/08-cqrs-architecture.drawio
+2026-02-20

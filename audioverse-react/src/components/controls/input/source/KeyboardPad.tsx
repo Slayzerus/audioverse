@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/dist/collapse";
-import "../../../../KeyboardPad.css";
+import styles from "./KeyboardPad.module.css";
 import { startAudioContext, playSynth, keyboardLayout, keyMappings, instruments, frequencies, updateEqualizer } from "../../../../scripts/audioKeyboard.ts";
 
 const mechanisms = ["WebAudio", "OpenTTS", "Custom"];
@@ -12,6 +13,7 @@ export interface KeyboardPadProps {
 }
 
 const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
+    const { t } = useTranslation();
     const [instrument, setInstrument] = useState<string>("Pianino");
     const [mechanism, setMechanism] = useState<string>("WebAudio");
     const [preset, setPreset] = useState<string>("Pianino");
@@ -20,7 +22,7 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
     /*const [equalizer, setEqualizer] = useState<{ [key: string]: number }>({});*/
     const [eqSettings, setEqSettings] = useState<{ [key: string]: number }>(
         Object.keys(frequencies).reduce((acc, note) => {
-            acc[note] = 0; // Domyślnie zero
+            acc[note] = 0; // Default zero
             return acc;
         }, {} as { [key: string]: number })
     );
@@ -64,6 +66,7 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                         value={mechanism}
                         onChange={(e) => setMechanism(e.target.value)}
                         style={{ fontSize: "12px", width: "25%" }}
+                        aria-label="Mechanism"
                     >
                         {mechanisms.map((mech) => (
                             <option key={mech} value={mech}>{mech}</option>
@@ -75,6 +78,7 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                         value={preset}
                         onChange={(e) => setPreset(e.target.value)}
                         style={{ fontSize: "12px", width: "25%" }}
+                        aria-label="Preset"
                     >
                         {presets.map((preset) => (
                             <option key={preset} value={preset}>{preset}</option>
@@ -87,6 +91,7 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                         onChange={(e) => setInstrument(e.target.value)}
                         style={{ fontSize: "12px", width: "25%" }}
                         disabled={preset !== "Custom"}
+                        aria-label="Instrument"
                     >
                         {instruments.map((inst) => (
                             <option key={inst} value={inst}>{inst}</option>
@@ -97,24 +102,24 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                 {/* 🔊 Przycisk startu audio */}
                 {!isAudioStarted && (
                     <button className="btn btn-sm btn-warning w-100 mt-2" onClick={handleStartAudio}>
-                        🔊 Kliknij, aby włączyć dźwięk
+                        {t('keyboardPad.enableAudio', '🔊 Click to enable audio')}
                     </button>
                 )}
 
                 {/* 🎹 Pianino */}
-                <div className="piano-container mt-2">
-                    <div className="white-keys">
+                <div className={`${styles['piano-container']} mt-2`}>
+                    <div className={styles['white-keys']}>
                         {keyboardLayout.map(({ note, type }) => (
                             <div
                                 key={note}
                                 onClick={() => playSynth(note, instrument, setActiveKeys)}
-                                className={`${type}-key ${activeKeys.has(note) ? "pressed" : ""}`}
+                                className={`${styles[`${type}-key`]} ${activeKeys.has(note) ? styles['pressed'] : ""}`}
                             >
-                                <div className="key-label">
-                                    <div className="key-label-single">{note}</div>
-                                    <div className="key-label-single kbd">{keyMappings[note]?.keyboard || ""}</div>
+                                <div className={styles['key-label']}>
+                                    <div className={styles['key-label-single']}>{note}</div>
+                                    <div className={`${styles['key-label-single']} ${styles['kbd']}`}>{keyMappings[note]?.keyboard || ""}</div>
                                     {keyMappings[note]?.gamepad && (
-                                        <div className="key-label-single gamepad">{keyMappings[note]?.gamepad}</div>
+                                        <div className={`${styles['key-label-single']} gamepad`}>{keyMappings[note]?.gamepad}</div>
                                     )}
                                 </div>
                             </div>
@@ -123,14 +128,14 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                 </div>
 
                 {/* 🎚 Equalizer - Collapse */}
-                <div className="eq-container mt-3">
+                <div className={`${styles['eq-container']} mt-3`}>
                     <h6>
                         Equalizer
-                        <span className="info-icon" title="Adjust frequency gain for each note">❓</span>
+                        <span className={styles['info-icon']} title={t('keyboardPad.eqTooltip', 'Adjust frequency gain for each note')}>❓</span>
                     </h6>
-                    <div className="eq-grid">
+                    <div className={styles['eq-grid']}>
                         {Object.keys(frequencies).map((note) => (
-                            <div key={note} className="eq-column">
+                            <div key={note} className={styles['eq-column']}>
                                 <label>{note}</label>
                                 <input
                                     type="range"
@@ -139,9 +144,10 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                                     step="1"
                                     value={eqSettings[note]}
                                     onChange={(e) => handleEqChange(note, parseInt(e.target.value))}
-                                    className="eq-slider"
+                                    className={styles['eq-slider']}
+                                    aria-label={t("keyboardPad.noteEq", "Note EQ level")}
                                 />
-                                <span className="eq-value">{eqSettings[note]}</span>
+                                <span className={styles['eq-value']}>{eqSettings[note]}</span>
                             </div>
                         ))}
                     </div>
@@ -159,15 +165,15 @@ const KeyboardPad: React.FC<KeyboardPadProps> = ({ onAudioGenerated }) => {
                     <div className="collapse mt-2 p-2" id="settingsCollapse">
                         <div className="mb-2">
                             <label className="form-label">🎛 Czułość klawiszy</label>
-                            <input type="range" className="form-range" min="1" max="10" step="1"/>
+                            <input type="range" className="form-range" min="1" max="10" step="1" aria-label={t("keyboardPad.sensitivity", "Key sensitivity")}/>
                         </div>
                         <div className="mb-2">
                             <label className="form-label">🎼 Głośność</label>
-                            <input type="range" className="form-range" min="0" max="100" step="1"/>
+                            <input type="range" className="form-range" min="0" max="100" step="1" aria-label={t("keyboardPad.volume", "Volume")}/>
                         </div>
                         <div className="mb-2">
                             <label className="form-label">⏱ Czas wybrzmiewania</label>
-                            <input type="range" className="form-range" min="0.1" max="5" step="0.1" />
+                            <input type="range" className="form-range" min="0.1" max="5" step="0.1" aria-label={t("keyboardPad.sustain", "Sustain time")} />
                         </div>
                     </div>
                 </div>

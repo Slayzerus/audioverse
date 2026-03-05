@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { resumeAudioContext } from "../../../scripts/audioContext.ts";
-import { drawTimeline, drawCursor } from "../../../scripts/audioTimeline.ts";
+import { drawTimelineWithRuler, drawCursorEnhanced, snapToGrid, TimelineConfig, drawWaveform, WaveformData } from "../../../scripts/audioTimeline.ts";
 
 interface AudioTimelineProps {
     zoom: number;
@@ -8,9 +8,13 @@ interface AudioTimelineProps {
     isPlaying: boolean;
     isRecording: boolean;
     currentTime: number;
-/*    onZoomChange: (value: number) => void;
-    onDurationChange: (value: number) => void;*/
+    bpm?: number;
+    snapEnabled?: boolean;
+    snapMode?: 'beat' | 'bar' | 'second' | 'sub-beat';
+    waveform?: WaveformData;
+    waveformColor?: string;
     onCurrentTimeChange: (value: number) => void;
+    onZoomChange?: (value: number) => void;
 }
 
 export interface AudioTimelineRef {
@@ -24,22 +28,31 @@ const AudioTimeline: React.FC<AudioTimelineProps> = ({
                                                          isPlaying,
                                                          isRecording,
                                                          currentTime,
-                           /*                              onZoomChange,
-                                                         onDurationChange,*/
+                                                         bpm = 120,
+                                                         snapEnabled = false,
+                                                         snapMode = 'beat',
+                                                         waveform,
+                                                         waveformColor,
                                                          onCurrentTimeChange,
+                                                         onZoomChange,
                                                      }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const animationRef = useRef<number | null>(null);
     const lastUpdateTime = useRef<number | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+    
+    const config: TimelineConfig = {
+        zoom,
+        duration,
+        bpm,
+        snapEnabled,
+        snapMode,
+    };
 
     useEffect(() => {
-        resumeAudioContext(); // Naprawia błędy związane z "suspended AudioContext"
-        if (canvasRef.current) {
-            drawTimeline(canvasRef.current, zoom, duration);
-            drawCursor(canvasRef.current, zoom, duration, currentTime, isRecording);
-        }
-    }, [zoom, duration, currentTime, isRecording]);
+        resumeAudioContext();
+        renderFrame();
+    }, [zoom, duration, currentTime, isRecording, bpm, snapEnabled, snapMode, waveform]);
 
     useEffect(() => {
         if (isPlaying) {
@@ -51,6 +64,15 @@ const AudioTimeline: React.FC<AudioTimelineProps> = ({
             }
         }
     }, [isPlaying]);
+
+    const renderFrame = () => {
+        if (!canvasRef.current) return;
+        drawTimelineWithRuler(canvasRef.current, config);
+        if (waveform?.length) {
+            drawWaveform(canvasRef.current, config, waveform, waveformColor);
+        }
+        drawCursorEnhanced(canvasRef.current, config, currentTime, isRecording);
+    };
 
     const animateCursor = () => {
         if (!isPlaying) return;
@@ -91,9 +113,21 @@ const AudioTimeline: React.FC<AudioTimelineProps> = ({
 
         const rect = canvasRef.current.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
-        const newTime = (clickX / rect.width) * duration;
+        let newTime = (clickX / rect.width) * duration;
+        
+        // Apply snap
+        newTime = snapToGrid(newTime, config);
 
         onCurrentTimeChange(Math.min(Math.max(newTime, 0), duration));
+    };
+    
+    const handleWheel = (event: React.WheelEvent<HTMLCanvasElement>) => {
+        if (!onZoomChange) return;
+        
+        event.preventDefault();
+        const delta = event.deltaY > 0 ? -0.1 : 0.1;
+        const newZoom = Math.max(0.5, Math.min(5, zoom + delta));
+        onZoomChange(newZoom);
     };
 
     return (
@@ -101,16 +135,19 @@ const AudioTimeline: React.FC<AudioTimelineProps> = ({
             <canvas
                 ref={canvasRef}
                 style={{
-                    border: "   1px solid black",
+                    border: "1px solid black",
                     backgroundColor: "white",
                     width: `${30 * zoom * duration}px`,
-                    height: `${30 * zoom}px`,
+                    height: `${Math.max(80, 30 * zoom)}px`,
                     cursor: isDragging ? "grabbing" : "pointer",
                 }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
+                onWheel={handleWheel}
+                role="img"
+                aria-label="Audio timeline canvas"
             />
         </div>
     );

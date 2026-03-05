@@ -1,0 +1,556 @@
+/* AdminAssetManagerPage.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+/* ── Top bar (title + tabs) ── */
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.tabBar {
+  display: flex;
+  gap: 0;
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.tab:hover {
+  color: var(--text-secondary);
+}
+.tabIcon {
+  font-size: 1rem;
+}
+.activeTab {
+  color: var(--accent-blue) !important;
+  border-bottom-color: var(--accent-blue) !important;
+}
+
+/* ── Content area ── */
+
+.content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.editorPanel {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Conversion panel ── */
+
+.convertPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.convertHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.convertHeader h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.convertToggle {
+  display: flex;
+  gap: 0;
+}
+
+.convertBody {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+.convertCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.convertCol h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+.convertArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.convTextarea {
+  width: 100%;
+  min-height: 160px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: 'Consolas', monospace;
+  font-size: 0.85rem;
+  padding: 8px;
+  resize: vertical;
+}
+.convTextarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.convPreview {
+  max-width: 100%;
+  max-height: 300px;
+  image-rendering: pixelated;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: repeating-conic-gradient(var(--gray-850) 0% 25%, var(--gray-800) 0% 50%) 0 0 / 16px 16px;
+  object-fit: contain;
+}
+
+.convPreviewSvg {
+  max-width: 100%;
+  max-height: 300px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: var(--bg-tertiary);
+  overflow: auto;
+  padding: 8px;
+}
+.convPreviewSvg svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Library panel ── */
+
+.libraryPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  color: var(--input-text);
+  font-size: 0.95rem;
+}
+.searchInput:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.filterSelect {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  color: var(--input-text);
+  font-size: 0.9rem;
+}
+
+.uploadBtn {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+  border: none;
+  color: var(--btn-text);
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.uploadBtn:hover {
+  transform: scale(1.03);
+}
+.uploadBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+/* ── Assets grid ── */
+
+.assetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.assetCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.assetCard:hover {
+  border-color: var(--accent-blue);
+}
+
+.assetPreview {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+.assetPreview img {
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: pixelated;
+}
+
+.assetIcon {
+  font-size: 2.5rem;
+}
+
+.assetInfo {
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.assetName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assetMeta {
+  font-size: 0.75rem;
+  opacity: 0.5;
+}
+
+/* ── Empty & loading ── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  opacity: 0.5;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.loadingText {
+  text-align: center;
+  padding: 3rem;
+  opacity: 0.5;
+}
+
+/* ── Drag overlay ── */
+
+.dragOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: rgba(85, 102, 204, 0.18);
+  border: 3px dashed var(--accent-blue);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #ccd;
+  pointer-events: none;
+}
+
+/* ── Asset card action overlay ── */
+
+.assetCard {
+  position: relative;
+}
+
+.assetActions {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.18s;
+  border-radius: 10px;
+}
+.assetCard:hover .assetActions {
+  opacity: 1;
+}
+.assetActions button {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: var(--color-white);
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.assetActions button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Asset badge ── */
+
+.assetBadge {
+  display: inline-block;
+  background: rgba(85, 102, 204, 0.22);
+  color: #99b;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* ── Asset date ── */
+
+.assetDate {
+  font-size: 0.7rem;
+  opacity: 0.4;
+}
+
+/* ── Sort select ── */
+
+.sortSelect {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  color: var(--input-text);
+  font-size: 0.9rem;
+}
+
+/* ── Asset count ── */
+
+.assetCount {
+  font-size: 0.85rem;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* ── Context menu ── */
+
+.contextMenu {
+  background: var(--bg-modal);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 4px 0;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.contextMenuItem {
+  background: none;
+  border: none;
+  color: var(--dropdown-text);
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.12s;
+}
+.contextMenuItem:hover {
+  background: rgba(85, 102, 204, 0.2);
+}
+
+/* ── Selected asset card ── */
+
+.assetCardSelected {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 2px rgba(85, 102, 204, 0.35);
+}
+
+/* ── Star button ── */
+
+.starBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: var(--star-color);
+  font-size: 1rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s;
+  opacity: 0.6;
+}
+.assetCard:hover .starBtn,
+.starBtn:focus {
+  opacity: 1;
+}
+.starBtn:hover {
+  transform: scale(1.2);
+}
+
+/* ── List view ── */
+
+.assetList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.listRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.listRow:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.listRow:last-child {
+  border-bottom: none;
+}
+
+.listRowSelected {
+  background: rgba(85, 102, 204, 0.12) !important;
+}
+
+.listActionBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.12s;
+}
+.listActionBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Detail modal ── */
+
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailModal {
+  background: var(--bg-modal);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+  color: var(--text-primary);
+}

@@ -1,5 +1,6 @@
 // AudioClipEditor.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import Waveform from "../Waveform";
 import AudioClipAnalyzer from "../AudioClipAnalyzer";
 import AudioClipInfo from "../AudioClipInfo";
@@ -31,6 +32,7 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
                                                              initialTab = "waveform",
                                                          }) => {
     const [tab, setTab] = useState<TabKey>(initialTab);
+    const { t } = useTranslation();
 
     // odtwarzanie
     const [blobUrl, setBlobUrl] = useState<string | null>(null);
@@ -41,11 +43,11 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
     const [currentTime, setCurrentTime] = useState<number>(0);
     const rafRef = useRef<number | null>(null);
 
-    // zoom (powiększamy szerokość canvasa – Waveform rysuje całość do podanego width)
+    // zoom (enlarge canvas width – Waveform draws everything to the given width)
     const [zoom, setZoom] = useState<number>(1); // 1x, 2x, 4x...
     const canvasWidth = 600 * Math.max(1, Math.min(zoom, 8));
 
-    // wczytanie pliku do <audio> i Waveform
+    // load file into <audio> and Waveform
     useEffect(() => {
         const url = URL.createObjectURL(file);
         setBlobUrl(url);
@@ -57,7 +59,7 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
         };
     }, [file]);
 
-    // podłącz zdarzenia odtwarzacza
+    // attach player events
     useEffect(() => {
         const el = audioRef.current;
         if (!el) return;
@@ -84,7 +86,7 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
         };
     }, []);
 
-    // ręczny „tick” (gdy przeglądarka nie wywołuje timeupdate zbyt często)
+    // manual tick (when browser doesn't fire timeupdate often enough)
     const tick = () => {
         const el = audioRef.current;
         if (el) setCurrentTime(el.currentTime);
@@ -97,7 +99,7 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
         }
     };
 
-    // sterowanie
+    // controls
     const play = () => {
         const el = audioRef.current;
         if (!el) return;
@@ -155,22 +157,22 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
                 <div className="p-3 space-y-3">
                     {/* toolbar */}
                     <div className="flex flex-wrap items-center gap-2">
-                        <button className="btn" onClick={play}>▶️ Play</button>
-                        <button className="btn" onClick={pause}>⏸ Pause</button>
-                        <button className="btn" onClick={stop}>⏹ Stop</button>
+                        <button className="btn" onClick={play}>{t('clipEditor.play', '▶️ Play')}</button>
+                        <button className="btn" onClick={pause}>{t('clipEditor.pause', '⏸ Pause')}</button>
+                        <button className="btn" onClick={stop}>{t('clipEditor.stop', '⏹ Stop')}</button>
 
                         <span className="mx-2 h-6 w-px bg-gray-300" />
 
-                        <button className="btn" onClick={() => seek(-5)}>⏪ -5s</button>
-                        <button className="btn" onClick={() => seek(5)}>⏩ +5s</button>
+                        <button className="btn" onClick={() => seek(-5)}>{t('clipEditor.rewind', '⏪ -5s')}</button>
+                        <button className="btn" onClick={() => seek(5)}>{t('clipEditor.forward', '⏩ +5s')}</button>
 
                         <span className="mx-2 h-6 w-px bg-gray-300" />
 
                         <div className="flex items-center gap-1">
                             <span className="text-sm text-gray-600">Zoom</span>
-                            <button className="btn" onClick={() => setZoom((z) => Math.max(1, z / 2))}>-</button>
+                            <button className="btn" onClick={() => setZoom((z) => Math.max(1, z / 2))} aria-label="Zoom out">-</button>
                             <span className="text-sm tabular-nums w-10 text-center">{zoom}×</span>
-                            <button className="btn" onClick={() => setZoom((z) => Math.min(8, z * 2))}>+</button>
+                            <button className="btn" onClick={() => setZoom((z) => Math.min(8, z * 2))} aria-label="Zoom in">+</button>
                         </div>
                     </div>
 
@@ -192,7 +194,7 @@ const AudioClipEditor: React.FC<AudioClipEditorProps> = ({
 
             {tab === "info" && (
                 <div className="p-3">
-                    {/* Prosty komponent informacyjny – jeśli masz własny, podmień propsy */}
+                    {/* Simple info component – if you have your own, swap the props */}
                     <AudioClipInfo file={file} duration={duration} />
                 </div>
             )}

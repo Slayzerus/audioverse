@@ -1,5 +1,5 @@
-﻿using AudioVerse.Infrastructure.DMX.Ftdi;
-using static AudioVerse.Infrastructure.DMX.Ftdi.FtdiD2xx;
+﻿using AudioVerse.Infrastructure.DMX;
+using static AudioVerse.Infrastructure.DMX.FtdiD2xx;
 
 namespace AudioVerse.Application.Services.DMX
 {

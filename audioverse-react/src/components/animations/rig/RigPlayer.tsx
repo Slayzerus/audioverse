@@ -5,6 +5,7 @@ import RiggedBody from "./RiggedBody";
 import { tweenPose, ease } from "./poseOps";
 import type { ChoreoStep } from "../animationHelper";
 import { rigPoseFor } from "./choreoRigBridge";
+import type { PersonPose } from "../animationHelper";
 import { solveFK } from "./rigMath";
 import { solveTwoBoneIK } from "./ik";
 
@@ -74,7 +75,7 @@ const RigPlayer = React.forwardRef<RigPlayerHandle, RigPlayerProps>(
                         await raiseCardIK(undefined, s.options?.duration ?? defaultMs);
                         cur = { ...current };
                     } else {
-                        const target = rigPoseFor(s.pose as any);
+                        const target = rigPoseFor(s.pose as PersonPose);
                         await tweenPose(cur, target, s.options?.duration ?? defaultMs, setNow, ease.inOut);
                         cur = target;
                     }

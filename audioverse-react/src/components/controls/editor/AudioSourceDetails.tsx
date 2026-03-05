@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import { audioSourceTypes, AudioSourceType } from "../../../scripts/audioSource";
 
 type Params = Record<string, unknown>;
@@ -21,12 +22,13 @@ const AudioSourceDetailsComponent: React.FC<Props> = ({
                                                           onSelectSource,
                                                           onParamsChange,
                                                       }) => {
+    const { t } = useTranslation();
     const current = (selectedSource as AudioSourceType | undefined) ?? audioSourceTypes[0]?.type;
 
     const def = audioSourceTypes.find((x) => x.type === current);
     const SelectedComp = def?.component;
 
-    // Przygotuj propsy dla różnych komponentów źródeł – bez „opcjonalnych atrybutów” w JSX.
+    // Prepare props for different source components – without optional attributes in JSX.
     const componentProps: Record<string, unknown> = {
         // AudioRecorder.tsx
         onAudioRecorded: (audioBlob: Blob) =>
@@ -40,8 +42,8 @@ const AudioSourceDetailsComponent: React.FC<Props> = ({
         onAudioClipSelect: (clip: { id: number; fileName?: string }) =>
             onParamsChange({ ...params, clipId: clip?.id, clipName: clip?.fileName }),
 
-        // SpeechSynth.tsx – jeśli dodasz taki callback w komponencie, będzie użyty;
-        // samo przekazanie dodatkowego prop-a nie psuje innych komponentów.
+        // SpeechSynth.tsx – if you add such a callback in the component, it will be used;
+        // passing an extra prop doesn't break other components.
         onSpeechGenerated: (blob: Blob) =>
             onParamsChange({ ...params, ttsBlob: blob }),
     };
@@ -49,7 +51,7 @@ const AudioSourceDetailsComponent: React.FC<Props> = ({
     return (
         <div>
             <div className="d-flex align-items-center gap-2">
-                <label style={{fontSize: 12}}>Source:</label>
+                <label style={{fontSize: 12}}>{t('sourceDetails.source', 'Source')}:</label>
                 <select
                     className="form-select form-select-sm"
                     value={current}

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using AudioVerse.Identity.Persistence;
-using AudioVerse.Domain.Entities;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using System.Security.Cryptography.X509Certificates;
 using Serilog;
 using AudioVerse.IdentityServer.Middleware;
+using AudioVerse.IdentityServer.Persistence;
+using AudioVerse.Domain.Entities.UserProfiles;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +51,11 @@ builder.Services.AddOpenIddict()
                .EnableTokenEndpointPassthrough();
         options.AddDevelopmentEncryptionCertificate()
                .AddDevelopmentSigningCertificate();
+
+        // Refresh token: 14 dni, rolling — każdy użycie wydłuża ważność
+        options.SetRefreshTokenLifetime(TimeSpan.FromDays(14));
+        // Access token: 30 minut
+        options.SetAccessTokenLifetime(TimeSpan.FromMinutes(30));
     })
     .AddValidation(options =>
     {
@@ -67,7 +72,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"])),
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!)),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true
@@ -106,24 +111,30 @@ builder.WebHost.ConfigureKestrel(options =>
 
     options.ListenAnyIP(httpPort); // HTTP
 
-    options.ListenAnyIP(httpsPort, listenOptions =>
+    // HTTPS — only if cert files are present (behind nginx they are not needed)
+    if (File.Exists(certPath) && File.Exists(keyPath))
     {
-        try
+        options.ListenAnyIP(httpsPort, listenOptions =>
         {
-            var certificate = X509Certificate2.CreateFromPemFile(certPath, keyPath);
-            listenOptions.UseHttps(new HttpsConnectionAdapterOptions
+            try
             {
-                ServerCertificate = certificate
-            });
-
-            Console.WriteLine($"Załadowano certyfikat HTTPS: {certPath}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Błąd ładowania certyfikatu HTTPS: {ex.Message}");
-            throw;
-        }
-    }); // HTTPS
+                var certificate = X509Certificate2.CreateFromPemFile(certPath, keyPath);
+                listenOptions.UseHttps(new HttpsConnectionAdapterOptions
+                {
+                    ServerCertificate = certificate
+                });
+                Console.WriteLine($"HTTPS enabled on port {httpsPort} with cert: {certPath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to load HTTPS certificate: {ex.Message} — HTTPS disabled");
+            }
+        });
+    }
+    else
+    {
+        Console.WriteLine($"No certs found at {certPath} — running HTTP only on port {httpPort}");
+    }
 });
 
 var app = builder.Build();
@@ -153,6 +164,9 @@ else
 
 // 🔥 Middleware globalnej obsługi wyjątków
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// 🔒 Refresh token → httpOnly cookie (przed auth, przechwytuje response /connect/token)
+app.UseMiddleware<AudioVerse.IdentityServer.Middleware.RefreshTokenCookieMiddleware>();
 
 app.UseSerilogRequestLogging(); // Logowanie requestów
 

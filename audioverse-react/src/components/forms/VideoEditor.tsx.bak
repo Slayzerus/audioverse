@@ -1,0 +1,92 @@
+/* VideoEditor.tsx — Full-featured client-side video editor.
+ *
+ * Refactored: logic extracted to useVideoEditor hook,
+ * UI split into VideoEditorToolbar, VideoEditorLeftPanel, VideoEditorTimeline.
+ *
+ * Usage:
+ *   <VideoEditor
+ *     src={fileOrUrl}
+ *     playerColor="#ff4444"
+ *     onSave={(file, stateJson?) => { ... }}
+ *     onCancel={() => { ... }}
+ *   />
+ */
+
+import { useVideoEditor } from "./useVideoEditor";
+import VideoEditorToolbar from "./VideoEditorToolbar";
+import VideoEditorLeftPanel from "./VideoEditorLeftPanel";
+import VideoEditorTimeline from "./VideoEditorTimeline";
+
+// ── Types ──
+
+interface VideoEditorProps {
+    src: File | Blob | string;
+    playerColor?: string;
+    onSave: (file: File, editorStateJson?: string) => void;
+    onCancel: () => void;
+    initialState?: string | null;
+}
+
+// ── Component ──
+
+export default function VideoEditor({ src, playerColor = "#00aaff", onSave, onCancel, initialState }: VideoEditorProps) {
+    const api = useVideoEditor({ src, playerColor, onSave, onCancel, initialState });
+    const { videoRef, canvasRef, containerRef, loading, volume } = api;
+
+    // ── Loading ──
+    if (loading) {
+        return (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", minHeight: 400, color: "#aaa", background: "#1a1a1e" }}>
+                <i className="fa fa-spinner fa-spin fa-2x" />
+            </div>
+        );
+    }
+
+    // ── Render ──
+    return (
+        <div style={{
+            display: "flex", flexDirection: "column", width: "100%", height: "100vh",
+            background: "#1a1a1e", color: "#eee",
+            fontFamily: "'Segoe UI', sans-serif", fontSize: 13,
+        }}>
+            {/* Hidden video element */}
+            <video ref={videoRef} style={{ display: "none" }} muted={volume === 0} playsInline crossOrigin="anonymous" />
+
+            {/* Top toolbar */}
+            <VideoEditorToolbar api={api} />
+
+            {/* Main area: sidebar + canvas */}
+            <div style={{ display: "flex", flex: 1, overflow: "hidden", minHeight: 0 }}>
+                {/* Left panel */}
+                <VideoEditorLeftPanel api={api} />
+
+                {/* Canvas viewport */}
+                <div ref={containerRef} style={{
+                    flex: 1, display: "flex", flexDirection: "column",
+                    background: "#111115", overflow: "hidden",
+                }}>
+                    {/* Video canvas */}
+                    <div style={{
+                        flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                        padding: 20, overflow: "hidden",
+                    }}>
+                        <canvas
+                            ref={canvasRef}
+                            style={{
+                                maxWidth: "100%", maxHeight: "100%",
+                                objectFit: "contain", borderRadius: 6,
+                                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+                            }}
+                            role="img"
+                            aria-label="Video editor preview canvas"
+                        />
+                    </div>
+
+                    {/* Timeline / playback controls */}
+                    <VideoEditorTimeline api={api} />
+                </div>
+            </div>
+        </div>
+    );
+}
+

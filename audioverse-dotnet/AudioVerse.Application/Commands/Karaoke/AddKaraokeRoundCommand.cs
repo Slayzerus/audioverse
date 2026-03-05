@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using AudioVerse.Domain.Entities.Karaoke;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSessions;
 
 namespace AudioVerse.Application.Commands.Karaoke
 {
-    public record AddKaraokeRoundCommand(KaraokePartyRound Round) : IRequest<int>;
+    public record AddKaraokeRoundCommand(KaraokeSessionRound Round) : IRequest<int>;
 }

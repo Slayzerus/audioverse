@@ -1,0 +1,17 @@
+Rysunek 2.1 — Interfejs gry SingStar (PlayStation 2)
+
+CO PRZEDSTAWIA:
+Screenshot z gry SingStar na PlayStation 2: pasek nut z kursorem śpiewaka
+(linia poruszająca się w górę/dół zależnie od wysokości głosu) i bieżącą
+punktacją. Widoczny wzorzec interfejsu karaoke z wizualną reprezentacją
+nut i oceną ilościową.
+
+JAK ZDOBYĆ:
+1. Źródło zewnętrzne — materiały prasowe Sony Computer Entertainment Europe
+2. Szukaj: "SingStar PS2 gameplay screenshot" na stronach:
+   - gamepress.gg
+   - gaming.wikia.com (fandom.com)
+   - Google Images (z filtrem "do ponownego użycia")
+3. Alternatywnie: uruchom emulator PCSX2 z grą SingStar i zrób screenshot
+4. UWAGA: to jest screenshot z zewnętrznego źródła — sprawdź licencję
+   lub użyj z dopiskiem "fair use / materiał prasowy"

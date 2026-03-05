@@ -1,4 +1,4 @@
-import { apiClient, apiPath } from "./libraryApiClient";
+import { apiClient, apiPath } from "./audioverseApiClient";
 import {
     PoseDetectionResult,
     Pose2DSequenceResult,
@@ -11,13 +11,14 @@ import {
 } from "../../models/modelsAiVideo";
 
 /// Base path for AI Video endpoints.
-export const AI_VIDEO_BASE = "/api/ai-video";
+export const AI_VIDEO_BASE = "/api/ai/video";
 
 /* ============================================================================
    Low-level API (fetchers)
    ========================================================================== */
 
 /// Runs single-image 2D dance detection for a chosen engine.
+/** @internal */
 export const postPoseImage = async (
     engine: PoseEngine,
     file: File
@@ -30,6 +31,7 @@ export const postPoseImage = async (
 };
 
 /// Runs full-video 2D tracking for a chosen engine.
+/** @internal */
 export const postPoseVideo = async (
     engine: PoseEngine,
     file: File
@@ -42,6 +44,7 @@ export const postPoseVideo = async (
 };
 
 /// Runs PoseFormer 3D lifting from a raw 2D sequence (JSON).
+/** @internal */
 export const postPose3dFromSequence = async (
     payload: Pose2DSequencePayload
 ): Promise<Pose3DSequenceResult> => {
@@ -54,6 +57,7 @@ export const postPose3dFromSequence = async (
 };
 
 /// Runs PoseFormer 3D lifting directly from a video file (MP4).
+/** @internal */
 export const postPose3dFromVideo = async (
     file: File
 ): Promise<Pose3DSequenceResult> => {

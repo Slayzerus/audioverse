@@ -1,0 +1,523 @@
+/* PixelEditor.module.css — Aseprite-inspired dark UI */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--editor-bg-deep);
+  color: var(--gray-200);
+  font-family: 'Segoe UI', 'Consolas', monospace;
+  font-size: 12px;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* ── Menu bar ─────────────── */
+.menuBar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--editor-bg-deeper);
+  border-bottom: 1px solid var(--editor-bg-dark);
+  padding: 0 4px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.menuBtn {
+  background: none;
+  border: none;
+  color: var(--editor-text-light);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  border-radius: 3px;
+}
+.menuBtn:hover { background: var(--editor-bg-dark); color: var(--color-white); }
+.menuSep { width: 1px; height: 16px; background: var(--gray-850); margin: 0 4px; }
+
+/* ── Toolbar ──────────────── */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  width: 38px;
+  background: var(--editor-panel);
+  border-right: 1px solid var(--editor-bg-dark);
+  padding: 4px 2px;
+  gap: 2px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.toolBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--editor-text-muted);
+  transition: all 0.1s;
+}
+.toolBtn:hover { background: var(--editor-bg-dark); color: var(--gray-300); }
+.toolBtnActive {
+  background: var(--editor-bg-mid) !important;
+  border-color: var(--editor-accent) !important;
+  color: var(--color-white) !important;
+}
+
+/* ── Main area ────────────── */
+.mainArea {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.canvasContainer {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--editor-bg-deepest);
+  cursor: crosshair;
+}
+.canvasContainer canvas {
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+/* ── Right panel ──────────── */
+.rightPanel {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  background: var(--editor-bg-deep);
+  border-left: 1px solid var(--editor-bg-dark);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.panelSection {
+  border-bottom: 1px solid var(--editor-bg-dark);
+  padding: 6px 8px;
+}
+.panelTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--editor-text-secondary);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panelTitle button {
+  background: none;
+  border: none;
+  color: var(--editor-text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  line-height: 1;
+}
+.panelTitle button:hover { color: var(--gray-500); }
+
+/* Layers */
+.layerItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.layerItem:hover { background: rgba(255,255,255,0.04); }
+.layerItemActive { background: var(--editor-surface) !important; border: 1px solid var(--accent-blue-dark); }
+.layerVis {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.layerVis:hover { opacity: 1; }
+.layerName {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.layerOpacity {
+  width: 36px;
+  font-size: 10px;
+  text-align: right;
+  color: var(--gray-600);
+}
+
+/* Palette */
+.paletteGrid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
+.paletteSwatch {
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.paletteSwatch:hover { transform: scale(1.15); z-index: 1; }
+.paletteSwatchActive { border-color: var(--color-white) !important; box-shadow: 0 0 0 1px var(--editor-accent); }
+.colorPickers {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+}
+.colorSample {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* ── Bottom panel (timeline) ── */
+.bottomPanel {
+  height: 80px;
+  background: var(--editor-bg-deeper);
+  border-top: 1px solid var(--editor-bg-dark);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.timelineControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-bottom: 1px solid #222244;
+}
+.timelineControls button {
+  background: var(--editor-bg-dark);
+  border: none;
+  color: var(--gray-500);
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.timelineControls button:hover { background: var(--editor-bg-mid); color: var(--color-white); }
+.timelineControls label { color: var(--gray-700); }
+.timelineControls input[type="number"] {
+  width: 40px;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 11px;
+  text-align: center;
+}
+.timelineControls input[type="checkbox"] { accent-color: var(--editor-accent); }
+.timelineFrames {
+  display: flex;
+  gap: 2px;
+  padding: 4px 8px;
+  overflow-x: auto;
+  flex: 1;
+  align-items: stretch;
+}
+.frameThumb {
+  width: 44px;
+  min-width: 44px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: var(--gray-900);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.frameThumb canvas {
+  image-rendering: pixelated;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.frameThumb:hover { border-color: var(--gray-800); }
+.frameThumbActive { border-color: var(--editor-accent) !important; background: var(--editor-surface); }
+.frameNum {
+  font-size: 8px;
+  color: var(--gray-700);
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+}
+
+/* ── Status bar ──────────── */
+.statusBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--gray-700);
+  background: var(--gray-950);
+  border-top: 1px solid var(--gray-900);
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── New Document Dialog ── */
+.dialogOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.dialog {
+  background: var(--editor-panel);
+  border: 1px solid var(--editor-bg-mid);
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 300px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.dialog h3 { margin: 0 0 12px; font-size: 14px; color: var(--gray-300); }
+.dialog label { display: block; font-size: 11px; color: var(--gray-600); margin: 8px 0 2px; }
+.dialog input,
+.dialog select {
+  width: 100%;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.dialogActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+.dialogActions button {
+  padding: 4px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.btnPrimary { background: var(--editor-accent); color: var(--color-white); }
+.btnPrimary:hover { background: #6677dd; }
+.btnSecondary { background: var(--gray-850); color: var(--gray-500); }
+.btnSecondary:hover { background: var(--gray-800); color: var(--gray-200); }
+
+/* ── Brush size slider ──── */
+.brushSlider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--editor-bg-dark);
+}
+.brushSlider label { font-size: 10px; color: var(--gray-700); }
+.brushSlider input[type="range"] {
+  flex: 1;
+  height: 4px;
+  accent-color: var(--editor-accent);
+}
+.brushSlider span { font-size: 10px; color: var(--gray-500); min-width: 16px; text-align: center; }
+
+/* ── Tool separator & groups ── */
+.toolSep {
+  width: 28px;
+  height: 1px;
+  background: var(--gray-850);
+  margin: 4px 2px;
+}
+.toolGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 2px 0;
+}
+
+/* ── Mini buttons (symmetry, brush shape) ── */
+.miniBtn {
+  width: 32px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  color: var(--editor-text-muted);
+  transition: all 0.1s;
+}
+.miniBtn:hover { background: var(--editor-bg-dark); color: var(--gray-300); }
+.miniBtnActive {
+  background: var(--editor-bg-mid) !important;
+  border-color: var(--editor-accent) !important;
+  color: var(--color-white) !important;
+}
+
+/* ── Colour swatches in toolbar ── */
+.colorSwatches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  border-top: 1px solid var(--gray-850);
+  margin-top: 4px;
+}
+
+/* ── Brush shape buttons ── */
+.brushShapes {
+  display: flex;
+  gap: 2px;
+  padding: 2px 0;
+  flex-wrap: wrap;
+}
+
+/* ── Pressure toggles ── */
+.pressureToggles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--gray-550);
+  cursor: pointer;
+}
+.checkLabel input[type="checkbox"] {
+  accent-color: var(--editor-accent);
+  width: 12px;
+  height: 12px;
+}
+
+/* ── HSV Picker ── */
+.hsvPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+}
+.hsvRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.hsvLabel {
+  font-size: 9px;
+  color: var(--gray-700);
+  min-width: 16px;
+  text-align: right;
+}
+.hsvSlider {
+  flex: 1;
+  height: 6px;
+  accent-color: var(--editor-accent);
+  cursor: pointer;
+  min-width: 0;
+}
+.hsvVal {
+  font-size: 9px;
+  color: var(--gray-500);
+  min-width: 28px;
+  text-align: right;
+}
+.hsvNumInput {
+  width: 36px;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 10px;
+  text-align: center;
+}
+.hsvHexInput {
+  flex: 1;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-200);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 10px;
+}
+
+/* ── Layer enhancements ── */
+.layerLock {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.layerLock:hover { opacity: 1; }
+
+.layerNameInput {
+  flex: 1;
+  min-width: 0;
+  background: var(--gray-950);
+  border: 1px solid var(--editor-accent);
+  color: var(--gray-100);
+  border-radius: 2px;
+  padding: 0 4px;
+  font-size: 11px;
+  outline: none;
+}
+
+.layerControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 2px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 4px;
+}
+
+.blendSelect {
+  flex: 1;
+  background: var(--gray-950);
+  border: 1px solid var(--gray-850);
+  color: var(--gray-300);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.layerOpSlider {
+  width: 60px;
+  height: 4px;
+  accent-color: var(--editor-accent);
+  cursor: pointer;
+}

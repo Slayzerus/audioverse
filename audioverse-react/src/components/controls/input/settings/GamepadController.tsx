@@ -1,24 +1,31 @@
 // GamepadController.tsx
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { GamepadManager, GamepadState } from "../../../../scripts/input/source/gamepad.ts";
+import { useUser } from "../../../../contexts/UserContext";
+import type { DeviceDto } from "../../../../scripts/api/apiUser";
 
 const gamepadManager = new GamepadManager();
 
 const GamepadController = () => {
+    const { t } = useTranslation();
     const [gamepads, setGamepads] = useState<GamepadState[]>([]);
-
+    const { userDevices, syncUserDevices } = useUser();
     useEffect(() => {
         gamepadManager.subscribe(setGamepads);
+        syncUserDevices();
+        // Mount-only: gamepad subscription and initial device sync
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div style={{ textAlign: "center", padding: "20px" }}>
-            <h2>Xbox Gamepad Controller</h2>
+            <h2>{t('gamepad.title', 'Xbox Gamepad Controller')}</h2>
             {gamepads.length > 0 ? (
                 gamepads.map(gamepad => (
                     <div key={gamepad.id} style={{
                         marginBottom: "20px",
-                        border: "1px solid #ccc",
+                        border: "1px solid var(--border-color, #d1d5db)",
                         padding: "10px",
                         borderRadius: "10px",
                         display: "flex",
@@ -27,7 +34,7 @@ const GamepadController = () => {
                     }}>
                         <p style={{ fontSize: "10px" }}><strong>ID:</strong> {gamepad.id}</p>
 
-                        {/* Układ przycisków */}
+                        {/* Button layout */}
                         <div style={{
                             display: "grid",
                             gridTemplateColumns: "repeat(2, 80px)",
@@ -35,7 +42,7 @@ const GamepadController = () => {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            {/* Rzędy przycisków */}
+                            {/* Button rows */}
                             <div style={{ gridColumn: "span 2", display: "flex", gap: "10px" }}>
                                 <div style={buttonStyle(gamepad.buttons[6], true)}>LT</div>
                                 <div style={buttonStyle(gamepad.buttons[7], true)}>RT</div>
@@ -49,7 +56,7 @@ const GamepadController = () => {
                                 <div style={squareButtonStyle(gamepad.buttons[9])}>MENU</div>
                             </div>
 
-                            {/* Osobny DIV dla A, B, X, Y aby uniknąć deformacji */}
+                            {/* Separate DIV for A, B, X, Y to avoid deformation */}
                             <div style={{
                                 display: "flex",
                                 justifyContent: "center",
@@ -72,23 +79,31 @@ const GamepadController = () => {
                             </div>
                         </div>
 
-                        {/* Oś analogowa */}
+                        {/* Analog stick */}
                         <p style={{ fontSize: "10px" }}><strong>L-Axis:</strong> {gamepad.axes.slice(0, 2).map(axis => axis.toFixed(2)).join(", ")}</p>
                         <p style={{ fontSize: "10px" }}><strong>R-Axis:</strong> {gamepad.axes.slice(2, 4).map(axis => axis.toFixed(2)).join(", ")}</p>
                     </div>
                 ))
             ) : (
-                <p>No gamepad detected. Connect an Xbox controller.</p>
+                <p>{t('gamepad.noGamepad', 'No gamepad detected. Connect an Xbox controller.')}</p>
             )}
+            <h3 style={{ marginTop: 32 }}>{t('gamepad.registeredGamepads', 'Registered user gamepads')}</h3>
+            {userDevices.filter((d: DeviceDto) => d.deviceType === 2).map((dev: DeviceDto) => (
+                <div key={dev.deviceId} style={{ border: "1px solid var(--border-subtle, #888)", margin: "8px 0", padding: 8, borderRadius: 8 }}>
+                    <div><b>ID:</b> {dev.deviceId}</div>
+                    <div><b>{t('gamepad.visible', 'Visible')}:</b> {dev.visible ? t('common.yes', 'Yes') : t('common.no', 'No')}</div>
+                    {/* Ability to hide/edit gamepad */}
+                </div>
+            ))}
         </div>
     );
 };
 
-// Style dla przycisków
+// Styles for buttons
 const buttonStyle = (pressed: boolean, flattened = false) => ({
     width: "80px",
-    height: flattened ? "20px" : "60px", // Spłaszczone dla LT, RT, LB, RB
-    backgroundColor: pressed ? "red" : "gray",
+    height: flattened ? "20px" : "60px",
+    backgroundColor: pressed ? "var(--control-pressed, #ff5252)" : "var(--control, #9ca3af)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -99,8 +114,8 @@ const buttonStyle = (pressed: boolean, flattened = false) => ({
 
 const roundButtonStyle = (pressed: boolean) => ({
     width: "40px",
-    height: "40px", // Idealnie okrągłe
-    backgroundColor: pressed ? "red" : "gray",
+    height: "40px",
+    backgroundColor: pressed ? "var(--control-pressed, #ff5252)" : "var(--control, #9ca3af)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -111,8 +126,8 @@ const roundButtonStyle = (pressed: boolean) => ({
 
 const squareButtonStyle = (pressed: boolean) => ({
     width: "40px",
-    height: "40px", // Kwadratowe dla D-PAD, SELECT, MENU
-    backgroundColor: pressed ? "red" : "gray",
+    height: "40px",
+    backgroundColor: pressed ? "var(--control-pressed, #ff5252)" : "var(--control, #9ca3af)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

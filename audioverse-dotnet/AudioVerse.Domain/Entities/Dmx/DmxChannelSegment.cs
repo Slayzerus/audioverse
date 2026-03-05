@@ -1,5 +1,8 @@
 ﻿namespace AudioVerse.Domain.Entities.Dmx
 {
+    /// <summary>
+    /// Named DMX channel value range within a device (e.g., color segment 0-127).
+    /// </summary>
     public sealed class DmxChannelSegment
     {
         public int ValueFrom { get; init; }  // 0..255

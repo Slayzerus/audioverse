@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faFolderOpen, faSave } from "@fortawesome/free-solid-svg-icons";
+import styles from '../../AudioEditor.module.css';
 
 interface Props {
     onAddLayer: () => void;
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const AudioLayersNav: React.FC<Props> = ({ onAddLayer, onLoadPreset, onSavePreset }) => {
+    const { t } = useTranslation();
     return (
         <div style={{
             width: "100%",
@@ -18,19 +21,19 @@ const AudioLayersNav: React.FC<Props> = ({ onAddLayer, onLoadPreset, onSavePrese
             color: "white",
             gap: "5px"
         }}>
-            <button onClick={onAddLayer} title="Add Layer" className="add-layer-button">
+            <button onClick={onAddLayer} title={t('audioLayersNav.addLayer', 'Add Layer')} className={styles['add-layer-button']}>
                 <FontAwesomeIcon icon={faPlus} size="lg" />
             </button>
 
-            <button onClick={onLoadPreset} title="Load Preset" className="add-layer-button">
+            <button onClick={onLoadPreset} title={t('audioLayersNav.loadPreset', 'Load Preset')} className={styles['add-layer-button']}>
                 <FontAwesomeIcon icon={faFolderOpen} size="lg" />
             </button>
 
-            <button onClick={onSavePreset} title="Save Preset" className="add-layer-button">
+            <button onClick={onSavePreset} title={t('audioLayersNav.savePreset', 'Save Preset')} className={styles['add-layer-button']}>
                 <FontAwesomeIcon icon={faSave} size="lg" />
             </button>
         </div>
     );
 };
 
-export default AudioLayersNav;
+export default React.memo(AudioLayersNav);

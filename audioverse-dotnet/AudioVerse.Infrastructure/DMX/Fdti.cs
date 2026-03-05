@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace AudioVerse.Infrastructure.DMX.Ftdi
+namespace AudioVerse.Infrastructure.DMX
 {
     // Minimalny interfejs natywny FTDI D2XX
     public static class FtdiD2xx

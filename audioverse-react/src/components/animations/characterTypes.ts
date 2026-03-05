@@ -4,7 +4,7 @@
 export type FeatureConfig = {
     /** nazwa wariantu, np. "short", "dot" itp. */
     variant: string;
-    /** 1+ kolory dla wariantu. Nadmiar ucinany w rendererach, brakujące dublowane. */
+    /** 1+ colors per variant. Excess trimmed in renderers, missing duplicated. */
     colors: string[]; // [base, accent?, stroke?/outline?, ...extra]
 };
 
@@ -69,28 +69,28 @@ export const VARIANTS = {
 } as const;
 
 export const DEFAULT_COLORS = {
-    skin: "#FFD2B3",
-    hair: "#1F2937",
-    shirt: "#3B82F6",
-    stroke: "#111111",
+    skin: "var(--anim-skin, #FFD2B3)",
+    hair: "var(--anim-hair, #1F2937)",
+    shirt: "var(--anim-shirt, #3B82F6)",
+    stroke: "var(--anim-stroke, #111111)",
 };
 
 export const DEFAULT_CHARACTER: CharacterConfig = {
     name: "Juror",
     size: 180,
-    face:  { variant: "round",   colors: [DEFAULT_COLORS.skin, "#F9C7B0", DEFAULT_COLORS.stroke] },
-    hair:  { variant: "short",   colors: [DEFAULT_COLORS.hair, "#2C3A4A"] },
-    eyes:  { variant: "classic", colors: ["#FFFFFF","#2563EB","#111111","#FFFFFF"] }, // sclera, iris, pupil, highlight
+    face:  { variant: "round",   colors: [DEFAULT_COLORS.skin, "var(--anim-skin-2, #F9C7B0)", DEFAULT_COLORS.stroke] },
+    hair:  { variant: "short",   colors: [DEFAULT_COLORS.hair, "var(--anim-hair-2, #2C3A4A)"] },
+    eyes:  { variant: "classic", colors: ["var(--white, #FFFFFF)","var(--anim-eye-iris, #2563EB)",DEFAULT_COLORS.stroke,"var(--white, #FFFFFF)"] }, // sclera, iris, pupil, highlight
     nose:  { variant: "line",    colors: [DEFAULT_COLORS.stroke] },
-    mouth: { variant: "smile",   colors: ["#E11D48","#FEE2E2", DEFAULT_COLORS.stroke] }, // lip, inner/teeth, outline
-    outfit:{ variant: "tee",     colors: [DEFAULT_COLORS.shirt, "#2563EB", DEFAULT_COLORS.stroke] },
+    mouth: { variant: "smile",   colors: ["var(--anim-lip, #E11D48)","var(--anim-inner, #FEE2E2)", DEFAULT_COLORS.stroke] }, // lip, inner/teeth, outline
+    outfit:{ variant: "tee",     colors: [DEFAULT_COLORS.shirt, "var(--anim-outfit-2, #2563EB)", DEFAULT_COLORS.stroke] },
     headwear: { variant: "none", colors: [DEFAULT_COLORS.stroke] },
-    prop:  { variant: "mic",     colors: ["#111111", "#666666", "#CCCCCC"] },
+    prop:  { variant: "mic",     colors: [DEFAULT_COLORS.stroke, "var(--anim-prop-2, #666666)", "var(--anim-prop-3, #CCCCCC)"] },
 };
 
-/** Zwraca kolor z listy; jeśli brakuje – używa ostatniego lub fallback */
+/** Returns color from list; if missing – uses last or fallback */
 export function pick(colors: string[], index: number, fallback?: string): string {
-    if (!colors || colors.length === 0) return fallback ?? "#000";
+    if (!colors || colors.length === 0) return fallback ?? "var(--anim-default-black, #000000)";
     const i = Math.min(colors.length - 1, Math.max(0, index));
     return colors[i] ?? fallback ?? colors[0];
 }

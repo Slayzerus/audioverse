@@ -1,0 +1,416 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   ThesisPage.css – wiki-style layout for the thesis viewer
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ─── layout ─────────────────────────────────────────────────────────────── */
+.thesis-layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
+    font-family: "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+    color: #1e1e2e;
+}
+
+.thesis-sidebar {
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    width: 280px;
+    min-width: 220px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.thesis-main {
+    flex: 1;
+    min-width: 0;
+    max-width: 860px;
+    line-height: 1.75;
+}
+
+/* ─── loading ────────────────────────────────────────────────────────────── */
+.thesis-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+}
+
+/* ─── header ─────────────────────────────────────────────────────────────── */
+.thesis-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e2e2e8;
+}
+
+.thesis-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1a1a2e;
+}
+
+.thesis-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.thesis-actions {
+    margin-top: 1rem;
+}
+
+/* ─── table of contents ──────────────────────────────────────────────────── */
+.thesis-toc {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #e2e2e8;
+}
+
+.thesis-toc-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    margin-bottom: 0.75rem;
+}
+
+.thesis-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.thesis-toc-item {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.thesis-toc-item a {
+    display: block;
+    padding: 3px 8px;
+    font-size: 0.82rem;
+    color: #555;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.thesis-toc-item a:hover {
+    background: #e9ecef;
+    color: #1a1a2e;
+}
+
+.thesis-toc-item.active a {
+    background: #dbeafe;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+.thesis-toc-l1 a { padding-left: 8px; font-weight: 600; }
+.thesis-toc-l2 a { padding-left: 20px; }
+.thesis-toc-l3 a { padding-left: 32px; font-size: 0.78rem; }
+
+.thesis-download-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* ─── headings ───────────────────────────────────────────────────────────── */
+.thesis-h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #e2e2e8;
+    color: #1a1a2e;
+}
+
+.thesis-h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #2a2a4e;
+}
+
+.thesis-h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #3a3a5e;
+}
+
+/* ─── paragraphs ─────────────────────────────────────────────────────────── */
+.thesis-p {
+    margin-bottom: 1rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* ─── inline elements ────────────────────────────────────────────────────── */
+.thesis-code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+    font-size: 0.88em;
+    color: #c7254e;
+}
+
+.thesis-math {
+    font-family: "Latin Modern Math", "STIX Two Math", "Cambria Math", serif;
+    font-style: italic;
+}
+
+.thesis-cite {
+    font-size: 0.75em;
+    color: #2563eb;
+    cursor: default;
+    vertical-align: super;
+}
+
+/* ─── code blocks ────────────────────────────────────────────────────────── */
+.thesis-pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+/* ─── math blocks ────────────────────────────────────────────────────────── */
+.thesis-math-block {
+    text-align: center;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: #faf8ff;
+    border-left: 3px solid #a78bfa;
+    border-radius: 0 6px 6px 0;
+    font-family: "Latin Modern Math", "STIX Two Math", "Cambria Math", serif;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* ─── tables ─────────────────────────────────────────────────────────────── */
+.thesis-table-wrap {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+}
+
+.thesis-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.thesis-table th,
+.thesis-table td {
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.thesis-table th {
+    background: #1e3a5f;
+    color: #e0e8f0;
+    font-weight: 600;
+}
+
+.thesis-table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+/* ─── figures ────────────────────────────────────────────────────────────── */
+.thesis-figure {
+    margin: 2rem 0;
+    text-align: center;
+    background: #fafafa;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.5rem 1rem 1rem;
+}
+
+.thesis-fig-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.thesis-figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* ─── blockquote ─────────────────────────────────────────────────────────── */
+.thesis-blockquote {
+    border-left: 4px solid #93c5fd;
+    background: #eff6ff;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+/* ─── lists ──────────────────────────────────────────────────────────────── */
+.thesis-ul, .thesis-ol {
+    margin: 0.75rem 0;
+    padding-left: 1.75rem;
+}
+
+.thesis-ul li, .thesis-ol li {
+    margin-bottom: 0.35rem;
+}
+
+/* ─── horizontal rule ────────────────────────────────────────────────────── */
+.thesis-hr {
+    border: none;
+    border-top: 1px solid #e2e2e8;
+    margin: 2rem 0;
+}
+
+/* ─── responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .thesis-layout {
+        flex-direction: column;
+    }
+
+    .thesis-sidebar {
+        position: static;
+        width: 100%;
+        max-height: none;
+    }
+
+    .thesis-toc {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .thesis-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* ─── dark mode support ──────────────────────────────────────────────────── */
+[data-bs-theme="dark"] .thesis-layout,
+.dark .thesis-layout {
+    color: #e0e0e8;
+}
+
+[data-bs-theme="dark"] .thesis-header,
+.dark .thesis-header {
+    border-bottom-color: #3a3a4e;
+}
+
+[data-bs-theme="dark"] .thesis-title,
+.dark .thesis-title {
+    color: #e8e8f0;
+}
+
+[data-bs-theme="dark"] .thesis-h1,
+.dark .thesis-h1 {
+    color: #e0e0f0;
+    border-bottom-color: #3a3a4e;
+}
+
+[data-bs-theme="dark"] .thesis-h2,
+.dark .thesis-h2 {
+    color: #c0c0d0;
+}
+
+[data-bs-theme="dark"] .thesis-h3,
+.dark .thesis-h3 {
+    color: #b0b0c0;
+}
+
+[data-bs-theme="dark"] .thesis-toc,
+.dark .thesis-toc {
+    background: #1e1e2e;
+    border-color: #3a3a4e;
+}
+
+[data-bs-theme="dark"] .thesis-toc-item a,
+.dark .thesis-toc-item a {
+    color: #a0a0b0;
+}
+
+[data-bs-theme="dark"] .thesis-toc-item a:hover,
+.dark .thesis-toc-item a:hover {
+    background: #2a2a3e;
+    color: #e0e0f0;
+}
+
+[data-bs-theme="dark"] .thesis-toc-item.active a,
+.dark .thesis-toc-item.active a {
+    background: #1e3a5f;
+    color: #93c5fd;
+}
+
+[data-bs-theme="dark"] .thesis-code,
+.dark .thesis-code {
+    background: #2a2a3e;
+    color: #f08080;
+}
+
+[data-bs-theme="dark"] .thesis-figure,
+.dark .thesis-figure {
+    background: #1e1e2e;
+    border-color: #3a3a4e;
+}
+
+[data-bs-theme="dark"] .thesis-table th,
+.dark .thesis-table th {
+    background: #1e3a5f;
+    color: #e0e8f0;
+}
+
+[data-bs-theme="dark"] .thesis-table td,
+.dark .thesis-table td {
+    color: #d0d0e0;
+}
+
+[data-bs-theme="dark"] .thesis-table td,
+[data-bs-theme="dark"] .thesis-table th,
+.dark .thesis-table td,
+.dark .thesis-table th {
+    border-color: #3a3a4e;
+}
+
+[data-bs-theme="dark"] .thesis-table tbody tr:nth-child(even),
+.dark .thesis-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+[data-bs-theme="dark"] .thesis-table tbody tr:nth-child(odd),
+.dark .thesis-table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+[data-bs-theme="dark"] .thesis-blockquote,
+.dark .thesis-blockquote {
+    background: #1e2a3e;
+    border-left-color: #3b82f6;
+    color: #c0c0d0;
+}
+
+[data-bs-theme="dark"] .thesis-math-block,
+.dark .thesis-math-block {
+    background: #1e1e2e;
+    border-left-color: #7c5cbf;
+}

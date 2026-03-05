@@ -1,39 +1,40 @@
 import { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 
 const SongFilter = () => {
+    const { t } = useTranslation();
     const [title, setTitle] = useState("");
     const [artist, setArtist] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Filtering Songs:", { title, artist });
     };
 
     return (
         <Container>
-            <h2>Filter Songs</h2>
+            <h2>{t('songFilter.header')}</h2>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                    <Form.Label>Title</Form.Label>
+                    <Form.Label>{t('songFilter.labelTitle')}</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter title"
+                        placeholder={t('songFilter.placeholderTitle')}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label>Artist</Form.Label>
+                    <Form.Label>{t('songFilter.labelArtist')}</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter artist"
+                        placeholder={t('songFilter.placeholderArtist')}
                         value={artist}
                         onChange={(e) => setArtist(e.target.value)}
                     />
                 </Form.Group>
                 <Button variant="info" type="submit">
-                    Search
+                    {t('songFilter.search')}
                 </Button>
             </Form>
         </Container>

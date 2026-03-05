@@ -1,0 +1,16 @@
+Rysunek 2.2 — Interfejs gry UltraStar Deluxe
+
+CO PRZEDSTAWIA:
+Screenshot z gry UltraStar Deluxe: ekran rozgrywki karaoke z otwartym
+formatem UltraStar TXT. Widoczny timeline nut na osi czasu (kolorowe
+prostokąty z sylabami), kursor pitch gracza, tekst piosenki na dole
+ekranu i punktacja. Interfejs zbliżony do SingStar, ale w wersji
+open-source.
+
+JAK ZDOBYĆ:
+1. Źródło zewnętrzne — oficjalna strona projektu:
+   https://usdx.eu/ lub https://github.com/UltraStar-Deluxe
+2. Szukaj: "UltraStar Deluxe gameplay screenshot" — na oficjalnym
+   wiki projektu lub w Google Images
+3. UWAGA: to jest screenshot z zewnętrznego źródła — wymaga
+   NNN_source.txt z danymi do przypisu (nazwa strony, URL, data pobrania)

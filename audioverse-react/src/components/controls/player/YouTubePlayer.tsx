@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import YouTube, { YouTubePlayer as YTPlayer, YouTubeEvent } from "react-youtube";
 import { searchYouTubeByArtistTitle } from "../../../scripts/api/apiLibrary";
 
@@ -11,21 +12,22 @@ interface YouTubePlayerProps {
 }
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideControls = true, isPlaying, onTimeUpdate }) => {
+    const { t } = useTranslation();
     const [searchArtist, setSearchArtist] = useState<string>(artist || "");
     const [searchTitle, setSearchTitle] = useState<string>(title || "");
     const [videoId, setVideoId] = useState<string | null>(null);
     const [player, setPlayer] = useState<YTPlayer | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [videoSize, setVideoSize] = useState({ width: 560, height: 315 });
+    const [videoSize, setVideoSize] = useState({ width: Math.min(560, window.innerWidth - 32), height: Math.min(315, (window.innerWidth - 32) * 9 / 16) });
 
-    // 📌 Automatyczne wyszukiwanie, jeśli przekazano `artist` i `title`
+    // 📌 Auto search if artist and title were passed
     useEffect(() => {
         if (artist && title) {
             searchYouTubeByArtistTitle(artist, title).then(setVideoId);
         }
     }, [artist, title]);
 
-    // 📌 Automatyczna obsługa play/pause z komponentu nadrzędnego
+    // 📌 Auto play/pause handling from parent component
     useEffect(() => {
         if (player) {
             if (isPlaying) {
@@ -36,13 +38,13 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideContro
         }
     }, [isPlaying, player]);
 
-    // 📌 Aktualizacja czasu odtwarzania co sekundę
+    // 📌 Playback time update every second
     useEffect(() => {
         if (player && onTimeUpdate) {
             const interval = setInterval(() => {
                 const currentTime = player.getCurrentTime();
                 onTimeUpdate(currentTime);
-            }, 1000);
+            }, 100); // poll every 100ms for smoother time updates
             return () => clearInterval(interval);
         }
     }, [player, onTimeUpdate]);
@@ -52,7 +54,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideContro
         const updateSize = () => {
             if (containerRef.current) {
                 const width = containerRef.current.clientWidth;
-                const height = Math.round(width * (9 / 16)); // Zachowanie proporcji 16:9
+                const height = Math.round(width * (9 / 16)); // Maintaining 16:9 aspect ratio
                 setVideoSize({ width, height });
             }
         };
@@ -62,7 +64,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideContro
         return () => window.removeEventListener("resize", updateSize);
     }, []);
 
-    // 📌 Wyszukiwanie utworu ręcznie przez użytkownika
+    // 📌 Manual song search by user
     const handleSearch = async () => {
         const foundVideoId = await searchYouTubeByArtistTitle(searchArtist, searchTitle);
         setVideoId(foundVideoId);
@@ -70,12 +72,12 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideContro
 
     return (
         <div ref={containerRef} style={{ width: "100%", maxWidth: "900px", margin: "0 auto" }}>
-            {/* 📌 Inputy pojawiają się, gdy brak artysty/tytułu lub nie znaleziono */}
+            {/* 📌 Inputs appear when no artist/title or not found */}
             {(!artist || !title || !videoId) && (
                 <div>
-                    <input value={searchArtist} onChange={(e) => setSearchArtist(e.target.value)} placeholder="Artysta" />
-                    <input value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Tytuł" />
-                    <button onClick={handleSearch}>Szukaj</button>
+                    <input value={searchArtist} onChange={(e) => setSearchArtist(e.target.value)} placeholder={t('youtubePlayer.artist', 'Artist')} aria-label={t('youtubePlayer.artist', 'Artist')} />
+                    <input value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder={t('youtubePlayer.title', 'Title')} aria-label={t('youtubePlayer.title', 'Title')} />
+                    <button onClick={handleSearch}>{t('youtubePlayer.search', 'Search')}</button>
                 </div>
             )}
 
@@ -101,7 +103,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({ artist, title, hideContro
                         onReady={(event: YouTubeEvent) => setPlayer(event.target)}
                     />
 
-                    {/* 📌 Możliwość ukrycia kontrolek */}
+                    {/* 📌 Ability to hide controls */}
                     {!hideControls && (
                         <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
                             <button onClick={() => player?.playVideo()}>▶ Play</button>

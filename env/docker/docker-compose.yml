@@ -1,304 +1,327 @@
-name: ${COMPOSE_PROJECT_NAME:-proj-core}
+# ============================================================
+# AudioVerse — unified docker-compose
+# ============================================================
+#
+# Profile:
+#   (brak)     = infra + app  (postgres, redis, nginx, api, identity, react, storybook)
+#   aiaudio    = AI Audio      (asr, tts, audio_*, sing_score, librosa)
+#   videoai    = Video AI      (mediapipe, openpose, alphapose, vitpose, poseformer)
+#   admin      = Admin tools   (adminer)
+#
+# Uzycie:
+#   docker compose up -d                                    # tylko infra + app
+#   docker compose --profile aiaudio up -d                  # + AI Audio
+#   docker compose --profile aiaudio --profile videoai up -d # + wszystko AI
+#   docker compose --profile admin up -d                    # + adminer
+#
+# ============================================================
 
 services:
+
+  # ===================== INFRA (zawsze) =====================
+
   postgres:
-    image: postgres:15
+    image: postgres:16-alpine
+    container_name: av-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - ${HOST_DB_DIR}/data:/var/lib/postgresql/data
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:-haslo123}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ${HOST_DB_DIR:-./data/postgres}/data:/var/lib/postgresql/data
     networks: [audioverse-net]
-    logging:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: &default-logging
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
 
   redis:
     image: redis:7
+    container_name: av-redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
     networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
+    logging: *default-logging
 
-  adminer:
-    image: adminer
+  reverse-proxy:
+    image: nginx:1.27-alpine
+    container_name: av-nginx
     restart: unless-stopped
     ports:
-      - "${ADMINER_PORT:-8080}:8080"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${HOST_CONF_DIR:-./nginx}/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${HOST_CONF_DIR:-./nginx}/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${HOST_CERTS_DIR:-./nginx/certs}:/certs:ro
+    depends_on:
+      api:
+        condition: service_started
+      identity:
+        condition: service_started
     networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
+    logging: *default-logging
+
+  # ===================== APP (zawsze) =====================
 
   identity:
-    image: ${IMAGE_IDENTITY}
+    image: ${IMAGE_IDENTITY:-slayzer/audioverse-identity:latest}
+    container_name: av-identity
     restart: unless-stopped
     environment:
-      ASPNETCORE_URLS: "http://+:5002;https://+:5003"
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
-      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-    volumes:
-      - ${HOST_HTTPS_DIR}:/https:ro
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://+:5002"
+      DOTNET_EnableDiagnostics: "0"
+      DOTNET_gcServer: "0"
+      ConnectionStrings__PostgresConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-audioverse_db};Username=${POSTGRES_USER:-audioverse};Password=${POSTGRES_PASSWORD:-changeme}"
     ports:
       - "${IDENTITY_HTTP:-5002}:5002"
-      - "${IDENTITY_HTTPS:-5003}:5003"
-    depends_on: [postgres, redis]
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
-
-  library:
-    image: ${IMAGE_LIBRARY}
-    restart: unless-stopped
-    environment:
-      ASPNETCORE_URLS: "http://+:5004;https://+:5005"
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
-      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-    volumes:
-      - ${HOST_HTTPS_DIR}:/https:ro
-      - ${HOST_DATA_DIR}:/data
-    ports:
-      - "${LIBRARY_HTTP:-5004}:5004"
-      - "${LIBRARY_HTTPS:-5005}:5005"
-    depends_on: [postgres]
-    networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
+    mem_limit: 512m
+    logging: *default-logging
 
   api:
-    image: ${IMAGE_API}
+    image: ${IMAGE_API:-slayzer/audioverse-api:latest}
+    container_name: av-api
     restart: unless-stopped
     environment:
-      ASPNETCORE_URLS: "http://+:5000;https://+:5001"
-      ASPNETCORE_Kestrel__Certificates__Default__Password: "${ASPNETCORE_CERT_PASSWORD:-changeit}"
-      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
-    volumes:
-      - ${HOST_HTTPS_DIR}:/https:ro
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://+:5000"
+      DOTNET_EnableDiagnostics: "0"
+      DOTNET_gcServer: "0"
+      ConnectionStrings__PostgresConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-audioverse_db};Username=${POSTGRES_USER:-audioverse};Password=${POSTGRES_PASSWORD:-changeme};Pooling=true;Minimum Pool Size=5;Maximum Pool Size=100;Connection Lifetime=300;Connection Idle Lifetime=60;Timeout=30;Command Timeout=30;"
+      ConnectionStrings__Redis: "redis:6379"
+      ConnectionStrings__Minio: "http://minio:9000"
     ports:
       - "${API_HTTP:-5000}:5000"
-      - "${API_HTTPS:-5001}:5001"
-    depends_on: [identity, library]
-    networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
+    depends_on:
+      postgres:
+        condition: service_healthy
+      identity:
+        condition: service_started
+    networks:
+      audioverse-net:
+        aliases: [api]
+    logging: *default-logging
 
   react:
-    image: ${IMAGE_REACT}
+    image: ${IMAGE_REACT:-slayzer/audioverse-react:latest}
+    container_name: av-react
     restart: unless-stopped
     ports:
       - "${WEB_HTTP:-8081}:80"
-      - "${WEB_HTTPS:-8443}:443"
-    volumes:
-      - ${HOST_CONF_DIR}/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ${HOST_CERTS_DIR}:/certs:ro
+    depends_on:
+      api:
+        condition: service_started
     networks: [audioverse-net]
-    logging:
-      driver: json-file
-      options: { max-size: "10m", max-file: "3" }
+    logging: *default-logging
 
-asr_fw:
-  image: ${IMAGE_ASR_FW:-fedirz/faster-whisper-server:latest-cpu}
-  restart: unless-stopped
-  environment:
-    UVICORN_WORKERS: "1"
-  # ports:        # odkomentuj, jeśli chcesz testować z hosta
-  #   - "${ASR_FW_PORT:-8000}:8000"
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options: { max-size: "10m", max-file: "3" }
+  storybook:
+    image: ${IMAGE_STORYBOOK:-slayzer/audioverse-storybook:latest}
+    container_name: av-storybook
+    restart: unless-stopped
+    ports:
+      - "${STORYBOOK_PORT:-6006}:80"
+    networks: [audioverse-net]
+    logging: *default-logging
 
-asr_vosk:
-  image: alphacep/kaldi-en:latest
-  restart: unless-stopped
-  ports:
-    - "${ASR_VOSK_PORT:-8020}:2700"
-  networks:
-    - ${NETWORK_NAME}
-  healthcheck:
-    test: ["CMD-SHELL","nc -z 127.0.0.1 2700 || exit 1"]
-    interval: 10s
-    timeout: 3s
-    retries: 10
-    start_period: 20s
+  # ===================== ADMIN (profil: admin) =====================
 
-tts_piper:
-  image: ${IMAGE_TTS_PIPER:-artibex/piper-http:latest}
-  restart: unless-stopped
-  # ports:
-  #   - "${PIPER_HTTP:-5000}:5000"   # koliduje z API – zostawiam wyłączone
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options: { max-size: "10m", max-file: "3" }
+  adminer:
+    image: adminer
+    container_name: av-adminer
+    restart: unless-stopped
+    profiles: [admin]
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    networks: [audioverse-net]
+    logging: *default-logging
 
-opentts:
-  image: ${IMAGE_OPENTTS:-synesthesiam/opentts:latest}
-  restart: unless-stopped
-  # ports:
-  #   - "${OPENTTS_HTTP:-5500}:5500"
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options: { max-size: "10m", max-file: "3" }
+  # ===================== AI AUDIO (profil: aiaudio) =====================
 
-audio_vad:
-  build:
-    context: ./ai/audio_vad
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  asr_fw:
+    image: ${IMAGE_ASR_FW:-fedirz/faster-whisper-server:latest-cpu}
+    profiles: [aiaudio]
+    restart: unless-stopped
+    environment:
+      UVICORN_WORKERS: "1"
+    networks: [audioverse-net]
+    logging: *default-logging
 
-audio_pitch:
-  build:
-    context: ./ai/audio_pitch
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  asr_vosk:
+    image: alphacep/kaldi-en:latest
+    profiles: [aiaudio]
+    restart: unless-stopped
+    ports:
+      - "${ASR_VOSK_PORT:-8020}:2700"
+    networks: [audioverse-net]
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 2700 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    logging: *default-logging
 
-audio_separate:
-  build:
-    context: ./ai/audio_separate
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  tts_piper:
+    image: ${IMAGE_TTS_PIPER:-artibex/piper-http:latest}
+    profiles: [aiaudio]
+    restart: unless-stopped
+    networks: [audioverse-net]
+    logging: *default-logging
 
-audio_rhythm:
-  build:
-    context: ./ai/audio_rhythm
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  opentts:
+    image: ${IMAGE_OPENTTS:-synesthesiam/opentts:latest}
+    profiles: [aiaudio]
+    restart: unless-stopped
+    networks: [audioverse-net]
+    logging: *default-logging
 
-audio_analysis:
-  build:
-    context: ./ai/audio_analysis
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  audio_vad:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_vad }
+    restart: unless-stopped
+    ports: ["8085:8085"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-sing_score:
-  build:
-    context: ./ai/sing_score
-  restart: unless-stopped
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  audio_pitch:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_pitch }
+    restart: unless-stopped
+    ports: ["8084:8084"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-audio_tags:
-  build:
-    context: ./ai/audio_tags_panns
-  restart: unless-stopped
-  # Jeśli trzymasz pliki PANNs w repo (patrz Twoja struktura "ai/"):
-  # volumes:
-  #   - ./ai/panns_data:/root/panns_data
-  profiles: ["aiaudio"]
-  networks: [audioverse-net]
-  logging: { driver: json-file, options: { max-size: "10m", max-file: "3" } }
+  audio_separate:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_separate }
+    restart: unless-stopped
+    ports: ["8086:8086"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-video_mediapipe:
-  profiles: ["aivideo"]
-  image: ${VIDEO_MEDIAPIPE_IMAGE:-ghcr.io/videodev/mediapipe-http:latest}
-  restart: unless-stopped
-  ports:
-    - "${MEDIAPIPE_HTTP:-8101}:8080"
-  environment:
-    - MODELS_DIR=/models
-  volumes:
-    - ${MEDIAPIPE_MODELS_DIR:-./ai/mediapipe/models}:/models:ro
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options:
-      max-size: "10m"
+  audio_rhythm:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_rhythm }
+    restart: unless-stopped
+    ports: ["8083:8083"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-video_openpose:
-  profiles: ["aivideo"]
-  # Jeśli chcesz budować lokalnie, ustaw w .env:
-  # VIDEO_OPENPOSE_IMAGE=local/openpose-http:dev
-  # a obraz zbuduj oddzielnie lub podmień sekcję na "build:"
-  image: ${VIDEO_OPENPOSE_IMAGE:-ghcr.io/videodev/openpose-http:latest}
-  # Przykład build (zamiast image):
-  # build:
-  #   context: ${VIDEO_OPENPOSE_BUILD_CONTEXT:-./ai/openpose}
-  #   dockerfile: Dockerfile
-  restart: unless-stopped
-  ports:
-    - "${OPENPOSE_HTTP:-8102}:8080"
-  environment:
-    - MODELS_DIR=/models
-  volumes:
-    - ${OPENPOSE_MODELS_DIR:-./ai/openpose/models}:/models:ro
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options:
-      max-size: "10m"
+  audio_analysis:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_analysis }
+    restart: unless-stopped
+    ports: ["8081:8081"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-video_alphapose:
-  profiles: ["aivideo"]
-  image: ${VIDEO_ALPHAPOSE_IMAGE:-ghcr.io/videodev/alphapose-http:latest}
-  restart: unless-stopped
-  ports:
-    - "${ALPHAPOSE_HTTP:-8103}:8080"
-  environment:
-    - MODELS_DIR=/models
-  volumes:
-    - ${ALPHAPOSE_MODELS_DIR:-./ai/alphapose/models}:/models:ro
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options:
-      max-size: "10m"
+  sing_score:
+    profiles: [aiaudio]
+    build: { context: ./ai/sing_score }
+    restart: unless-stopped
+    ports: ["8082:8082"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
-video_vitpose:
-  profiles: ["aivideo"]
-  image: ${VIDEO_VITPOSE_IMAGE:-ghcr.io/videodev/vitpose-http:latest}
-  restart: unless-stopped
-  ports:
-    - "${VITPOSE_HTTP:-8104}:8080"
-  environment:
-    - MODELS_DIR=/models
-  volumes:
-    - ${VITPOSE_MODELS_DIR:-./ai/vitpose/models}:/models:ro
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options:
-      max-size: "10m"
+  audio_tags:
+    profiles: [aiaudio]
+    build: { context: ./ai/audio_tags_panns }
+    restart: unless-stopped
+    networks: [audioverse-net]
+    logging: *default-logging
 
-video_poseformer:
-  profiles: ["aivideo"]
-  image: ${VIDEO_POSEFORMER_IMAGE:-ghcr.io/videodev/poseformer-http:latest}
-  restart: unless-stopped
-  ports:
-    - "${POSEFORMER_HTTP:-8105}:8080"
-  environment:
-    - MODELS_DIR=/models
-  volumes:
-    - ${POSEFORMER_MODELS_DIR:-./ai/poseformer/models}:/models:ro
-  networks: [audioverse-net]
-  logging:
-    driver: json-file
-    options:
-      max-size: "10m"
+  librosa:
+    profiles: [aiaudio]
+    build: { context: ./utils/librosa }
+    restart: unless-stopped
+    ports: ["8088:8000"]
+    networks: [audioverse-net]
+    logging: *default-logging
 
+  # ===================== VIDEO AI (profil: videoai) =====================
+
+  video_mediapipe:
+    profiles: [videoai]
+    build:
+      context: ${VIDEO_MEDIAPIPE_BUILD_CONTEXT:-./ai/mediapipe}
+    restart: unless-stopped
+    ports:
+      - "${MEDIAPIPE_HTTP:-8101}:8080"
+    environment: { MODELS_DIR: /models }
+    volumes:
+      - ${MEDIAPIPE_MODELS_DIR:-./ai/mediapipe/models}:/models:ro
+    networks: [audioverse-net]
+    logging: *default-logging
+
+  video_openpose:
+    profiles: [videoai]
+    build:
+      context: ${VIDEO_OPENPOSE_BUILD_CONTEXT:-./ai/openpose}
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+    restart: unless-stopped
+    ports:
+      - "${OPENPOSE_HTTP:-8102}:8080"
+    environment: { MODELS_DIR: /models }
+    volumes:
+      - ${OPENPOSE_MODELS_DIR:-./ai/openpose/models}:/models:ro
+    networks: [audioverse-net]
+    logging: *default-logging
+
+  video_alphapose:
+    profiles: [videoai]
+    build:
+      context: ${VIDEO_ALPHAPOSE_BUILD_CONTEXT:-./ai/alphapose}
+    restart: unless-stopped
+    ports:
+      - "${ALPHAPOSE_HTTP:-8103}:8080"
+    environment: { MODELS_DIR: /models }
+    volumes:
+      - ${ALPHAPOSE_MODELS_DIR:-./ai/alphapose/models}:/models:ro
+    networks: [audioverse-net]
+    logging: *default-logging
+
+  video_vitpose:
+    profiles: [videoai]
+    build:
+      context: ${VIDEO_VITPOSE_BUILD_CONTEXT:-./ai/vitpose}
+    restart: unless-stopped
+    ports:
+      - "${VITPOSE_HTTP:-8104}:8080"
+    environment: { MODELS_DIR: /models }
+    volumes:
+      - ${VITPOSE_MODELS_DIR:-./ai/vitpose/models}:/models:ro
+    networks: [audioverse-net]
+    logging: *default-logging
+
+  video_poseformer:
+    profiles: [videoai]
+    build:
+      context: ${POSEFORMER_BUILD_CONTEXT:-./ai/poseformer}
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+    restart: unless-stopped
+    ports:
+      - "${POSEFORMER_HTTP:-8105}:8080"
+    environment:
+      POSEFORMER_CHECKPOINT: ${POSEFORMER_CHECKPOINT:-/weights/poseformer.pth}
+    volumes:
+      - ${POSEFORMER_WEIGHTS_DIR:-./ai/poseformer/weights}:/weights:ro
+    networks: [audioverse-net]
+    logging: *default-logging
+
+# ============================================================
 networks:
   audioverse-net:
     external: true

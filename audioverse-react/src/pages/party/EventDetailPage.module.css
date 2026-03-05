@@ -1,0 +1,383 @@
+/* EventDetailPage.module.css — extracted from inline CSSProperties objects */
+
+/* ── Layout ── */
+.page {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: auto;
+}
+
+.card {
+  border: 1px solid var(--border-color, #ddd);
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Tab bar ── */
+.tabBar {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--border-color, #ddd);
+  padding-bottom: 4px;
+}
+
+.tabBtn {
+  padding: 8px 16px;
+  border-radius: 6px 6px 0 0;
+  border: none;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 13px;
+  background-color: transparent;
+  color: inherit;
+}
+
+.tabBtnActive {
+  font-weight: 700;
+  background-color: var(--accent, #5865F2);
+  color: #fff;
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+/* ── Comment / poll card ── */
+.commentCard {
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.replyCard {
+  composes: commentCard;
+  background-color: var(--bg-secondary, #f5f5f5);
+}
+
+.pollCard {
+  composes: commentCard;
+  border-color: var(--border-color, #ddd);
+}
+
+/* ── Buttons ── */
+.btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  background-color: var(--bg-secondary, #2b2d31);
+  color: inherit;
+}
+
+.btnAccent {
+  composes: btn;
+  background-color: var(--accent, #5865F2);
+  color: #fff;
+}
+
+.btnDanger {
+  composes: btn;
+  color: #e74c3c;
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.badgeLg {
+  composes: badge;
+  font-size: 13px;
+}
+
+/* ── Header ── */
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.backLink {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+/* ── Overview ── */
+.descText {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.metaRow {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.posterImg {
+  max-width: 400px;
+  border-radius: 8px;
+}
+
+/* ── Photos ── */
+.emptyText {
+  color: #888;
+  font-size: 13px;
+}
+
+.photoCard {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #eee);
+}
+
+.photoImg {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.photoCaption {
+  margin: 0;
+  padding: 4px;
+  font-size: 11px;
+}
+
+/* ── Comments ── */
+.columnGap8 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.columnGap6 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.columnGap10 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.columnGap12 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentDate {
+  font-size: 11px;
+  color: #888;
+}
+
+.commentText {
+  margin: 4px 0 0;
+  white-space: pre-wrap;
+}
+
+.replyList {
+  margin-left: 20px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.replyText {
+  margin: 2px 0 0;
+}
+
+/* ── Polls ── */
+.pollMeta {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.pollDesc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #888;
+}
+
+.pollOptions {
+  margin: 8px 0 0 16px;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* ── Billing ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tableHeaderRow {
+  border-bottom: 2px solid var(--border-color, #ddd);
+}
+
+.tableRow {
+  border-bottom: 1px solid var(--border-color, #eee);
+}
+
+.cellLeft {
+  text-align: left;
+  padding: 6px;
+}
+
+.cellRight {
+  text-align: right;
+  padding: 6px;
+}
+
+.cellCenter {
+  text-align: center;
+  padding: 6px;
+}
+
+.cellAmount {
+  composes: cellRight;
+  font-weight: 600;
+}
+
+.settlementTitle {
+  margin: 8px 0 0;
+}
+
+.settlementPre {
+  font-size: 12px;
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: var(--bg-secondary, #f5f5f5);
+}
+
+/* ── Subscription ── */
+.subActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.subDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.subLevelRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.subLevelLabel {
+  font-size: 13px;
+}
+
+.subChannels {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.subCategories {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.subNote {
+  font-size: 12px;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.subLink {
+  color: var(--accent, #5865F2);
+}
+
+.subscribersSection {
+  margin-top: 12px;
+}
+
+.subscribersTitle {
+  margin: 0;
+  font-size: 14px;
+}
+
+.subscribersTable {
+  composes: table;
+  margin-top: 8px;
+}
+
+/* ── Lists tab ── */
+.selectInput {
+  display: block;
+  margin-top: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #555);
+  background-color: var(--bg-secondary, #2b2d31);
+  color: inherit;
+  font-size: 13px;
+  width: 100%;
+}
+
+.textInput {
+  composes: selectInput;
+}
+
+.labelSm {
+  font-size: 13px;
+}
+
+.existsYes {
+  color: #00b894;
+}
+
+.existsNo {
+  color: var(--text-secondary, #888);
+}
+
+.noListsText {
+  opacity: 0.6;
+  font-size: 13px;
+}

@@ -24,9 +24,9 @@ const RiggedBody: React.FC<RiggedBodyProps> = ({ character, rig, pose, size, deb
     const p = { ...DEFAULT_POSE, ...(pose ?? {}) };
     const fk = solveFK(r, p, S);
 
-    const stroke = character.face?.colors?.[2] ?? "#111";
-    const skin = character.face?.colors?.[0] ?? "#FFD2B3";
-    const cloth = character.outfit?.colors?.[0] ?? "#3B82F6";
+    const stroke = character.face?.colors?.[2] ?? "var(--anim-stroke, #111)";
+    const skin = character.face?.colors?.[0] ?? "var(--anim-skin, #FFD2B3)";
+    const cloth = character.outfit?.colors?.[0] ?? "var(--anim-shirt, #3B82F6)";
 
     const sw = Math.max(2, S * 0.015);
     const seg = (a: keyof typeof fk, color: string) => (
@@ -48,7 +48,7 @@ const RiggedBody: React.FC<RiggedBodyProps> = ({ character, rig, pose, size, deb
             {seg("rThigh", cloth)}{seg("rShin", cloth)}{seg("rFoot", cloth)}
 
             {/* torso */}
-            <path d={torsoPath} fill={character.outfit?.colors?.[1] ?? "#2563EB"} stroke={stroke} strokeWidth={sw * 0.8} />
+            <path d={torsoPath} fill={character.outfit?.colors?.[1] ?? "var(--anim-outfit-2, #2563EB)"} stroke={stroke} strokeWidth={sw * 0.8} />
             {seg("pelvis", stroke)}{seg("spineLower", stroke)}{seg("spineUpper", stroke)}{seg("neck", stroke)}
 
             {/* arms */}

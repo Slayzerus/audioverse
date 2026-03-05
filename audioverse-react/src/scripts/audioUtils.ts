@@ -1,7 +1,19 @@
 import * as ffmpegModule from '@ffmpeg/ffmpeg';
 
-const ffmpeg = (ffmpegModule as any).createFFmpeg;
-const fetchFile = (ffmpegModule as any).fetchFile;
+interface FFmpegInstance {
+    isLoaded(): boolean;
+    load(): Promise<void>;
+    FS(method: string, ...args: unknown[]): { buffer: ArrayBuffer };
+    run(...args: string[]): Promise<void>;
+}
+
+interface FFmpegModuleShape {
+    createFFmpeg: FFmpegInstance;
+    fetchFile: (file: File) => Promise<Uint8Array>;
+}
+
+const ffmpeg = (ffmpegModule as unknown as FFmpegModuleShape).createFFmpeg;
+const fetchFile = (ffmpegModule as unknown as FFmpegModuleShape).fetchFile;
 
 export async function mergeAudio(files: File[], outputFormat: "mp3" | "wav" | "flac" = "wav"): Promise<Blob> {
     if (!ffmpeg.isLoaded()) await ffmpeg.load();

@@ -1,7 +1,7 @@
 // components/animations/choreography.ts
 import { ChoreoStep } from "./animationHelper";
 
-/** prosta paczka z wcześniejszych przykładów */
+/** simple pack from earlier examples */
 export const waveScoreChoreo = (score: number | string): ChoreoStep[] => [
     { pose: "enterFromLeft", options: { duration: 0.6 } },
     { pose: "happy", holdMs: 250 },
@@ -25,7 +25,7 @@ export const danceParty: ChoreoStep[] = [
     { pose: "idle" },
 ];
 
-/** NOWE: pokaz wszystkich póz (stare + 10 nowych) */
+/** NEW: show all poses (old + 10 new) */
 export const showcaseAll: ChoreoStep[] = [
     { pose: "enterFromRight", options: { duration: 0.5 } },
     { pose: "idle", holdMs: 250 },

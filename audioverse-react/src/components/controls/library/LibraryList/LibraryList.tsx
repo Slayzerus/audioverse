@@ -1,5 +1,6 @@
 // src/components/library/LibraryList/LibraryList.tsx
 import * as React from "react";
+import { useTranslation } from 'react-i18next';
 import { useAudioRecordsQuery } from "../../../../scripts/api/apiLibraryStream.ts";
 import { useUltrastarSongsQuery } from "../../../../scripts/api/apiLibraryUltrastar.ts";
 import { useSelection } from "../../../../hooks/useSelection.ts";
@@ -18,6 +19,7 @@ export const LibraryList: React.FC<LibraryListProps> = ({
                                                             onAddToQueue,
                                                             onAddDescriptors,
                                                         }) => {
+    const { t } = useTranslation();
     /// Currently active tab.
     const [tab, setTab] = React.useState<Tab>("audio");
 
@@ -86,14 +88,14 @@ export const LibraryList: React.FC<LibraryListProps> = ({
 
             {tab === "audio" ? (
                 <LibraryListSearchBar
-                    placeholder="Szukaj w bibliotece (Audio)…"
+                    placeholder={t('libraryList.searchAudio', 'Search library (Audio)...')}
                     value={queryAudio}
                     onChange={setQueryAudio}
                     onClearSelection={audioSel.clear}
                 />
             ) : (
                 <LibraryListSearchBar
-                    placeholder="Szukaj w Ultrastar…"
+                    placeholder={t('libraryList.searchUltrastar', 'Search Ultrastar...')}
                     value={queryUs}
                     onChange={setQueryUs}
                     onClearSelection={usSel.clear}

@@ -17,8 +17,8 @@
         private readonly byte[] _universe; // [0]=StartCode, 1..N kanały
 
         // >>> NOWE: runtime'owe ustawienia
-        private volatile int _fps;
-        private volatile byte _startCode;
+        private int _fps;
+        private int _startCode;
 
         public DmxState(Microsoft.Extensions.Options.IOptions<DmxOptions> opt)
         {
@@ -28,20 +28,20 @@
             // startowe wartości z konfiguracji
             _fps = Math.Clamp(opt.Value.Fps, 10, 44); // DMX zwykle 10..44 Hz
             _startCode = 0x00;
-            _universe[0] = _startCode;
+            _universe[0] = (byte)_startCode;
         }
 
         // >>> NOWE: właściwości dostępowe
         public int Fps
         {
-            get => Volatile.Read(ref _fps);
-            set => _fps = Math.Clamp(value, 10, 44);
+            get => Interlocked.CompareExchange(ref _fps, 0, 0);
+            set => Interlocked.Exchange(ref _fps, Math.Clamp(value, 10, 44));
         }
 
         public byte StartCode
         {
-            get => Volatile.Read(ref _startCode);
-            set => _startCode = value;
+            get => (byte)Interlocked.CompareExchange(ref _startCode, 0, 0);
+            set => Interlocked.Exchange(ref _startCode, value);
         }
 
         public int Channels => _universe.Length - 1;
@@ -51,7 +51,7 @@
             lock (_gate)
             {
                 // dopisz aktualny StartCode do slotu 0 przed klonem
-                _universe[0] = _startCode;
+                _universe[0] = (byte)_startCode;
                 return (byte[])_universe.Clone();
             }
         }
@@ -134,7 +134,7 @@
             // w wariancie single-buffer to tylko aktualizacja start code
             lock (_gate)
             {
-                _universe[0] = _startCode; // jeśli masz właściwość StartCode; w innym razie wpisz 0x00
+                _universe[0] = (byte)_startCode; // jeśli masz właściwość StartCode; w innym razie wpisz 0x00
             }
         }
 
@@ -146,7 +146,7 @@
 
             lock (_gate)
             {
-                _universe[0] = _startCode; // upewnij się, że slot 0 jest aktualny
+                _universe[0] = (byte)_startCode; // upewnij się, że slot 0 jest aktualny
                 new ReadOnlySpan<byte>(_universe).CopyTo(destination);
             }
         }

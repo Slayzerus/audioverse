@@ -1,25 +1,28 @@
 // src/components/pages/LibraryPage.tsx
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { LibraryList } from "../../components/controls/library/LibraryList/LibraryList.tsx";
 import GenericPlayer from "../../components/controls/player/GenericPlayer";
 import type { PlayerTrack } from "../../models/modelsAudio";
 
-/// Simple modal wrapper for dialogs.
-const Modal: React.FC<{ title: string; onClose: () => void; children: React.ReactNode }> = ({ title, onClose, children }) => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-        <div className="relative w-[min(100%,900px)] max-h-[90vh] rounded-2xl bg-white shadow-xl p-4 overflow-auto">
-            <div className="flex items-center justify-between mb-3">
-                <h2 className="text-lg font-semibold">{title}</h2>
-                <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>✕</button>
-            </div>
-            {children}
-        </div>
-    </div>
-);
+/// Simple modal wrapper for dialogs. (Defined inside the component so `t` is in scope)
 
 /// LibraryManager page that fetches data via hooks and renders playable lists.
 const LibraryPage: React.FC = () => {
+    const { t } = useTranslation();
+    /// Simple modal wrapper for dialogs (placed here so `t` is available).
+    const Modal: React.FC<{ title: string; onClose: () => void; children: React.ReactNode }> = ({ title, onClose, children }) => (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div className="absolute inset-0 bg-black/40" role="presentation" onClick={onClose} />
+            <div className="relative w-[min(100%,900px)] max-h-[90vh] rounded-2xl bg-white shadow-xl p-4 overflow-auto">
+                <div className="flex items-center justify-between mb-3">
+                    <h2 id="modal-title" className="text-lg font-semibold">{title}</h2>
+                    <button className="text-gray-500 hover:text-gray-700" onClick={onClose} aria-label={t("common.close")}>✕</button>
+                </div>
+                {children}
+            </div>
+        </div>
+    );
     /// Player modal visibility flag.
     const [playerOpen, setPlayerOpen] = React.useState(false);
     /// Current playlist for the GenericPlayer.
@@ -47,8 +50,8 @@ const LibraryPage: React.FC = () => {
     return (
         <div className="w-full mx-auto p-4 space-y-4">
             <div className="flex items-center justify-between">
-                <h1 className="text-xl font-semibold">Library</h1>
-                <div className="text-sm text-gray-500">source: API</div>
+                <h1 className="text-xl font-semibold">{t("libraryPage.title")}</h1>
+                <div className="text-sm text-gray-500">{t("libraryPage.sourceApi")}</div>
             </div>
 
             <LibraryList
@@ -58,7 +61,7 @@ const LibraryPage: React.FC = () => {
             />
 
             {playerOpen && (
-                <Modal title="Player" onClose={() => setPlayerOpen(false)}>
+                <Modal title={t("libraryPage.playerModal")} onClose={() => setPlayerOpen(false)}>
                     <GenericPlayer
                         tracks={playerTracks}
                         initialIndex={0}

@@ -1,0 +1,7362 @@
+[
+  {
+    "path": "activeTokens.type",
+    "value": "Type"
+  },
+  {
+    "path": "activeTokens.description",
+    "value": "Description"
+  },
+  {
+    "path": "activeTokens.tokenId",
+    "value": "Token ID"
+  },
+  {
+    "path": "admin.tableId",
+    "value": "ID"
+  },
+  {
+    "path": "admin.tableName",
+    "value": "Name"
+  },
+  {
+    "path": "admin.tableStatus",
+    "value": "Status"
+  },
+  {
+    "path": "admin.otpBtn",
+    "value": "OTP"
+  },
+  {
+    "path": "admin.skins.title",
+    "value": "Skins"
+  },
+  {
+    "path": "admin.skins.vars.info.label",
+    "value": "Info"
+  },
+  {
+    "path": "admin.skins.catalog.velvet-night.name",
+    "value": "Velvet Night"
+  },
+  {
+    "path": "admin.skins.catalog.velvet-night.description",
+    "value": "Smooth velvety shades for a luxurious dark UI."
+  },
+  {
+    "path": "admin.skins.catalog.saffron-glow.name",
+    "value": "Saffron Glow"
+  },
+  {
+    "path": "admin.skins.catalog.saffron-glow.description",
+    "value": "Warm, spice-toned palette with amber highlights."
+  },
+  {
+    "path": "admin.skins.catalog.crimson-silk.name",
+    "value": "Crimson Silk"
+  },
+  {
+    "path": "admin.skins.catalog.crimson-silk.description",
+    "value": "Sensual deep reds with silky contrasts."
+  },
+  {
+    "path": "admin.skins.catalog.amber-kiss.name",
+    "value": "Amber Kiss"
+  },
+  {
+    "path": "admin.skins.catalog.amber-kiss.description",
+    "value": "Honeyed, cozy colors with warm accents."
+  },
+  {
+    "path": "admin.skins.catalog.velvet-plum.name",
+    "value": "Velvet Plum"
+  },
+  {
+    "path": "admin.skins.catalog.velvet-plum.description",
+    "value": "Deep purples and rich plum tones."
+  },
+  {
+    "path": "admin.skins.catalog.rose-whisper.name",
+    "value": "Rose Whisper"
+  },
+  {
+    "path": "admin.skins.catalog.rose-whisper.description",
+    "value": "Subtle pinks and beiges for a gentle look."
+  },
+  {
+    "path": "admin.skins.catalog.midnight-bloom.name",
+    "value": "Midnight Bloom"
+  },
+  {
+    "path": "admin.skins.catalog.midnight-bloom.description",
+    "value": "Night-blooming floral palette with moody contrasts."
+  },
+  {
+    "path": "admin.skins.catalog.moonlit-amber.name",
+    "value": "Moonlit Amber"
+  },
+  {
+    "path": "admin.skins.catalog.moonlit-amber.description",
+    "value": "Warm moonlit tones with amber highlights."
+  },
+  {
+    "path": "admin.skins.catalog.silk-noir.name",
+    "value": "Silk Noir"
+  },
+  {
+    "path": "admin.skins.catalog.silk-noir.description",
+    "value": "Elegant black with refined, high-contrast accents."
+  },
+  {
+    "path": "admin.skins.catalog.cocoa-mist.name",
+    "value": "Cocoa Mist"
+  },
+  {
+    "path": "admin.skins.catalog.cocoa-mist.description",
+    "value": "Chocolate-inspired warm browns and creams."
+  },
+  {
+    "path": "admin.skins.catalog.opal-dusk.name",
+    "value": "Opal Dusk"
+  },
+  {
+    "path": "admin.skins.catalog.opal-dusk.description",
+    "value": "Shimmering, cool dusk tones with opalescent highlights."
+  },
+  {
+    "path": "admin.skins.catalog.desert-rose.name",
+    "value": "Desert Rose"
+  },
+  {
+    "path": "admin.skins.catalog.desert-rose.description",
+    "value": "Earthy, desert-inspired warm tones."
+  },
+  {
+    "path": "admin.skins.catalog.moonshadow.name",
+    "value": "Moonshadow"
+  },
+  {
+    "path": "admin.skins.catalog.moonshadow.description",
+    "value": "Cool, soft shadowy hues for a calm UI."
+  },
+  {
+    "path": "admin.skins.catalog.rosewood.name",
+    "value": "Rosewood"
+  },
+  {
+    "path": "admin.skins.catalog.rosewood.description",
+    "value": "Woodsy, warm hues inspired by natural timber."
+  },
+  {
+    "path": "admin.skins.catalog.silken-azure.name",
+    "value": "Silken Azure"
+  },
+  {
+    "path": "admin.skins.catalog.silken-azure.description",
+    "value": "Soft azure and sky-blue tones with airy feel."
+  },
+  {
+    "path": "admin.skins.catalog.nocturne.name",
+    "value": "Nocturne"
+  },
+  {
+    "path": "admin.skins.catalog.nocturne.description",
+    "value": "A musical, moody night palette with deep contrasts."
+  },
+  {
+    "path": "admin.skins.catalog.lavender-haze.name",
+    "value": "Lavender Haze"
+  },
+  {
+    "path": "admin.skins.catalog.lavender-haze.description",
+    "value": "Soft lavender pastels with a mellow atmosphere."
+  },
+  {
+    "path": "admin.skins.catalog.seduction.name",
+    "value": "Seduction"
+  },
+  {
+    "path": "admin.skins.catalog.seduction.description",
+    "value": "Intense, sensual palette with bold accents."
+  },
+  {
+    "path": "admin.skins.catalog.coral-veil.name",
+    "value": "Coral Veil"
+  },
+  {
+    "path": "admin.skins.catalog.coral-veil.description",
+    "value": "Delicate coral and blush tones with warmth."
+  },
+  {
+    "path": "admin.skins.catalog.garnet.name",
+    "value": "Garnet"
+  },
+  {
+    "path": "admin.skins.catalog.garnet.description",
+    "value": "Rich jewel-red tones for dramatic emphasis."
+  },
+  {
+    "path": "admin.skins.catalog.opaline.name",
+    "value": "Opaline"
+  },
+  {
+    "path": "admin.skins.catalog.opaline.description",
+    "value": "Pearlescent, semi-translucent soft shades."
+  },
+  {
+    "path": "admin.skins.catalog.silhouette.name",
+    "value": "Silhouette"
+  },
+  {
+    "path": "admin.skins.catalog.silhouette.description",
+    "value": "Minimalist, high-contrast monochrome styling."
+  },
+  {
+    "path": "admin.skins.catalog.honeyed.name",
+    "value": "Honeyed"
+  },
+  {
+    "path": "admin.skins.catalog.honeyed.description",
+    "value": "Sweet, warm pastels with cozy accents."
+  },
+  {
+    "path": "admin.skins.catalog.eclipse.name",
+    "value": "Eclipse"
+  },
+  {
+    "path": "admin.skins.catalog.eclipse.description",
+    "value": "Deep, contrasting tones reminiscent of an eclipse."
+  },
+  {
+    "path": "admin.skins.catalog.amber-night.name",
+    "value": "Amber Night"
+  },
+  {
+    "path": "admin.skins.catalog.amber-night.description",
+    "value": "Warm night-lights and amber glows."
+  },
+  {
+    "path": "admin.skins.catalog.pearl-veil.name",
+    "value": "Pearl Veil"
+  },
+  {
+    "path": "admin.skins.catalog.pearl-veil.description",
+    "value": "Subtle pearly accents and soft blues."
+  },
+  {
+    "path": "admin.skins.catalog.scarlet-lace.name",
+    "value": "Scarlet Lace"
+  },
+  {
+    "path": "admin.skins.catalog.scarlet-lace.description",
+    "value": "Lacy scarlet reds with refined contrast."
+  },
+  {
+    "path": "admin.skins.catalog.velour.name",
+    "value": "Velour"
+  },
+  {
+    "path": "admin.skins.catalog.velour.description",
+    "value": "Soft, enveloping colors with plush tones."
+  },
+  {
+    "path": "admin.skins.catalog.silk-rose.name",
+    "value": "Silk Rose"
+  },
+  {
+    "path": "admin.skins.catalog.silk-rose.description",
+    "value": "Delicate petal-inspired rosy shades."
+  },
+  {
+    "path": "admin.skins.catalog.twilight-silk.name",
+    "value": "Twilight Silk"
+  },
+  {
+    "path": "admin.skins.catalog.twilight-silk.description",
+    "value": "Nocturnal silky tones with twilight highlights."
+  },
+  {
+    "path": "admin.skins.preview.clickHint",
+    "value": "Click any element to edit its color"
+  },
+  {
+    "path": "admin.moderation.all",
+    "value": "Wszystkie"
+  },
+  {
+    "path": "admin.moderation.modComment",
+    "value": "Komentarz moderatora..."
+  },
+  {
+    "path": "adminAudit.title",
+    "value": "All Audit Logs (Admin)"
+  },
+  {
+    "path": "adminAudit.fetchError",
+    "value": "Failed to fetch audit logs."
+  },
+  {
+    "path": "adminAudit.username",
+    "value": "Username"
+  },
+  {
+    "path": "adminAudit.filterByUsername",
+    "value": "Filter by username"
+  },
+  {
+    "path": "adminAudit.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "adminDashboard.title",
+    "value": "Admin Dashboard"
+  },
+  {
+    "path": "adminDashboard.userManagement",
+    "value": "User Management"
+  },
+  {
+    "path": "adminDashboard.userManagementDesc",
+    "value": "Manage users, create new accounts, block/unblock users"
+  },
+  {
+    "path": "adminDashboard.passwordRequirements",
+    "value": "Password Requirements"
+  },
+  {
+    "path": "adminDashboard.passwordRequirementsDesc",
+    "value": "Configure password policies and security requirements"
+  },
+  {
+    "path": "adminDashboard.adminSettings",
+    "value": "Admin Settings"
+  },
+  {
+    "path": "adminDashboard.adminSettingsDesc",
+    "value": "Change admin password and other settings"
+  },
+  {
+    "path": "adminDashboard.scoringPresets",
+    "value": "Scoring Presets"
+  },
+  {
+    "path": "adminDashboard.scoringPresetsDesc",
+    "value": "Edit karaoke scoring presets used by the parity harness and live scoring"
+  },
+  {
+    "path": "adminDashboard.skins",
+    "value": "Skins"
+  },
+  {
+    "path": "adminDashboard.skinsDesc",
+    "value": "Manage available UI skins used in the theme picker"
+  },
+  {
+    "path": "adminDashboard.featureVisibility",
+    "value": "Feature Visibility"
+  },
+  {
+    "path": "adminDashboard.newsFeeds",
+    "value": "News Feeds"
+  },
+  {
+    "path": "adminDashboard.notifications",
+    "value": "Powiadomienia"
+  },
+  {
+    "path": "adminDashboard.notificationsDesc",
+    "value": "Test SMS (SMSAPI) i e-mail"
+  },
+  {
+    "path": "adminDashboard.otp",
+    "value": "OTP"
+  },
+  {
+    "path": "adminDashboard.auditLogs",
+    "value": "Audit Logs"
+  },
+  {
+    "path": "adminDashboard.loginAttempts",
+    "value": "Login Attempts"
+  },
+  {
+    "path": "adminDashboard.auditDashboard",
+    "value": "Audit Dashboard"
+  },
+  {
+    "path": "adminDashboard.honeytokens",
+    "value": "Honey Tokens"
+  },
+  {
+    "path": "adminDashboard.securityDashboard",
+    "value": "Security Dashboard"
+  },
+  {
+    "path": "adminNotifications.title",
+    "value": "Powiadomienia — test"
+  },
+  {
+    "path": "adminNotifications.smsTitle",
+    "value": "Test SMS"
+  },
+  {
+    "path": "adminNotifications.phone",
+    "value": "Numer telefonu"
+  },
+  {
+    "path": "adminNotifications.emailTitle",
+    "value": "Test E-mail"
+  },
+  {
+    "path": "adminNotifications.emailTo",
+    "value": "Adresat"
+  },
+  {
+    "path": "adminNotifications.emailSubject",
+    "value": "Temat"
+  },
+  {
+    "path": "adminPasswordReqs.title",
+    "value": "Password Requirements"
+  },
+  {
+    "path": "adminPasswordReqs.loading",
+    "value": "Loading password requirements..."
+  },
+  {
+    "path": "adminPasswordReqs.errorLoad",
+    "value": "Failed to load password requirements"
+  },
+  {
+    "path": "adminPasswordReqs.errorSave",
+    "value": "Failed to save password requirements"
+  },
+  {
+    "path": "adminPasswordReqs.successSaved",
+    "value": "Password requirements updated successfully!"
+  },
+  {
+    "path": "adminPasswordReqs.colId",
+    "value": "ID"
+  },
+  {
+    "path": "adminPasswordReqs.colActive",
+    "value": "Active"
+  },
+  {
+    "path": "adminPasswordReqs.colDescription",
+    "value": "Description"
+  },
+  {
+    "path": "adminPasswordReqs.colMin",
+    "value": "Min"
+  },
+  {
+    "path": "adminPasswordReqs.colMax",
+    "value": "Max"
+  },
+  {
+    "path": "adminPasswordReqs.colUpper",
+    "value": "Upper"
+  },
+  {
+    "path": "adminPasswordReqs.colLower",
+    "value": "Lower"
+  },
+  {
+    "path": "adminPasswordReqs.colDigit",
+    "value": "Digit"
+  },
+  {
+    "path": "adminPasswordReqs.colSpecial",
+    "value": "Special"
+  },
+  {
+    "path": "adminPasswordReqs.noData",
+    "value": "No password requirements found"
+  },
+  {
+    "path": "adminPasswordReqs.saving",
+    "value": "Saving..."
+  },
+  {
+    "path": "adminPasswordReqs.saveChanges",
+    "value": "Save Changes"
+  },
+  {
+    "path": "adminSettings.title",
+    "value": "Admin Settings"
+  },
+  {
+    "path": "adminSettings.changePassword",
+    "value": "Change Password"
+  },
+  {
+    "path": "adminSettings.currentPassword",
+    "value": "Current Password"
+  },
+  {
+    "path": "adminSettings.newPassword",
+    "value": "New Password"
+  },
+  {
+    "path": "adminSettings.confirmPassword",
+    "value": "Confirm Password"
+  },
+  {
+    "path": "adminSettings.placeholderCurrentPassword",
+    "value": "Enter your current password"
+  },
+  {
+    "path": "adminSettings.placeholderNewPassword",
+    "value": "Enter your new password"
+  },
+  {
+    "path": "adminSettings.placeholderConfirmPassword",
+    "value": "Confirm your new password"
+  },
+  {
+    "path": "adminSettings.changePasswordBtn",
+    "value": "Change Password"
+  },
+  {
+    "path": "adminSettings.changing",
+    "value": "Changing..."
+  },
+  {
+    "path": "adminSettings.errorPasswordsMismatch",
+    "value": "Passwords do not match"
+  },
+  {
+    "path": "adminSettings.errorPasswordTooShort",
+    "value": "New password must be at least 6 characters long"
+  },
+  {
+    "path": "adminSettings.successPasswordChanged",
+    "value": "Password changed successfully!"
+  },
+  {
+    "path": "adminSettings.errorChangeFailed",
+    "value": "Failed to change password"
+  },
+  {
+    "path": "animatedPerson.moveLeft",
+    "value": "Move left"
+  },
+  {
+    "path": "animatedPerson.duplicate",
+    "value": "Duplicate"
+  },
+  {
+    "path": "animatedPerson.moveRight",
+    "value": "Move right"
+  },
+  {
+    "path": "animatedPerson.remove",
+    "value": "Remove"
+  },
+  {
+    "path": "animatedPersonsPage.intro",
+    "value": "Intro"
+  },
+  {
+    "path": "arp.title",
+    "value": "Arpeggiator"
+  },
+  {
+    "path": "arp.mode",
+    "value": "Mode"
+  },
+  {
+    "path": "arp.rate",
+    "value": "Rate"
+  },
+  {
+    "path": "arp.octaves",
+    "value": "Octaves"
+  },
+  {
+    "path": "arp.gate",
+    "value": "Gate"
+  },
+  {
+    "path": "arp.swing",
+    "value": "Swing"
+  },
+  {
+    "path": "arp.repeats",
+    "value": "Repeats"
+  },
+  {
+    "path": "assetManager.pixelEditor",
+    "value": "Pixel Editor"
+  },
+  {
+    "path": "assetManager.vectorEditor",
+    "value": "Vector Editor"
+  },
+  {
+    "path": "assetManager.modelEditor",
+    "value": "3D Model Editor"
+  },
+  {
+    "path": "assetManager.convert",
+    "value": "Convert"
+  },
+  {
+    "path": "attractionPicker.typeToSearch",
+    "value": "Type to search songs..."
+  },
+  {
+    "path": "attractionPicker.searching",
+    "value": "Searching..."
+  },
+  {
+    "path": "attractionPicker.add",
+    "value": "+ Add"
+  },
+  {
+    "path": "attractionPicker.noVideoGames",
+    "value": "No video games found"
+  },
+  {
+    "path": "attractionPicker.noBoardGames",
+    "value": "No board games found"
+  },
+  {
+    "path": "attractionPicker.cancel",
+    "value": "Cancel"
+  },
+  {
+    "path": "audioClip.info",
+    "value": "Info"
+  },
+  {
+    "path": "audioClip.pauseBtn",
+    "value": "âÂ¸ Pause"
+  },
+  {
+    "path": "audioClip.skipBack",
+    "value": "âÂª -5s"
+  },
+  {
+    "path": "audioClip.skipForward",
+    "value": "âÂ© +5s"
+  },
+  {
+    "path": "audioClip.zoom",
+    "value": "Zoom"
+  },
+  {
+    "path": "audioEditor.title",
+    "value": "Verse Editor v0.01"
+  },
+  {
+    "path": "audioInputDevice.customName",
+    "value": "Custom name"
+  },
+  {
+    "path": "audioInputDevice.customNamePlaceholder",
+    "value": "Enter custom device name"
+  },
+  {
+    "path": "audioInputDevices.title",
+    "value": "Available audio devices"
+  },
+  {
+    "path": "audioInputDevices.processing",
+    "value": "Processing..."
+  },
+  {
+    "path": "audioLayersNav.addLayer",
+    "value": "Add Layer"
+  },
+  {
+    "path": "audioLayersNav.loadPreset",
+    "value": "Load Preset"
+  },
+  {
+    "path": "audioLayersNav.savePreset",
+    "value": "Save Preset"
+  },
+  {
+    "path": "audioProjectForm.title",
+    "value": "New Project"
+  },
+  {
+    "path": "audioProjectForm.placeholderName",
+    "value": "Project name"
+  },
+  {
+    "path": "audioProjectForm.cancel",
+    "value": "Cancel"
+  },
+  {
+    "path": "audioProjectForm.create",
+    "value": "Create"
+  },
+  {
+    "path": "audioSource.properties",
+    "value": "Audio Source Properties"
+  },
+  {
+    "path": "audioSource.name",
+    "value": "Name"
+  },
+  {
+    "path": "audioSource.type",
+    "value": "Type"
+  },
+  {
+    "path": "audioSource.audioType",
+    "value": "Audio Type"
+  },
+  {
+    "path": "audioSource.parameters",
+    "value": "Parameters"
+  },
+  {
+    "path": "audioTab.separateTracks",
+    "value": "Separate Tracks (Demucs)"
+  },
+  {
+    "path": "audioTab.analyzingTrack",
+    "value": "Analyzing track:"
+  },
+  {
+    "path": "auditLog.action",
+    "value": "Action"
+  },
+  {
+    "path": "auditLog.details",
+    "value": "Details"
+  },
+  {
+    "path": "auditLog.timestamp",
+    "value": "Timestamp"
+  },
+  {
+    "path": "auditLogsPage.status",
+    "value": "Status"
+  },
+  {
+    "path": "auditLogsPage.ip",
+    "value": "IP"
+  },
+  {
+    "path": "auditLogsPage.userAgent",
+    "value": "User-Agent"
+  },
+  {
+    "path": "auth.captchaTypes.puzzle",
+    "value": "Puzzle"
+  },
+  {
+    "path": "auth.passwordRulesNotMet",
+    "value": "Password does not meet requirements"
+  },
+  {
+    "path": "auth.passwordChanged",
+    "value": "Password changed successfully"
+  },
+  {
+    "path": "betting.title",
+    "value": "Betting"
+  },
+  {
+    "path": "betting.balance",
+    "value": "Balance"
+  },
+  {
+    "path": "betting.markets",
+    "value": "Markets"
+  },
+  {
+    "path": "betting.history",
+    "value": "My Bets"
+  },
+  {
+    "path": "betting.wallet",
+    "value": "Wallet"
+  },
+  {
+    "path": "betting.noMarkets",
+    "value": "No betting markets for this event."
+  },
+  {
+    "path": "betting.createMarket",
+    "value": "Create Market"
+  },
+  {
+    "path": "betting.placeBet",
+    "value": "Place Bet"
+  },
+  {
+    "path": "betting.myBets",
+    "value": "My Bet History"
+  },
+  {
+    "path": "betting.loginRequired",
+    "value": "Log in to see your wallet."
+  },
+  {
+    "path": "betting.noBets",
+    "value": "No bets placed yet."
+  },
+  {
+    "path": "betting.walletTitle",
+    "value": "My Wallet"
+  },
+  {
+    "path": "betting.totalWagered",
+    "value": "Total Wagered"
+  },
+  {
+    "path": "betting.totalWon",
+    "value": "Total Won"
+  },
+  {
+    "path": "billing.expenses",
+    "value": "Expenses"
+  },
+  {
+    "path": "billing.payments",
+    "value": "Payments"
+  },
+  {
+    "path": "billing.settlement",
+    "value": "Settlement"
+  },
+  {
+    "path": "billing.expenseList",
+    "value": "Expenses"
+  },
+  {
+    "path": "billing.expenseTitle",
+    "value": "Title"
+  },
+  {
+    "path": "billing.amount",
+    "value": "Amount"
+  },
+  {
+    "path": "billing.catFood",
+    "value": "Food"
+  },
+  {
+    "path": "billing.catDrinks",
+    "value": "Drinks"
+  },
+  {
+    "path": "billing.catTransport",
+    "value": "Transport"
+  },
+  {
+    "path": "billing.catAccommodation",
+    "value": "Accommodation"
+  },
+  {
+    "path": "billing.catOther",
+    "value": "Other"
+  },
+  {
+    "path": "billing.splitEqually",
+    "value": "Split equally"
+  },
+  {
+    "path": "billing.noExpenses",
+    "value": "No expenses yet."
+  },
+  {
+    "path": "billing.paymentList",
+    "value": "Payments"
+  },
+  {
+    "path": "billing.methodCash",
+    "value": "Cash"
+  },
+  {
+    "path": "billing.methodTransfer",
+    "value": "Transfer"
+  },
+  {
+    "path": "billing.methodBlik",
+    "value": "BLIK"
+  },
+  {
+    "path": "billing.methodCard",
+    "value": "Card"
+  },
+  {
+    "path": "billing.note",
+    "value": "Note"
+  },
+  {
+    "path": "billing.confirm",
+    "value": "Confirm"
+  },
+  {
+    "path": "billing.noPayments",
+    "value": "No payments yet."
+  },
+  {
+    "path": "billing.settlementTitle",
+    "value": "Settlement Summary"
+  },
+  {
+    "path": "billing.noSettlement",
+    "value": "No settlement data."
+  },
+  {
+    "path": "boardGames.genre",
+    "value": "Genre"
+  },
+  {
+    "path": "boardGames.details",
+    "value": "Details"
+  },
+  {
+    "path": "boardGames.export",
+    "value": "Export Collection"
+  },
+  {
+    "path": "boardGames.import",
+    "value": "Import Collection"
+  },
+  {
+    "path": "boardGames.confirmImport",
+    "value": "This will add games from the file to your collection. Duplicates might occur. Continue?"
+  },
+  {
+    "path": "boardGames.loadingSuggestions",
+    "value": "Loading BGG suggestions..."
+  },
+  {
+    "path": "boardGames.noSuggestions",
+    "value": "No BGG suggestions"
+  },
+  {
+    "path": "breadcrumb.partyDetail",
+    "value": "Party"
+  },
+  {
+    "path": "breadcrumb.songs",
+    "value": "Songs"
+  },
+  {
+    "path": "breadcrumb.jamSession",
+    "value": "Jam Session"
+  },
+  {
+    "path": "breadcrumb.playlists",
+    "value": "Playlists"
+  },
+  {
+    "path": "breadcrumb.playlistDetail",
+    "value": "Playlist"
+  },
+  {
+    "path": "breadcrumb.wiki",
+    "value": "Wiki"
+  },
+  {
+    "path": "breadcrumb.radio",
+    "value": "Radio"
+  },
+  {
+    "path": "breadcrumb.controller",
+    "value": "Controller"
+  },
+  {
+    "path": "breadcrumb.studio",
+    "value": "Studio"
+  },
+  {
+    "path": "breadcrumb.dashboard",
+    "value": "Dashboard"
+  },
+  {
+    "path": "breadcrumb.admin",
+    "value": "Admin"
+  },
+  {
+    "path": "breadcrumb.skins",
+    "value": "Skins"
+  },
+  {
+    "path": "breadcrumb.otp",
+    "value": "OTP"
+  },
+  {
+    "path": "breadcrumb.audit",
+    "value": "Audit"
+  },
+  {
+    "path": "breadcrumb.honeytokens",
+    "value": "Honeytokens"
+  },
+  {
+    "path": "bunny.sumo",
+    "value": "Sumo"
+  },
+  {
+    "path": "bunny.aiNormal",
+    "value": "Normal"
+  },
+  {
+    "path": "bunny.controlsPause",
+    "value": "Pause"
+  },
+  {
+    "path": "bunny.kingTimer",
+    "value": "Zone: {{seconds}}s"
+  },
+  {
+    "path": "campaign.songChosen",
+    "value": "Song chosen!"
+  },
+  {
+    "path": "campaign.chooseSongError",
+    "value": "Failed to choose song"
+  },
+  {
+    "path": "campaign.joined",
+    "value": "Joined campaign!"
+  },
+  {
+    "path": "campaign.joinError",
+    "value": "Failed to join"
+  },
+  {
+    "path": "campaign.completed",
+    "value": "Completed"
+  },
+  {
+    "path": "campaign.players",
+    "value": "Players"
+  },
+  {
+    "path": "campaign.join",
+    "value": "Join"
+  },
+  {
+    "path": "campaign.totalScoreLabel",
+    "value": "Total Score"
+  },
+  {
+    "path": "campaign.xpEarned",
+    "value": "XP Earned"
+  },
+  {
+    "path": "campaign.roundMap",
+    "value": "Round Map"
+  },
+  {
+    "path": "campaign.round",
+    "value": "Round"
+  },
+  {
+    "path": "campaign.done",
+    "value": "Done"
+  },
+  {
+    "path": "campaign.open",
+    "value": "Open"
+  },
+  {
+    "path": "campaign.locked",
+    "value": "Locked"
+  },
+  {
+    "path": "campaign.threshold",
+    "value": "Threshold"
+  },
+  {
+    "path": "campaign.songs",
+    "value": "songs"
+  },
+  {
+    "path": "campaign.play",
+    "value": "Play"
+  },
+  {
+    "path": "campaign.chooseSong",
+    "value": "Choose a Song"
+  },
+  {
+    "path": "campaign.noSongsInPool",
+    "value": "No songs in pool."
+  },
+  {
+    "path": "campaign.rounds",
+    "value": "rounds"
+  },
+  {
+    "path": "campaign.start",
+    "value": "Start"
+  },
+  {
+    "path": "campaign.roundsCompleted",
+    "value": "rounds completed"
+  },
+  {
+    "path": "campaign.started",
+    "value": "Campaign started!"
+  },
+  {
+    "path": "campaign.startError",
+    "value": "Failed to start campaign"
+  },
+  {
+    "path": "campaign.title",
+    "value": "Karaoke Campaigns"
+  },
+  {
+    "path": "campaign.myCampaigns",
+    "value": "My Campaigns"
+  },
+  {
+    "path": "campaign.templates",
+    "value": "Templates"
+  },
+  {
+    "path": "campaign.noCampaigns",
+    "value": "No campaigns yet. Start one from the Templates tab!"
+  },
+  {
+    "path": "campaign.noTemplates",
+    "value": "No templates available."
+  },
+  {
+    "path": "campaign.startTitle",
+    "value": "Start Campaign"
+  },
+  {
+    "path": "campaign.coopMode",
+    "value": "Co-op Mode"
+  },
+  {
+    "path": "campaign.solo",
+    "value": "Solo"
+  },
+  {
+    "path": "campaign.allMustPass",
+    "value": "All Must Pass"
+  },
+  {
+    "path": "campaign.anyOnePass",
+    "value": "Any One Pass"
+  },
+  {
+    "path": "captcha.captchaType",
+    "value": "CAPTCHA Type:"
+  },
+  {
+    "path": "captcha.questionAnswer",
+    "value": "Question Answer"
+  },
+  {
+    "path": "captcha.reverseString",
+    "value": "Reverse String"
+  },
+  {
+    "path": "captcha.imageQuestion",
+    "value": "Image Question"
+  },
+  {
+    "path": "captcha.mathProblem",
+    "value": "Math Problem"
+  },
+  {
+    "path": "captcha.imageSelection",
+    "value": "Image Selection"
+  },
+  {
+    "path": "captcha.imageRegionSelection",
+    "value": "Image Region Selection"
+  },
+  {
+    "path": "captcha.puzzleMatching",
+    "value": "Puzzle Matching"
+  },
+  {
+    "path": "captcha.audioQuestion",
+    "value": "Audio Question"
+  },
+  {
+    "path": "captcha.generate",
+    "value": "Generate CAPTCHA"
+  },
+  {
+    "path": "ccLane.curve",
+    "value": "Curve"
+  },
+  {
+    "path": "ccLane.linear",
+    "value": "Linear"
+  },
+  {
+    "path": "ccLane.step",
+    "value": "Step"
+  },
+  {
+    "path": "ccLane.exponential",
+    "value": "Exponential"
+  },
+  {
+    "path": "ccLane.title",
+    "value": "CC Automation Lane"
+  },
+  {
+    "path": "ccLane.events",
+    "value": "events"
+  },
+  {
+    "path": "ccLane.hint",
+    "value": "Click to draw. Double-click to add/remove points. Drag to draw curves."
+  },
+  {
+    "path": "changePassword.title",
+    "value": "Change Password"
+  },
+  {
+    "path": "changePassword.currentPassword",
+    "value": "Current Password"
+  },
+  {
+    "path": "changePassword.newPassword",
+    "value": "New Password"
+  },
+  {
+    "path": "changePassword.confirmPassword",
+    "value": "Confirm Password"
+  },
+  {
+    "path": "changePassword.minChars",
+    "value": "12 characters minimum"
+  },
+  {
+    "path": "changePassword.atLeastDigit",
+    "value": "At least 1 digit"
+  },
+  {
+    "path": "changePassword.atLeastSpecial",
+    "value": "At least 1 special character"
+  },
+  {
+    "path": "changePassword.captchaLoadError",
+    "value": "CAPTCHA loading error"
+  },
+  {
+    "path": "changePassword.captchaInvalid",
+    "value": "Incorrect CAPTCHA answer"
+  },
+  {
+    "path": "changePassword.captchaValidationError",
+    "value": "CAPTCHA validation error"
+  },
+  {
+    "path": "characterEditor.jsonSection",
+    "value": "JSON"
+  },
+  {
+    "path": "characterEditor.name",
+    "value": "Name"
+  },
+  {
+    "path": "clipAnalyzer.selectedFile",
+    "value": "Selected file"
+  },
+  {
+    "path": "clipAnalyzer.processing",
+    "value": "Processing"
+  },
+  {
+    "path": "clipAnalyzer.clear",
+    "value": "clear"
+  },
+  {
+    "path": "clipAnalyzer.noEntries",
+    "value": "(no entries)"
+  },
+  {
+    "path": "clipAnalyzer.downloadNote",
+    "value": "Click the link below to download ZIP with stems."
+  },
+  {
+    "path": "clipAnalyzer.downloadStems",
+    "value": "Download ZIP with stems"
+  },
+  {
+    "path": "clipAnalyzer.revokeNote",
+    "value": "remember to call URL.revokeObjectURL after download"
+  },
+  {
+    "path": "clipEditor.play",
+    "value": " Play"
+  },
+  {
+    "path": "clipEditor.pause",
+    "value": " Pause"
+  },
+  {
+    "path": "clipEditor.stop",
+    "value": " Stop"
+  },
+  {
+    "path": "clipEditor.rewind",
+    "value": " -5s"
+  },
+  {
+    "path": "clipEditor.forward",
+    "value": " +5s"
+  },
+  {
+    "path": "clipInfo.fileInfo",
+    "value": "File information"
+  },
+  {
+    "path": "clipInfo.name",
+    "value": "Name"
+  },
+  {
+    "path": "clipInfo.size",
+    "value": "Size"
+  },
+  {
+    "path": "clipInfo.mimeType",
+    "value": "MIME Type"
+  },
+  {
+    "path": "clipInfo.duration",
+    "value": "Duration"
+  },
+  {
+    "path": "clipInfo.unknown",
+    "value": "(unknown)"
+  },
+  {
+    "path": "clipInfo.lastModified",
+    "value": "Last modified"
+  },
+  {
+    "path": "clipLibrary.title",
+    "value": "AudioClip Library"
+  },
+  {
+    "path": "clipLibrary.addClip",
+    "value": "Add AudioClip"
+  },
+  {
+    "path": "clipLibrary.addNew",
+    "value": "Add New AudioClip"
+  },
+  {
+    "path": "clipLibrary.close",
+    "value": "Close"
+  },
+  {
+    "path": "clipList.heading",
+    "value": "Audio Clips List"
+  },
+  {
+    "path": "clipUpload.title",
+    "value": "Add AudioClip"
+  },
+  {
+    "path": "clipUpload.added",
+    "value": "AudioClip added!"
+  },
+  {
+    "path": "clipUpload.upload",
+    "value": "Upload"
+  },
+  {
+    "path": "collaborators.title",
+    "value": "Collaborators"
+  },
+  {
+    "path": "collaborators.searchPlaceholder",
+    "value": "Search users (min 3 chars)"
+  },
+  {
+    "path": "collaborators.search",
+    "value": "Search"
+  },
+  {
+    "path": "collaborators.remove",
+    "value": "Remove"
+  },
+  {
+    "path": "collaborators.addWrite",
+    "value": "Add (Write)"
+  },
+  {
+    "path": "collaborators.noPermission",
+    "value": "No permission"
+  },
+  {
+    "path": "collaborators.allowAll",
+    "value": "Allow everyone to modify this song"
+  },
+  {
+    "path": "collaborators.currentCollaborators",
+    "value": "Current collaborators"
+  },
+  {
+    "path": "collaborators.none",
+    "value": "None"
+  },
+  {
+    "path": "collaborators.noResults",
+    "value": "No search results"
+  },
+  {
+    "path": "collages.title",
+    "value": "Collages"
+  },
+  {
+    "path": "collages.name",
+    "value": "Collage name"
+  },
+  {
+    "path": "collages.description",
+    "value": "Description"
+  },
+  {
+    "path": "collages.items",
+    "value": "items"
+  },
+  {
+    "path": "collages.empty",
+    "value": "No collages yet."
+  },
+  {
+    "path": "collages.addPhoto",
+    "value": "Add photo"
+  },
+  {
+    "path": "collages.addVideo",
+    "value": "Add video"
+  },
+  {
+    "path": "common.yes",
+    "value": "Yes"
+  },
+  {
+    "path": "common.no",
+    "value": "No"
+  },
+  {
+    "path": "common.save",
+    "value": "Save"
+  },
+  {
+    "path": "common.cancel",
+    "value": "Cancel"
+  },
+  {
+    "path": "common.close",
+    "value": "Close"
+  },
+  {
+    "path": "common.delete",
+    "value": "Delete"
+  },
+  {
+    "path": "common.edit",
+    "value": "Edit"
+  },
+  {
+    "path": "common.add",
+    "value": "Add"
+  },
+  {
+    "path": "common.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "common.prev",
+    "value": "Prev"
+  },
+  {
+    "path": "common.next",
+    "value": "Next"
+  },
+  {
+    "path": "common.back",
+    "value": "Back"
+  },
+  {
+    "path": "common.ok",
+    "value": "OK"
+  },
+  {
+    "path": "common.searchExternal",
+    "value": "Search external..."
+  },
+  {
+    "path": "common.noResults",
+    "value": "No results"
+  },
+  {
+    "path": "common.noTitle",
+    "value": "(no title)"
+  },
+  {
+    "path": "common.select",
+    "value": "Select"
+  },
+  {
+    "path": "common.remove",
+    "value": "Remove"
+  },
+  {
+    "path": "common.hideResults",
+    "value": "Hide Results"
+  },
+  {
+    "path": "common.showResults",
+    "value": "Show Results"
+  },
+  {
+    "path": "common.start",
+    "value": "Start"
+  },
+  {
+    "path": "common.end",
+    "value": "End"
+  },
+  {
+    "path": "common.note",
+    "value": "Note"
+  },
+  {
+    "path": "common.removeVote",
+    "value": "Remove vote"
+  },
+  {
+    "path": "common.votes",
+    "value": "vote(s)"
+  },
+  {
+    "path": "common.update",
+    "value": "Update"
+  },
+  {
+    "path": "common.hideRanking",
+    "value": "Hide Ranking"
+  },
+  {
+    "path": "common.showRanking",
+    "value": "Show Ranking"
+  },
+  {
+    "path": "common.name",
+    "value": "Name"
+  },
+  {
+    "path": "common.import",
+    "value": "Import"
+  },
+  {
+    "path": "common.seconds",
+    "value": "sec"
+  },
+  {
+    "path": "common.saving",
+    "value": "Saving..."
+  },
+  {
+    "path": "common.signups",
+    "value": "signup(s)"
+  },
+  {
+    "path": "common.searching",
+    "value": "Searching..."
+  },
+  {
+    "path": "common.search",
+    "value": "Search"
+  },
+  {
+    "path": "common.reset",
+    "value": "Reset"
+  },
+  {
+    "path": "common.noMatches",
+    "value": "No matches"
+  },
+  {
+    "path": "common.create",
+    "value": "Create"
+  },
+  {
+    "path": "common.updating",
+    "value": "Updating…"
+  },
+  {
+    "path": "createParty.nameLabel",
+    "value": "Name"
+  },
+  {
+    "path": "createParty.posterLabel",
+    "value": "Poster (optional)"
+  },
+  {
+    "path": "dance.stylesReference",
+    "value": "Dance Styles Reference"
+  },
+  {
+    "path": "dance.songIdPlaceholder",
+    "value": "Song ID"
+  },
+  {
+    "path": "dance.modeMatch",
+    "value": "🎵 Match"
+  },
+  {
+    "path": "dance.modeClassify",
+    "value": "🏷️ Classify"
+  },
+  {
+    "path": "dance.modeAnalyze",
+    "value": "📊 Analyze"
+  },
+  {
+    "path": "dance.enterSongId",
+    "value": "Enter a song ID to look up dance information."
+  },
+  {
+    "path": "dance.audioAnalysis",
+    "value": "Audio Analysis"
+  },
+  {
+    "path": "dance.noAnalysis",
+    "value": "No analysis data available."
+  },
+  {
+    "path": "dance.matchResults",
+    "value": "Dance Matches"
+  },
+  {
+    "path": "dance.classifyResults",
+    "value": "Classification Results"
+  },
+  {
+    "path": "dance.style",
+    "value": "Style"
+  },
+  {
+    "path": "dance.confidence",
+    "value": "Confidence"
+  },
+  {
+    "path": "dance.bpm",
+    "value": "BPM"
+  },
+  {
+    "path": "dance.noResults",
+    "value": "No results for this song."
+  },
+  {
+    "path": "dancePage.beta",
+    "value": "Beta"
+  },
+  {
+    "path": "dancePage.description",
+    "value": "Use camera and AI for body position recognition. Match poses, track movement, or analyze 3D video."
+  },
+  {
+    "path": "dancePage.tabPoseGame",
+    "value": " Pose Game"
+  },
+  {
+    "path": "dancePage.poseCamGame",
+    "value": "Pose Cam Game"
+  },
+  {
+    "path": "dancePage.poseCamDesc",
+    "value": "Save a target pose, then match it with your body in front of the camera. The more accurate  the higher the score!"
+  },
+  {
+    "path": "dancePage.tabDetect",
+    "value": " Detect (2D)"
+  },
+  {
+    "path": "dancePage.poseDetect",
+    "value": "Pose Detection  Image"
+  },
+  {
+    "path": "dancePage.poseDetectDesc",
+    "value": "Load a single image and detect 2D poses using an AI engine."
+  },
+  {
+    "path": "dancePage.tabTrack",
+    "value": " Track (Video)"
+  },
+  {
+    "path": "dancePage.poseTrack",
+    "value": "Pose Tracking  Video"
+  },
+  {
+    "path": "dancePage.poseTrackDesc",
+    "value": "Load a video and track body movements frame by frame."
+  },
+  {
+    "path": "dancePage.tab3dLift",
+    "value": " 3D Lift"
+  },
+  {
+    "path": "dancePage.3dLifting",
+    "value": "2D  3D Lifting"
+  },
+  {
+    "path": "dancePage.3dLiftDesc",
+    "value": "Transform a 2D sequence into a 3D pose estimation."
+  },
+  {
+    "path": "dancePage.tabClassify",
+    "value": "🏷️ Classify"
+  },
+  {
+    "path": "dancePage.classifyTitle",
+    "value": "Dance Classification"
+  },
+  {
+    "path": "dancePage.classifyDesc",
+    "value": "Classify songs into dance styles, view matches, and analyze audio parameters."
+  },
+  {
+    "path": "datePresets.label",
+    "value": "Presets"
+  },
+  {
+    "path": "datePresets.thisWeekend",
+    "value": "This weekend"
+  },
+  {
+    "path": "datePresets.nextWeek",
+    "value": "Next week"
+  },
+  {
+    "path": "datePresets.next7Days",
+    "value": "Next 7 days"
+  },
+  {
+    "path": "debug.toggleOpen",
+    "value": "Debug"
+  },
+  {
+    "path": "displaySettingsPage.title",
+    "value": "Display Settings"
+  },
+  {
+    "path": "displaySettingsPage.gradientTitle",
+    "value": "Karaoke Gradient Colors"
+  },
+  {
+    "path": "displaySettingsPage.gradientDesc",
+    "value": "Choose a color preset or create your own custom gradient for sung lyrics."
+  },
+  {
+    "path": "displaySettingsPage.preview",
+    "value": "Live Preview"
+  },
+  {
+    "path": "displaySettingsPage.sungGradient",
+    "value": "Sung Text Gradient"
+  },
+  {
+    "path": "displaySettingsPage.goldGradient",
+    "value": "Gold Notes Gradient"
+  },
+  {
+    "path": "displaySettingsPage.animTitle",
+    "value": "Timeline Animation"
+  },
+  {
+    "path": "displaySettingsPage.animDesc",
+    "value": "Choose how the karaoke timeline animates during singing."
+  },
+  {
+    "path": "displaySettingsPage.fontDesc",
+    "value": "Choose a font for the karaoke timeline canvas and lyrics overlay."
+  },
+  {
+    "path": "displaySettingsPage.saved",
+    "value": "Settings saved!"
+  },
+  {
+    "path": "dmxChannel.offTitle",
+    "value": "Turn off channel (set OFF range)"
+  },
+  {
+    "path": "dmxChannel.turnOffChannel",
+    "value": "Turn off channel (set OFF range)"
+  },
+  {
+    "path": "dmxEditor.mode",
+    "value": "Mode:"
+  },
+  {
+    "path": "dmxEditor.openPort",
+    "value": "Open port"
+  },
+  {
+    "path": "dmxEditor.closePort",
+    "value": "Close port"
+  },
+  {
+    "path": "dmxEditor.applyConfig",
+    "value": "Apply configuration"
+  },
+  {
+    "path": "dmxEditor.channels",
+    "value": "Channels"
+  },
+  {
+    "path": "dmxEditor.pageTitle",
+    "value": "DMX Editor"
+  },
+  {
+    "path": "dmxEditor.pageDescription",
+    "value": "Manage DMX devices, port configuration and channels."
+  },
+  {
+    "path": "dmxEditorPage.title",
+    "value": "DMX Editor"
+  },
+  {
+    "path": "dmxEditorPage.description",
+    "value": "Control DMX lighting via serial port"
+  },
+  {
+    "path": "editor.eqPresets.flat",
+    "value": "Flat"
+  },
+  {
+    "path": "editor.eqPresets.deEsser",
+    "value": "De-Esser"
+  },
+  {
+    "path": "editor.projectName",
+    "value": "Name"
+  },
+  {
+    "path": "editor.sectionName",
+    "value": "Name"
+  },
+  {
+    "path": "editor.solo",
+    "value": "Solo"
+  },
+  {
+    "path": "editor.pan",
+    "value": "Pan"
+  },
+  {
+    "path": "editor.trackAudio",
+    "value": "Audio"
+  },
+  {
+    "path": "editor.trackMidi",
+    "value": "MIDI"
+  },
+  {
+    "path": "editor.instrument",
+    "value": "Instrument"
+  },
+  {
+    "path": "editor.groupPlaceholder",
+    "value": "A/B/1"
+  },
+  {
+    "path": "editor.addEQ3",
+    "value": "+ EQ3"
+  },
+  {
+    "path": "editor.addDelay",
+    "value": "+ Delay"
+  },
+  {
+    "path": "editor.addReverb",
+    "value": "+ Reverb"
+  },
+  {
+    "path": "editor.addClip",
+    "value": "+ Clip"
+  },
+  {
+    "path": "editor.restoreBackup",
+    "value": "Restore Backup"
+  },
+  {
+    "path": "editor.saveFullBackup",
+    "value": "Save Full Backup"
+  },
+  {
+    "path": "editor.youtubePlayerTitle",
+    "value": "YouTube video player"
+  },
+  {
+    "path": "editor.noTitle",
+    "value": "(no title)"
+  },
+  {
+    "path": "editor.songMetadata",
+    "value": "Song Metadata"
+  },
+  {
+    "path": "editor.metadataParseWarning",
+    "value": "Metadata parse warning:"
+  },
+  {
+    "path": "editor.title",
+    "value": "Title"
+  },
+  {
+    "path": "editor.artist",
+    "value": "Artist"
+  },
+  {
+    "path": "editor.album",
+    "value": "Album"
+  },
+  {
+    "path": "editor.genre",
+    "value": "Genre"
+  },
+  {
+    "path": "editor.year",
+    "value": "Year"
+  },
+  {
+    "path": "editor.spotifySearchPlaceholder",
+    "value": "Search artist / title..."
+  },
+  {
+    "path": "editor.applyMetadata",
+    "value": "Apply to Song"
+  },
+  {
+    "path": "editorPanels.autoSaveTitle",
+    "value": "Project auto-save"
+  },
+  {
+    "path": "editorPanels.autoSaveMode",
+    "value": "Auto-save mode"
+  },
+  {
+    "path": "editorPanels.off",
+    "value": "Off"
+  },
+  {
+    "path": "editorPanels.onChange",
+    "value": "On every change"
+  },
+  {
+    "path": "editorPanels.interval",
+    "value": "At set interval"
+  },
+  {
+    "path": "editorPanels.both",
+    "value": "Both"
+  },
+  {
+    "path": "editorPanels.autoSaveFrequency",
+    "value": "Auto-save frequency (seconds)"
+  },
+  {
+    "path": "editorPanels.noteLabel",
+    "value": "Note"
+  },
+  {
+    "path": "editorPanels.autoSaveNote",
+    "value": "Auto-save works locally (localStorage/browser). Manual save (PUT) always overwrites the project on the server."
+  },
+  {
+    "path": "editorPanels.changeHistory",
+    "value": "Project change history"
+  },
+  {
+    "path": "editorPanels.undoTitle",
+    "value": "Undo last change (Ctrl+Z)"
+  },
+  {
+    "path": "editorPanels.undo",
+    "value": "Undo"
+  },
+  {
+    "path": "editorPanels.redoTitle",
+    "value": "Redo change (Ctrl+Y or Ctrl+Shift+Z)"
+  },
+  {
+    "path": "editorPanels.redo",
+    "value": "Redo"
+  },
+  {
+    "path": "editorPanels.undoRedoNote",
+    "value": "Undo/Redo works on the entire project (all editor changes). After each change Redo is cleared."
+  },
+  {
+    "path": "editorPanels.snapBar",
+    "value": "Bar"
+  },
+  {
+    "path": "editorPanels.snapBeat",
+    "value": "Beat"
+  },
+  {
+    "path": "editorPanels.snap16",
+    "value": "1/16"
+  },
+  {
+    "path": "editorPanels.snapSecond",
+    "value": "Second"
+  },
+  {
+    "path": "editorPanels.eqPresets",
+    "value": "EQ Presets"
+  },
+  {
+    "path": "editorPanels.deletePreset",
+    "value": "Delete preset..."
+  },
+  {
+    "path": "editorPanels.presetName",
+    "value": "Preset name..."
+  },
+  {
+    "path": "editorPanels.saveCurrent",
+    "value": "Save Current"
+  },
+  {
+    "path": "editorPanels.countIn",
+    "value": "Count-in (bars)"
+  },
+  {
+    "path": "editorPanels.overdub",
+    "value": "Overdub (play background)"
+  },
+  {
+    "path": "editorPanels.clearPunch",
+    "value": "Clear punch"
+  },
+  {
+    "path": "empire.title",
+    "value": "Empire RTS"
+  },
+  {
+    "path": "empire.pvp",
+    "value": "PvP"
+  },
+  {
+    "path": "empire.teamCount",
+    "value": "Teams"
+  },
+  {
+    "path": "empire.diffNormal",
+    "value": "Normal"
+  },
+  {
+    "path": "empire.onlinePlay",
+    "value": "Online"
+  },
+  {
+    "path": "empire.hudGold",
+    "value": "Gold"
+  },
+  {
+    "path": "empire.hudTimeLeft",
+    "value": "{{sec}}s"
+  },
+  {
+    "path": "empire.buildFarm",
+    "value": "Farm"
+  },
+  {
+    "path": "empire.teamN",
+    "value": "Team {{n}}"
+  },
+  {
+    "path": "empire.controlsPause",
+    "value": "Pause"
+  },
+  {
+    "path": "eventComments.confirmDelete",
+    "value": "Delete this comment?"
+  },
+  {
+    "path": "eventComments.anonymous",
+    "value": "Anonymous"
+  },
+  {
+    "path": "eventComments.reply",
+    "value": "Reply"
+  },
+  {
+    "path": "eventComments.delete",
+    "value": "Delete"
+  },
+  {
+    "path": "eventComments.title",
+    "value": "Comments"
+  },
+  {
+    "path": "eventComments.replyingTo",
+    "value": "Replying to comment"
+  },
+  {
+    "path": "eventComments.cancel",
+    "value": "Cancel"
+  },
+  {
+    "path": "eventComments.placeholder",
+    "value": "Write a comment..."
+  },
+  {
+    "path": "eventComments.posting",
+    "value": "Posting..."
+  },
+  {
+    "path": "eventComments.post",
+    "value": "Post"
+  },
+  {
+    "path": "eventComments.empty",
+    "value": "No comments yet. Start the conversation!"
+  },
+  {
+    "path": "eventMedia.videos",
+    "value": "Filmy"
+  },
+  {
+    "path": "eventMedia.newCollection",
+    "value": "Nowa kolekcja"
+  },
+  {
+    "path": "eventMedia.cancelTag",
+    "value": "Anuluj"
+  },
+  {
+    "path": "eventMedia.editVideo",
+    "value": "Edytuj film"
+  },
+  {
+    "path": "eventPhotos.confirmDelete",
+    "value": "Delete this photo?"
+  },
+  {
+    "path": "eventPhotos.captionPlaceholder",
+    "value": "Caption (optional)"
+  },
+  {
+    "path": "eventPhotos.uploading",
+    "value": "Uploading..."
+  },
+  {
+    "path": "eventPhotos.title",
+    "value": "Event Photos"
+  },
+  {
+    "path": "eventPhotos.empty",
+    "value": "No photos yet. Be the first to upload!"
+  },
+  {
+    "path": "eventPhotos.edit",
+    "value": "Edit"
+  },
+  {
+    "path": "eventPhotos.like",
+    "value": "Like"
+  },
+  {
+    "path": "eventPhotos.delete",
+    "value": "Delete"
+  },
+  {
+    "path": "eventPhotos.editPhoto",
+    "value": "Edit photo"
+  },
+  {
+    "path": "eventVideos.captionPlaceholder",
+    "value": "Podpis (opcjonalnie)"
+  },
+  {
+    "path": "events.confirmDelete",
+    "value": "Permanently delete this event?"
+  },
+  {
+    "path": "events.cancelReason",
+    "value": "Cancellation reason (optional):"
+  },
+  {
+    "path": "events.title",
+    "value": "Events Manager"
+  },
+  {
+    "path": "events.create",
+    "value": "Create Event"
+  },
+  {
+    "path": "events.search",
+    "value": "Search events…"
+  },
+  {
+    "path": "events.newEvent",
+    "value": "New Event"
+  },
+  {
+    "path": "events.editEvent",
+    "value": "Edit Event"
+  },
+  {
+    "path": "events.fieldTitle",
+    "value": "Title"
+  },
+  {
+    "path": "events.fieldDesc",
+    "value": "Description"
+  },
+  {
+    "path": "events.fieldType",
+    "value": "Type"
+  },
+  {
+    "path": "events.fieldAccess",
+    "value": "Access"
+  },
+  {
+    "path": "events.fieldStart",
+    "value": "Start"
+  },
+  {
+    "path": "events.fieldEnd",
+    "value": "End"
+  },
+  {
+    "path": "events.fieldVisibility",
+    "value": "Visibility"
+  },
+  {
+    "path": "events.fieldLocType",
+    "value": "Location Type"
+  },
+  {
+    "path": "events.fieldLocation",
+    "value": "Location Name"
+  },
+  {
+    "path": "events.fieldMax",
+    "value": "Max Participants"
+  },
+  {
+    "path": "events.fieldPoster",
+    "value": "Poster URL"
+  },
+  {
+    "path": "events.fieldWaiting",
+    "value": "Enable waiting list"
+  },
+  {
+    "path": "events.createBtn",
+    "value": "Create"
+  },
+  {
+    "path": "events.saveBtn",
+    "value": "Save Changes"
+  },
+  {
+    "path": "events.cancel",
+    "value": "Cancel"
+  },
+  {
+    "path": "events.noResults",
+    "value": "No events found."
+  },
+  {
+    "path": "explorePage.hello",
+    "value": "Hello World!"
+  },
+  {
+    "path": "externalRadio.subtitle",
+    "value": "Browse free internet radio stations from around the world."
+  },
+  {
+    "path": "externalRadio.allCountries",
+    "value": "All Countries"
+  },
+  {
+    "path": "externalRadio.genre",
+    "value": "Genre"
+  },
+  {
+    "path": "externalRadio.genrePlaceholder",
+    "value": "e.g. rock, jazz, news..."
+  },
+  {
+    "path": "externalRadio.stationsFound",
+    "value": "stations found"
+  },
+  {
+    "path": "externalRadio.website",
+    "value": "Website"
+  },
+  {
+    "path": "fantasy.teams",
+    "value": "Fantasy Teams"
+  },
+  {
+    "path": "fantasy.teamName",
+    "value": "Team name"
+  },
+  {
+    "path": "fantasy.noTeams",
+    "value": "No fantasy teams."
+  },
+  {
+    "path": "fantasy.leaderboard",
+    "value": "Fantasy Leaderboard"
+  },
+  {
+    "path": "features.audioEditor.heading",
+    "value": "Professional Audio Editing"
+  },
+  {
+    "path": "features.audioEditor.subtitle",
+    "value": "A full-featured digital audio workstation right in your browser. Record, edit, mix, and master with studio-grade tools."
+  },
+  {
+    "path": "features.player.heading",
+    "value": "Multiplayer Karaoke Experience"
+  },
+  {
+    "path": "features.player.subtitle",
+    "value": "Full-featured player management with AI-powered scoring, real-time visuals, and competitive game modes."
+  },
+  {
+    "path": "features.karaoke.heading",
+    "value": "Karaoke Song Management"
+  },
+  {
+    "path": "features.karaoke.subtitle",
+    "value": "Edit, create, and manage karaoke files with UltraStar-compatible timing, canvas visuals, and AI scoring."
+  },
+  {
+    "path": "featuresPage.title",
+    "value": "AudioVerse Features"
+  },
+  {
+    "path": "featuresPage.subtitle",
+    "value": "Everything you need for karaoke parties, audio production, and multiplayer musical experiences — all in one platform."
+  },
+  {
+    "path": "featuresPage.cta",
+    "value": "Ready to get started? Jump into karaoke, create a session, or explore the editor."
+  },
+  {
+    "path": "gameSessions.confirmDeleteRound",
+    "value": "Delete this round?"
+  },
+  {
+    "path": "gameSessions.selectSession",
+    "value": "Select a session to score"
+  },
+  {
+    "path": "gameSessions.boardScoring",
+    "value": "Board Game Scoring"
+  },
+  {
+    "path": "gameSessions.videoScoring",
+    "value": "Video Game Scoring"
+  },
+  {
+    "path": "gameSessions.addRound",
+    "value": "Add Round"
+  },
+  {
+    "path": "gameSessions.noRounds",
+    "value": "No rounds yet"
+  },
+  {
+    "path": "gameSessions.round",
+    "value": "Round"
+  },
+  {
+    "path": "gameSessions.addPart",
+    "value": "Add part"
+  },
+  {
+    "path": "gameSessions.noParts",
+    "value": "No parts yet"
+  },
+  {
+    "path": "gameSessions.addPlayer",
+    "value": "Add player"
+  },
+  {
+    "path": "gameSessions.player",
+    "value": "Player"
+  },
+  {
+    "path": "gameSessions.score",
+    "value": "Score"
+  },
+  {
+    "path": "gameSessions.clickToEdit",
+    "value": "Click to edit score"
+  },
+  {
+    "path": "gameSettings.modes.blind",
+    "value": "Blind"
+  },
+  {
+    "path": "gameSettings.modes.elimination",
+    "value": "Elimination"
+  },
+  {
+    "path": "gameSettings.modes.freestyle",
+    "value": "Freestyle"
+  },
+  {
+    "path": "gameSettings.bots",
+    "value": "Bots"
+  },
+  {
+    "path": "gameSettings.normal",
+    "value": "Normal"
+  },
+  {
+    "path": "gameVoiceChat.chat",
+    "value": "Chat"
+  },
+  {
+    "path": "gamepad.title",
+    "value": "Xbox Gamepad Controller"
+  },
+  {
+    "path": "gamepad.noGamepad",
+    "value": "No gamepad detected. Connect an Xbox controller."
+  },
+  {
+    "path": "gamepad.registeredGamepads",
+    "value": "Registered user gamepads"
+  },
+  {
+    "path": "gamepad.visible",
+    "value": "Visible"
+  },
+  {
+    "path": "gamepadBar.prev",
+    "value": "Previous"
+  },
+  {
+    "path": "gamepadBar.next",
+    "value": "Next"
+  },
+  {
+    "path": "gamepadBar.createFirstPlayer",
+    "value": "Create player"
+  },
+  {
+    "path": "genericPlaylist.emptyState",
+    "value": "No songs. Add the first one below."
+  },
+  {
+    "path": "genericPlaylist.addSong",
+    "value": "Add song"
+  },
+  {
+    "path": "genericPlaylist.playlist",
+    "value": "Playlist"
+  },
+  {
+    "path": "genericPlaylist.bulkPasteSummary",
+    "value": "Paste multiple items at once"
+  },
+  {
+    "path": "genericPlaylist.bulkPastePlaceholder",
+    "value": "Paste lines in format:\nArtist - Title (Version)\nArtist  Title [Remastered 2011]\nOR: Artist;Title;Version"
+  },
+  {
+    "path": "genericPlaylist.bulkPasteHint",
+    "value": "Each line will be added as a separate song."
+  },
+  {
+    "path": "genericPlaylist.addFromList",
+    "value": "Add from list"
+  },
+  {
+    "path": "gifts.subtitle",
+    "value": "Create gift lists for events. Share them so guests can contribute to group gifts."
+  },
+  {
+    "path": "gifts.createNew",
+    "value": "New Gift Registry"
+  },
+  {
+    "path": "gifts.namePlaceholder",
+    "value": "e.g. Wedding Gift List"
+  },
+  {
+    "path": "gifts.descPlaceholder",
+    "value": "Description (optional)"
+  },
+  {
+    "path": "gifts.empty",
+    "value": "No gift registries yet."
+  },
+  {
+    "path": "gifts.shared",
+    "value": "Shared Gift Registry"
+  },
+  {
+    "path": "gifts.notFound",
+    "value": "Gift registry not found or link has expired."
+  },
+  {
+    "path": "gifts.closed",
+    "value": "This gift registry is currently closed for contributions."
+  },
+  {
+    "path": "gifts.emptyGifts",
+    "value": "No gifts in this registry yet."
+  },
+  {
+    "path": "gifts.addGift",
+    "value": "Add Gift"
+  },
+  {
+    "path": "gifts.giftNamePlaceholder",
+    "value": "Gift name"
+  },
+  {
+    "path": "gifts.maxPeople",
+    "value": "Max people"
+  },
+  {
+    "path": "gifts.add",
+    "value": "Add"
+  },
+  {
+    "path": "gifts.fullyReserved",
+    "value": "Fully Reserved"
+  },
+  {
+    "path": "gifts.viewProduct",
+    "value": "View Product"
+  },
+  {
+    "path": "gifts.contributors",
+    "value": "contributors"
+  },
+  {
+    "path": "gifts.yourName",
+    "value": "Your name"
+  },
+  {
+    "path": "gifts.amountPlaceholder",
+    "value": "Amount (optional)"
+  },
+  {
+    "path": "gifts.messagePlaceholder",
+    "value": "Message (optional)"
+  },
+  {
+    "path": "gifts.anonymous",
+    "value": "Contribute anonymously"
+  },
+  {
+    "path": "gifts.confirmContribute",
+    "value": "Confirm"
+  },
+  {
+    "path": "gifts.contributionsList",
+    "value": "Contributions:"
+  },
+  {
+    "path": "gifts.anonymousName",
+    "value": "Anonymous"
+  },
+  {
+    "path": "homePage.parties",
+    "value": "Parties"
+  },
+  {
+    "path": "honeyTokenDashboard.title",
+    "value": "HoneyToken Management"
+  },
+  {
+    "path": "honeyTokenDashboard.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "honeyTokenDashboard.errorFetch",
+    "value": "Failed to fetch honeytokens"
+  },
+  {
+    "path": "honeyTokens.triggeredHeading",
+    "value": "Triggered Honeytokens:"
+  },
+  {
+    "path": "honeyTokens.tokenTriggered",
+    "value": "Token #{{id}} triggered at {{time}}"
+  },
+  {
+    "path": "honeyTokens.createError",
+    "value": "Failed to create token"
+  },
+  {
+    "path": "honeyTokens.description",
+    "value": "Description"
+  },
+  {
+    "path": "honeyTokens.creating",
+    "value": "Creating..."
+  },
+  {
+    "path": "honeyTokens.createToken",
+    "value": "Create Token"
+  },
+  {
+    "path": "inputMapping.inputType",
+    "value": "Input Type"
+  },
+  {
+    "path": "inputMapping.device",
+    "value": "Device"
+  },
+  {
+    "path": "inputMapping.action",
+    "value": "Action"
+  },
+  {
+    "path": "inviteTemplates.title",
+    "value": "Invite Templates"
+  },
+  {
+    "path": "inviteTemplates.name",
+    "value": "Template name"
+  },
+  {
+    "path": "inviteTemplates.subject",
+    "value": "Email subject"
+  },
+  {
+    "path": "inviteTemplates.body",
+    "value": "Email body (HTML)"
+  },
+  {
+    "path": "inviteTemplates.bulkTitle",
+    "value": "Bulk Invite"
+  },
+  {
+    "path": "inviteTemplates.noTemplate",
+    "value": "Without template"
+  },
+  {
+    "path": "inviteTemplates.bulkEmails",
+    "value": "Email addresses (comma or newline separated)"
+  },
+  {
+    "path": "inviteTemplates.sendBulk",
+    "value": "Send Bulk Invites"
+  },
+  {
+    "path": "inviteTemplates.jobStatus",
+    "value": "Status"
+  },
+  {
+    "path": "inviteTemplates.jobSent",
+    "value": "Sent"
+  },
+  {
+    "path": "inviteTemplates.jobFailed",
+    "value": "Failed"
+  },
+  {
+    "path": "jamSession.title",
+    "value": "Jam Session"
+  },
+  {
+    "path": "jamSession.preset",
+    "value": "Preset"
+  },
+  {
+    "path": "jamSession.bpm",
+    "value": "BPM"
+  },
+  {
+    "path": "jamSession.mode",
+    "value": "Mode"
+  },
+  {
+    "path": "jamSession.freeplay",
+    "value": "Free Play"
+  },
+  {
+    "path": "jamSession.metronome",
+    "value": "Metronome"
+  },
+  {
+    "path": "jamSession.backingTrack",
+    "value": "Backing Track"
+  },
+  {
+    "path": "jamSession.ready",
+    "value": "Ready"
+  },
+  {
+    "path": "jamSession.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "jamSession.recentEvents",
+    "value": "Recent events"
+  },
+  {
+    "path": "jamSession.noEvents",
+    "value": "Press keys or tap pads to start jamming!"
+  },
+  {
+    "path": "jamSession.players",
+    "value": "Players"
+  },
+  {
+    "path": "joinParty.partyFallback",
+    "value": "Party #{{id}}"
+  },
+  {
+    "path": "joinParty.accessCodePlaceholder",
+    "value": "ABCD-1234"
+  },
+  {
+    "path": "karaoke.sortGenre",
+    "value": "Genre"
+  },
+  {
+    "path": "karaoke.sortLinkedArtist",
+    "value": "Linked Artist"
+  },
+  {
+    "path": "karaoke.gameModes.normal",
+    "value": "Normal"
+  },
+  {
+    "path": "karaoke.gameModes.demo",
+    "value": "Demo (12s)"
+  },
+  {
+    "path": "karaoke.gameModes.pad",
+    "value": "Pad / Gamepad"
+  },
+  {
+    "path": "karaoke.difficulties.normal",
+    "value": "Normal"
+  },
+  {
+    "path": "karaoke.top10",
+    "value": "ðŸÂ† Top 10"
+  },
+  {
+    "path": "karaoke.genre",
+    "value": "Genre"
+  },
+  {
+    "path": "karaoke.year",
+    "value": "Year"
+  },
+  {
+    "path": "karaoke.language",
+    "value": "Language"
+  },
+  {
+    "path": "karaoke.browseBy",
+    "value": "Browse by"
+  },
+  {
+    "path": "karaoke.sourceAll",
+    "value": "All sources"
+  },
+  {
+    "path": "karaoke.linkedAll",
+    "value": "All songs"
+  },
+  {
+    "path": "karaoke.linkedOnly",
+    "value": "With metadata"
+  },
+  {
+    "path": "karaoke.unlinkedOnly",
+    "value": "Without metadata"
+  },
+  {
+    "path": "karaoke.durationFromMin",
+    "value": "Min (min)"
+  },
+  {
+    "path": "karaoke.durationToMin",
+    "value": "Max (min)"
+  },
+  {
+    "path": "karaoke.moveUp",
+    "value": "Move up"
+  },
+  {
+    "path": "karaoke.moveDown",
+    "value": "Move down"
+  },
+  {
+    "path": "karaoke.songPicks",
+    "value": "Song Picks"
+  },
+  {
+    "path": "karaoke.songTitle",
+    "value": "Song Title"
+  },
+  {
+    "path": "karaoke.songId",
+    "value": "Song ID"
+  },
+  {
+    "path": "karaoke.importFromPlaylist",
+    "value": "Import from Playlist ID"
+  },
+  {
+    "path": "karaoke.rankedSongs",
+    "value": "Ranked Songs"
+  },
+  {
+    "path": "karaoke.noSongPicks",
+    "value": "No song picks yet."
+  },
+  {
+    "path": "karaoke.signup",
+    "value": "Sign Up"
+  },
+  {
+    "path": "karaoke.removeSignup",
+    "value": "Remove Signup"
+  },
+  {
+    "path": "karaokeBrowser.fetchError",
+    "value": "Failed to load song data."
+  },
+  {
+    "path": "karaokeBrowser.missingData",
+    "value": "Song is missing required data."
+  },
+  {
+    "path": "karaokeBrowser.noNotes",
+    "value": "Song has no karaoke notes."
+  },
+  {
+    "path": "karaokeBrowser.loadError",
+    "value": "Failed to load song."
+  },
+  {
+    "path": "karaokeBrowser.loadingPlayer",
+    "value": "Loading player data…"
+  },
+  {
+    "path": "karaokeEditor.title",
+    "value": "Karaoke Editor (Preview with audio and lyrics)"
+  },
+  {
+    "path": "karaokeEditor.editHint",
+    "value": "Drag syllable edges to adjust timing; hold Shift to snap to beat grid."
+  },
+  {
+    "path": "karaokeEditor.noText",
+    "value": "No text"
+  },
+  {
+    "path": "karaokeManager.ytNoData",
+    "value": " No artist/title data for search"
+  },
+  {
+    "path": "karaokeManager.ytSearching",
+    "value": " Searching YouTube..."
+  },
+  {
+    "path": "karaokeManager.ytNotFound",
+    "value": " Not found on YouTube"
+  },
+  {
+    "path": "karaokeManager.ytSearchError",
+    "value": " Search error"
+  },
+  {
+    "path": "karaokeManager.padHint",
+    "value": "Hit notes with keys or pad!"
+  },
+  {
+    "path": "karaokeManager.padDiffHint",
+    "value": "Higher difficulty = more keys."
+  },
+  {
+    "path": "karaokeManager.micHint",
+    "value": "Browser requires a click to unlock"
+  },
+  {
+    "path": "karaokeManager.micHint2",
+    "value": "microphone and audio playback."
+  },
+  {
+    "path": "karaokeManager.padActivate",
+    "value": "Pad Mode  Activate audio"
+  },
+  {
+    "path": "karaokeManager.activateAudio",
+    "value": "Activate audio"
+  },
+  {
+    "path": "karaokeManager.playerRecordings",
+    "value": "Player Recordings"
+  },
+  {
+    "path": "karaokeManager.playerN",
+    "value": "Player {{id}}"
+  },
+  {
+    "path": "karaokeManager.download",
+    "value": "Download"
+  },
+  {
+    "path": "karaokeManager.noRecording",
+    "value": "No recording"
+  },
+  {
+    "path": "karaokeManager.player",
+    "value": "Player"
+  },
+  {
+    "path": "karaokeManager.score",
+    "value": "Score"
+  },
+  {
+    "path": "karaokeManager.micLostReconnect",
+    "value": "Reconnect — game will resume automatically. Click to dismiss."
+  },
+  {
+    "path": "karaokeProjects.loadError",
+    "value": "Could not load karaoke projects. The server may be unavailable."
+  },
+  {
+    "path": "karaokeRound.partyFallback",
+    "value": "Party #{{id}}"
+  },
+  {
+    "path": "karaokeRound.karaoke",
+    "value": "Karaoke"
+  },
+  {
+    "path": "karaokeSummary.localRanking",
+    "value": "🏠 Session Ranking"
+  },
+  {
+    "path": "karaokeSummary.globalRanking",
+    "value": "🏆 Top 10"
+  },
+  {
+    "path": "karaokeSummary.report",
+    "value": "Report"
+  },
+  {
+    "path": "karaokeSummary.restart",
+    "value": "Restart"
+  },
+  {
+    "path": "karaokeSummary.continue",
+    "value": "Continue"
+  },
+  {
+    "path": "karaokeUploader.dropPrompt",
+    "value": "Click or drag & drop to upload an Ultrastar file (.txt)"
+  },
+  {
+    "path": "karaokeUploader.changeSong",
+    "value": "Change Song"
+  },
+  {
+    "path": "keyboardPad.enableAudio",
+    "value": " Click to enable audio"
+  },
+  {
+    "path": "keyboardPad.eqTooltip",
+    "value": "Adjust frequency gain for each note"
+  },
+  {
+    "path": "languageSwitcher.changeLanguage",
+    "value": "Change language"
+  },
+  {
+    "path": "latency.status",
+    "value": "Status:"
+  },
+  {
+    "path": "latencyCalibrator.title",
+    "value": "Latency Calibrator  microphone"
+  },
+  {
+    "path": "latencyCalibrator.requestingMic",
+    "value": "Requesting microphone... click allow if prompted"
+  },
+  {
+    "path": "latencyCalibrator.playingTone",
+    "value": "Playing test tone and recording..."
+  },
+  {
+    "path": "latencyCalibrator.noSignal",
+    "value": "No signal detected  try louder or check microphone"
+  },
+  {
+    "path": "latencyCalibrator.calibrationError",
+    "value": "Calibration error: "
+  },
+  {
+    "path": "latencyCalibrator.savedLocally",
+    "value": "Saved locally (no mic record on backend)"
+  },
+  {
+    "path": "latencyCalibrator.savedBackend",
+    "value": "Saved to profile (backend)"
+  },
+  {
+    "path": "latencyCalibrator.saveError",
+    "value": "Save error: "
+  },
+  {
+    "path": "latencyCalibrator.calibrate",
+    "value": "Calibrate"
+  },
+  {
+    "path": "latencyCalibrator.clear",
+    "value": "Clear"
+  },
+  {
+    "path": "latencyCalibrator.status",
+    "value": "Status"
+  },
+  {
+    "path": "latencyCalibrator.none",
+    "value": "none"
+  },
+  {
+    "path": "latencyCalibrator.measuredOffset",
+    "value": "Measured offset"
+  },
+  {
+    "path": "latencyCalibrator.saveBackend",
+    "value": "Save (to backend)"
+  },
+  {
+    "path": "latencyCalibrator.close",
+    "value": "Close"
+  },
+  {
+    "path": "latencyCalibrator.rounds",
+    "value": "Rounds"
+  },
+  {
+    "path": "layerDetails.audioLayer",
+    "value": "Audio Layer"
+  },
+  {
+    "path": "layerDetails.layerName",
+    "value": "Layer name"
+  },
+  {
+    "path": "layerDetails.saveLayer",
+    "value": "Save layer"
+  },
+  {
+    "path": "leagues.title",
+    "value": "Leagues"
+  },
+  {
+    "path": "leagues.name",
+    "value": "League name"
+  },
+  {
+    "path": "leagues.description",
+    "value": "Description"
+  },
+  {
+    "path": "leagues.empty",
+    "value": "No leagues yet."
+  },
+  {
+    "path": "leagues.generateSchedule",
+    "value": "Schedule"
+  },
+  {
+    "path": "leagues.participantName",
+    "value": "Participant name"
+  },
+  {
+    "path": "leagues.addParticipant",
+    "value": "+ Add"
+  },
+  {
+    "path": "leagues.standings",
+    "value": "Standings"
+  },
+  {
+    "path": "leagues.fantasy",
+    "value": "Fantasy"
+  },
+  {
+    "path": "leagues.noStandings",
+    "value": "No standings data."
+  },
+  {
+    "path": "leagues.participant",
+    "value": "Player"
+  },
+  {
+    "path": "leagues.points",
+    "value": "Pts"
+  },
+  {
+    "path": "lfo.title",
+    "value": "LFO"
+  },
+  {
+    "path": "library.catalogTitle",
+    "value": "Library Catalog"
+  },
+  {
+    "path": "library.catalogDesc",
+    "value": "Manage songs, albums, artists, audio files, and folder scan/import."
+  },
+  {
+    "path": "library.search",
+    "value": "Search…"
+  },
+  {
+    "path": "library.addSong",
+    "value": "Add Song"
+  },
+  {
+    "path": "library.addAlbum",
+    "value": "Add Album"
+  },
+  {
+    "path": "library.addArtist",
+    "value": "Add Artist"
+  },
+  {
+    "path": "library.scanTitle",
+    "value": "Scan & Import Folder"
+  },
+  {
+    "path": "library.scanDesc",
+    "value": "Scan a server folder for audio files and auto-import them into the library catalog."
+  },
+  {
+    "path": "library.folderPath",
+    "value": "Folder Path"
+  },
+  {
+    "path": "library.scanBtn",
+    "value": "Scan & Import"
+  },
+  {
+    "path": "library.scanDone",
+    "value": "Scan and import completed!"
+  },
+  {
+    "path": "library.scanError",
+    "value": "Scan failed. Check the folder path."
+  },
+  {
+    "path": "libraryActions.playNow",
+    "value": "Play now"
+  },
+  {
+    "path": "libraryActions.addToQueue",
+    "value": "Add to queue"
+  },
+  {
+    "path": "libraryActions.addToPlaylist",
+    "value": "Add to playlist"
+  },
+  {
+    "path": "libraryExplorer.noFiles",
+    "value": "No files."
+  },
+  {
+    "path": "libraryExplorer.colFile",
+    "value": "File"
+  },
+  {
+    "path": "libraryExplorer.colType",
+    "value": "Type"
+  },
+  {
+    "path": "libraryExplorer.colActions",
+    "value": "Actions"
+  },
+  {
+    "path": "libraryExplorer.library",
+    "value": "Library"
+  },
+  {
+    "path": "libraryExplorer.streaming",
+    "value": "Streaming"
+  },
+  {
+    "path": "libraryExplorer.openInEditor",
+    "value": "Open in Editor"
+  },
+  {
+    "path": "libraryExplorer.play",
+    "value": "Play"
+  },
+  {
+    "path": "libraryExplorer.searchPlaceholder",
+    "value": "Search..."
+  },
+  {
+    "path": "libraryExplorer.searchLibrary",
+    "value": "Search library"
+  },
+  {
+    "path": "libraryExplorer.clear",
+    "value": "Clear"
+  },
+  {
+    "path": "libraryList.searchAudio",
+    "value": "Search library (Audio)..."
+  },
+  {
+    "path": "libraryList.searchUltrastar",
+    "value": "Search Ultrastar..."
+  },
+  {
+    "path": "libraryLists.cover",
+    "value": "Cover"
+  },
+  {
+    "path": "libraryLists.format",
+    "value": "Format"
+  },
+  {
+    "path": "librarySearch.searchPlaceholder",
+    "value": "Search..."
+  },
+  {
+    "path": "librarySearch.typeToSearch",
+    "value": "Type to search..."
+  },
+  {
+    "path": "librarySearch.searching",
+    "value": "Searching..."
+  },
+  {
+    "path": "librarySearch.noResults",
+    "value": "No results."
+  },
+  {
+    "path": "librarySearch.clearSelection",
+    "value": "Clear selection"
+  },
+  {
+    "path": "libraryTabs.audio",
+    "value": "Audio"
+  },
+  {
+    "path": "libraryTabs.ultrastar",
+    "value": "Ultrastar"
+  },
+  {
+    "path": "liveScore.title",
+    "value": "Live Score"
+  },
+  {
+    "path": "liveScore.pageTitle",
+    "value": "Live Singing Score"
+  },
+  {
+    "path": "liveScore.pageDescription",
+    "value": "Test the live singing score endpoint. Start the microphone, sing, and see your score in real time. This helps verify the effectiveness of the scoring algorithm."
+  },
+  {
+    "path": "liveScore.settingsHint",
+    "value": "Test the live singing score endpoint to verify accuracy."
+  },
+  {
+    "path": "liveScore.start",
+    "value": "Start"
+  },
+  {
+    "path": "liveScore.stop",
+    "value": "Stop"
+  },
+  {
+    "path": "liveScore.perfect",
+    "value": "Perfect!"
+  },
+  {
+    "path": "liveScore.great",
+    "value": "Great"
+  },
+  {
+    "path": "liveScore.good",
+    "value": "Good"
+  },
+  {
+    "path": "liveScore.ok",
+    "value": "OK"
+  },
+  {
+    "path": "liveScore.miss",
+    "value": "Miss"
+  },
+  {
+    "path": "liveScore.average",
+    "value": "Average"
+  },
+  {
+    "path": "liveScore.connectionLost",
+    "value": "Connection lost — retries exhausted"
+  },
+  {
+    "path": "locations.selectPlaceholder",
+    "value": "Select a location..."
+  },
+  {
+    "path": "locations.searchTab",
+    "value": "Search"
+  },
+  {
+    "path": "locations.savedTab",
+    "value": "Saved"
+  },
+  {
+    "path": "locations.searchPlaceholder",
+    "value": "Restauracja, klub, adres…"
+  },
+  {
+    "path": "locations.noResults",
+    "value": "No results"
+  },
+  {
+    "path": "locations.noSaved",
+    "value": "No saved locations"
+  },
+  {
+    "path": "locations.title",
+    "value": "Lokalizacje i mapa"
+  },
+  {
+    "path": "locations.myLocation",
+    "value": "Moja lokalizacja"
+  },
+  {
+    "path": "locations.searchTitle",
+    "value": "Wyszukaj miejsce"
+  },
+  {
+    "path": "locations.search",
+    "value": "Szukaj"
+  },
+  {
+    "path": "locations.results",
+    "value": "Wyniki"
+  },
+  {
+    "path": "locations.selectPlace",
+    "value": "Wybierz"
+  },
+  {
+    "path": "locations.detailsFromGoogle",
+    "value": "Dane Google Places"
+  },
+  {
+    "path": "locations.hours",
+    "value": "Godziny"
+  },
+  {
+    "path": "locations.timezone",
+    "value": "Strefa czasowa"
+  },
+  {
+    "path": "locations.findNearby",
+    "value": "Szukaj"
+  },
+  {
+    "path": "locations.noNearby",
+    "value": "Brak imprez w podanym promieniu."
+  },
+  {
+    "path": "locations.reverseTitle",
+    "value": "Odwrotne geokodowanie"
+  },
+  {
+    "path": "locations.directionsTitle",
+    "value": "Trasa A → B"
+  },
+  {
+    "path": "locations.origin",
+    "value": "Punkt A (start)"
+  },
+  {
+    "path": "locations.destination",
+    "value": "Punkt B (cel)"
+  },
+  {
+    "path": "locations.distance",
+    "value": "Dystans"
+  },
+  {
+    "path": "locations.duration",
+    "value": "Czas"
+  },
+  {
+    "path": "locations.steps",
+    "value": "Kroki nawigacji"
+  },
+  {
+    "path": "logFilter.allActions",
+    "value": "All Actions"
+  },
+  {
+    "path": "loginAttemptsPage.ip",
+    "value": "IP"
+  },
+  {
+    "path": "loginPage.title",
+    "value": "Login"
+  },
+  {
+    "path": "lookup.all",
+    "value": "Wszystkie"
+  },
+  {
+    "path": "lookup.searchPlaceholder",
+    "value": "Szukaj..."
+  },
+  {
+    "path": "lookup.orKey",
+    "value": "lub"
+  },
+  {
+    "path": "lookup.switchMode",
+    "value": "zmiana trybu"
+  },
+  {
+    "path": "lookup.info",
+    "value": "Informacje"
+  },
+  {
+    "path": "magicDecks.menuTitle",
+    "value": "Magic Decks TCG"
+  },
+  {
+    "path": "magicDecks.tutorial.skip",
+    "value": "Skip"
+  },
+  {
+    "path": "magicDecks.tutorial.next",
+    "value": "Next →"
+  },
+  {
+    "path": "magicDecks.tutorial.finish",
+    "value": "Start Playing!"
+  },
+  {
+    "path": "magicDecks.campaign.title",
+    "value": "⚔️ Campaign"
+  },
+  {
+    "path": "magicDecks.campaign.subtitle",
+    "value": "Battle through chapters to earn cards and XP"
+  },
+  {
+    "path": "magicDecks.campaign.complete",
+    "value": "Complete"
+  },
+  {
+    "path": "magicDecks.campaign.inProgress",
+    "value": "In Progress"
+  },
+  {
+    "path": "magicDecks.campaign.reward",
+    "value": "Reward"
+  },
+  {
+    "path": "magicDecks.campaign.cards",
+    "value": "cards"
+  },
+  {
+    "path": "magicDecks.campaign.skirmishTitle",
+    "value": "🎲 Looking for Trouble"
+  },
+  {
+    "path": "magicDecks.campaign.skirmishDesc",
+    "value": "Fight a random opponent at your level. Capture cards by defeating them decisively!"
+  },
+  {
+    "path": "magicDecks.campaign.fight",
+    "value": "⚔️ Fight!"
+  },
+  {
+    "path": "magicDecks.campaign.reroll",
+    "value": "🔄 Different opponent"
+  },
+  {
+    "path": "magicDecks.campaign.lookForTrouble",
+    "value": "🎲 Find Opponent"
+  },
+  {
+    "path": "magicDecks.online",
+    "value": "Online"
+  },
+  {
+    "path": "magicDecks.deckBuilder.title",
+    "value": "🔧 Deck Builder"
+  },
+  {
+    "path": "magicDecks.deckBuilder.all",
+    "value": "All"
+  },
+  {
+    "path": "magicDecks.deckBuilder.deckName",
+    "value": "Deck name..."
+  },
+  {
+    "path": "magicDecks.deckBuilder.cards",
+    "value": "cards"
+  },
+  {
+    "path": "magicDecks.deckBuilder.clickToRemove",
+    "value": "Click to remove"
+  },
+  {
+    "path": "magicDecks.deckBuilder.save",
+    "value": "💾 Save Deck"
+  },
+  {
+    "path": "magicDecks.boss",
+    "value": "Boss"
+  },
+  {
+    "path": "magicDecks.tutorialManaTitle",
+    "value": "Mana"
+  },
+  {
+    "path": "magicDecks.tutorialEvolveTitle",
+    "value": "Evolution"
+  },
+  {
+    "path": "magicDecks.menu.title",
+    "value": "🃏 Magic Decks TCG"
+  },
+  {
+    "path": "magicDecks.menu.level",
+    "value": "Lv."
+  },
+  {
+    "path": "magicDecks.menu.tutorial",
+    "value": "Tutorial"
+  },
+  {
+    "path": "magicDecks.menu.online",
+    "value": "Online"
+  },
+  {
+    "path": "magicDecks.shop.tier_bronze",
+    "value": "Bronze"
+  },
+  {
+    "path": "magicDecks.shop.tier_gold",
+    "value": "Gold"
+  },
+  {
+    "path": "magicDecks.rating.synergy",
+    "value": "Synergy"
+  },
+  {
+    "path": "magicDecks.rating.curve",
+    "value": "Curve"
+  },
+  {
+    "path": "magicDecks.rating.power",
+    "value": "Power"
+  },
+  {
+    "path": "magicDecks.rating.overall",
+    "value": "Overall"
+  },
+  {
+    "path": "media.books.title",
+    "value": "Books"
+  },
+  {
+    "path": "media.books.createTitle",
+    "value": "Add Book"
+  },
+  {
+    "path": "media.books.lookupPlaceholder",
+    "value": "Search OpenLibrary / Google Books to auto-fill..."
+  },
+  {
+    "path": "media.books.titleField",
+    "value": "Title"
+  },
+  {
+    "path": "media.books.author",
+    "value": "Author"
+  },
+  {
+    "path": "media.books.description",
+    "value": "Description"
+  },
+  {
+    "path": "media.books.search",
+    "value": "Search your books..."
+  },
+  {
+    "path": "media.books.empty",
+    "value": "No books yet. Use the lookup above to import from external sources."
+  },
+  {
+    "path": "media.movies.title",
+    "value": "Movies"
+  },
+  {
+    "path": "media.movies.createTitle",
+    "value": "Add Movie"
+  },
+  {
+    "path": "media.movies.lookupPlaceholder",
+    "value": "Search TMDb to auto-fill..."
+  },
+  {
+    "path": "media.movies.titleField",
+    "value": "Title"
+  },
+  {
+    "path": "media.movies.director",
+    "value": "Director"
+  },
+  {
+    "path": "media.movies.releaseDate",
+    "value": "Release date"
+  },
+  {
+    "path": "media.movies.description",
+    "value": "Description"
+  },
+  {
+    "path": "media.movies.search",
+    "value": "Search your movies..."
+  },
+  {
+    "path": "media.movies.empty",
+    "value": "No movies yet. Use the lookup above to import from TMDb."
+  },
+  {
+    "path": "media.sports.title",
+    "value": "Sports"
+  },
+  {
+    "path": "media.sports.createTitle",
+    "value": "Add Sport Activity"
+  },
+  {
+    "path": "media.sports.lookupPlaceholder",
+    "value": "Search TheSportsDB to auto-fill..."
+  },
+  {
+    "path": "media.sports.name",
+    "value": "Event name"
+  },
+  {
+    "path": "media.sports.sport",
+    "value": "Sport"
+  },
+  {
+    "path": "media.sports.league",
+    "value": "League"
+  },
+  {
+    "path": "media.sports.homeTeam",
+    "value": "Home team"
+  },
+  {
+    "path": "media.sports.awayTeam",
+    "value": "Away team"
+  },
+  {
+    "path": "media.sports.venue",
+    "value": "Venue"
+  },
+  {
+    "path": "media.sports.search",
+    "value": "Search your sport activities..."
+  },
+  {
+    "path": "media.sports.empty",
+    "value": "No sport activities yet. Use the lookup above to search TheSportsDB."
+  },
+  {
+    "path": "media.sports.leagues",
+    "value": "Leagues & Upcoming Events"
+  },
+  {
+    "path": "media.sports.selectLeague",
+    "value": "Select a league..."
+  },
+  {
+    "path": "media.sports.noUpcoming",
+    "value": "No upcoming events for this league."
+  },
+  {
+    "path": "media.tv.title",
+    "value": "TV Shows"
+  },
+  {
+    "path": "media.tv.createTitle",
+    "value": "Add TV Show"
+  },
+  {
+    "path": "media.tv.lookupPlaceholder",
+    "value": "Search TMDb to auto-fill..."
+  },
+  {
+    "path": "media.tv.titleField",
+    "value": "Title"
+  },
+  {
+    "path": "media.tv.creator",
+    "value": "Creator"
+  },
+  {
+    "path": "media.tv.firstAirDate",
+    "value": "First air date"
+  },
+  {
+    "path": "media.tv.description",
+    "value": "Description"
+  },
+  {
+    "path": "media.tv.search",
+    "value": "Search your TV shows..."
+  },
+  {
+    "path": "media.tv.seasons",
+    "value": "seasons"
+  },
+  {
+    "path": "media.tv.empty",
+    "value": "No TV shows yet. Use the lookup above to import from TMDb."
+  },
+  {
+    "path": "midiSeed.demo",
+    "value": "MIDI Seed Demo"
+  },
+  {
+    "path": "midiSeed.key",
+    "value": "Key"
+  },
+  {
+    "path": "midiSeed.scale",
+    "value": "Scale"
+  },
+  {
+    "path": "midiSeed.tempo",
+    "value": "Tempo"
+  },
+  {
+    "path": "midiSeed.bars",
+    "value": "Bars"
+  },
+  {
+    "path": "midiSeed.progression",
+    "value": "Progression"
+  },
+  {
+    "path": "midiSeed.drums",
+    "value": "Drums"
+  },
+  {
+    "path": "midiSeed.density",
+    "value": "Melody density"
+  },
+  {
+    "path": "midiSeed.octave",
+    "value": "Octave"
+  },
+  {
+    "path": "midiSeed.seed",
+    "value": "Seed"
+  },
+  {
+    "path": "midiSeed.generate",
+    "value": "Generate"
+  },
+  {
+    "path": "midiSeed.importToEditor",
+    "value": "Import to editor"
+  },
+  {
+    "path": "midiSeed.importTooltip",
+    "value": "Imports generated MIDI notes into current project layers"
+  },
+  {
+    "path": "midiSeed.notesInLayers",
+    "value": "{{count}} notes in {{layers}} layers"
+  },
+  {
+    "path": "midiSeed.barsUnit",
+    "value": "bars"
+  },
+  {
+    "path": "midiSeed.random",
+    "value": "random"
+  },
+  {
+    "path": "miniGames.tron",
+    "value": "Tron"
+  },
+  {
+    "path": "miniGames.pong",
+    "value": "Pong"
+  },
+  {
+    "path": "miniGames.sumo",
+    "value": "Sumo"
+  },
+  {
+    "path": "miniGames.breakout",
+    "value": "Breakout"
+  },
+  {
+    "path": "miniGames.hockey",
+    "value": "Hockey"
+  },
+  {
+    "path": "miniGames.volleyball",
+    "value": "Volleyball"
+  },
+  {
+    "path": "miniGames.lava",
+    "value": "Lava"
+  },
+  {
+    "path": "miniGames.simon",
+    "value": "Simon"
+  },
+  {
+    "path": "miniGames.normal",
+    "value": "Normal"
+  },
+  {
+    "path": "miniGames.kart",
+    "value": "Kart"
+  },
+  {
+    "path": "miniGames.versus",
+    "value": "Versus"
+  },
+  {
+    "path": "miniGames.team",
+    "value": "Team"
+  },
+  {
+    "path": "miniGames.multiball",
+    "value": "Multiball"
+  },
+  {
+    "path": "miniGames.deathmatch",
+    "value": "Deathmatch"
+  },
+  {
+    "path": "miniGames.marathon",
+    "value": "Marathon"
+  },
+  {
+    "path": "miniGames.bestOfFive",
+    "value": "Best of Five"
+  },
+  {
+    "path": "miniGames.remoteWindow",
+    "value": "Remote"
+  },
+  {
+    "path": "miniGames.flatworldSurvival",
+    "value": "Flatworld Survival"
+  },
+  {
+    "path": "miniGames.soldat",
+    "value": "Flatworld Survival"
+  },
+  {
+    "path": "miniGames.buggy",
+    "value": "Buggy"
+  },
+  {
+    "path": "miniGames.hungerLabel",
+    "value": "Hunger"
+  },
+  {
+    "path": "miniGames.teamWins",
+    "value": "Team Wins!"
+  },
+  {
+    "path": "miniGames.defeated",
+    "value": "The dungeon has claimed your party..."
+  },
+  {
+    "path": "miniGames.survived",
+    "value": "Survived"
+  },
+  {
+    "path": "miniGames.explore",
+    "value": "Explore"
+  },
+  {
+    "path": "miniGames.vsWasteland",
+    "value": "VS Wasteland"
+  },
+  {
+    "path": "miniGames.mapSize",
+    "value": "Map Size"
+  },
+  {
+    "path": "miniGames.startingGear",
+    "value": "Starting Gear"
+  },
+  {
+    "path": "miniGames.basic",
+    "value": "Basic"
+  },
+  {
+    "path": "miniGames.military",
+    "value": "Military"
+  },
+  {
+    "path": "miniGames.scavenger",
+    "value": "Scavenger"
+  },
+  {
+    "path": "miniGames.fallout",
+    "value": "Fallout"
+  },
+  {
+    "path": "miniGames.turnMode",
+    "value": "Turn Mode"
+  },
+  {
+    "path": "miniGames.turnBased",
+    "value": "Turn-Based"
+  },
+  {
+    "path": "miniGames.realTime",
+    "value": "Real-Time"
+  },
+  {
+    "path": "miniGames.combatMode",
+    "value": "Combat Mode"
+  },
+  {
+    "path": "miniGames.classicCombat",
+    "value": "Classic (endgame scoring)"
+  },
+  {
+    "path": "miniGames.immediateCombat",
+    "value": "Immediate (resolve on contact)"
+  },
+  {
+    "path": "miniGames.gameDuration",
+    "value": "Game Duration"
+  },
+  {
+    "path": "miniGames.fiveMin",
+    "value": "5 Minutes"
+  },
+  {
+    "path": "miniGames.eightMin",
+    "value": "8 Minutes"
+  },
+  {
+    "path": "miniGames.twelveMin",
+    "value": "12 Minutes"
+  },
+  {
+    "path": "miniGames.eightMinuteEmpire",
+    "value": "Eight Minute Empire"
+  },
+  {
+    "path": "miniGames.victory",
+    "value": "Victory!"
+  },
+  {
+    "path": "miniGames.continue",
+    "value": "Continue"
+  },
+  {
+    "path": "miniGames.conquest",
+    "value": "Conquest (60% systems)"
+  },
+  {
+    "path": "miniGames.coopCampaign",
+    "value": "Co-op Campaign"
+  },
+  {
+    "path": "miniGames.vsSkirmish",
+    "value": "VS Skirmish"
+  },
+  {
+    "path": "miniGames.heroesOfMightAndMagic",
+    "value": "Heroes of Might & Magic"
+  },
+  {
+    "path": "miniGames.coopRaid",
+    "value": "Co-op Raid"
+  },
+  {
+    "path": "miniGames.draft",
+    "value": "Draft (pick cards first)"
+  },
+  {
+    "path": "miniGames.startingLife",
+    "value": "Starting Life"
+  },
+  {
+    "path": "miniGames.deckStyle",
+    "value": "Deck Style"
+  },
+  {
+    "path": "miniGames.aggro",
+    "value": "Aggro"
+  },
+  {
+    "path": "miniGames.control",
+    "value": "Control"
+  },
+  {
+    "path": "miniGames.balanced",
+    "value": "Balanced"
+  },
+  {
+    "path": "miniGames.magicTheGathering",
+    "value": "Magic The Gathering"
+  },
+  {
+    "path": "miniGames.freeRoam",
+    "value": "Free Roam"
+  },
+  {
+    "path": "miniGames.vsRampage",
+    "value": "VS Rampage"
+  },
+  {
+    "path": "miniGames.coopHeist",
+    "value": "Co-op Heist"
+  },
+  {
+    "path": "miniGames.policeAggression",
+    "value": "Police Aggression"
+  },
+  {
+    "path": "miniGames.citySize",
+    "value": "City Size"
+  },
+  {
+    "path": "miniGames.gta2",
+    "value": "GTA 2"
+  },
+  {
+    "path": "miniGames.idle",
+    "value": "Idle (Free Play)"
+  },
+  {
+    "path": "miniGames.vsRace",
+    "value": "VS Race"
+  },
+  {
+    "path": "miniGames.coopTarget",
+    "value": "Co-op Target"
+  },
+  {
+    "path": "miniGames.timeLimit",
+    "value": "Time Limit"
+  },
+  {
+    "path": "miniGames.startingCash",
+    "value": "Starting Cash"
+  },
+  {
+    "path": "miniGames.adventureCapitalist",
+    "value": "Adventure Capitalist"
+  },
+  {
+    "path": "miniGames.career",
+    "value": "Career"
+  },
+  {
+    "path": "miniGames.vsTycoon",
+    "value": "VS Tycoon"
+  },
+  {
+    "path": "miniGames.coopDealers",
+    "value": "Co-op — Dealers"
+  },
+  {
+    "path": "miniGames.startingBudget",
+    "value": "Starting Budget"
+  },
+  {
+    "path": "miniGames.auctionHouse",
+    "value": "Auction House"
+  },
+  {
+    "path": "miniGames.gather",
+    "value": "Gather (collect only, no enemies)"
+  },
+  {
+    "path": "miniGames.combo",
+    "value": "Combo (gather + survival)"
+  },
+  {
+    "path": "miniGames.spawnRate",
+    "value": "Spawn Rate"
+  },
+  {
+    "path": "miniGames.frenzy",
+    "value": "Frenzy"
+  },
+  {
+    "path": "miniGames.startingWeapon",
+    "value": "Starting Weapon"
+  },
+  {
+    "path": "miniGames.singleShot",
+    "value": "Single Shot"
+  },
+  {
+    "path": "miniGames.spread",
+    "value": "Spread (3 projectiles)"
+  },
+  {
+    "path": "miniGames.rapid",
+    "value": "Rapid Fire"
+  },
+  {
+    "path": "miniGames.autoSurvivors",
+    "value": "Auto Survivors"
+  },
+  {
+    "path": "miniGames.skirmish",
+    "value": "Skirmish (FFA)"
+  },
+  {
+    "path": "miniGames.goldPerVillage",
+    "value": "Gold per Village"
+  },
+  {
+    "path": "miniGames.battleOfWesnoth",
+    "value": "Battle of Wesnoth"
+  },
+  {
+    "path": "miniGames.vsDistance",
+    "value": "VS — Distance"
+  },
+  {
+    "path": "miniGames.laneCount",
+    "value": "Lane Count"
+  },
+  {
+    "path": "miniGames.startSpeed",
+    "value": "Start Speed"
+  },
+  {
+    "path": "miniGames.carDodge",
+    "value": "Car Dodge"
+  },
+  {
+    "path": "miniGames.science",
+    "value": "Science (all techs)"
+  },
+  {
+    "path": "miniGames.timedScore",
+    "value": "Timed — High Score"
+  },
+  {
+    "path": "miniGames.standard",
+    "value": "Standard"
+  },
+  {
+    "path": "miniGames.gameSpeed",
+    "value": "Game Speed"
+  },
+  {
+    "path": "miniGames.civilization",
+    "value": "Civilization"
+  },
+  {
+    "path": "miniGames.campaign",
+    "value": "Campaign"
+  },
+  {
+    "path": "miniGames.vsDeathmatch",
+    "value": "VS Deathmatch"
+  },
+  {
+    "path": "miniGames.levelSize",
+    "value": "Level Size"
+  },
+  {
+    "path": "miniGames.weaponStart",
+    "value": "Starting Weapon"
+  },
+  {
+    "path": "miniGames.fistOnly",
+    "value": "Fist Only"
+  },
+  {
+    "path": "miniGames.pistol",
+    "value": "Pistol"
+  },
+  {
+    "path": "miniGames.shotgun",
+    "value": "Shotgun"
+  },
+  {
+    "path": "miniGames.doom",
+    "value": "Doom"
+  },
+  {
+    "path": "miniGames.coopWin",
+    "value": "Everyone"
+  },
+  {
+    "path": "miniGames.coopLose",
+    "value": "Too slow!"
+  },
+  {
+    "path": "miniGames.singleRace",
+    "value": "Single Race"
+  },
+  {
+    "path": "miniGames.coopRelay",
+    "value": "Co-op Relay"
+  },
+  {
+    "path": "miniGames.raceCount",
+    "value": "Race Count"
+  },
+  {
+    "path": "miniGames.startingMoney",
+    "value": "Starting Money"
+  },
+  {
+    "path": "miniGames.rich",
+    "value": "Rich"
+  },
+  {
+    "path": "miniGames.dragRacing",
+    "value": "Drag Racing"
+  },
+  {
+    "path": "miniGames.adventure",
+    "value": "Adventure"
+  },
+  {
+    "path": "miniGames.coopEscape",
+    "value": "Co-op Escape"
+  },
+  {
+    "path": "miniGames.roomCount",
+    "value": "Room Count"
+  },
+  {
+    "path": "miniGames.hintCost",
+    "value": "Hint Cost"
+  },
+  {
+    "path": "miniGames.free",
+    "value": "Free"
+  },
+  {
+    "path": "miniGames.cheap",
+    "value": "Cheap (5 coins)"
+  },
+  {
+    "path": "miniGames.expensive",
+    "value": "Expensive (20 coins)"
+  },
+  {
+    "path": "miniGames.escapeRoom",
+    "value": "Escape Room"
+  },
+  {
+    "path": "miniGames.raceOver",
+    "value": "Race Over!"
+  },
+  {
+    "path": "miniGames.noFinish",
+    "value": "No one finished!"
+  },
+  {
+    "path": "miniGames.grandPrix",
+    "value": "Grand Prix"
+  },
+  {
+    "path": "miniGames.aiDifficulty",
+    "value": "AI Difficulty"
+  },
+  {
+    "path": "miniGames.easy",
+    "value": "Easy (3 nodes)"
+  },
+  {
+    "path": "miniGames.hard",
+    "value": "Hard (7 nodes)"
+  },
+  {
+    "path": "miniGames.horizonChase",
+    "value": "Horizon Chase"
+  },
+  {
+    "path": "miniGames.climb",
+    "value": "Climb"
+  },
+  {
+    "path": "miniGames.vsHeight",
+    "value": "VS Height"
+  },
+  {
+    "path": "miniGames.coopClimb",
+    "value": "Co-op Climb"
+  },
+  {
+    "path": "miniGames.icyTower",
+    "value": "Icy Tower"
+  },
+  {
+    "path": "miniGames.blueTeam",
+    "value": "Blue Team"
+  },
+  {
+    "path": "miniGames.redTeam",
+    "value": "Red Team"
+  },
+  {
+    "path": "miniGames.classic5v5",
+    "value": "Classic 5v5"
+  },
+  {
+    "path": "miniGames.aram",
+    "value": "ARAM (1 Lane)"
+  },
+  {
+    "path": "miniGames.coopVsAI",
+    "value": "Co-op vs AI"
+  },
+  {
+    "path": "miniGames.matchDuration",
+    "value": "Match Duration"
+  },
+  {
+    "path": "miniGames.leagueOfLegends",
+    "value": "League of Legends"
+  },
+  {
+    "path": "miniGames.galaxySize",
+    "value": "Galaxy Size"
+  },
+  {
+    "path": "miniGames.startingSystems",
+    "value": "Starting Systems"
+  },
+  {
+    "path": "miniGames.masterOfOrion",
+    "value": "Master of Orion"
+  },
+  {
+    "path": "miniGames.coopClear",
+    "value": "Co-op Clear"
+  },
+  {
+    "path": "miniGames.soloChallenge",
+    "value": "Solo Challenge"
+  },
+  {
+    "path": "miniGames.boardSize",
+    "value": "Board Size"
+  },
+  {
+    "path": "miniGames.powerUps",
+    "value": "Power-Ups"
+  },
+  {
+    "path": "miniGames.on",
+    "value": "On"
+  },
+  {
+    "path": "miniGames.off",
+    "value": "Off"
+  },
+  {
+    "path": "miniGames.memo",
+    "value": "Memo"
+  },
+  {
+    "path": "miniGames.coopDungeon",
+    "value": "Coop Dungeon"
+  },
+  {
+    "path": "miniGames.dungeonSize",
+    "value": "Dungeon Size"
+  },
+  {
+    "path": "miniGames.mightAndMagic",
+    "value": "Might & Magic"
+  },
+  {
+    "path": "miniGames.chill",
+    "value": "Chill (solo relaxation)"
+  },
+  {
+    "path": "miniGames.threeMin",
+    "value": "3 Minutes"
+  },
+  {
+    "path": "miniGames.sevenMin",
+    "value": "7 Minutes"
+  },
+  {
+    "path": "miniGames.season",
+    "value": "Season"
+  },
+  {
+    "path": "miniGames.summer",
+    "value": "Summer"
+  },
+  {
+    "path": "miniGames.winter",
+    "value": "Winter"
+  },
+  {
+    "path": "miniGames.spring",
+    "value": "Spring"
+  },
+  {
+    "path": "miniGames.noTimeToRelax",
+    "value": "No Time To Relax"
+  },
+  {
+    "path": "miniGames.coopVictory",
+    "value": "Co-op Victory!"
+  },
+  {
+    "path": "miniGames.tycoon",
+    "value": "Tycoon (Free Play)"
+  },
+  {
+    "path": "miniGames.vsMarket",
+    "value": "VS Market (Sabotage enabled)"
+  },
+  {
+    "path": "miniGames.coopEmpire",
+    "value": "Co-op Empire (Shared wealth)"
+  },
+  {
+    "path": "miniGames.tenMin",
+    "value": "10 Minutes"
+  },
+  {
+    "path": "miniGames.oilImperium",
+    "value": "Oil Imperium"
+  },
+  {
+    "path": "miniGames.coopKitchen",
+    "value": "Co-op Kitchen"
+  },
+  {
+    "path": "miniGames.vsKitchen",
+    "value": "VS Kitchen"
+  },
+  {
+    "path": "miniGames.orderSpeed",
+    "value": "Order Speed"
+  },
+  {
+    "path": "miniGames.kitchenLayout",
+    "value": "Kitchen Layout"
+  },
+  {
+    "path": "miniGames.simple",
+    "value": "Simple"
+  },
+  {
+    "path": "miniGames.complex",
+    "value": "Complex"
+  },
+  {
+    "path": "miniGames.overcooked",
+    "value": "Overcooked"
+  },
+  {
+    "path": "miniGames.puzzle",
+    "value": "Puzzle"
+  },
+  {
+    "path": "miniGames.coopPlumb",
+    "value": "Co-op Plumb"
+  },
+  {
+    "path": "miniGames.flowSpeed",
+    "value": "Flow Speed"
+  },
+  {
+    "path": "miniGames.pipes",
+    "value": "Pipes"
+  },
+  {
+    "path": "miniGames.allGymsBeat",
+    "value": "Adventure complete!"
+  },
+  {
+    "path": "miniGames.vsBattle",
+    "value": "VS Battle"
+  },
+  {
+    "path": "miniGames.coopQuest",
+    "value": "Co-op Quest"
+  },
+  {
+    "path": "miniGames.startingCreatures",
+    "value": "Starting Creatures"
+  },
+  {
+    "path": "miniGames.wildFrequency",
+    "value": "Wild Encounter Rate"
+  },
+  {
+    "path": "miniGames.normalRate",
+    "value": "Normal"
+  },
+  {
+    "path": "miniGames.pokemon",
+    "value": "Pokémon"
+  },
+  {
+    "path": "miniGames.missionFailed",
+    "value": "Mission Failed"
+  },
+  {
+    "path": "miniGames.vsCopsRobbers",
+    "value": "VS Cops & Robbers"
+  },
+  {
+    "path": "miniGames.hostageCount",
+    "value": "Hostages"
+  },
+  {
+    "path": "miniGames.policeStories",
+    "value": "Police Stories"
+  },
+  {
+    "path": "miniGames.vsPuzzle",
+    "value": "VS Puzzle"
+  },
+  {
+    "path": "miniGames.coopSolve",
+    "value": "Co-op Solve"
+  },
+  {
+    "path": "miniGames.storyCoop",
+    "value": "Story Co-op"
+  },
+  {
+    "path": "miniGames.vsBrawl",
+    "value": "VS Brawl"
+  },
+  {
+    "path": "miniGames.waveCount",
+    "value": "Wave Count"
+  },
+  {
+    "path": "miniGames.riverCityGirls",
+    "value": "River City Girls"
+  },
+  {
+    "path": "miniGames.defeat",
+    "value": "Defeat"
+  },
+  {
+    "path": "miniGames.worldTheme",
+    "value": "World Theme"
+  },
+  {
+    "path": "miniGames.temperate",
+    "value": "Temperate"
+  },
+  {
+    "path": "miniGames.desert",
+    "value": "Desert"
+  },
+  {
+    "path": "miniGames.snow",
+    "value": "Snow"
+  },
+  {
+    "path": "miniGames.alien",
+    "value": "Alien"
+  },
+  {
+    "path": "miniGames.startingAge",
+    "value": "Starting Age"
+  },
+  {
+    "path": "miniGames.stone",
+    "value": "Age 1 — Stone"
+  },
+  {
+    "path": "miniGames.medieval",
+    "value": "Age 2 — Medieval"
+  },
+  {
+    "path": "miniGames.industrial",
+    "value": "Age 3 — Industrial"
+  },
+  {
+    "path": "miniGames.rts",
+    "value": "RTS Command"
+  },
+  {
+    "path": "miniGames.quickMatch",
+    "value": "Quick Match"
+  },
+  {
+    "path": "miniGames.twoMin",
+    "value": "2 Minutes"
+  },
+  {
+    "path": "miniGames.teamSize",
+    "value": "Team Size"
+  },
+  {
+    "path": "miniGames.sensibleSoccer",
+    "value": "Sensible Soccer"
+  },
+  {
+    "path": "miniGames.build",
+    "value": "Build (Free Play)"
+  },
+  {
+    "path": "miniGames.vsConquest",
+    "value": "VS Conquest"
+  },
+  {
+    "path": "miniGames.coopSettlement",
+    "value": "Co-op Settlement"
+  },
+  {
+    "path": "miniGames.startingResources",
+    "value": "Starting Resources"
+  },
+  {
+    "path": "miniGames.settlers",
+    "value": "Settlers"
+  },
+  {
+    "path": "miniGames.vsNaval",
+    "value": "VS Naval"
+  },
+  {
+    "path": "miniGames.coopPirates",
+    "value": "Co-op Pirates"
+  },
+  {
+    "path": "miniGames.enemyCount",
+    "value": "Enemy Count"
+  },
+  {
+    "path": "miniGames.few",
+    "value": "Few"
+  },
+  {
+    "path": "miniGames.many",
+    "value": "Many"
+  },
+  {
+    "path": "miniGames.ships",
+    "value": "Ships"
+  },
+  {
+    "path": "miniGames.arcade",
+    "value": "Arcade"
+  },
+  {
+    "path": "miniGames.vsScore",
+    "value": "VS Score"
+  },
+  {
+    "path": "miniGames.autoFire",
+    "value": "Auto-Fire"
+  },
+  {
+    "path": "miniGames.bulletDensity",
+    "value": "Bullet Density"
+  },
+  {
+    "path": "miniGames.bulletHell",
+    "value": "Bullet Hell"
+  },
+  {
+    "path": "miniGames.shmup",
+    "value": "Shmup"
+  },
+  {
+    "path": "miniGames.freeBuild",
+    "value": "Free Build"
+  },
+  {
+    "path": "miniGames.vsMayor",
+    "value": "VS Mayor (compete for highest population)"
+  },
+  {
+    "path": "miniGames.coopCity",
+    "value": "Co-op City (reach population target together)"
+  },
+  {
+    "path": "miniGames.disasterFrequency",
+    "value": "Disaster Frequency"
+  },
+  {
+    "path": "miniGames.none",
+    "value": "None"
+  },
+  {
+    "path": "miniGames.simCity",
+    "value": "SimCity"
+  },
+  {
+    "path": "miniGames.sandbox",
+    "value": "Sandbox"
+  },
+  {
+    "path": "miniGames.vsRating",
+    "value": "VS Rating"
+  },
+  {
+    "path": "miniGames.coopTower",
+    "value": "Co-op Tower"
+  },
+  {
+    "path": "miniGames.maxFloors",
+    "value": "Max Floors"
+  },
+  {
+    "path": "miniGames.simTower",
+    "value": "SimTower"
+  },
+  {
+    "path": "miniGames.killsToWin",
+    "value": "Kills to Win"
+  },
+  {
+    "path": "miniGames.vsBiggest",
+    "value": "VS — Biggest Wins"
+  },
+  {
+    "path": "miniGames.coopSize",
+    "value": "Co-op — Combined Size Target"
+  },
+  {
+    "path": "miniGames.worldSize",
+    "value": "World Size"
+  },
+  {
+    "path": "miniGames.growthRate",
+    "value": "Growth Rate"
+  },
+  {
+    "path": "miniGames.spore",
+    "value": "Spore"
+  },
+  {
+    "path": "miniGames.freeTrade",
+    "value": "Free Trade"
+  },
+  {
+    "path": "miniGames.vsWealth",
+    "value": "VS — Wealth"
+  },
+  {
+    "path": "miniGames.planetCount",
+    "value": "Planets"
+  },
+  {
+    "path": "miniGames.pirateFrequency",
+    "value": "Pirates"
+  },
+  {
+    "path": "miniGames.starMerchant",
+    "value": "Star Merchant"
+  },
+  {
+    "path": "miniGames.arenaVs",
+    "value": "Arena VS"
+  },
+  {
+    "path": "miniGames.coopTournament",
+    "value": "Co-op Tournament"
+  },
+  {
+    "path": "miniGames.roundsToWin",
+    "value": "Rounds to Win"
+  },
+  {
+    "path": "miniGames.swordsAndSandals",
+    "value": "Swords & Sandals"
+  },
+  {
+    "path": "miniGames.battle",
+    "value": "Battle (VS)"
+  },
+  {
+    "path": "miniGames.startLevel",
+    "value": "Start Level"
+  },
+  {
+    "path": "miniGames.tetris",
+    "value": "Tetris"
+  },
+  {
+    "path": "miniGames.map",
+    "value": "Map"
+  },
+  {
+    "path": "miniGames.randomMap",
+    "value": "Random"
+  },
+  {
+    "path": "miniGames.startingGold",
+    "value": "Starting Gold"
+  },
+  {
+    "path": "miniGames.toothAndTail",
+    "value": "Tooth & Tail"
+  },
+  {
+    "path": "miniGames.coopNetwork",
+    "value": "Co-op Network"
+  },
+  {
+    "path": "miniGames.transportTycoon",
+    "value": "Transport Tycoon"
+  },
+  {
+    "path": "miniGames.party",
+    "value": "Party (competitive)"
+  },
+  {
+    "path": "miniGames.coopBuild",
+    "value": "Co-op Build"
+  },
+  {
+    "path": "miniGames.buildTime",
+    "value": "Build Time (seconds)"
+  },
+  {
+    "path": "miniGames.ultimateChickenHorse",
+    "value": "Ultimate Chicken Horse"
+  },
+  {
+    "path": "miniGames.contracts",
+    "value": "Contracts"
+  },
+  {
+    "path": "miniGames.vsHackRace",
+    "value": "VS Hack Race"
+  },
+  {
+    "path": "miniGames.traceSpeed",
+    "value": "Trace Speed"
+  },
+  {
+    "path": "miniGames.contractDifficulty",
+    "value": "Contract Difficulty"
+  },
+  {
+    "path": "miniGames.uplink",
+    "value": "Uplink"
+  },
+  {
+    "path": "miniGames.realTimeBattle",
+    "value": "Real-Time Battle (VS)"
+  },
+  {
+    "path": "miniGames.wormsPerTeam",
+    "value": "Worms Per Team"
+  },
+  {
+    "path": "miniGames.terrainType",
+    "value": "Terrain"
+  },
+  {
+    "path": "miniGames.hills",
+    "value": "Hills"
+  },
+  {
+    "path": "miniGames.flat",
+    "value": "Flat"
+  },
+  {
+    "path": "miniGames.islands",
+    "value": "Islands"
+  },
+  {
+    "path": "miniGames.worms",
+    "value": "Worms"
+  },
+  {
+    "path": "miniGames.modeType",
+    "value": "Mode Type"
+  },
+  {
+    "path": "miniGames.tickets",
+    "value": "Tickets per Team"
+  },
+  {
+    "path": "miniGames.battlefield",
+    "value": "Warzone"
+  },
+  {
+    "path": "multiWindow.phase",
+    "value": "Phase"
+  },
+  {
+    "path": "multiWindow.gameActive",
+    "value": "Game in progress — your input is live!"
+  },
+  {
+    "path": "musicPlayer.title",
+    "value": "Player"
+  },
+  {
+    "path": "musicPlayer.sourcesFound",
+    "value": "Sources found for tracks"
+  },
+  {
+    "path": "musicPlayer.noSources",
+    "value": "none"
+  },
+  {
+    "path": "myAuditLogs.title",
+    "value": "My Audit Logs"
+  },
+  {
+    "path": "myAuditLogs.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "myAuditLogs.errorFetch",
+    "value": "Failed to fetch audit logs."
+  },
+  {
+    "path": "nav.exportSpotify",
+    "value": "Export to Spotify"
+  },
+  {
+    "path": "nav.exportTidal",
+    "value": "Export to Tidal"
+  },
+  {
+    "path": "nav.exportYouTube",
+    "value": "Export to YouTube"
+  },
+  {
+    "path": "nav.exportedToService",
+    "value": "Exported to {{platform}}!"
+  },
+  {
+    "path": "nav.exportError",
+    "value": "Export failed."
+  },
+  {
+    "path": "nav.selectPlaylistFirst",
+    "value": "Select a playlist first."
+  },
+  {
+    "path": "nav.songs",
+    "value": "Songs"
+  },
+  {
+    "path": "nav.music",
+    "value": "Music"
+  },
+  {
+    "path": "nav.games",
+    "value": "Games"
+  },
+  {
+    "path": "nav.social",
+    "value": "Social"
+  },
+  {
+    "path": "nav.admin",
+    "value": "Admin"
+  },
+  {
+    "path": "nav.dashboard",
+    "value": "Dashboard"
+  },
+  {
+    "path": "nav.skins",
+    "value": "Skins"
+  },
+  {
+    "path": "nav.honeyTokens",
+    "value": "HoneyTokens"
+  },
+  {
+    "path": "nav.otp",
+    "value": "OTP"
+  },
+  {
+    "path": "nav.controller",
+    "value": "Controller"
+  },
+  {
+    "path": "nav.videoGames",
+    "value": "Video Games"
+  },
+  {
+    "path": "nav.honestLiving",
+    "value": "Honest Living"
+  },
+  {
+    "path": "nav.jamSession",
+    "value": "Jam Session"
+  },
+  {
+    "path": "nav.karaoke",
+    "value": "Karaoke"
+  },
+  {
+    "path": "nav.contacts",
+    "value": "Contacts"
+  },
+  {
+    "path": "nav.campaigns",
+    "value": "Campaigns"
+  },
+  {
+    "path": "nav.wiki",
+    "value": "Wiki / Docs"
+  },
+  {
+    "path": "nav.wikiAdmin",
+    "value": "Wiki — Manage pages"
+  },
+  {
+    "path": "nav.features",
+    "value": "Features"
+  },
+  {
+    "path": "nav.progress",
+    "value": "Progress"
+  },
+  {
+    "path": "nav.mainNavigation",
+    "value": "Main navigation"
+  },
+  {
+    "path": "nav.radio",
+    "value": "Radio"
+  },
+  {
+    "path": "news.pageOf",
+    "value": "{{page}} / {{total}}"
+  },
+  {
+    "path": "newsAdmin.catName",
+    "value": "Name"
+  },
+  {
+    "path": "newsAdmin.catSlug",
+    "value": "Slug"
+  },
+  {
+    "path": "newsAdmin.catFeeds",
+    "value": "Feeds"
+  },
+  {
+    "path": "newsAdmin.feedName",
+    "value": "Name"
+  },
+  {
+    "path": "newsAdmin.feedUrl",
+    "value": "URL"
+  },
+  {
+    "path": "notFound.title",
+    "value": "Page not found"
+  },
+  {
+    "path": "notFound.goHome",
+    "value": "Go to homepage"
+  },
+  {
+    "path": "notesTab.bpm",
+    "value": "BPM:"
+  },
+  {
+    "path": "notifications.justNow",
+    "value": "just now"
+  },
+  {
+    "path": "notifications.title",
+    "value": "Notifications"
+  },
+  {
+    "path": "notifications.markAllRead",
+    "value": "Mark all as read"
+  },
+  {
+    "path": "notifications.empty",
+    "value": "No notifications"
+  },
+  {
+    "path": "notifications.delete",
+    "value": "Delete"
+  },
+  {
+    "path": "onlineLobby.online",
+    "value": "Online"
+  },
+  {
+    "path": "onlineLobby.matchmaking",
+    "value": "Matchmaking"
+  },
+  {
+    "path": "organizations.confirmDelete",
+    "value": "Are you sure?"
+  },
+  {
+    "path": "organizations.title",
+    "value": "Organizations"
+  },
+  {
+    "path": "organizations.create",
+    "value": "+ New Organization"
+  },
+  {
+    "path": "organizations.edit",
+    "value": "Edit Organization"
+  },
+  {
+    "path": "organizations.new",
+    "value": "New Organization"
+  },
+  {
+    "path": "organizations.name",
+    "value": "Name"
+  },
+  {
+    "path": "organizations.website",
+    "value": "Website"
+  },
+  {
+    "path": "organizations.description",
+    "value": "Description"
+  },
+  {
+    "path": "organizations.logoUrl",
+    "value": "Logo URL"
+  },
+  {
+    "path": "organizations.empty",
+    "value": "No organizations yet."
+  },
+  {
+    "path": "otpManagement.otp",
+    "value": "OTP"
+  },
+  {
+    "path": "oxygen25.pads",
+    "value": "Pads"
+  },
+  {
+    "path": "oxygen25.transport",
+    "value": "Transport"
+  },
+  {
+    "path": "pagination.pageSize",
+    "value": "Page size"
+  },
+  {
+    "path": "pagination.prev",
+    "value": "Prev"
+  },
+  {
+    "path": "pagination.next",
+    "value": "Next"
+  },
+  {
+    "path": "party.inviteTableStatus",
+    "value": "Status"
+  },
+  {
+    "path": "party.cancelParty",
+    "value": "Cancel party"
+  },
+  {
+    "path": "party.cancelReasonPrompt",
+    "value": "Cancellation reason (optional):"
+  },
+  {
+    "path": "party.status",
+    "value": "Status:"
+  },
+  {
+    "path": "party.code",
+    "value": "Code:"
+  },
+  {
+    "path": "party.activeFilters",
+    "value": "Active filters"
+  },
+  {
+    "path": "party.resetFilters",
+    "value": "Reset filters"
+  },
+  {
+    "path": "party.sortName",
+    "value": "Name"
+  },
+  {
+    "path": "party.startLabel",
+    "value": "Start:"
+  },
+  {
+    "path": "party.chat.title",
+    "value": "Chat"
+  },
+  {
+    "path": "party.round.joinRound",
+    "value": "Join round"
+  },
+  {
+    "path": "party.round.joinAndPlay",
+    "value": "Join and play"
+  },
+  {
+    "path": "party.round.assignments",
+    "value": "Assignments"
+  },
+  {
+    "path": "party.round.noAssignments",
+    "value": "Click a player to assign"
+  },
+  {
+    "path": "party.round.autoAssign",
+    "value": "Auto assign"
+  },
+  {
+    "path": "party.round.microphones",
+    "value": "Microphones"
+  },
+  {
+    "path": "party.round.noMicsDetected",
+    "value": "No microphones detected"
+  },
+  {
+    "path": "party.round.gamepads",
+    "value": "Gamepads"
+  },
+  {
+    "path": "party.round.players",
+    "value": "Players"
+  },
+  {
+    "path": "party.round.songFallback",
+    "value": "Song #{{id}}"
+  },
+  {
+    "path": "party.permissions.details",
+    "value": "Details"
+  },
+  {
+    "path": "party.attractions",
+    "value": "Attractions"
+  },
+  {
+    "path": "party.addAttraction",
+    "value": "Add Attraction"
+  },
+  {
+    "path": "party.noAttractionsYet",
+    "value": "No attractions suggested yet."
+  },
+  {
+    "path": "party.suggestSomething",
+    "value": "Suggest something for the group!"
+  },
+  {
+    "path": "party.dateProposals",
+    "value": "Date Proposals"
+  },
+  {
+    "path": "party.bestDates",
+    "value": "Best Dates"
+  },
+  {
+    "path": "party.noDateProposals",
+    "value": "No date proposals yet."
+  },
+  {
+    "path": "party.gamePicks",
+    "value": "Game Picks"
+  },
+  {
+    "path": "party.gameName",
+    "value": "Game name"
+  },
+  {
+    "path": "party.boardGameId",
+    "value": "Board Game ID"
+  },
+  {
+    "path": "party.videoGameId",
+    "value": "Video Game ID"
+  },
+  {
+    "path": "party.importFromCollection",
+    "value": "Import from Collection ID"
+  },
+  {
+    "path": "party.rankedGames",
+    "value": "Ranked Games"
+  },
+  {
+    "path": "party.noGamePicks",
+    "value": "No game picks yet."
+  },
+  {
+    "path": "party.playRound",
+    "value": "Graj"
+  },
+  {
+    "path": "party.play",
+    "value": "Graj"
+  },
+  {
+    "path": "party.selectPlayer",
+    "value": "Gracz"
+  },
+  {
+    "path": "party.selectPlayerPlaceholder",
+    "value": "Wybierz gracza..."
+  },
+  {
+    "path": "party.selectMic",
+    "value": "Mikrofon"
+  },
+  {
+    "path": "party.noMic",
+    "value": "Bez mikrofonu"
+  },
+  {
+    "path": "party.alreadyJoined",
+    "value": "Zapisano ✓"
+  },
+  {
+    "path": "party.players",
+    "value": "graczy"
+  },
+  {
+    "path": "party.assignments",
+    "value": "Przypisania"
+  },
+  {
+    "path": "party.autoAssign",
+    "value": "Auto przypisanie"
+  },
+  {
+    "path": "party.microphones",
+    "value": "Mikrofony"
+  },
+  {
+    "path": "party.gamepads",
+    "value": "Pady"
+  },
+  {
+    "path": "party.lobbyMode",
+    "value": "Lobby"
+  },
+  {
+    "path": "party.billing",
+    "value": "Billing"
+  },
+  {
+    "path": "party.polls",
+    "value": "Polls"
+  },
+  {
+    "path": "party.inviteTemplates",
+    "value": "Invite Templates"
+  },
+  {
+    "path": "party.collages",
+    "value": "Collages"
+  },
+  {
+    "path": "party.songPicks",
+    "value": "Song Picks"
+  },
+  {
+    "path": "party.qrShrink",
+    "value": "Zmniejsz"
+  },
+  {
+    "path": "party.songTitle",
+    "value": "Song Title"
+  },
+  {
+    "path": "party.songId",
+    "value": "Song ID"
+  },
+  {
+    "path": "party.importFromPlaylist",
+    "value": "Import from Playlist ID"
+  },
+  {
+    "path": "party.rankedSongs",
+    "value": "Ranked Songs"
+  },
+  {
+    "path": "party.noSongPicks",
+    "value": "No song picks yet."
+  },
+  {
+    "path": "party.removeSignup",
+    "value": "Remove Signup"
+  },
+  {
+    "path": "party.attractionNotFound",
+    "value": "Atrakcja nie znaleziona."
+  },
+  {
+    "path": "party.sessionDetail",
+    "value": "Sesja"
+  },
+  {
+    "path": "party.rejectedProposal",
+    "value": "Odrzucona propozycja"
+  },
+  {
+    "path": "party.proposalDetail",
+    "value": "Propozycja atrakcji"
+  },
+  {
+    "path": "party.attractionDescription",
+    "value": "Opis"
+  },
+  {
+    "path": "party.descriptionPlaceholder",
+    "value": "Dodaj opis atrakcji..."
+  },
+  {
+    "path": "party.noDescription",
+    "value": "Brak opisu"
+  },
+  {
+    "path": "party.sessionName",
+    "value": "Nazwa sesji"
+  },
+  {
+    "path": "party.sessionNamePlaceholder",
+    "value": "Np. Karaoke - Runda 1"
+  },
+  {
+    "path": "party.sessionDuration",
+    "value": "Czas trwania (min)"
+  },
+  {
+    "path": "party.limitToPlaylist",
+    "value": "Ogranicz do playlisty eventu"
+  },
+  {
+    "path": "party.sessionMode",
+    "value": "Tryb sesji"
+  },
+  {
+    "path": "party.rounds",
+    "value": "Rundy"
+  },
+  {
+    "path": "party.start",
+    "value": "Start"
+  },
+  {
+    "path": "party.proposals",
+    "value": "Propozycje"
+  },
+  {
+    "path": "party.approved",
+    "value": "Zatwierdzone"
+  },
+  {
+    "path": "party.rejectedProposals",
+    "value": "Odrzucone propozycje"
+  },
+  {
+    "path": "party.attractionStatus.suggested",
+    "value": "Propozycja"
+  },
+  {
+    "path": "party.attractionStatus.approved",
+    "value": "Sesja"
+  },
+  {
+    "path": "party.attractionStatus.rejected",
+    "value": "Odrzucone"
+  },
+  {
+    "path": "party.sessionActive",
+    "value": "Sesja aktywna"
+  },
+  {
+    "path": "party.typeVirtual",
+    "value": "Wirtualna"
+  },
+  {
+    "path": "party.typeReal",
+    "value": "Stacjonarna"
+  },
+  {
+    "path": "party.accessPublic",
+    "value": "Publiczny"
+  },
+  {
+    "path": "party.accessPrivate",
+    "value": "Prywatny"
+  },
+  {
+    "path": "party.accessLink",
+    "value": "Link"
+  },
+  {
+    "path": "party.allTypes",
+    "value": "Wszystkie"
+  },
+  {
+    "path": "party.allAccess",
+    "value": "Wszystkie"
+  },
+  {
+    "path": "party.noPartiesYet",
+    "value": "Brak imprez"
+  },
+  {
+    "path": "party.scoring",
+    "value": "Game Scoring"
+  },
+  {
+    "path": "party.sessionType.videoGame",
+    "value": "Gra wideo"
+  },
+  {
+    "path": "party.sessionType.boardGame",
+    "value": "Gra planszowa"
+  },
+  {
+    "path": "party.sessionType.danceFloor",
+    "value": "Parkiet"
+  },
+  {
+    "path": "party.sessionType.custom",
+    "value": "Inna atrakcja"
+  },
+  {
+    "path": "partyForm.title",
+    "value": "Create Party"
+  },
+  {
+    "path": "partyForm.partyName",
+    "value": "Party Name"
+  },
+  {
+    "path": "partyForm.placeholderPartyName",
+    "value": "Enter party name"
+  },
+  {
+    "path": "partyForm.description",
+    "value": "Description"
+  },
+  {
+    "path": "partyForm.placeholderDescription",
+    "value": "Enter description"
+  },
+  {
+    "path": "partyForm.organizerId",
+    "value": "Organizer ID"
+  },
+  {
+    "path": "partyForm.placeholderOrganizerId",
+    "value": "Enter organizer ID"
+  },
+  {
+    "path": "partyForm.create",
+    "value": "Create"
+  },
+  {
+    "path": "partyForm.allFieldsRequired",
+    "value": "All fields are required!"
+  },
+  {
+    "path": "partyForm.createdSuccess",
+    "value": "Party created successfully!"
+  },
+  {
+    "path": "passwordRules.minLength",
+    "value": "Min. {{count}} characters"
+  },
+  {
+    "path": "passwordRules.maxLength",
+    "value": "Max. {{count}} characters"
+  },
+  {
+    "path": "passwordRules.requireUppercase",
+    "value": "At least one uppercase letter"
+  },
+  {
+    "path": "passwordRules.requireLowercase",
+    "value": "At least one lowercase letter"
+  },
+  {
+    "path": "passwordRules.requireDigit",
+    "value": "At least one digit"
+  },
+  {
+    "path": "passwordRules.requireSpecialChar",
+    "value": "At least one special character"
+  },
+  {
+    "path": "passwordRulesList.heading",
+    "value": "Password Requirements:"
+  },
+  {
+    "path": "pauseMenu.objective",
+    "value": "Objective"
+  },
+  {
+    "path": "pauseMenu.keyboardControls",
+    "value": "Keyboard Controls"
+  },
+  {
+    "path": "pauseMenu.gamepadControls",
+    "value": "Gamepad Controls"
+  },
+  {
+    "path": "pauseMenu.tips",
+    "value": "Tips"
+  },
+  {
+    "path": "photoEditor.apply",
+    "value": "Zastosuj"
+  },
+  {
+    "path": "pitch.rms",
+    "value": "RMS:"
+  },
+  {
+    "path": "pitch.hanning",
+    "value": "Hanning:"
+  },
+  {
+    "path": "pitch.monitor",
+    "value": "Monitor"
+  },
+  {
+    "path": "pitch.methodPitchy",
+    "value": "Pitchy (YIN)"
+  },
+  {
+    "path": "pitch.methodLibrosa",
+    "value": "Librosa (PYIN)"
+  },
+  {
+    "path": "playHub.hub",
+    "value": "Hub"
+  },
+  {
+    "path": "playHub.cards.songs.title",
+    "value": "Songs"
+  },
+  {
+    "path": "playHub.cards.hitThatNote.title",
+    "value": "Hit That Note"
+  },
+  {
+    "path": "playHub.cards.jamSession.title",
+    "value": "Jam Session"
+  },
+  {
+    "path": "playHub.cards.features.title",
+    "value": "Features"
+  },
+  {
+    "path": "player.pause",
+    "value": "Pause"
+  },
+  {
+    "path": "playerControls.prev",
+    "value": "Prev"
+  },
+  {
+    "path": "playerControls.previousTrack",
+    "value": "Previous track"
+  },
+  {
+    "path": "playerControls.pause",
+    "value": "Pause"
+  },
+  {
+    "path": "playerControls.play",
+    "value": "Play"
+  },
+  {
+    "path": "playerControls.next",
+    "value": "Next"
+  },
+  {
+    "path": "playerControls.nextTrack",
+    "value": "Next track"
+  },
+  {
+    "path": "playerControls.seekPosition",
+    "value": "Seek position"
+  },
+  {
+    "path": "playerControls.volume",
+    "value": "Volume"
+  },
+  {
+    "path": "playerForm.addPlayer",
+    "value": "Add Player"
+  },
+  {
+    "path": "playerForm.barColor",
+    "value": "Color"
+  },
+  {
+    "path": "playerForm.auto",
+    "value": "Auto"
+  },
+  {
+    "path": "playerForm.capShape",
+    "value": "Cap shape"
+  },
+  {
+    "path": "playerForm.pattern",
+    "value": "Pattern"
+  },
+  {
+    "path": "playerForm.patternOnly",
+    "value": "Pattern only (flat, no 3D)"
+  },
+  {
+    "path": "playerForm.patternColor",
+    "value": "Pattern color"
+  },
+  {
+    "path": "playerForm.highlight",
+    "value": "Highlight"
+  },
+  {
+    "path": "playerForm.glow",
+    "value": "Glow"
+  },
+  {
+    "path": "playerForm.glass",
+    "value": "Transparency (glass)"
+  },
+  {
+    "path": "playerForm.texture",
+    "value": "Texture"
+  },
+  {
+    "path": "playerForm.texNone",
+    "value": "None"
+  },
+  {
+    "path": "playerForm.textureScale",
+    "value": "Texture scale"
+  },
+  {
+    "path": "playerForm.email",
+    "value": "Email"
+  },
+  {
+    "path": "playerForm.choosePhoto",
+    "value": "Wybierz"
+  },
+  {
+    "path": "playerForm.icon",
+    "value": "Ikona"
+  },
+  {
+    "path": "playerForm.pitchAlgorithm",
+    "value": "Pitch algorithm"
+  },
+  {
+    "path": "playerForm.algAutocorr",
+    "value": "Autocorrelation"
+  },
+  {
+    "path": "playerForm.algPitchy",
+    "value": "Pitchy (local)"
+  },
+  {
+    "path": "playerForm.algCrepe",
+    "value": "CREPE (server)"
+  },
+  {
+    "path": "playerForm.algLibrosa",
+    "value": "Librosa pYIN (server)"
+  },
+  {
+    "path": "playerForm.barStyle",
+    "value": "Bar style"
+  },
+  {
+    "path": "playerForm.filledBar",
+    "value": "🎵 Filled bar (hit)"
+  },
+  {
+    "path": "playerForm.emptyBar",
+    "value": "⬜ Empty bar (unsung)"
+  },
+  {
+    "path": "playerForm.goldFilledBar",
+    "value": "⭐ Gold filled bar (hit)"
+  },
+  {
+    "path": "playerForm.goldEmptyBar",
+    "value": "⭐ Gold empty bar (unsung)"
+  },
+  {
+    "path": "playerForm.fontFamily",
+    "value": "🔤 Font"
+  },
+  {
+    "path": "playerForm.fontPreview",
+    "value": "The quick brown fox jumps over the lazy dog"
+  },
+  {
+    "path": "playerForm.fontSize",
+    "value": "Font size"
+  },
+  {
+    "path": "playerForm.fontColor",
+    "value": "Font color"
+  },
+  {
+    "path": "playerForm.fontOutline",
+    "value": "Outline"
+  },
+  {
+    "path": "playerForm.fontShadow",
+    "value": "Text shadow"
+  },
+  {
+    "path": "playerForm.resetBarStyle",
+    "value": "Reset to defaults"
+  },
+  {
+    "path": "playlistBrowser.playlists",
+    "value": "Playlists"
+  },
+  {
+    "path": "playlistBrowser.library",
+    "value": "Library"
+  },
+  {
+    "path": "playlistBrowser.selected",
+    "value": "Selected"
+  },
+  {
+    "path": "playlistBrowser.tracks",
+    "value": "tracks"
+  },
+  {
+    "path": "playlistBrowser.searchAndAdd",
+    "value": "Search and add to playlist..."
+  },
+  {
+    "path": "playlistBrowser.fullSearch",
+    "value": "Full search (Enter does not add, full list below)"
+  },
+  {
+    "path": "playlistDetails.playlistFallback",
+    "value": "Playlist #{{id}}"
+  },
+  {
+    "path": "playlistItem.versionOptional",
+    "value": "Version (optional)"
+  },
+  {
+    "path": "playlistList.playlistName",
+    "value": "Playlist name..."
+  },
+  {
+    "path": "playlistList.itemCount",
+    "value": "{{count}} songs"
+  },
+  {
+    "path": "playlistList.emptyState",
+    "value": "No playlists. Add the first one "
+  },
+  {
+    "path": "playlistManager.tags",
+    "value": "Tags"
+  },
+  {
+    "path": "playlistManager.colAlbum",
+    "value": "Album"
+  },
+  {
+    "path": "playlistManager.export",
+    "value": "Export"
+  },
+  {
+    "path": "playlistManager.import",
+    "value": "Import"
+  },
+  {
+    "path": "playlistManager.exportAll",
+    "value": "Export All"
+  },
+  {
+    "path": "playlistManager.exportSelected",
+    "value": "Export Selected"
+  },
+  {
+    "path": "playlistManager.importSuccess",
+    "value": "Successfully imported playlists!"
+  },
+  {
+    "path": "playlistManager.exportSuccess",
+    "value": "Successfully exported playlists!"
+  },
+  {
+    "path": "playlistManager.confirmOverwrite",
+    "value": "This import might overwrite existing playlists. Continue?"
+  },
+  {
+    "path": "playlistManager.importOptions",
+    "value": "Import Options"
+  },
+  {
+    "path": "playlistManager.mergeTags",
+    "value": "Merge Tags"
+  },
+  {
+    "path": "playlistManager.mergeFolders",
+    "value": "Merge Folders"
+  },
+  {
+    "path": "playlistManager.overwriteExisting",
+    "value": "Overwrite Existing"
+  },
+  {
+    "path": "playlistManager.toggleLogic",
+    "value": "Toggle AND/OR"
+  },
+  {
+    "path": "playlistManager.matchAll",
+    "value": "Match all / any of these rules"
+  },
+  {
+    "path": "playlistManager.dynamicRules",
+    "value": "Dynamic Rules"
+  },
+  {
+    "path": "playlistManager.dynamicRulesHint",
+    "value": "Tracks matching these rules will automatically be included in the playlist."
+  },
+  {
+    "path": "playlistManager.maxTracks",
+    "value": "Max tracks:"
+  },
+  {
+    "path": "playlistManager.leaveEmptyForAll",
+    "value": "(leave empty for unlimited)"
+  },
+  {
+    "path": "playlistManager.importEmpty",
+    "value": "No tracks found in file."
+  },
+  {
+    "path": "playlistManager.unsupportedFormat",
+    "value": "Unsupported file format. Use .json, .m3u, .m3u8 or .csv."
+  },
+  {
+    "path": "playlistManager.selectPlaylistFirst",
+    "value": "Select a playlist first"
+  },
+  {
+    "path": "playlistManager.exportError",
+    "value": "Export failed"
+  },
+  {
+    "path": "playlistManager.exportSpotify",
+    "value": "Export to Spotify"
+  },
+  {
+    "path": "playlistManager.exportTidal",
+    "value": "Export to Tidal"
+  },
+  {
+    "path": "playlistManager.exportYouTube",
+    "value": "Export to YouTube"
+  },
+  {
+    "path": "playlistManager.exportFormat",
+    "value": "Export format"
+  },
+  {
+    "path": "playlistsPage.title",
+    "value": "Playlists"
+  },
+  {
+    "path": "polls.title",
+    "value": "Polls"
+  },
+  {
+    "path": "polls.createTitle",
+    "value": "Create Poll"
+  },
+  {
+    "path": "polls.pollTitle",
+    "value": "Title"
+  },
+  {
+    "path": "polls.description",
+    "value": "Description"
+  },
+  {
+    "path": "polls.typeSingle",
+    "value": "Single choice"
+  },
+  {
+    "path": "polls.typeMultiple",
+    "value": "Multiple choice"
+  },
+  {
+    "path": "polls.typeQuantity",
+    "value": "Quantity"
+  },
+  {
+    "path": "polls.trackCosts",
+    "value": "Track costs per option"
+  },
+  {
+    "path": "polls.active",
+    "value": "Active"
+  },
+  {
+    "path": "polls.closed",
+    "value": "Closed"
+  },
+  {
+    "path": "polls.costsTracked",
+    "value": "💰"
+  },
+  {
+    "path": "polls.results",
+    "value": "Results"
+  },
+  {
+    "path": "polls.emailsPlaceholder",
+    "value": "Emails (comma separated)"
+  },
+  {
+    "path": "polls.sendEmails",
+    "value": "Send"
+  },
+  {
+    "path": "polls.empty",
+    "value": "No polls yet. Create one to gather votes from participants."
+  },
+  {
+    "path": "pose3d.acceptedJson",
+    "value": "Accepted JSON for sequence."
+  },
+  {
+    "path": "pose3d.acceptedMp4",
+    "value": "Accepted: MP4."
+  },
+  {
+    "path": "pose3d.selectFile",
+    "value": "Select a file first."
+  },
+  {
+    "path": "pose3d.input",
+    "value": "Input"
+  },
+  {
+    "path": "pose3d.summary",
+    "value": "Summary"
+  },
+  {
+    "path": "pose3d.responseJson",
+    "value": "Response JSON"
+  },
+  {
+    "path": "poseCamGame.controls",
+    "value": "Controls"
+  },
+  {
+    "path": "poseCamGame.startCamera",
+    "value": "Start camera"
+  },
+  {
+    "path": "poseCamGame.stopCamera",
+    "value": "Stop camera"
+  },
+  {
+    "path": "poseCamGame.savePose",
+    "value": "Save current pose"
+  },
+  {
+    "path": "poseCamGame.score",
+    "value": "Score"
+  },
+  {
+    "path": "poseCamGame.targetPose",
+    "value": "Target pose"
+  },
+  {
+    "path": "poseCamGame.liveCamera",
+    "value": "Live camera"
+  },
+  {
+    "path": "poseCamGame.lastDetection",
+    "value": "Last detection (live) JSON"
+  },
+  {
+    "path": "poseDetector.acceptedJpegPng",
+    "value": "Accepted: JPEG/PNG."
+  },
+  {
+    "path": "poseDetector.selectImage",
+    "value": "Select an image first."
+  },
+  {
+    "path": "poseDetector.engine",
+    "value": "Engine"
+  },
+  {
+    "path": "poseDetector.preview",
+    "value": "Preview"
+  },
+  {
+    "path": "poseDetector.responseJson",
+    "value": "Response JSON"
+  },
+  {
+    "path": "poseTracker.acceptedMp4",
+    "value": "Accepted: MP4."
+  },
+  {
+    "path": "poseTracker.selectVideo",
+    "value": "Select a video first."
+  },
+  {
+    "path": "poseTracker.engine",
+    "value": "Engine"
+  },
+  {
+    "path": "poseTracker.summary",
+    "value": "Summary"
+  },
+  {
+    "path": "poseTracker.responseJson",
+    "value": "Response JSON"
+  },
+  {
+    "path": "profilePlayer.editError",
+    "value": "Error editing profile player"
+  },
+  {
+    "path": "profilePlayer.addError",
+    "value": "Error adding profile player"
+  },
+  {
+    "path": "profilePlayer.playerName",
+    "value": "Player name"
+  },
+  {
+    "path": "profilePlayer.playerColor",
+    "value": "Player color"
+  },
+  {
+    "path": "profilePlayer.colorPlaceholder",
+    "value": "#rrggbb"
+  },
+  {
+    "path": "profilePlayer.setPrimary",
+    "value": "Set as primary player"
+  },
+  {
+    "path": "progress.loginRequired",
+    "value": "Please log in to see your progress."
+  },
+  {
+    "path": "progress.title",
+    "value": "Your Progress"
+  },
+  {
+    "path": "progress.xpLevels",
+    "value": "XP & Levels"
+  },
+  {
+    "path": "progress.noProgress",
+    "value": "No progress data yet. Start singing!"
+  },
+  {
+    "path": "progress.skills",
+    "value": "Unlocked Skills"
+  },
+  {
+    "path": "progress.noSkills",
+    "value": "No skills unlocked yet. Complete campaign rounds to earn skills!"
+  },
+  {
+    "path": "projectList.title",
+    "value": "Project List"
+  },
+  {
+    "path": "projectsPage.title",
+    "value": "Projects List"
+  },
+  {
+    "path": "projectsPage.addProject",
+    "value": "Add Project"
+  },
+  {
+    "path": "radio.noStation",
+    "value": "No radio station selected."
+  },
+  {
+    "path": "radio.voiceLive",
+    "value": "LIVE"
+  },
+  {
+    "path": "radio.noSchedule",
+    "value": "No schedule available."
+  },
+  {
+    "path": "radio.chat",
+    "value": "Chat"
+  },
+  {
+    "path": "radio.chatPlaceholder",
+    "value": "Type a message..."
+  },
+  {
+    "path": "radio.send",
+    "value": "Send"
+  },
+  {
+    "path": "radio.totalReactions",
+    "value": "Total"
+  },
+  {
+    "path": "radio.commentPlaceholder",
+    "value": "Write a comment..."
+  },
+  {
+    "path": "radio.postComment",
+    "value": "Post"
+  },
+  {
+    "path": "radioInvite.invalid",
+    "value": "This invite link is invalid or has expired."
+  },
+  {
+    "path": "radioInvite.acceptedDesc",
+    "value": "You have been added as a guest to {{station}}."
+  },
+  {
+    "path": "radioInvite.goToStation",
+    "value": "Go to Radio Station"
+  },
+  {
+    "path": "radioInvite.youAreInvited",
+    "value": "You have been invited to join as a guest DJ."
+  },
+  {
+    "path": "radioInvite.validWindow",
+    "value": "Valid from {{from}} to {{to}}"
+  },
+  {
+    "path": "radioInvite.guestNamePlaceholder",
+    "value": "Your display name (optional)"
+  },
+  {
+    "path": "radioInvite.error",
+    "value": "Failed to accept the invite. Please try again."
+  },
+  {
+    "path": "ranking.title",
+    "value": "Karaoke Ranking"
+  },
+  {
+    "path": "ranking.yourRank",
+    "value": "Your rank"
+  },
+  {
+    "path": "ranking.tabRanking",
+    "value": "Leaderboard"
+  },
+  {
+    "path": "ranking.tabHistory",
+    "value": "My History"
+  },
+  {
+    "path": "ranking.tabActivity",
+    "value": "Activity"
+  },
+  {
+    "path": "ranking.noData",
+    "value": "No ranking data yet."
+  },
+  {
+    "path": "ranking.player",
+    "value": "Player"
+  },
+  {
+    "path": "ranking.totalScore",
+    "value": "Total"
+  },
+  {
+    "path": "ranking.songsSung",
+    "value": "Songs"
+  },
+  {
+    "path": "ranking.bestScore",
+    "value": "Best"
+  },
+  {
+    "path": "ranking.myHistory",
+    "value": "My Singing History"
+  },
+  {
+    "path": "ranking.loginRequired",
+    "value": "Log in to see your activity."
+  },
+  {
+    "path": "ranking.noHistory",
+    "value": "No singing history yet. Time to sing! 🎤"
+  },
+  {
+    "path": "ranking.song",
+    "value": "Song"
+  },
+  {
+    "path": "ranking.score",
+    "value": "Score"
+  },
+  {
+    "path": "ranking.date",
+    "value": "Date"
+  },
+  {
+    "path": "ranking.activity",
+    "value": "Singing Activity"
+  },
+  {
+    "path": "ranking.days",
+    "value": "days"
+  },
+  {
+    "path": "ranking.noActivity",
+    "value": "No activity data for this period."
+  },
+  {
+    "path": "ranking.songsPerDay",
+    "value": "Songs per day"
+  },
+  {
+    "path": "ranking.totalSongs",
+    "value": "Total Songs"
+  },
+  {
+    "path": "ranking.totalPoints",
+    "value": "Total Points"
+  },
+  {
+    "path": "ranking.avgPerDay",
+    "value": "Avg / Day"
+  },
+  {
+    "path": "report.commentPlaceholder",
+    "value": "Dodatkowy komentarz (opcjonalnie)..."
+  },
+  {
+    "path": "roleNav.admin",
+    "value": "Admin"
+  },
+  {
+    "path": "roleNav.dashboard",
+    "value": "Dashboard"
+  },
+  {
+    "path": "roleNav.audit",
+    "value": "Audit"
+  },
+  {
+    "path": "roleNav.users",
+    "value": "Users"
+  },
+  {
+    "path": "roleNav.settings",
+    "value": "Settings"
+  },
+  {
+    "path": "roleNav.passwordReqs",
+    "value": "Password Requirements"
+  },
+  {
+    "path": "roleNav.honeyTokens",
+    "value": "HoneyTokens"
+  },
+  {
+    "path": "saveLoad.save",
+    "value": " Save"
+  },
+  {
+    "path": "saveLoad.load",
+    "value": " Load"
+  },
+  {
+    "path": "scoringPresets.title",
+    "value": "Scoring Presets"
+  },
+  {
+    "path": "scoringPresets.description",
+    "value": "Edit scoring presets. Changes are saved to backend if available, otherwise to localStorage."
+  },
+  {
+    "path": "scoringPresets.loading",
+    "value": "Loading..."
+  },
+  {
+    "path": "scoringPresets.save",
+    "value": "Save"
+  },
+  {
+    "path": "scoringPresets.resetDefaults",
+    "value": "Reset to defaults"
+  },
+  {
+    "path": "scoringPresets.colDifficulty",
+    "value": "Difficulty"
+  },
+  {
+    "path": "sectionNav.deleteSection",
+    "value": "Delete section"
+  },
+  {
+    "path": "securityDashboard.title",
+    "value": "Security Analytics"
+  },
+  {
+    "path": "securityDashboard.loading",
+    "value": "Loading analytics..."
+  },
+  {
+    "path": "securityDashboard.auditEventsTrend",
+    "value": "Audit Events Trend"
+  },
+  {
+    "path": "securityDashboard.honeytokensTrend",
+    "value": "Triggered Honeytokens Trend"
+  },
+  {
+    "path": "securityDashboard.comingSoon",
+    "value": "More security metrics and analytics coming soon..."
+  },
+  {
+    "path": "securityDashboard.loadError",
+    "value": "Failed to load analytics data"
+  },
+  {
+    "path": "settingsPage.normal",
+    "value": "Normal"
+  },
+  {
+    "path": "sfwPause.nav.dashboard",
+    "value": "Dashboard"
+  },
+  {
+    "path": "sfwPause.nav.pipeline",
+    "value": "Pipeline"
+  },
+  {
+    "path": "sfwPause.nav.team",
+    "value": "Team"
+  },
+  {
+    "path": "sfwPause.kpi.vs",
+    "value": "vs"
+  },
+  {
+    "path": "sfwPause.months.jan",
+    "value": "Jan"
+  },
+  {
+    "path": "sfwPause.months.feb",
+    "value": "Feb"
+  },
+  {
+    "path": "sfwPause.months.apr",
+    "value": "Apr"
+  },
+  {
+    "path": "sfwPause.months.jun",
+    "value": "Jun"
+  },
+  {
+    "path": "sfwPause.months.jul",
+    "value": "Jul"
+  },
+  {
+    "path": "sfwPause.months.aug",
+    "value": "Aug"
+  },
+  {
+    "path": "sfwPause.months.sep",
+    "value": "Sep"
+  },
+  {
+    "path": "sfwPause.months.nov",
+    "value": "Nov"
+  },
+  {
+    "path": "sfwPause.tickets.id",
+    "value": "ID"
+  },
+  {
+    "path": "sfwPause.tickets.status",
+    "value": "Status"
+  },
+  {
+    "path": "social.edited",
+    "value": "edited"
+  },
+  {
+    "path": "social.showSpoiler",
+    "value": "Show spoiler"
+  },
+  {
+    "path": "social.reply",
+    "value": "Reply"
+  },
+  {
+    "path": "social.replyPlaceholder",
+    "value": "Write a reply…"
+  },
+  {
+    "path": "social.postReply",
+    "value": "Post reply"
+  },
+  {
+    "path": "social.comments",
+    "value": "Comments"
+  },
+  {
+    "path": "social.commentPlaceholder",
+    "value": "Add a comment…"
+  },
+  {
+    "path": "social.containsSpoilers",
+    "value": "Contains spoilers"
+  },
+  {
+    "path": "social.postComment",
+    "value": "Post"
+  },
+  {
+    "path": "social.noComments",
+    "value": "No comments yet."
+  },
+  {
+    "path": "social.ratings",
+    "value": "Ratings"
+  },
+  {
+    "path": "social.votes",
+    "value": "votes"
+  },
+  {
+    "path": "social.editRating",
+    "value": "Edit your rating"
+  },
+  {
+    "path": "social.addRating",
+    "value": "Rate"
+  },
+  {
+    "path": "social.overall",
+    "value": "Overall"
+  },
+  {
+    "path": "social.reviewPlaceholder",
+    "value": "Write a review (optional)…"
+  },
+  {
+    "path": "social.tags",
+    "value": "Tags"
+  },
+  {
+    "path": "social.lists",
+    "value": "My Lists"
+  },
+  {
+    "path": "social.noTags",
+    "value": "No tags yet."
+  },
+  {
+    "path": "social.addTag",
+    "value": "Add a tag…"
+  },
+  {
+    "path": "social.notePlaceholder",
+    "value": "Add a note (optional)…"
+  },
+  {
+    "path": "songBrowser.browse",
+    "value": "Browse"
+  },
+  {
+    "path": "songBrowser.myPlaylists",
+    "value": "My Playlists"
+  },
+  {
+    "path": "songBrowser.createPlaylist",
+    "value": "Create playlist"
+  },
+  {
+    "path": "songBrowser.playlistName",
+    "value": "Playlist name"
+  },
+  {
+    "path": "songBrowser.noPlaylists",
+    "value": "No playlists yet"
+  },
+  {
+    "path": "songBrowser.deletePlaylist",
+    "value": "Delete playlist"
+  },
+  {
+    "path": "songBrowser.onlinePlaylists",
+    "value": "Online Playlists"
+  },
+  {
+    "path": "songBrowser.noOnlinePlaylists",
+    "value": "No online playlists"
+  },
+  {
+    "path": "songBrowser.allSongs",
+    "value": "All Songs"
+  },
+  {
+    "path": "songBrowser.byGenre",
+    "value": "By Genre"
+  },
+  {
+    "path": "songBrowser.byYear",
+    "value": "By Year"
+  },
+  {
+    "path": "songBrowser.renamePlaylist",
+    "value": "Rename"
+  },
+  {
+    "path": "songBrowser.publishPlaylist",
+    "value": "Publish (make public)"
+  },
+  {
+    "path": "songBrowser.sharePlaylist",
+    "value": "Copy share link"
+  },
+  {
+    "path": "songBrowser.duplicatePlaylist",
+    "value": "Duplicate"
+  },
+  {
+    "path": "songBrowser.saveToMyPlaylists",
+    "value": "Save to My Playlists"
+  },
+  {
+    "path": "songFilter.header",
+    "value": "Filter Songs"
+  },
+  {
+    "path": "songFilter.labelTitle",
+    "value": "Title"
+  },
+  {
+    "path": "songFilter.labelArtist",
+    "value": "Artist"
+  },
+  {
+    "path": "songFilter.placeholderTitle",
+    "value": "Enter title"
+  },
+  {
+    "path": "songFilter.placeholderArtist",
+    "value": "Enter artist"
+  },
+  {
+    "path": "songFilter.search",
+    "value": "Search"
+  },
+  {
+    "path": "songLookup.byGenre",
+    "value": "Wg gatunku"
+  },
+  {
+    "path": "songLookup.allGenres",
+    "value": "Gatunek: Wszystkie"
+  },
+  {
+    "path": "songLookup.byYear",
+    "value": "Wg roku"
+  },
+  {
+    "path": "songLookup.allYears",
+    "value": "Rok: Wszystkie"
+  },
+  {
+    "path": "songLookup.itemsLabel",
+    "value": "piosenek"
+  },
+  {
+    "path": "songMiniGames.title",
+    "value": "Song Mini-Games"
+  },
+  {
+    "path": "songMiniGames.subtitle",
+    "value": "Play musical challenges generated from real karaoke songs"
+  },
+  {
+    "path": "songMiniGames.searchPlaceholder",
+    "value": "Search songs..."
+  },
+  {
+    "path": "songMiniGames.noSongs",
+    "value": "No songs found"
+  },
+  {
+    "path": "songMiniGames.changeSong",
+    "value": "Change Song"
+  },
+  {
+    "path": "songMiniGames.noNotes",
+    "value": "This song has no note data. Please pick another song."
+  },
+  {
+    "path": "songMiniGames.pickGameType",
+    "value": "Choose game type"
+  },
+  {
+    "path": "songMiniGames.difficulty",
+    "value": "Difficulty"
+  },
+  {
+    "path": "songMiniGames.startGame",
+    "value": "Start Game"
+  },
+  {
+    "path": "songMiniGames.score",
+    "value": "Score"
+  },
+  {
+    "path": "songMiniGames.streak",
+    "value": "streak"
+  },
+  {
+    "path": "songMiniGames.timeAt",
+    "value": "At"
+  },
+  {
+    "path": "songMiniGames.sequenceHint",
+    "value": "Memorize and repeat:"
+  },
+  {
+    "path": "songMiniGames.accuracy",
+    "value": "Accuracy"
+  },
+  {
+    "path": "songMiniGames.bestStreak",
+    "value": "Best Streak"
+  },
+  {
+    "path": "songMiniGames.avgResponse",
+    "value": "Avg Response"
+  },
+  {
+    "path": "songMiniGames.playAgain",
+    "value": "Play Again"
+  },
+  {
+    "path": "songMiniGames.changeGame",
+    "value": "Change Game"
+  },
+  {
+    "path": "songSelection.freeForAll",
+    "value": "Free for all"
+  },
+  {
+    "path": "songSelection.roundRobin",
+    "value": "Round robin"
+  },
+  {
+    "path": "songSelection.hostOnly",
+    "value": "Host only"
+  },
+  {
+    "path": "songSelection.firstCome",
+    "value": "First come"
+  },
+  {
+    "path": "songSelection.raceGo",
+    "value": "GO! Pick a song!"
+  },
+  {
+    "path": "songSelection.raceWon",
+    "value": "picks!"
+  },
+  {
+    "path": "songSelection.raceAgain",
+    "value": "New race"
+  },
+  {
+    "path": "songSelection.raceStart",
+    "value": "Start race"
+  },
+  {
+    "path": "songSelection.raceNotOpen",
+    "value": "Wait for the race to start!"
+  },
+  {
+    "path": "sourceDetails.source",
+    "value": "Source"
+  },
+  {
+    "path": "speechSynth.title",
+    "value": "Speech Synth"
+  },
+  {
+    "path": "speechSynth.placeholder",
+    "value": "Enter text..."
+  },
+  {
+    "path": "speechSynth.autoPlay",
+    "value": "Auto-play"
+  },
+  {
+    "path": "speechSynth.generate",
+    "value": " Generate"
+  },
+  {
+    "path": "stemSep.noTracksInZip",
+    "value": "Separation returned no audio tracks."
+  },
+  {
+    "path": "stemSep.title",
+    "value": "Audio Stem Separation (Demucs)"
+  },
+  {
+    "path": "stemSep.description",
+    "value": "Separate the uploaded audio into individual stems (vocals, drums, bass, etc.) using AI. You can then preview each stem and choose which one to analyze for pitch detection."
+  },
+  {
+    "path": "stemSep.stemCount",
+    "value": "Stems:"
+  },
+  {
+    "path": "stemSep.separating",
+    "value": "Separating…"
+  },
+  {
+    "path": "stemSep.separateBtn",
+    "value": "Separate Tracks"
+  },
+  {
+    "path": "stemSep.useOriginal",
+    "value": "Use Original File"
+  },
+  {
+    "path": "stemSep.processingMsg",
+    "value": "Processing with Demucs — this can take 1-3 minutes depending on file length…"
+  },
+  {
+    "path": "stemSep.errorTitle",
+    "value": "Separation Error"
+  },
+  {
+    "path": "stemSep.retry",
+    "value": "Try Again"
+  },
+  {
+    "path": "stemSep.selectTrack",
+    "value": "Select track to analyze:"
+  },
+  {
+    "path": "stemSep.useSelected",
+    "value": "Use Selected Stem for Analysis"
+  },
+  {
+    "path": "stepSeq.title",
+    "value": "Step Sequencer"
+  },
+  {
+    "path": "stepSeq.hint",
+    "value": "Click steps to toggle. Drag velocity bars vertically."
+  },
+  {
+    "path": "tuningHarness.title",
+    "value": "Tuning Harness"
+  },
+  {
+    "path": "tuningHarness.subtitle",
+    "value": "Analyze and tune karaoke scoring parameters with fixture data"
+  },
+  {
+    "path": "tuningHarness.import",
+    "value": "Import Fixture"
+  },
+  {
+    "path": "tuningHarness.params",
+    "value": "Scoring Parameters"
+  },
+  {
+    "path": "tuningHarness.autoFindTooltip",
+    "value": "Sweep -500..+500 ms to find offset that maximises scoring total"
+  },
+  {
+    "path": "tuningHarness.autoFind",
+    "value": "Auto-find best offset"
+  },
+  {
+    "path": "tuningHarness.results",
+    "value": "Results"
+  },
+  {
+    "path": "tuningHarness.heatmap",
+    "value": "Segmentation Heatmap"
+  },
+  {
+    "path": "tuningHarness.sweep",
+    "value": "Preset Sweep"
+  },
+  {
+    "path": "tuningHarness.telemetry",
+    "value": "Tuning Run History"
+  },
+  {
+    "path": "tuningHarness.saveRunTooltip",
+    "value": "Save current params & score to history"
+  },
+  {
+    "path": "tuningHarness.saveRun",
+    "value": "Save Run"
+  },
+  {
+    "path": "tuningHarness.clearRuns",
+    "value": "Clear All"
+  },
+  {
+    "path": "tuningHarness.perNote",
+    "value": "Per-Note Detail"
+  },
+  {
+    "path": "ultrastarRow.editInKaraokeEditor",
+    "value": "Edit in Karaoke Editor"
+  },
+  {
+    "path": "userInfo.loading",
+    "value": "Loading user info..."
+  },
+  {
+    "path": "userInfo.welcome",
+    "value": "Welcome, {{username}}"
+  },
+  {
+    "path": "userInfo.passwordChangeRequired",
+    "value": "Password change required at first login!"
+  },
+  {
+    "path": "vendor.tabs.portfolio",
+    "value": "Portfolio"
+  },
+  {
+    "path": "vendor.itemName",
+    "value": "Name"
+  },
+  {
+    "path": "vendor.category.0",
+    "value": "DJ"
+  },
+  {
+    "path": "vendor.category.6",
+    "value": "Catering"
+  },
+  {
+    "path": "vendor.category.13",
+    "value": "Transport"
+  },
+  {
+    "path": "vendor.reviewsCount",
+    "value": "reviews"
+  },
+  {
+    "path": "vendor.website",
+    "value": "Website"
+  },
+  {
+    "path": "vendor.noPricelist",
+    "value": "No price list items yet."
+  },
+  {
+    "path": "vendor.description",
+    "value": "Description"
+  },
+  {
+    "path": "vendor.price",
+    "value": "Price"
+  },
+  {
+    "path": "vendor.unit",
+    "value": "Unit"
+  },
+  {
+    "path": "vendor.unavailable",
+    "value": "Unavailable"
+  },
+  {
+    "path": "vendor.noMenu",
+    "value": "No menu items yet."
+  },
+  {
+    "path": "vendor.vegetarian",
+    "value": "Vegetarian"
+  },
+  {
+    "path": "vendor.vegan",
+    "value": "Vegan"
+  },
+  {
+    "path": "vendor.glutenFree",
+    "value": "Gluten-free"
+  },
+  {
+    "path": "vendor.allergens",
+    "value": "Allergens"
+  },
+  {
+    "path": "vendor.noPortfolio",
+    "value": "No portfolio items yet."
+  },
+  {
+    "path": "vendor.noReviews",
+    "value": "No reviews yet."
+  },
+  {
+    "path": "vendor.anonymous",
+    "value": "Anonymous"
+  },
+  {
+    "path": "vendor.addReview",
+    "value": "Write a Review"
+  },
+  {
+    "path": "vendor.rating",
+    "value": "Rating"
+  },
+  {
+    "path": "vendor.commentPlaceholder",
+    "value": "Your comment (optional)..."
+  },
+  {
+    "path": "vendor.submitReview",
+    "value": "Submit Review"
+  },
+  {
+    "path": "vendor.reviewSent",
+    "value": "Thank you for your review!"
+  },
+  {
+    "path": "vendor.contactName",
+    "value": "Your Name"
+  },
+  {
+    "path": "vendor.contactEmail",
+    "value": "Your Email"
+  },
+  {
+    "path": "vendor.eventDate",
+    "value": "Event Date"
+  },
+  {
+    "path": "vendor.guestCount",
+    "value": "Guest Count"
+  },
+  {
+    "path": "vendor.budget",
+    "value": "Budget"
+  },
+  {
+    "path": "vendor.message",
+    "value": "Message"
+  },
+  {
+    "path": "vendor.sendInquiry",
+    "value": "Send Inquiry"
+  },
+  {
+    "path": "vendor.inquirySent",
+    "value": "Your inquiry has been sent! The vendor will contact you soon."
+  },
+  {
+    "path": "vendor.noRating",
+    "value": "No rating"
+  },
+  {
+    "path": "vendor.city",
+    "value": "City"
+  },
+  {
+    "path": "vendor.vendors",
+    "value": "vendors"
+  },
+  {
+    "path": "versionHistory.title",
+    "value": "Version History"
+  },
+  {
+    "path": "versionHistory.noPermission",
+    "value": "You do not have permission to view version history."
+  },
+  {
+    "path": "versionHistory.noVersions",
+    "value": "No versions available."
+  },
+  {
+    "path": "versionHistory.selectVersion",
+    "value": "Select a version to preview"
+  },
+  {
+    "path": "versionHistory.previewJson",
+    "value": "Preview JSON"
+  },
+  {
+    "path": "versionHistory.revertReason",
+    "value": "Reason for reverting"
+  },
+  {
+    "path": "versionHistory.reverting",
+    "value": "Reverting"
+  },
+  {
+    "path": "versionHistory.revert",
+    "value": "Revert"
+  },
+  {
+    "path": "versionHistory.noRevertPermission",
+    "value": "You do not have permission to revert versions."
+  },
+  {
+    "path": "videoGames.online",
+    "value": "Online Multiplayer"
+  },
+  {
+    "path": "vocalEffects.title",
+    "value": "Vocal Effects"
+  },
+  {
+    "path": "vocalEffects.pageTitle",
+    "value": "Vocal Effects"
+  },
+  {
+    "path": "vocalEffects.pageDescription",
+    "value": "Apply live vocal effects to your microphone. Choose from 20 effects — stack multiple at once. Hear the results through your speakers in real time."
+  },
+  {
+    "path": "vocalEffects.settingsHint",
+    "value": "Apply live vocal effects — chipmunk, robot, echo, and more."
+  },
+  {
+    "path": "vocalEffects.start",
+    "value": "Start Mic"
+  },
+  {
+    "path": "vocalEffects.stop",
+    "value": "Stop"
+  },
+  {
+    "path": "vocalEffects.monitor",
+    "value": "Monitor"
+  },
+  {
+    "path": "vocalEffects.volume",
+    "value": "Vol"
+  },
+  {
+    "path": "vocalEffects.gain",
+    "value": "Gain"
+  },
+  {
+    "path": "vocalEffects.active",
+    "value": "active"
+  },
+  {
+    "path": "vocalEffects.clearAll",
+    "value": "Clear All"
+  },
+  {
+    "path": "vocalEffects.hint",
+    "value": "Click effects to toggle. Multiple effects can be active simultaneously. Adjust intensity with the slider."
+  },
+  {
+    "path": "vocalReport.bonus",
+    "value": "Bonus"
+  },
+  {
+    "path": "vocalReport.intonation",
+    "value": "Intonation"
+  },
+  {
+    "path": "vocalReport.parameter",
+    "value": "Parameter"
+  },
+  {
+    "path": "vocalReport.monitor",
+    "value": "Monitor"
+  },
+  {
+    "path": "vocalReport.methJitter",
+    "value": "Jitter & Shimmer"
+  },
+  {
+    "path": "vocalReport.radarIntonation",
+    "value": "Intonation"
+  },
+  {
+    "path": "vocalReport.radarCombo",
+    "value": "Combo"
+  },
+  {
+    "path": "vocalReport.globalRanking",
+    "value": "🏆 Top 10"
+  },
+  {
+    "path": "wishlists.subtitle",
+    "value": "Create and manage your wishlists. Share them publicly or sync with Steam."
+  },
+  {
+    "path": "wishlists.createNew",
+    "value": "Create New Wishlist"
+  },
+  {
+    "path": "wishlists.namePlaceholder",
+    "value": "Wishlist name"
+  },
+  {
+    "path": "wishlists.public",
+    "value": "Public"
+  },
+  {
+    "path": "wishlists.empty",
+    "value": "No wishlists yet."
+  },
+  {
+    "path": "wishlists.shared",
+    "value": "Shared Wishlist"
+  },
+  {
+    "path": "wishlists.notFound",
+    "value": "Wishlist not found or link has expired."
+  },
+  {
+    "path": "wishlists.emptyList",
+    "value": "This wishlist is empty."
+  },
+  {
+    "path": "wishlists.type",
+    "value": "Type"
+  },
+  {
+    "path": "wishlists.priority",
+    "value": "Priority"
+  },
+  {
+    "path": "wishlists.status",
+    "value": "Status"
+  },
+  {
+    "path": "wishlists.addItemPlaceholder",
+    "value": "Item name"
+  },
+  {
+    "path": "wishlists.steamIdPlaceholder",
+    "value": "Steam ID (e.g. 76561198...)"
+  },
+  {
+    "path": "wishlists.syncNow",
+    "value": "Sync Now"
+  },
+  {
+    "path": "wishlists.lastSync",
+    "value": "Last sync"
+  },
+  {
+    "path": "youtubePlayer.artist",
+    "value": "Artist"
+  },
+  {
+    "path": "youtubePlayer.title",
+    "value": "Title"
+  },
+  {
+    "path": "youtubePlayer.search",
+    "value": "Search"
+  },
+  {
+    "path": "youtubeSubs.subtitle",
+    "value": "Manage your YouTube channel subscriptions."
+  },
+  {
+    "path": "youtubeSubs.settingsHint",
+    "value": "Manage your YouTube channel subscriptions."
+  },
+  {
+    "path": "youtubeSubs.empty",
+    "value": "No subscriptions found. Make sure your YouTube account is linked."
+  },
+  {
+    "path": "youtubeSubs.total",
+    "value": "Total subscriptions: {{count}}"
+  },
+  {
+    "path": "youtubeSubs.confirmUnsubscribe",
+    "value": "Unsubscribe from {{title}}?"
+  }
+]

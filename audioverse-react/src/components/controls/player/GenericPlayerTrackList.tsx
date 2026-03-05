@@ -33,4 +33,4 @@ const GenericPlayerTrackList: React.FC<Props> = ({ tracks, activeIndex, onSelect
     );
 };
 
-export default GenericPlayerTrackList;
+export default React.memo(GenericPlayerTrackList);

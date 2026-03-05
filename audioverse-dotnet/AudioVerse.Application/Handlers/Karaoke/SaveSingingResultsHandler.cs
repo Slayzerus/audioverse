@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using AudioVerse.Domain.Repositories;
 using AudioVerse.Application.Commands.Karaoke;
-using AudioVerse.Domain.Entities.Karaoke;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSingings;
 
-namespace AudioVerse.Application.Handlers
+namespace AudioVerse.Application.Handlers.Karaoke
 {
     public class SaveSingingResultsHandler : IRequestHandler<SaveSingingResultsCommand, bool>
     {

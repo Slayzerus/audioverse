@@ -2,11 +2,9 @@ const navItems = ["parties", "players", "songs", "studio", "settings"];
 let activeIndex = 0;
 
 export const handleControlUp = () => {
-    console.log("Up pressed");
 };
 
 export const handleControlDown = () => {
-    console.log("Down pressed");
 };
 
 export const handleControlLeft = (setActiveNavItem: (item: string) => void) => {

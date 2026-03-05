@@ -1,0 +1,19 @@
+Rysunek 5.1 — Wyniki testów jednostkowych i integracyjnych
+
+CO PRZEDSTAWIA:
+Screenshot terminala/konsoli z wynikami uruchomienia testów:
+  - Vitest: 135 plików, 1685/1685 testów pass (frontend React/TS)
+  - xUnit: AudioVerse.Tests i AudioVerse.Application.Tests (backend C#)
+Widoczna zielona linia "All tests passed" i statystyki (czas, pokrycie).
+Pokazuje, że system jest przetestowany i stabilny.
+
+JAK ZDOBYĆ:
+1. Frontend — uruchom testy Vitest:
+   cd c:\Users\Radko\source\repos\AudioVerse\audioverse-react
+   npx vitest run
+   → Zrób screenshot terminala z wynikami (135 files, 1685 pass)
+2. Backend — uruchom testy xUnit:
+   cd c:\Users\Radko\source\repos\AudioVerse\audioverse-dotnet
+   dotnet test
+   → Zrób screenshot terminala z wynikami
+3. Sklej oba screeny w jeden obraz lub zrób dwa oddzielne

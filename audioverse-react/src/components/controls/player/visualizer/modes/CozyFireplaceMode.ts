@@ -64,7 +64,7 @@ export function drawCozyFireplace(
         const e = st.embers[i];
         e.x += e.vx;
         e.y += e.vy;
-        e.vy -= 0.01;            // lekko do góry
+        e.vy -= 0.01;            // slightly upward
         e.life -= 0.015 + energy*0.02;
         if (e.life <= 0 || e.y < -10) { st.embers.splice(i,1); continue; }
 

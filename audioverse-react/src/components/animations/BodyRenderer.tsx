@@ -46,7 +46,7 @@ export const BodyRenderer: React.FC<BodyRendererProps> = ({ character, size }) =
                 <Leg colors={legColors} side={+1} variant="pants" scale={k} transform="translate(16 0)" />
 
                 {/* torso base (skin under neck area) */}
-                <Torso variant="vShape" colors={[skin, "#00000000", stroke]} scale={k} />
+                <Torso variant="vShape" colors={[skin, "var(--anim-transparent, #00000000)", stroke]} scale={k} />
 
                 {/* outfit painted over torso */}
                 <Outfit variant={character.outfit.variant} colors={character.outfit.colors} scale={k} />

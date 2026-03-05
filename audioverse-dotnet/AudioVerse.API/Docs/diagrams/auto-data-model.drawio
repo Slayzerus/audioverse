@@ -1,0 +1,215 @@
+﻿<mxfile host="AudioVerse.DiagramGenerator" modified="2026-02-28" type="device">
+  <diagram id="auto-er" name="Data Model (auto-generated)">
+    <mxGraphModel dx="2000" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3000" pageHeight="2000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="10" value="AudioVerse - Model danych (auto-generated)" style="text;html=0;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="600" height="40" as="geometry"/>
+        </mxCell>
+                <mxCell id="11" value="Audio" style="rounded=1;whiteSpace=wrap;html=0;fontStyle=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=14;spacingTop=6;dashed=1;dashPattern=8 4;shadow=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="308" height="314" as="geometry"/>
+        </mxCell>
+<mxCell id="12" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#6c8ebf;fillColor=#dae8fc;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="64" y="124" width="260" height="206" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" value="Song
+(Katalog muzyczny)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="12">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" value="int Id
+string? Title
+int? AlbumId
+string ISRC
+int? PrimaryArtistId
+bool IsDeleted
+DateTime? DeletedAt
+int? DeletedByUserId" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#dae8fc;strokeColor=none;" vertex="1" parent="12">
+          <mxGeometry y="54" width="260" height="152" as="geometry"/>
+        </mxCell>
+                <mxCell id="15" value="Events" style="rounded=1;whiteSpace=wrap;html=0;fontStyle=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=14;spacingTop=6;dashed=1;dashPattern=8 4;shadow=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="398" y="80" width="604" height="674" as="geometry"/>
+        </mxCell>
+<mxCell id="16" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#82b366;fillColor=#d5e8d4;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="422" y="124" width="260" height="566" as="geometry"/>
+        </mxCell>
+        <mxCell id="17" value="Event
+(Core event - scheduled gathering)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#82b366;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="16">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="18" value="int Id
+string? Title
+string Description
+EventType Type
+DateTime? StartTime
+DateTime? EndTime
+int? OrganizerId
+int? MaxParticipants
+bool WaitingListEnabled
+EventVisibility Visibility
+bool IsDeleted
+DateTime? DeletedAt
+int? DeletedByUserId
+int? LocationId
+string LocationName
+EventStatus Status
+EventLocationType LocationType
+EventAccessType Access
+string CodeHash
+string AccessToken
+string Poster
+RecurrencePattern? Recurrence
+int? RecurrenceInterval
+int? SeriesParentId
+bool CarryOverProposals
+string CancellationReason
+DateTime? OriginalStartTime
+string? Name" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#d5e8d4;strokeColor=none;" vertex="1" parent="16">
+          <mxGeometry y="54" width="260" height="512" as="geometry"/>
+        </mxCell>
+        <mxCell id="19" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#82b366;fillColor=#d5e8d4;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="722" y="124" width="260" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="20" value="EventParticipant
+(RSVP / attendance tracking)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#82b366;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="19">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" value="int Id
+int EventId
+int UserId
+EventParticipantStatus Status
+DateTime RegisteredAt
+DateTime? ArrivedAt" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#d5e8d4;strokeColor=none;" vertex="1" parent="19">
+          <mxGeometry y="54" width="260" height="116" as="geometry"/>
+        </mxCell>
+                <mxCell id="22" value="Karaoke" style="rounded=1;whiteSpace=wrap;html=0;fontStyle=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=14;spacingTop=6;dashed=1;dashPattern=8 4;shadow=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1052" y="80" width="308" height="332" as="geometry"/>
+        </mxCell>
+<mxCell id="23" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#9673a6;fillColor=#e1d5e7;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="124" width="260" height="224" as="geometry"/>
+        </mxCell>
+        <mxCell id="24" value="KaraokeSession
+(Sesja karaoke w ramach eventu)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#9673a6;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="23">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="25" value="int Id
+int? EventId
+string Name
+KaraokeSessionMode Mode
+DateTime CreatedAt
+DateTime? StartedAt
+DateTime? EndedAt
+bool TeamMode
+bool IsLimitedToEventPlaylist" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#e1d5e7;strokeColor=none;" vertex="1" parent="23">
+          <mxGeometry y="54" width="260" height="170" as="geometry"/>
+        </mxCell>
+                <mxCell id="26" value="Laboratory" style="rounded=1;whiteSpace=wrap;html=0;fontStyle=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=14;spacingTop=6;dashed=1;dashPattern=8 4;shadow=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="80" width="604" height="548" as="geometry"/>
+        </mxCell>
+<mxCell id="27" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#689f38;fillColor=#dcedc8;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1434" y="124" width="260" height="422" as="geometry"/>
+        </mxCell>
+        <mxCell id="28" value="LaboratoryExperiment
+(Pitch detection experiment with CREPE/pYIN metrics)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#689f38;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="27">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="29" value="int Id
+Guid ExperimentGuid
+string? Title
+string Operator
+DateTime ExecutedAt
+int BenchmarkRuns
+int FileCount
+string ApiVersion
+double? CrepeAvgRmseCents
+double? CrepeAvgAccuracy50c
+double? CrepeAvgPearsonR
+double? CrepeAvgLatencyMs
+double? PyinAvgRmseCents
+double? PyinAvgAccuracy50c
+double? PyinAvgPearsonR
+double? PyinAvgLatencyMs
+double? SeparationAvgDeltaRmseCents
+double? DtwScore
+string ResultsJson
+string Notes" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#dcedc8;strokeColor=none;" vertex="1" parent="27">
+          <mxGeometry y="54" width="260" height="368" as="geometry"/>
+        </mxCell>
+        <mxCell id="30" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#afb42b;fillColor=#f0f4c3;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1734" y="124" width="260" height="440" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" value="LaboratoryExperimentSample
+(Audio sample with per-file CREPE/pYIN metrics + MinIO storage)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#afb42b;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="30">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="32" value="int Id
+int ExperimentId
+string? FileName
+long FileSizeBytes
+double? CrepeRmseHz
+double? CrepeRmseCents
+double? CrepeAccuracy50c
+double? CrepePearsonR
+long? CrepeLatencyMs
+double? CrepeMedianHz
+double? PyinRmseHz
+double? PyinRmseCents
+double? PyinAccuracy50c
+double? PyinPearsonR
+long? PyinLatencyMs
+double? PyinMedianHz
+double? SeparationRmseCentsBefore
+double? SeparationRmseCentsAfter
+long? SeparationLatencyMs
+string PitchTrajectoryJson
+string StoragePath" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#f0f4c3;strokeColor=none;" vertex="1" parent="30">
+          <mxGeometry y="54" width="260" height="386" as="geometry"/>
+        </mxCell>
+                <mxCell id="33" value="UserProfiles" style="rounded=1;whiteSpace=wrap;html=0;fontStyle=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=14;spacingTop=6;dashed=1;dashPattern=8 4;shadow=0;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="688" width="308" height="404" as="geometry"/>
+        </mxCell>
+<mxCell id="34" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;fixedRows=0;rowLines=0;fontStyle=0;strokeColor=#d6b656;fillColor=#fff2cc;rounded=1;arcSize=8;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="64" y="732" width="260" height="296" as="geometry"/>
+        </mxCell>
+        <mxCell id="35" value="UserProfile
+(Profil użytkownika)" style="text;html=0;fontSize=12;fontStyle=1;align=center;verticalAlign=middle;spacingLeft=6;spacingRight=6;spacingTop=4;spacingBottom=4;fillColor=#d6b656;fontColor=#ffffff;strokeColor=none;rounded=1;arcSize=8;" vertex="1" parent="34">
+          <mxGeometry width="260" height="54" as="geometry"/>
+        </mxCell>
+        <mxCell id="36" value="string RefreshToken
+DateTime RefreshTokenExpiryTime
+string FullName
+bool IsBlocked
+bool RequirePasswordChange
+DateTime? PasswordExpiryDate
+int? PasswordValidityDays
+DateTime CreatedAt
+DateTime? LastPasswordChangeDate
+bool TotpEnabled
+string? TotpSecret
+int? ContactId
+string? PhotoKey" style="text;html=0;fontSize=10;align=left;verticalAlign=top;spacingLeft=10;spacingRight=6;spacingTop=6;spacingBottom=6;fillColor=#fff2cc;strokeColor=none;" vertex="1" parent="34">
+          <mxGeometry y="54" width="260" height="242" as="geometry"/>
+        </mxCell>
+        <mxCell id="37" value="1:N" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="27" target="30" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="38" value="N:1" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="30" target="27" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="39" value="N:1" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="23" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="40" value="N:1" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="16" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" value="N:1" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="19" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="42" value="N:1" style="edgeStyle=entityRelationEdgeStyle;rounded=1;fontSize=9;labelBackgroundColor=#ffffff;strokeWidth=1.5;" edge="1" source="19" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,3 @@
+Źródło własne — diagram pipeline modułu laboratoryjnego
+audioverse-dotnet/AudioVerse.API/Docs/diagrams/13-laboratory-pipeline-flow.drawio
+2026-02-20

@@ -1,0 +1,81 @@
+# ══════════════════════════════════════════════════════════════
+# GPU Machine — AI sidecars + Tailscale (mesh VPN)
+# ══════════════════════════════════════════════════════════════
+#
+# Alternative to Cloudflare Tunnel — uses Tailscale mesh VPN.
+# Every machine gets a stable 100.x.x.x IP.
+#
+# Setup:
+#   1. Install Tailscale on BOTH machines:
+#        GPU PC:   tailscale up --hostname=audioverse-gpu
+#        Server:   tailscale up --hostname=audioverse-srv
+#   2. Check GPU PC's Tailscale IP: tailscale ip -4
+#   3. Set the IP in server's appsettings:
+#        "MotionGptUrl": "http://<tailscale-ip>:8300"
+#   4. docker compose -f docker-compose.gpu-tailscale.yml up -d
+#
+# Architecture:
+#   [Server 100.x.x.1] ──WireGuard mesh──▶ [GPU PC 100.x.x.2]
+#                                              ├─ :8300 MotionGPT
+#                                              ├─ :8301 MDM
+#                                              └─ :8302 MoMask
+#
+# Pros vs Cloudflare Tunnel:
+#   ✅ Zero DNS config, zero domain needed
+#   ✅ Instant setup (2 commands)
+#   ✅ Encrypted WireGuard mesh
+#   ❌ Not publicly accessible (only Tailscale network)
+
+services:
+  motion_gpt:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.motiongpt
+    ports:
+      - "8300:8300"
+    restart: unless-stopped
+    environment:
+      - MOTIONGPT_CONFIG=configs/default.yaml
+      - MOTIONGPT_CHECKPOINT=checkpoints/motiongpt.pth
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  motion_mdm:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.mdm
+    ports:
+      - "8301:8301"
+    restart: unless-stopped
+    environment:
+      - MDM_CHECKPOINT=save/humanml_trans_enc_512/model000200000.pt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  motion_momask:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.momask
+    ports:
+      - "8302:8302"
+    restart: unless-stopped
+    environment:
+      - MOMASK_VQ_CHECKPOINT=checkpoints/vq/best.tar
+      - MOMASK_T2M_CHECKPOINT=checkpoints/t2m/best.tar
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,123 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  audio_analysis: # Audio Analysis (BPM, key)
+    build:
+      context: ./utils/ai/audio_analysis
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+
+  audio_pitch: # Audio Pitch Tracking (CREPE + pYIN, GPU)
+    build:
+      context: ./utils/ai/audio_pitch
+      dockerfile: Dockerfile.gpu
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  audio_rhythm: # Audio Rhythm / Beat
+    build:
+      context: ./utils/ai/audio_rhythm
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+
+  audio_separate: # Source Separation (Demucs, CPU)
+    build:
+      context: ./utils/ai/audio_separate
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+
+  audio_tags: # Audio Tags
+    build:
+      context: ./utils/ai/audio_tags
+    restart: unless-stopped
+    ports:
+      - "8087:8087"
+
+  audio_tags_panns: # Audio Tags PANNs
+    build:
+      context: ./utils/ai/audio_tags_panns
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  audio_vad: # Voice Activity Detection
+    build:
+      context: ./utils/ai/audio_vad
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+
+  sing_score: # Singing Score
+    build:
+      context: ./utils/ai/sing_score
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+
+  librosa: # Librosa audio features
+    build:
+      context: ./utils/librosa
+    restart: unless-stopped
+    ports:
+      - "8088:8000"
+
+volumes:
+  postgres_data:
+  minio_data:

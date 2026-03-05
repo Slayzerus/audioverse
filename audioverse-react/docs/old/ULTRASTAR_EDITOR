@@ -1,0 +1,54 @@
+# UltraStar-Creator – Wnioski dla edytora Ultrastar
+
+Repozytorium: https://github.com/UltraStar-Deluxe/UltraStar-Creator
+
+## Ogólne założenia
+- UltraStar-Creator to otwartoźródłowe narzędzie do tworzenia i edycji piosenek w formacie Ultrastar.
+- Projekt jest oparty o framework Qt (C++), działa na Windows, Linux, Mac.
+- Główne repozytorium zawiera kod źródłowy, instrukcje budowania, zależności i narzędzia wspierające.
+
+## Architektura i funkcje edytora
+- Edytor jest aplikacją desktopową, nie webową.
+- Wspiera pełny cykl tworzenia piosenki: od importu pliku audio, przez edycję nut, tekstu, metadanych, aż po eksport do formatu Ultrastar.
+- Wykorzystuje zewnętrzne biblioteki do obsługi dźwięku (np. BASS, taglib) i rozpoznawania języka (cld2).
+- Edytor pozwala na:
+  - Import i synchronizację pliku audio (mp3, ogg, itp.)
+  - Edycję nut (pitch, start, długość, tekst sylab)
+  - Edycję metadanych (tytuł, artysta, BPM, GAP, itp.)
+  - Podgląd i odsłuch synchronizacji tekstu z muzyką
+  - Automatyczną sylabifikację tekstu (moduł syllabification)
+  - Eksport do pliku tekstowego Ultrastar
+  - Obsługę wielu języków i kodowań
+
+## Wnioski dla własnego edytora Ultrastar
+1. **Architektura**:
+   - Warto rozdzielić warstwę logiki nut/tekstu od warstwy UI.
+   - Wydzielić moduły do: importu audio, edycji nut, edycji tekstu, synchronizacji, eksportu.
+   - Dobrą praktyką jest wsparcie dla różnych formatów audio i kodowań tekstu.
+
+2. **Funkcje kluczowe**:
+   - Edycja nut z podglądem na osi czasu (timeline/piano roll).
+   - Edycja tekstu i metadanych z walidacją.
+   - Automatyczna lub półautomatyczna synchronizacja tekstu z audio.
+   - Odsłuch fragmentów audio z podświetleniem aktualnej sylaby/nuty.
+   - Eksport/import plików Ultrastar TXT.
+   - Wsparcie dla sylabifikacji i różnych języków.
+
+3. **UX/UI**:
+   - Intuicyjna nawigacja: zakładki lub panele (audio, nuty, tekst, eksport).
+   - Możliwość cofania/ponawiania zmian.
+   - Wizualny podgląd nut i tekstu zsynchronizowanego z audio.
+   - Szybki dostęp do najważniejszych funkcji (np. skróty klawiszowe).
+
+4. **Techniczne**:
+   - Warto rozważyć użycie gotowych bibliotek do obsługi audio i formatów plików.
+   - Dobrze mieć testy walidujące poprawność eksportowanych plików Ultrastar.
+   - Wersjonowanie i backup projektów piosenek.
+
+5. **Inspiracje**:
+   - UltraStar-Creator jest rozbudowany, ale można uprościć UI dla webowej wersji.
+   - Kluczowe jest połączenie edycji nut i tekstu z natychmiastowym podglądem efektu.
+
+---
+
+To podsumowanie bazuje na analizie repozytorium i dokumentacji UltraStar-Creator. Warto przejrzeć kod źródłowy (szczególnie katalog src/) dla szczegółowych rozwiązań algorytmicznych i UI.

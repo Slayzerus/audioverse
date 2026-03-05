@@ -1,0 +1,16 @@
+Rysunek 4.10 — Ekran rankingu po zakończeniu piosenki (KaraokeRankingPage)
+
+CO PRZEDSTAWIA:
+Tabela graczy posortowana malejąco po Score, z kolumnami: Gracz, Score,
+Hits, Misses, Good, Perfect, Combo. Animacja wejścia rekordów (jeśli
+widoczna na screenie). Przycisk "Następna runda" na dole.
+
+JAK ZDOBYĆ:
+1. Uruchom system: docker compose up -d
+2. Zaloguj się, utwórz sesję karaoke z 2-4 graczami
+3. Rozegraj pełną rundę do końca piosenki
+4. Po zakończeniu piosenki (zdarzenie RoundFinished) automatycznie
+   pojawi się ekran rankingu
+5. Zrób screenshot tabeli rankingowej z wynikami
+6. Źródło: audioverse-react/src/pages/party/KaraokeRankingPage.tsx
+7. URL: http://localhost:5173/ranking (po zakończeniu rundy)

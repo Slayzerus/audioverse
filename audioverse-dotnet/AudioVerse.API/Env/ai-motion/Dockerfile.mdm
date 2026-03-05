@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+RUN pip install --no-cache-dir fastapi uvicorn pydantic numpy
+
+# Clone MDM repo & install
+RUN apt-get update && apt-get install -y git && \
+    git clone --depth 1 https://github.com/GuyTevet/motion-diffusion-model.git /opt/mdm && \
+    pip install --no-cache-dir -r /opt/mdm/requirements.txt 2>/dev/null || true && \
+    apt-get remove -y git && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONPATH="/opt/mdm:${PYTHONPATH}"
+
+COPY mdm/app.py /app/app.py
+
+EXPOSE 8301
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8301"]

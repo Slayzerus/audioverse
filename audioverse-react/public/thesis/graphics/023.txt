@@ -1,0 +1,14 @@
+Rysunek 4.4 — Diagram przepływu autoryzacji JWT i OAuth
+
+CO PRZEDSTAWIA:
+Diagram przepływu autentykacji i autoryzacji w AudioVerse:
+Login → Identity Server → JWT token → SignalR z Bearer token →
+OAuth flow (Google/Spotify/Twitch/Discord) → callback → token refresh.
+Widoczne role: User, Admin i ich uprawnienia do endpointów.
+
+JAK ZDOBYĆ:
+1. Otwórz plik diagramu:
+   audioverse-dotnet/AudioVerse.API/Docs/diagrams/06-auth-jwt-flow.drawio
+   Pełna ścieżka: c:\Users\Radko\source\repos\AudioVerse\audioverse-dotnet\AudioVerse.API\Docs\diagrams\06-auth-jwt-flow.drawio
+2. Otwórz w https://app.diagrams.net (File → Open from → Device)
+3. Eksportuj jako PNG (300 DPI, białe tło)

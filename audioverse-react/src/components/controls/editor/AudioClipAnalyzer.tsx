@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import {
     postTranscribe,
     postAnalyze,
@@ -21,6 +22,7 @@ export type AudioClipAnalyzerProps = {
 };
 
 const AudioClipAnalyzer: React.FC<AudioClipAnalyzerProps> = ({ file, className }) => {
+    const { t } = useTranslation();
     const [logs, setLogs] = useState<string>("");
     const [busy, setBusy] = useState<string | null>(null);
 
@@ -76,13 +78,13 @@ const AudioClipAnalyzer: React.FC<AudioClipAnalyzerProps> = ({ file, className }
         wrap("Separate /separate?stems=2 (ZIP)", async () => {
             const zip = await postSeparate(file, 2);
             const url = bufferToBlobUrl(zip, Mime.zip);
-            return { downloadUrl: url, note: "Kliknij link poniżej aby pobrać ZIP ze stemami." };
+            return { downloadUrl: url, note: t('clipAnalyzer.downloadNote', 'Click the link below to download ZIP with stems.') };
         });
 
     return (
         <div className={"w-full max-w-3xl mx-auto p-4 space-y-4 " + (className ?? "")}>
             <div className="rounded-2xl border p-4 shadow-sm bg-white/50">
-                <div className="text-sm text-gray-500">Wybrany plik</div>
+                <div className="text-sm text-gray-500">{t('clipAnalyzer.selectedFile', 'Selected file')}</div>
                 <div className="font-medium">{fileInfo}</div>
             </div>
 
@@ -114,7 +116,7 @@ const AudioClipAnalyzer: React.FC<AudioClipAnalyzerProps> = ({ file, className }
                 </button>
             </div>
 
-            {busy && <div className="text-sm text-blue-600">⏳ Trwa: {busy}…</div>}
+            {busy && <div className="text-sm text-blue-600">⏳ {t('clipAnalyzer.processing', 'Processing')}: {busy}…</div>}
 
             <div className="rounded-2xl border p-3 shadow-inner bg-gray-50">
                 <div className="flex items-center justify-between mb-2">
@@ -123,11 +125,11 @@ const AudioClipAnalyzer: React.FC<AudioClipAnalyzerProps> = ({ file, className }
                         className="text-xs text-gray-500 hover:text-gray-700"
                         onClick={() => setLogs("")}
                     >
-                        wyczyść
+                        {t('clipAnalyzer.clear', 'clear')}
                     </button>
                 </div>
                 <pre className="text-xs whitespace-pre-wrap break-words max-h-96 overflow-auto">
-          {logs || "(brak wpisów)"}
+          {logs || t('clipAnalyzer.noEntries', '(no entries)')}
         </pre>
             </div>
 
@@ -136,8 +138,9 @@ const AudioClipAnalyzer: React.FC<AudioClipAnalyzerProps> = ({ file, className }
     );
 };
 
-// Wyciąga downloadUrl z logu (ostatniego wpisu)
+// Extracts downloadUrl from the log (last entry)
 const DownloadFromLog: React.FC<{ logs: string }> = ({ logs }) => {
+    const { t } = useTranslation();
     const url = useMemo(() => {
         const match = /"downloadUrl":\s*"([^"]+)/.exec(logs);
         return match?.[1];
@@ -147,10 +150,10 @@ const DownloadFromLog: React.FC<{ logs: string }> = ({ logs }) => {
     return (
         <div className="p-3 rounded-xl bg-blue-50 border text-sm">
             <a className="underline" href={url} download>
-                Pobierz ZIP ze stemami
+                {t('clipAnalyzer.downloadStems', 'Download ZIP with stems')}
             </a>
             <span className="ml-2 text-gray-600">
-        (pamiętaj o zwolnieniu URL.revokeObjectURL po pobraniu)
+        ({t('clipAnalyzer.revokeNote', 'remember to call URL.revokeObjectURL after download')})
       </span>
         </div>
     );

@@ -1,7 +1,4 @@
-﻿using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -22,16 +19,19 @@ namespace AudioVerse.Application.Services.DMX
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            // Otwórz port, jeśli nieotwarty
             try
             {
                 if (!_port.IsOpen) _port.Open();
                 _port.Configure((uint)_state.Fps, _state.StartCode);
             }
+            catch (DllNotFoundException ex)
+            {
+                _log.LogWarning("DMX disabled � native driver not available: {Lib}. Service will not run.", ex.Message);
+                return;
+            }
             catch (Exception ex)
             {
                 _log.LogError(ex, "DMX open/config failed");
-                // Próbuj dalej w pętli (np. interfejs niepodłączony)
             }
 
             var frame = new byte[513];
@@ -53,14 +53,14 @@ namespace AudioVerse.Application.Services.DMX
                 catch (Exception ex)
                 {
                     _log.LogWarning(ex, "DMX send failed; retrying");
-                    try { _port.Close(); } catch { }
-                    try { _port.Open(); } catch { }
+                    try { _port.Close(); } catch (Exception ex2) when (ex2 is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException) { }
+                    try { _port.Open(); } catch (Exception ex3) when (ex3 is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException) { }
                 }
 
-                // Utrzymaj żądane FPS (10..44)
+                // Utrzymaj zadane FPS (10..44)
                 var targetMs = (int)Math.Round(1000.0 / Math.Clamp(_state.Fps, 10u, 44u));
                 sw.Restart();
-                // Zrobiliśmy już wysyłkę — po prostu śpimy do pełnego okresu
+                // Zrobilismy juz wysylke � po prostu spimy do pelnego okresu
                 var slept = 0;
                 while (slept < targetMs && !stoppingToken.IsCancellationRequested)
                 {
@@ -74,7 +74,7 @@ namespace AudioVerse.Application.Services.DMX
 
         public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            try { _port?.Close(); } catch { }
+            try { _port?.Close(); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or TimeoutException or InvalidOperationException) { }
             await base.StopAsync(cancellationToken);
         }
     }

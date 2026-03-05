@@ -1,0 +1,18 @@
+{
+  "$schema": "devopsvariables.schema.json",
+  "_comment": "Zmienne pipeline CI/CD — odczytywane automatycznie przy każdym pushu. Nie commituj wrażliwych danych.",
+
+  "ClearDb": true, /* Czy wyczyścić bazę danych przed uruchomieniem testów? */
+  "RunTests": true, /* Czy uruchomić testy jednostkowe? */
+  "ForceRebuild": true, /* Czy wymusić przebudowanie wszystkich obrazów Docker? */
+  "OnlyPush": false, /* Czy tylko wypchnąć obrazy Docker do rejestru, bez wdrażania? */
+  "CleanAgentWorkDir": true, /* Czy wyczyścić katalog roboczy agenta po zakończeniu pipeline? */
+  "PruneDockerAfterDeploy": true, /* Czy po wdrożeniu usunąć nieużywane obrazy i kontenery Docker? */
+  "SkipAiBuild": false, /* Czy pominąć etap budowania obrazów Docker za pomocą AI Build? */
+  "CrepeGpuOrCpu": "cpu", /* Tryb CREPE pitch detection: "cpu" lub "gpu". GPU wymaga NVIDIA + CUDA. */
+  "SkipHealthCheck": false, /* Czy pominąć etap sprawdzania stanu zdrowia kontenerów po wdrożeniu? */
+  "ForceRecreateAllContainers": false, /* Czy wymusić ponowne utworzenie wszystkich kontenerów Docker podczas wdrażania? */
+  "WaitForApiSeconds": 45, /* Ile sekund czekać na uruchomienie API przed sprawdzeniem jego stanu zdrowia? */
+  "MaxLogTailLines": 200, /* Maksymalna liczba linii logów do wyświetlenia w przypadku błędu wdrożenia. */
+  "ReactPort": 3080 /* Port, na którym nasłuchuje aplikacja React (frontend). Powinien być zgodny z konfiguracją w docker-compose.yml. */
+}

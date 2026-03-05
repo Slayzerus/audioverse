@@ -1,5 +1,5 @@
 ﻿using AudioVerse.Application.Commands.Admin;
-using AudioVerse.Domain.Entities;
+using AudioVerse.Domain.Entities.UserProfiles;
 using AudioVerse.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -25,9 +25,11 @@ namespace AudioVerse.Application.Handlers.Admin
             if (user == null)
                 throw new Exception("Użytkownik nie został znaleziony");
 
+            // Aktualizacja FullName
             if (!string.IsNullOrWhiteSpace(request.FullName))
                 user.FullName = request.FullName;
 
+            // Aktualizacja Email
             if (!string.IsNullOrWhiteSpace(request.Email))
             {
                 var emailExists = await _userManager.FindByEmailAsync(request.Email);
@@ -36,6 +38,7 @@ namespace AudioVerse.Application.Handlers.Admin
                 user.Email = request.Email;
             }
 
+            // Aktualizacja UserName
             if (!string.IsNullOrWhiteSpace(request.UserName))
             {
                 var usernameExists = await _userManager.FindByNameAsync(request.UserName);
@@ -44,8 +47,26 @@ namespace AudioVerse.Application.Handlers.Admin
                 user.UserName = request.UserName;
             }
 
+            // Aktualizacja RequirePasswordChange
+            if (request.RequirePasswordChange.HasValue)
+                user.RequirePasswordChange = request.RequirePasswordChange.Value;
+
+            // Aktualizacja PasswordExpiryDate
+            if (request.PasswordExpiryDate.HasValue)
+            {
+                var date = request.PasswordExpiryDate.Value;
+                // PostgreSQL wymaga UTC - konwertuj jeśli Unspecified
+                if (date.Kind == DateTimeKind.Unspecified)
+                    date = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+                else if (date.Kind == DateTimeKind.Local)
+                    date = date.ToUniversalTime();
+                
+                user.PasswordExpiryDate = date;
+            }
+
             await _repository.UpdateAsync(user);
             return true;
         }
     }
 }
+

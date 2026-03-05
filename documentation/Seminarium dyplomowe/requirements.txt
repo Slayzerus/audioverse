@@ -1,0 +1,11 @@
+numpy==1.25.2
+scipy==1.11.3
+librosa==0.10.4
+pandas==2.2.2
+matplotlib==3.8.1
+soundfile==0.12.1
+psutil==5.9.5
+crepe==0.8.3  # opcjonalnie, wymaga torch
+torch==2.3.0  # jeśli używasz torchcrepe
+onnxruntime==1.15.1  # opcjonalnie dla ONNX models
+jupyter==1.0.0

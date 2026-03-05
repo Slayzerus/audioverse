@@ -1,0 +1,88 @@
+# ══════════════════════════════════════════════════════════════
+# GPU Machine — AI sidecars + Cloudflare Tunnel
+# ══════════════════════════════════════════════════════════════
+#
+# Run on your gaming PC to expose AI services to the production
+# server without static IP or port forwarding.
+#
+# Setup:
+#   1. Install cloudflared: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
+#   2. Authenticate:  cloudflared tunnel login
+#   3. Create tunnel: cloudflared tunnel create audioverse-gpu
+#   4. Copy the generated credentials JSON to ./cloudflared/
+#   5. Update TUNNEL_ID below and in cloudflared-config.yml
+#   6. In Cloudflare DNS, add CNAME records:
+#        ai-motion-gpt.audioverse-gpu.example.com  → <TUNNEL_ID>.cfargotunnel.com
+#        ai-motion-mdm.audioverse-gpu.example.com  → <TUNNEL_ID>.cfargotunnel.com
+#        ai-motion-momask.audioverse-gpu.example.com → <TUNNEL_ID>.cfargotunnel.com
+#   7. docker compose -f docker-compose.gpu-tunnel.yml up -d
+#
+# Architecture:
+#   [Production Server] ──HTTPS──▶ [Cloudflare Edge] ──tunnel──▶ [This PC]
+#                                                                   ├─ :8300 MotionGPT
+#                                                                   ├─ :8301 MDM
+#                                                                   └─ :8302 MoMask
+
+services:
+
+  # ── Cloudflare Tunnel (outbound-only, no port forwarding needed) ──
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --config /etc/cloudflared/config.yml run
+    volumes:
+      - ./cloudflared:/etc/cloudflared:ro
+    depends_on:
+      - motion_gpt
+      - motion_mdm
+      - motion_momask
+
+  # ── MotionGPT ──
+  motion_gpt:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.motiongpt
+    restart: unless-stopped
+    environment:
+      - MOTIONGPT_CONFIG=configs/default.yaml
+      - MOTIONGPT_CHECKPOINT=checkpoints/motiongpt.pth
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # ── MDM ──
+  motion_mdm:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.mdm
+    restart: unless-stopped
+    environment:
+      - MDM_CHECKPOINT=save/humanml_trans_enc_512/model000200000.pt
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # ── MoMask ──
+  motion_momask:
+    build:
+      context: ai-motion
+      dockerfile: Dockerfile.momask
+    restart: unless-stopped
+    environment:
+      - MOMASK_VQ_CHECKPOINT=checkpoints/vq/best.tar
+      - MOMASK_T2M_CHECKPOINT=checkpoints/t2m/best.tar
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

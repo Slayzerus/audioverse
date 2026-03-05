@@ -1,0 +1,52 @@
+# Todo List
+
+- [x] Zinwentaryzować pliki
+	- Wyszukać i wymienić pliki w katalogu pracy dyplomowej
+- [x] Przeczytać pliki
+	- Odczytać zawartość `TODO.md` i `Bibliografia.bib`
+- [x] Sporządzić aktualny stan pracy
+	- Utworzyć dokument `Stan_pracy.md` z podsumowaniem, wnioskami i kolejnymi krokami
+- [x] Uzupełnić `TODO.md` proponowanymi zadaniami
+	- Wypisać priorytety, terminy i przypisać odpowiedzialności (asystent vs autor)
+	- Priorytety i terminy (ramowo):
+		- **Priorytet 1 (1–2 tygodnie):** Uporządkowanie rozdziałów i bibliografii.
+			- **Asystent:** Przygotowanie szablonu rozdziałów, ustandaryzowanie `Bibliografia.bib`, lista braków.
+			- **Autor:** Weryfikacja szablonu, dostarczenie brakujących treści i uwag promotora.
+		- **Priorytet 2 (2–4 tygodnie):** Metodologia i materiały demonstracyjne.
+			- **Asystent:** Napisać roboczy rozdział Metodologia, przygotować Jupyter Notebook z przykładową detekcją pitch i skryptami ewaluacyjnymi.
+			- **Autor:** Dostarczyć przykładowe nagrania testowe i skomentować przyjęte założenia eksperymentu.
+		- **Priorytet 3 (4–8 tygodni):** Eksperymenty, analiza wyników i rozdział Wyniki.
+			- **Asystent:** Przygotować szablony tabel/wykresów, szablon rozdziału Wyniki, wstępną analizę po otrzymaniu danych.
+			- **Autor:** Implementacja i uruchomienie eksperymentów w aplikacji, przesłanie wyników (CSV/JSON/wykresy).
+	- Co asystent może zrobić przed powstaniem aplikacji:
+		- Uzupełnić i ustandaryzować bibliografię.
+		- Napisać przegląd literatury (streszczenia kluczowych pozycji).
+		- Przygotować rozdział Metodologia i protokół eksperymentów.
+		- Dostarczyć Jupyter Notebook z offline pitch detection i oceną intonacji.
+		- Przygotować kwestionariusze, formularze zgody i instrukcje testu.
+		- Przygotować szkice ilustracji/diagramów i szablony wyników.
+	- Co autor musi zrobić (zadania wymagające aplikacji):
+		- Implementacja i integracja modułów w repozytorium aplikacji.
+		- Zbieranie i dostarczenie nagrań testowych oraz metadanych.
+		- Uruchomienie eksperymentów, eksport wyników i dostarczenie plików wynikowych.
+		- Weryfikacja i akceptacja rozdziałów zawierających specyficzne wyniki aplikacji.
+	- Notatka: terminy są ramowe — mogę dodać konkretne daty jeśli podasz preferowany harmonogram.
+- [ ] Skompletować i ustandaryzować bibliografię
+	- Rozszerzyć `Bibliografia.bib`, sprawdzić brakujące pozycje i format cytowań
+- [ ] Sporządzić przegląd literatury (streszczenia)
+	- Przygotować 1-2 akapitowy opis dla kluczowych pozycji i uporządkować tematycznie
+- [ ] Napisać rozdział Metodologia (roboczy)
+	- Opisać algorytmy detekcji wysokości (pYIN, CREPE), metryki oceny i plan eksperymentów — bez integracji z aplikacją
+- [ ] Przygotować skrypty/Notatnik przykładowy
+	- Dostarczyć Jupyter Notebook z przykładową detekcją pitch na próbnych nagraniach (kod niezależny od aplikacji)
+- [ ] Przygotować materiały do eksperymentu użytkownika
+	- Kwestionariusz, formularz zgody, instrukcja testu, metryki subiektywne i obiektywne
+- [ ] Wygenerować propozycje ilustracji i diagramów
+	- Szkice/napisy do ilustracji (schemat systemu, wykresy metryk, UI mockup) w `Spis potencjalnych ilustracji.docx`
+- [ ] Przygotować sekcję Wyniki (szablon)
+	- Szablon opisujący jak wstawić wyniki eksperymentów z aplikacji i format tabel/wykresów
+- [ ] Korekta i formatowanie pracy
+	- Proofreading, spis treści, numeracja rozdziałów, styl cytowań — gotowe do ostatecznej integracji wyników z aplikacji
+- [ ] Zadania wymagające Twojego udziału
+	- Implementacja aplikacji, zbieranie nagrań testowych, uruchamianie eksperymentów, zatwierdzenie wyników i końcowe uzupełnienie rozdziałów z wynikami
+

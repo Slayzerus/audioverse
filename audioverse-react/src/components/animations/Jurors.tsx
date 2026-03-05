@@ -6,30 +6,30 @@ import { playIntro, attachScoreReactions, reactionForScore } from "./karaokeInte
 import { DEFAULT_CHARACTER, type CharacterConfig } from "./characterTypes";
 
 export type JurorsProps = {
-    /** Dokładnie 4 konfiguracje postaci. Jeśli mniej – dopełni domyślną. */
+    /** Exactly 4 character configs. If fewer – fills with default. */
     characters?: CharacterConfig[];
-    /** Automatyczne podpięcie reakcji na scoreBus (throttle + dedupe). */
+    /** Auto-attach reactions to scoreBus (throttle + dedupe). */
     autoReact?: boolean;
-    /** Odtwórz intro po zamontowaniu. */
+    /** Play intro after mounting. */
     playIntroOnMount?: boolean;
-    /** Opóźnienie między jurorami dla efektów grupowych. */
+    /** Delay between jurors for group effects. */
     staggerMs?: number;
     className?: string;
     style?: React.CSSProperties;
 };
 
 export type JurorsHandle = {
-    /** Lista kontrolerów framer-motion każdego jurora (po kolei). */
+    /** List of framer-motion controllers for each juror (in order). */
     getActors(): PersonControls[];
-    /** Wejście początkowe — różne strony/gesty. */
+    /** Initial entrance — different sides/gestures. */
     playIntro(): Promise<void>;
     /** Reakcja wszystkich na wynik (losowa w odpowiednim zakresie). */
     reactToScore(score: number): Promise<void>;
-    /** Fala: 1→4 z opóźnieniem. */
+    /** Wave: 1→4 with delay. */
     wave(program?: ChoreoBuilder, staggerMs?: number): Promise<void>;
     /** Cannon: 1→4 a potem 4→1. */
     cannon(program?: ChoreoBuilder, staggerMs?: number): Promise<void>;
-    /** Indywidualne programy dla każdego (długości mogą się powtarzać). */
+    /** Individual programs for each (lengths may repeat). */
     run(programs: Array<ChoreoBuilder>): Promise<void>;
 };
 

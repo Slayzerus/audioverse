@@ -1,0 +1,15 @@
+Rysunek 4.2 — Diagram architektury CQRS z MediatR
+
+CO PRZEDSTAWIA:
+Diagram pokazujący wzorzec CQRS w AudioVerse: Controller → MediatR →
+Command/Query Handler → Repository → DbContext → PostgreSQL.
+Oddzielenie ścieżki zapisu (Commands) od ścieżki odczytu (Queries).
+Widoczne przykłady: SaveKaraokeSingingCommand → SaveKaraokeSingingHandler
+i GetRankingsQuery → GetRankingsHandler.
+
+JAK ZDOBYĆ:
+1. Otwórz plik diagramu:
+   audioverse-dotnet/AudioVerse.API/Docs/diagrams/08-cqrs-architecture.drawio
+   Pełna ścieżka: c:\Users\Radko\source\repos\AudioVerse\audioverse-dotnet\AudioVerse.API\Docs\diagrams\08-cqrs-architecture.drawio
+2. Otwórz w https://app.diagrams.net (File → Open from → Device)
+3. Eksportuj jako PNG (300 DPI, białe tło)

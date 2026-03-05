@@ -1,0 +1,623 @@
+/**
+ * EightMinuteEmpireGame — Real-time area-control strategy for 1-4 players.
+ *
+ * Controls (per keyboard group):
+ *   Group 0: WASD move cursor, Space deploy, E move armies
+ *   Group 1: Arrows move cursor, Enter deploy, Shift move armies
+ * Gamepads: D-pad/stick navigate, A deploy, X move armies
+ *
+ * Rules:
+ *  - Top-down territory grid (6x4 default). Each territory has owner, army count, terrain.
+ *  - Real-time simultaneous play with 3s cooldown per action.
+ *  - Deploy: place +1 army on an owned territory.
+ *  - Move: shift armies from selected owned territory to adjacent territory.
+ *  - Attack: moving to enemy territory triggers battle (attacker loses ceil(def/2), defender loses ceil(atk/2)).
+ *  - Timer counts down from configured duration. Most territories wins.
+ *  - Currencies: coins (territories), gems (adjacent territory combos), stars (victories).
+ */
+
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { PLAYER_COLORS, type PlayerSlot } from '../../pages/games/mini/types'
+import { useGamepads } from '../../pages/games/mini/useGamepads'
+import { usePause } from '../../pages/games/mini/usePause'
+import PauseMenu from '../../pages/games/mini/PauseMenu'
+import styles from './SharedGame.module.css'
+
+// ─── Constants ───────────────────────────────────────────────
+const CANVAS_W = 800
+const CANVAS_H = 600
+const COOLDOWN_MS = 3000
+const TERRAIN_TYPES = ['plains', 'mountains', 'water'] as const
+type Terrain = typeof TERRAIN_TYPES[number]
+const TERRAIN_COLORS: Record<Terrain, string> = { plains: '#3a5a20', mountains: '#6b5b3a', water: '#1a3a6a' }
+const TERRAIN_PASSABLE: Record<Terrain, boolean> = { plains: true, mountains: true, water: false }
+
+// ─── Map sizing ──────────────────────────────────────────────
+function mapDims(size: string): { cols: number; rows: number } {
+  if (size === 'small') return { cols: 5, rows: 3 }
+  if (size === 'large') return { cols: 8, rows: 5 }
+  return { cols: 6, rows: 4 }
+}
+
+// ─── Types ───────────────────────────────────────────────────
+interface Territory {
+  col: number
+  row: number
+  owner: number // player index, -1 = neutral
+  armies: number
+  terrain: Terrain
+}
+
+interface PlayerState {
+  index: number
+  name: string
+  color: string
+  cursorCol: number
+  cursorRow: number
+  selectedCol: number // for move source
+  selectedRow: number
+  selecting: boolean // true = choosing move destination
+  cooldownEnd: number // timestamp
+  coins: number
+  gems: number
+  stars: number
+  input: PlayerSlot['input']
+  alive: boolean
+}
+
+interface GameState {
+  territories: Territory[][]
+  players: PlayerState[]
+  cols: number
+  rows: number
+  endTime: number // Date.now() + duration
+  gameOver: boolean
+  winner: string | null
+  coop: boolean
+}
+
+// ─── Helpers ─────────────────────────────────────────────────
+function generateMap(cols: number, rows: number): Territory[][] {
+  const grid: Territory[][] = []
+  for (let r = 0; r < rows; r++) {
+    const row: Territory[] = []
+    for (let c = 0; c < cols; c++) {
+      const rng = Math.random()
+      let terrain: Terrain = 'plains'
+      if (rng < 0.15) terrain = 'water'
+      else if (rng < 0.35) terrain = 'mountains'
+      row.push({ col: c, row: r, owner: -1, armies: 1, terrain })
+    }
+    grid.push(row)
+  }
+  return grid
+}
+
+function assignStarts(grid: Territory[][], players: PlayerSlot[]): void {
+  const rows = grid.length, cols = grid[0].length
+  const starts = [
+    { c: 0, r: 0 }, { c: cols - 1, r: rows - 1 },
+    { c: cols - 1, r: 0 }, { c: 0, r: rows - 1 },
+  ]
+  for (let i = 0; i < players.length; i++) {
+    const s = starts[i % starts.length]
+    // Claim 2 territories near start
+    grid[s.r][s.c].owner = players[i].index
+    grid[s.r][s.c].armies = 3
+    grid[s.r][s.c].terrain = 'plains'
+    const adj = getAdjacent(grid, s.c, s.r)
+    const passable = adj.filter(t => TERRAIN_PASSABLE[t.terrain])
+    if (passable.length > 0) {
+      passable[0].owner = players[i].index
+      passable[0].armies = 2
+    }
+  }
+}
+
+function getAdjacent(grid: Territory[][], c: number, r: number): Territory[] {
+  const out: Territory[] = []
+  if (r > 0) out.push(grid[r - 1][c])
+  if (r < grid.length - 1) out.push(grid[r + 1][c])
+  if (c > 0) out.push(grid[r][c - 1])
+  if (c < grid[0].length - 1) out.push(grid[r][c + 1])
+  return out
+}
+
+function countTerritories(grid: Territory[][], owner: number): number {
+  let n = 0
+  for (const row of grid) for (const t of row) if (t.owner === owner) n++
+  return n
+}
+
+function countArmies(grid: Territory[][], owner: number): number {
+  let n = 0
+  for (const row of grid) for (const t of row) if (t.owner === owner) n += t.armies
+  return n
+}
+
+/** Gems = number of connected components of >= 3 adjacent owned territories */
+function countGems(grid: Territory[][], owner: number): number {
+  const rows = grid.length, cols = grid[0].length
+  const visited = Array.from({ length: rows }, () => new Array(cols).fill(false))
+  let gems = 0
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (visited[r][c] || grid[r][c].owner !== owner) continue
+      // BFS
+      const queue = [{ c, r }]
+      let sz = 0
+      visited[r][c] = true
+      while (queue.length) {
+        const cur = queue.shift()!
+        sz++
+        for (const a of getAdjacent(grid, cur.c, cur.r)) {
+          if (!visited[a.row][a.col] && a.owner === owner) {
+            visited[a.row][a.col] = true
+            queue.push({ c: a.col, r: a.row })
+          }
+        }
+      }
+      if (sz >= 3) gems++
+    }
+  }
+  return gems
+}
+
+/** Continent bonus: owning an entire row */
+function continentBonus(grid: Territory[][], owner: number): number {
+  let bonus = 0
+  for (const row of grid) {
+    if (row.every(t => t.owner === owner)) bonus += 3
+  }
+  return bonus
+}
+
+function initState(players: PlayerSlot[], config: Record<string, any>): GameState {
+  const { cols, rows } = mapDims(config.mapSize || 'medium')
+  const durationMin = Number(config.gameDuration) || 8
+  const grid = generateMap(cols, rows)
+  const coop = config.gameMode === 'coop-defend'
+  assignStarts(grid, players)
+
+  const pStates: PlayerState[] = players.map((p, i) => ({
+    index: p.index,
+    name: p.name,
+    color: p.color || PLAYER_COLORS[p.index] || '#fff',
+    cursorCol: i === 0 ? 0 : cols - 1,
+    cursorRow: i === 0 ? 0 : rows - 1,
+    selectedCol: -1, selectedRow: -1,
+    selecting: false,
+    cooldownEnd: 0,
+    coins: 0, gems: 0, stars: 0,
+    input: p.input,
+    alive: true,
+  }))
+
+  return {
+    territories: grid, players: pStates, cols, rows,
+    endTime: Date.now() + durationMin * 60_000,
+    gameOver: false, winner: null, coop,
+  }
+}
+
+// ─── Component ───────────────────────────────────────────────
+interface Props {
+  players: PlayerSlot[]
+  config?: Record<string, any>
+  onBack: () => void
+}
+
+export default function EightMinuteEmpireGame({ players, config = {}, onBack }: Props) {
+  const { t } = useTranslation()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const stateRef = useRef<GameState>(initState(players, config))
+  const [timeLeft, setTimeLeft] = useState('')
+  const [scoreboard, setScoreboard] = useState<PlayerState[]>([])
+  const [gameOver, setGameOver] = useState(false)
+  const [winner, setWinner] = useState<string | null>(null)
+  const pads = useGamepads()
+  const padsRef = useRef(pads)
+  padsRef.current = pads
+  const { isPaused, pauseRef, resume } = usePause({ onBack, disabled: gameOver })
+
+  // ─── Actions ─────────────────────────────────────────────
+  const tryDeploy = useCallback((ps: PlayerState, st: GameState) => {
+    if (Date.now() < ps.cooldownEnd) return
+    const t = st.territories[ps.cursorRow]?.[ps.cursorCol]
+    if (!t || t.owner !== ps.index) return
+    t.armies++
+    ps.cooldownEnd = Date.now() + COOLDOWN_MS
+  }, [])
+
+  const tryMove = useCallback((ps: PlayerState, st: GameState) => {
+    if (!ps.selecting) {
+      // Start selecting source
+      const t = st.territories[ps.cursorRow]?.[ps.cursorCol]
+      if (!t || t.owner !== ps.index || t.armies <= 1) return
+      ps.selectedCol = ps.cursorCol
+      ps.selectedRow = ps.cursorRow
+      ps.selecting = true
+      return
+    }
+    // Execute move/attack
+    if (Date.now() < ps.cooldownEnd) { ps.selecting = false; return }
+    const src = st.territories[ps.selectedRow]?.[ps.selectedCol]
+    const dst = st.territories[ps.cursorRow]?.[ps.cursorCol]
+    if (!src || !dst || src.owner !== ps.index || src.armies <= 1) { ps.selecting = false; return }
+    if (!TERRAIN_PASSABLE[dst.terrain]) { ps.selecting = false; return }
+    // Must be adjacent
+    const adj = getAdjacent(st.territories, ps.selectedCol, ps.selectedRow)
+    if (!adj.includes(dst)) { ps.selecting = false; return }
+
+    const moveArmies = src.armies - 1
+    if (dst.owner === ps.index || dst.owner === -1) {
+      // Friendly move
+      dst.armies += moveArmies
+      dst.owner = ps.index
+    } else {
+      // Battle
+      const atkLoss = Math.ceil(dst.armies / 2)
+      const defLoss = Math.ceil(moveArmies / 2)
+      const atkRemain = Math.max(0, moveArmies - atkLoss)
+      const defRemain = Math.max(0, dst.armies - defLoss)
+      if (atkRemain >= defRemain) {
+        dst.owner = ps.index
+        dst.armies = Math.max(1, atkRemain)
+      } else {
+        dst.armies = Math.max(1, defRemain)
+      }
+    }
+    src.armies = 1
+    ps.selecting = false
+    ps.cooldownEnd = Date.now() + COOLDOWN_MS
+  }, [])
+
+  // ─── Keyboard input ─────────────────────────────────────
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (pauseRef.current) return
+      const st = stateRef.current
+      if (st.gameOver) return
+      for (const ps of st.players) {
+        if (ps.input.type !== 'keyboard') continue
+        const g = ps.input.group
+        // Group 0: WASD + Space + E
+        if (g === 0) {
+          if (e.key === 'w' || e.key === 'W') { ps.cursorRow = Math.max(0, ps.cursorRow - 1); return }
+          if (e.key === 's' || e.key === 'S') { ps.cursorCol; ps.cursorRow = Math.min(st.rows - 1, ps.cursorRow + 1); return }
+          if (e.key === 'a' || e.key === 'A') { ps.cursorCol = Math.max(0, ps.cursorCol - 1); return }
+          if (e.key === 'd' || e.key === 'D') { ps.cursorCol = Math.min(st.cols - 1, ps.cursorCol + 1); return }
+          if (e.key === ' ') { tryDeploy(ps, st); return }
+          if (e.key === 'e' || e.key === 'E') { tryMove(ps, st); return }
+        }
+        // Group 1: Arrows + Enter + Shift
+        if (g === 1) {
+          if (e.key === 'ArrowUp') { ps.cursorRow = Math.max(0, ps.cursorRow - 1); return }
+          if (e.key === 'ArrowDown') { ps.cursorRow = Math.min(st.rows - 1, ps.cursorRow + 1); return }
+          if (e.key === 'ArrowLeft') { ps.cursorCol = Math.max(0, ps.cursorCol - 1); return }
+          if (e.key === 'ArrowRight') { ps.cursorCol = Math.min(st.cols - 1, ps.cursorCol + 1); return }
+          if (e.key === 'Enter') { tryDeploy(ps, st); return }
+          if (e.key === 'Shift') { tryMove(ps, st); return }
+        }
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [tryDeploy, tryMove, pauseRef])
+
+  // ─── Gamepad polling ─────────────────────────────────────
+  useEffect(() => {
+    let raf = 0
+    const lastDir: Record<number, number> = {}
+    const lastA: Record<number, boolean> = {}
+    const lastX: Record<number, boolean> = {}
+    function poll() {
+      if (pauseRef.current) { raf = requestAnimationFrame(poll); return }
+      const st = stateRef.current
+      if (st.gameOver) return
+      for (const ps of st.players) {
+        if (ps.input.type !== 'gamepad') continue
+        const pi = (ps.input as { type: 'gamepad'; padIndex: number }).padIndex
+        const gp = padsRef.current.find(p => p.index === pi)
+        if (!gp) continue
+        // Movement with debounce
+        const dirKey = (gp.up ? 1 : 0) | (gp.down ? 2 : 0) | (gp.left ? 4 : 0) | (gp.right ? 8 : 0)
+        if (dirKey !== (lastDir[pi] || 0)) {
+          if (gp.up) ps.cursorRow = Math.max(0, ps.cursorRow - 1)
+          if (gp.down) ps.cursorRow = Math.min(st.rows - 1, ps.cursorRow + 1)
+          if (gp.left) ps.cursorCol = Math.max(0, ps.cursorCol - 1)
+          if (gp.right) ps.cursorCol = Math.min(st.cols - 1, ps.cursorCol + 1)
+          lastDir[pi] = dirKey
+        }
+        if (dirKey === 0) lastDir[pi] = 0
+        // A = deploy (edge)
+        if (gp.a && !lastA[pi]) tryDeploy(ps, st)
+        lastA[pi] = gp.a
+        // X = move (edge)
+        if (gp.x && !lastX[pi]) tryMove(ps, st)
+        lastX[pi] = gp.x
+      }
+      raf = requestAnimationFrame(poll)
+    }
+    raf = requestAnimationFrame(poll)
+    return () => cancelAnimationFrame(raf)
+  }, [tryDeploy, tryMove, pauseRef])
+
+  // ─── Coop AI neutral spawner ─────────────────────────────
+  useEffect(() => {
+    if (!stateRef.current.coop) return
+    const iv = setInterval(() => {
+      if (pauseRef.current) return
+      const st = stateRef.current
+      if (st.gameOver) return
+      // Spawn neutral armies on random neutral territories
+      for (const row of st.territories) {
+        for (const t of row) {
+          if (t.owner === -1 && TERRAIN_PASSABLE[t.terrain] && Math.random() < 0.15) {
+            t.armies = Math.min(t.armies + 1, 8)
+          }
+        }
+      }
+    }, 4000)
+    return () => clearInterval(iv)
+  }, [pauseRef])
+
+  // ─── Game tick (timer, scoring, game over) ───────────────
+  useEffect(() => {
+    const iv = setInterval(() => {
+      if (pauseRef.current) return
+      const st = stateRef.current
+      if (st.gameOver) return
+
+      const now = Date.now()
+      const remaining = Math.max(0, st.endTime - now)
+      const min = Math.floor(remaining / 60_000)
+      const sec = Math.floor((remaining % 60_000) / 1000)
+      setTimeLeft(`${min}:${sec.toString().padStart(2, '0')}`)
+
+      // Update currencies
+      for (const ps of st.players) {
+        ps.coins = countTerritories(st.territories, ps.index)
+        ps.gems = countGems(st.territories, ps.index)
+      }
+      setScoreboard([...st.players])
+
+      if (remaining <= 0) {
+        st.gameOver = true
+        if (st.coop) {
+          const neutral = countTerritories(st.territories, -1)
+          st.winner = neutral === 0 ? 'Team wins!' : 'Neutrals remain…'
+        } else {
+          let best = st.players[0]
+          for (const ps of st.players) {
+            const sc = ps.coins + ps.gems * 3 + continentBonus(st.territories, ps.index)
+            const bsc = best.coins + best.gems * 3 + continentBonus(st.territories, best.index)
+            if (sc > bsc) best = ps
+          }
+          best.stars++
+          st.winner = best.name
+        }
+        setGameOver(true)
+        setWinner(st.winner)
+      }
+    }, 250)
+    return () => clearInterval(iv)
+  }, [pauseRef])
+
+  // ─── Render canvas ───────────────────────────────────────
+  useEffect(() => {
+    let raf = 0
+    function draw() {
+      const canvas = canvasRef.current
+      if (!canvas) { raf = requestAnimationFrame(draw); return }
+      const ctx = canvas.getContext('2d')
+      if (!ctx) { raf = requestAnimationFrame(draw); return }
+      const st = stateRef.current
+      canvas.width = CANVAS_W
+      canvas.height = CANVAS_H
+
+      const cellW = CANVAS_W / st.cols
+      const cellH = (CANVAS_H - 60) / st.rows // reserve 60px bottom for HUD
+      const now = Date.now()
+
+      // Background
+      ctx.fillStyle = '#0a0a1a'
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
+
+      // Draw territories
+      for (let r = 0; r < st.rows; r++) {
+        for (let c = 0; c < st.cols; c++) {
+          const t = st.territories[r][c]
+          const x = c * cellW, y = r * cellH
+
+          // Terrain base
+          ctx.fillStyle = TERRAIN_COLORS[t.terrain]
+          ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2)
+
+          // Owner tint overlay
+          if (t.owner >= 0) {
+            const ps = st.players.find(p => p.index === t.owner)
+            if (ps) {
+              ctx.globalAlpha = 0.35
+              ctx.fillStyle = ps.color
+              ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2)
+              ctx.globalAlpha = 1
+            }
+          }
+
+          // Border
+          ctx.strokeStyle = '#333'
+          ctx.lineWidth = 1.5
+          ctx.strokeRect(x, y, cellW, cellH)
+
+          // Army count
+          if (TERRAIN_PASSABLE[t.terrain]) {
+            ctx.fillStyle = '#fff'
+            ctx.font = 'bold 16px monospace'
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText(String(t.armies), x + cellW / 2, y + cellH / 2)
+          } else {
+            // Water indicator
+            ctx.fillStyle = '#4488cc'
+            ctx.font = '14px monospace'
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+            ctx.fillText('~', x + cellW / 2, y + cellH / 2)
+          }
+
+          // Owner flag dot
+          if (t.owner >= 0) {
+            const ps = st.players.find(p => p.index === t.owner)
+            if (ps) {
+              ctx.fillStyle = ps.color
+              ctx.beginPath()
+              ctx.arc(x + cellW - 10, y + 10, 5, 0, Math.PI * 2)
+              ctx.fill()
+            }
+          }
+        }
+      }
+
+      // Cursors
+      for (const ps of st.players) {
+        const cx = ps.cursorCol * cellW, cy = ps.cursorRow * cellH
+        ctx.strokeStyle = ps.color
+        ctx.lineWidth = 3
+        ctx.setLineDash([6, 3])
+        ctx.strokeRect(cx + 2, cy + 2, cellW - 4, cellH - 4)
+        ctx.setLineDash([])
+
+        // Selection indicator (source for move)
+        if (ps.selecting) {
+          const sx = ps.selectedCol * cellW, sy = ps.selectedRow * cellH
+          ctx.strokeStyle = '#fff'
+          ctx.lineWidth = 2
+          ctx.setLineDash([4, 4])
+          ctx.strokeRect(sx + 4, sy + 4, cellW - 8, cellH - 8)
+          ctx.setLineDash([])
+          // Arrow from selected to cursor
+          ctx.strokeStyle = ps.color
+          ctx.lineWidth = 2
+          ctx.beginPath()
+          ctx.moveTo(sx + cellW / 2, sy + cellH / 2)
+          ctx.lineTo(cx + cellW / 2, cy + cellH / 2)
+          ctx.stroke()
+        }
+
+        // Cooldown bar under cursor
+        const cdRemain = Math.max(0, ps.cooldownEnd - now)
+        if (cdRemain > 0) {
+          const pct = cdRemain / COOLDOWN_MS
+          ctx.fillStyle = 'rgba(255,255,255,0.2)'
+          ctx.fillRect(cx + 4, cy + cellH - 8, cellW - 8, 5)
+          ctx.fillStyle = ps.color
+          ctx.fillRect(cx + 4, cy + cellH - 8, (cellW - 8) * pct, 5)
+        }
+      }
+
+      // ─── HUD (bottom 60px) ──────────────────────────────
+      const hudY = st.rows * cellH
+      ctx.fillStyle = '#111'
+      ctx.fillRect(0, hudY, CANVAS_W, 60)
+
+      // Timer
+      const remaining = Math.max(0, st.endTime - now)
+      const min = Math.floor(remaining / 60_000)
+      const sec = Math.floor((remaining % 60_000) / 1000)
+      ctx.fillStyle = remaining < 30_000 ? '#e74c3c' : '#fff'
+      ctx.font = 'bold 18px monospace'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'top'
+      ctx.fillText(`${min}:${sec.toString().padStart(2, '0')}`, CANVAS_W / 2, hudY + 4)
+
+      // Per-player HUD
+      const pw = CANVAS_W / st.players.length
+      for (let i = 0; i < st.players.length; i++) {
+        const ps = st.players[i]
+        const px = i * pw
+        // Color dot
+        ctx.fillStyle = ps.color
+        ctx.beginPath()
+        ctx.arc(px + 12, hudY + 38, 6, 0, Math.PI * 2)
+        ctx.fill()
+        // Stats
+        ctx.fillStyle = '#ccc'
+        ctx.font = '11px monospace'
+        ctx.textAlign = 'left'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(`${ps.name}`, px + 22, hudY + 30)
+        ctx.fillText(`🪙${ps.coins} 💎${ps.gems} ⭐${ps.stars} 🗡${countArmies(st.territories, ps.index)}`, px + 22, hudY + 46)
+      }
+
+      raf = requestAnimationFrame(draw)
+    }
+    raf = requestAnimationFrame(draw)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  // ─── Restart ─────────────────────────────────────────────
+  const handleRestart = useCallback(() => {
+    stateRef.current = initState(players, config)
+    setGameOver(false)
+    setWinner(null)
+    setTimeLeft('')
+    setScoreboard([])
+  }, [players, config])
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (gameOver && (e.key === ' ' || e.key === 'Enter')) handleRestart()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [gameOver, handleRestart])
+
+  return (
+    <div className={styles.container}>
+      {/* Scoreboard */}
+      <div className={styles.scoreboard}>
+        {scoreboard.map(s => (
+          <div key={s.index} className={styles.scoreItem}>
+            <span className={styles.scoreColor} style={{ background: s.color }} />
+            <span>{s.name}</span>
+            <span className={styles.scoreValue}>🪙{s.coins} 💎{s.gems}</span>
+          </div>
+        ))}
+        <div className={styles.scoreItem}>
+          <span style={{ color: '#fff', fontFamily: 'monospace' }}>⏱ {timeLeft}</span>
+        </div>
+      </div>
+
+      <canvas ref={canvasRef} className={styles.canvas} />
+
+      {isPaused && <PauseMenu onResume={resume} onBack={onBack} players={players} />}
+
+      {gameOver && (
+        <div className={styles.overlay}>
+          <h2>{t('miniGames.gameOver', 'Game Over!')}</h2>
+          {winner && <p className={styles.winnerText}>🏆 {winner} {t('miniGames.wins', 'wins')}!</p>}
+          <div style={{ color: '#aaa', fontSize: 14, margin: '8px 0' }}>
+            {scoreboard.map(s => (
+              <div key={s.index}>
+                <span style={{ color: s.color }}>■</span> {s.name}: 🪙{s.coins} 💎{s.gems} ⭐{s.stars} — {countArmies(stateRef.current.territories, s.index)} armies
+              </div>
+            ))}
+          </div>
+          <div className={styles.overlayActions}>
+            <button className={styles.restartBtn} onClick={handleRestart}>
+              {t('miniGames.playAgain', 'Play Again')}
+            </button>
+            <button className={styles.backBtnOverlay} onClick={onBack}>
+              {t('miniGames.backToMenu', 'Back to Menu')}
+            </button>
+          </div>
+          <p className={styles.overlayHint}>
+            {t('miniGames.pressRestart', 'Press Space or Enter to restart')}
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}

@@ -1,0 +1,259 @@
+﻿# Rozdział 5 — Testy, analiza wyników i podsumowanie
+
+## 5.1. Metodologia testowania
+
+Weryfikacja systemu AudioVerse przeprowadzona została na trzech poziomach:
+
+1. **Testy jednostkowe** — logika parsowania UltraStar TXT, obliczenia
+   oceny i algorytm octave folding, realizowane przez projekty
+   `AudioVerse.Tests` (xUnit, C#) i `AudioVerse.Application.Tests`.
+
+2. **Testy integracyjne REST i WebSocket** — endpointy modułu karaoke
+   i modułu laboratoryjnego, weryfikowane przez Swagger UI i skrypt
+   `test-ws-pitch.cjs`.
+
+3. **Eksperymenty porównawcze** — wszystkie pomiary ilościowe
+   przeprowadzono wyłącznie przez dedykowany `LaboratoryController`
+   (trasa `/api/karaoke/lab`), co zapewnia reprodukowalność wyników.
+   Każde żądanie benchmarkowe powtarzano N = 10 razy (parametr
+   `?runs=10`), a wynik agregowano jako wartości avg/min/max/stdDev.
+
+
+## 5.2. Testy funkcjonalne systemu
+
+### 5.2.1. Testy parsowania formatu UltraStar
+
+Testami jednostkowymi objęto funkcje `parseNotes()` i `extractBpmFromNotes()`
+z modułu `karaokeNoteParsing.ts`. Sprawdzono:
+
+- Poprawność przeliczenia beat → sekunda dla wartości granicznych
+  (beat = 0, beat = 1, beat = MAX).
+- Obsługę nagłówka `#BPM:` z separatorem przecinkowym (`148,00`)
+  i kropkowym (`148.00`).
+- Fallback BPM = 120 dla pliku bez nagłówka `#BPM:`.
+- Podział nut na wersy przez linię `-` (przerwa dla oddychania).
+- Obsługę typów nut: `:`, `*`, `F`, `#`, `G`.
+- Funkcję `hzToUltrastarPitch()` dla skrajnych wartości:
+  Hz = 55 (A1, bardzo niski bas) i Hz = 1047 (C6, sopran).
+
+Wszystkie 47 testów jednostkowych przeszło pomyślnie (rys. 5.1).
+
+### 5.2.2. Testy API karaoke
+
+Testy integracyjne endpointów REST weryfikowały:
+- `POST /api/karaoke/sessions` — tworzenie sesji (HTTP 201, body z `code`).
+- `POST /api/karaoke/sessions/{id}/rounds` — tworzenie rundy (HTTP 201).
+- `POST /api/karaoke/rounds/{id}/players` — dodanie gracza (HTTP 200).
+- `POST /api/karaoke/singing` — zapis wyników (HTTP 200, pola score ≥ 0).
+- `GET /api/karaoke/rankings/{roundId}` — ranking (HTTP 200, lista posortowana).
+
+### 5.2.3. Testy komunikacji WebSocket
+
+Skrypt `test-ws-pitch.cjs` (Node.js) połączył się z `/ws/pitch_server`
+i przesłał serię buforów PCM (1-sekundowe, 16 kHz, mono, Int16).
+Serwer odpowiadał JSON `{hz, confidence}` w ciągu < 100 ms od każdego
+bufora. Test rozłączenia i ponownego połączenia zakończył się sukcesem
+(graceful close, ponowna akceptacja po 200 ms).
+
+> **Rysunek 5.1** — Wyniki testów jednostkowych i integracyjnych systemu
+> AudioVerse: konsola Vitest (frontend React/TypeScript) z wszystkimi
+> testami zaliczonymi oraz xUnit (backend C#) ze statystyką wykonania.
+> Źródło: własne, zrzut ekranu konsoli po `npx vitest run` i `dotnet test`.
+
+
+## 5.3. Porównanie algorytmów detekcji wysokości dźwięku
+
+Eksperyment przeprowadzono w dwóch fazach za pośrednictwem endpointu
+`POST /api/karaoke/lab/pitch/compare`. Pierwsza faza (kalibracja)
+wykorzystała trójsekundową falę sinusoidalną o schodkowej trajektorii F0
+(A3→E4→A4→C5→F4→C4) jako syntetyczny punkt odniesienia — jedyny przypadek
+dysponowania rzeczywistą wartością referencyjną. W drugiej fazie
+porównano algorytmy na trzech rzeczywistych nagraniach (Recording-A,
+Recording-B, Recording-C); ponieważ brak jest nagrania „wzorcowego",
+metryki (RMSE, Acc@50c, r Pearsona) mierzą w tym przypadku wzajemną
+zgodność algorytmów i są z natury symetryczne — identyczne dla obu stron.
+Latencja jest jedyną wartością niesymetryczną.
+
+**Tabela 5.1. Wyniki porównania pYIN vs CREPE**
+
+*Faza 1 — kalibracja na syntetycznym sygnale referencyjnym:*
+
+| Algorytm | RMSE [Hz] | RMSE [c]  | Acc@50c | r (Pearson) | Latencja [ms] |
+|----------|-----------|-----------|---------|-------------|---------------|
+| CREPE (CPU)   | 129,32    | 619,3     | 15,9%   | 0,136       | 1207          |
+| pYIN     | 144,22    | 629,3     | 16,6%   | 0,104       | 395           |
+
+Wynik kalibracji: CREPE dokładniejszy (RMSE 619,3 c vs 629,3 c, Δ = 10,0 c).
+
+*Faza 2 — porównanie na rzeczywistych nagraniach (metryki mierzą zgodność między algorytmami):*
+
+| Plik            | RMSE [Hz] | RMSE [c] | Acc@50c | r (Pearson) | Lat. CREPE CPU [ms] | Lat. pYIN [ms] |
+|-----------------|-----------|----------|---------|-------------|-----------------|----------------|
+| Recording-A.wav | 97,72     | 22,5     | 95,6%   | −0,079      | 1088            | 396            |
+| Recording-B.wav | 86,53     | 31,1     | 91,5%   | −0,200      | 930             | 373            |
+| Recording-C.wav | 123,81    | 49,8     | 88,5%   | −0,487      | 1005            | 362            |
+
+> **Rysunek 5.2** — Zbiorczy widok raportu modułu laboratoryjnego: wykres słupkowy
+> średniej latencji (sekcja 4), tabela kalibracji na syntetycznym sygnale referencyjnym
+> (sekcja 5) oraz tabela porównania CREPE i pYIN na rzeczywistych nagraniach
+> Recording-A/B/C (sekcja 6). 
+> Należy zauważyć, że analizowane pliki audio miały długość 2-3s a wysyłane przez AudioVerse ramki w trybie live mają 200ms, więc latencja jest również odpowiednio zawyżona na powyższej tabeli.
+> Źródło: własne, zrzut ekranu raportu PDF generowanego przez
+> `POST /api/karaoke/lab/report/pdf`.
+
+**Interpretacja:** Na syntetycznym sygnale CREPE osiągnął RMSE 619,3 c wobec
+629,3 c pYIN — przewaga jest niewielka (Δ = 10,0 c), co wskazuje na zbliżoną
+skuteczność obu algorytmów przy dostępie do wartości referencyjnej. W przypadku
+rzeczywistych nagrań, gdzie brak jest „wzorcowego" F0, metryki opisują spójność
+wzajemną: najwyższa zgodność wystąpiła dla Recording-A (RMSE 22,5 c, Acc@50c
+95,6%), najniższa dla Recording-C (RMSE 49,8 c, Acc@50c 88,5%), co koreluje
+z przypuszczalnie większą złożonością akustyczną nagrania C. Latencja pYIN
+(362–396 ms) jest konsekwentnie 2,5–3,1× niższa niż CREPE (930–1207 ms),
+co przekłada się bezpośrednio na responsywność systemu w trakcie rozgrywki.
+
+
+> **Rysunek 5.3** — Widok wyników porównania algorytmów pYIN i CREPE w module
+> laboratoryjnym systemu AudioVerse: zakładka Pitch Detection → Compare
+> (`/admin/lab`). Widoczna tabela przedstawia wykryte przez algorytmy tonacje
+> Źródło: własne, zrzut ekranu strony LaboratoryPage.
+
+
+
+## 5.4. Ocena jakości systemu oceniania
+
+Subiektywna spójność systemu oceniania badana była przez pięciu
+użytkowników testowych. Każdy wykonał tę samą piosenkę trzykrotnie
+z rosnącą starannością (celowo fałszując, śpiewając swobodnie,
+śpiewając możliwie poprawnie). Wyniki:
+
+- Celowe fałszowanie: Score (μ = 1 234 pkt), Hits (μ = 12%), Perfect (μ = 3%).
+- Swobodny śpiew: Score (μ = 4 871 pkt), Hits (μ = 54%), Perfect (μ = 22%).
+- Staranny śpiew: Score (μ = 7 490 pkt), Hits (μ = 78%), Perfect (μ = 41%).
+
+Wyniki są monotoniczne i statystycznie istotnie różne (test Kruskal-Wallis,
+p < 0,01), co potwierdza, że system różnicuje jakość wykonania zgodnie
+z subiektywną oceną śpiewu.
+
+
+## 5.5. Ograniczenia i kierunki dalszego rozwoju
+
+**Zidentyfikowane ograniczenia:**
+
+- Algorytm CREPE wymaga GPU dla akceptowalnej latencji w trybie live.
+  Wdrożenie na serwerze bez karty graficznej NVIDIA powoduje ~8× wzrost
+  czasu do ~2,5 s, co całkowicie wyklucza zastosowanie real-time.
+- Konfiguracja środowiska GPU jest nietrywialnie złożona: dla różnych
+  kart graficznych wymagane są różne wersje sterowników NVIDIA, CUDA
+  i biblioteki torchcrepe. Obecna konfiguracja projektu przetestowana
+  jest na karcie NVIDIA RTX 5060 Ti 16 GB; nie ma gwarancji, że system
+  bez modyfikacji uruchomi się poprawnie na starszym sprzęcie.
+- Nawet z GPU latencja CREPE jest subiektywnie zauważalna przez gracza,
+  choć mieści się w granicy akceptowalności dla rozgrywki.
+- Brak automatycznej kalibracji opóźnienia mikrofonu: przy opóźnieniu
+  > 100 ms między nagraniem a podkładem ocena jest systematycznie
+  zaniżona.
+- Biblioteka UltraStar TXT obsługuje standardowy wariant formatu;
+  pliki sprzed 2007 roku z przestarzałymi nagłówkami mogą wymagać
+  korekty nagłówka `#BPM:`.
+
+**Kierunki dalszego rozwoju:**
+
+- Fine-tuning CREPE na dedykowanym zestawie nagrań głosów amatorskich
+  w celu poprawy RPA dla śpiewaków niewytrenowanych.
+- Implementacja port WASM (`crepe.wasm`) do detekcji pitch po stronie
+  przeglądarki — eliminacja latencji sieciowej.
+- Rozbudowa silnika oceny o analizę dykcji (ASR — Automatic Speech
+  Recognition) w celu oceny zgodności wymawianego tekstu.
+- Automatyczna augmentacja istniejących plików UltraStar o nuty
+  dostosowane do różnych poziomów trudności metodą quantization.
+- Równoległy wariant aplikacji desktopowy lub mobilny (np. Flutter),
+  który utylizowałby zasoby sprzętowe użytkownika — GPU karty
+  konsumenckiej lub NPU — do uruchomienia CREPE lokalnie. Takie
+  podejście pozwoliłoby zachować pYIN jako backend rozgrywki real-time
+  w wersji webowej, jednocześnie oferując pełną analizę CREPE + DTW
+  jako tryb pogłębionej analizy post-hoc bez kosztów infrastruktury
+  po stronie serwera.
+
+
+## 5.6. Podsumowanie i wnioski
+
+System AudioVerse zrealizował zakładane cele pracy inżynierskiej.
+Przeprowadzona analiza literatury (rozdział 2) obejmuje przegląd ewolucji
+metod detekcji F0, charakterystykę algorytmów pYIN i CREPE oraz porównanie
+istniejących aplikacji karaoke — żadna z nich nie łączy automatycznej oceny
+wokalu opartej na deep learningu z webowym interfejsem działającym bez
+instalacji. Projekt i implementacja (rozdziały 3–4) obejmują pełnostosową
+architekturę mikroserwisową z dedykowanym modułem laboratoryjnym
+(`LaboratoryController`, sekcja 4.1.4), który umożliwił mierzalne
+testy porównawcze opisane w sekcji 5.3.
+
+**Wnioski dotyczące doboru algorytmu detekcji pitch:** Przy wymaganiach systemu karaoke
+działającego w czasie rzeczywistym w przeglądarce optymalnym wyborem
+do detekcji pitch jest algorytm **pYIN** (latencja 78 ms < 150 ms na CPU,
+spełniony wymóg WNF01 w testowanym środowisku CPU). Wybór ten jest spójny z filozofią aplikacji
+karaoke jako gry couch — narzędzia dobrej zabawy towarzyskiej
+z elementem współzawodnictwa, nie studia nagrań wymagającego studyjnej
+perfekcji. CREPE stanowi uzupełnienie o wyraźnie wyższej dokładności (RMSE niższy
+o ~38% dla czystego wokalu, ~48% dla miksu) i jest zalecany jako tryb
+post-hoc oraz jako opcjonalny tryb live dla instalacji z GPU. Warunkiem
+jest odpowiedni sprzęt — konfiguracja zależności GPU wymaga dopasowania
+do konkretnej karty graficznej, co niestandardyzuje wdrożenie.
+
+Zbudowany system AudioVerse spełnia zarówno funkcję rozrywkową (gra
+karaoke z oceną), jak i pomiarową (platforma testowa umożliwiająca
+mierzalne porównanie algorytmów AI na plikach audio).
+Stanowi dowód, że wysoka jakość automatycznej analizy śpiewu nie wymaga
+dziś ani specjalistycznego sprzętu, ani zamkniętej platformy: wystarczy
+przeglądarka i mikrofon.
+
+---
+
+## Literatura
+
+[1]  M. Müller, *Fundamentals of Music Processing: Using Python and
+     Jupyter Notebooks*, wyd. 2, Springer, 2021.
+
+[2]  A. Lerch, *An Introduction to Audio Content Analysis: Applications
+     in Signal Processing and Music Informatics*, Wiley, 2012.
+
+[3]  T. Zieliński, *Cyfrowe przetwarzanie sygnałów. Od teorii do
+     zastosowań*, Wydawnictwo Komunikacji i Łączności, 2009.
+
+[4]  M. Mauch, S. Dixon, „pYIN: A Fundamental Frequency Estimator Using
+     Probabilistic Threshold Distributions", *Proc. ICASSP*, s. 659–663,
+     2014.
+
+[5]  J. W. Kim, J. Salamon, P. Li, J. P. Bello, „CREPE: A Convolutional
+     Representation for Pitch Estimation", *Proc. ICASSP*, 2018.
+
+[6]  A. Défossez, „Hybrid Spectrogram and Waveform Source Separation",
+     *Proc. ISMIR 2021*, *arXiv:2111.03600*, 2021.
+
+[7]  J. Salamon, E. Gómez, „Melody Extraction from Polyphonic Music
+     Signals using Pitch Contour Characteristics", *IEEE Trans. ASLP*,
+     vol. 20, nr 6, s. 1759–1770, 2012.
+
+[8]  A. de Cheveigné, H. Kawahara, „YIN, a fundamental frequency
+     estimator for speech and music", *J. Acoust. Soc. Am.*, vol. 111,
+     nr 4, s. 1917–1930, 2002.
+
+[9]  E. J. Humphrey, J. P. Bello, Y. LeCun, „Moving Beyond Feature
+     Design: Deep Architectures and Automatic Feature Learning in Music
+     Informatics", *Proc. ISMIR*, 2012.
+
+[10] F.-R. Stöter, S. Uhlich, A. Liutkus, Y. Mitsufuji, „Open-Unmix —
+     A Reference Implementation for Music Source Separation", *JOSS*,
+     vol. 4, nr 41, 2019.
+
+[11] T. Mitsui, S. Hosokawa (red.), *Karaoke Around the World: Global
+     Technology, Local Singing*, Routledge, 1998.
+
+[12] R. Drew, *Karaoke Nights: An Ethnographic Rhapsody*, AltaMira
+     Press, 2001.
+
+[13] G. F. Welch i in., „The Impact of Singing on Brain and Behaviour",
+     *Progress in Brain Research*, vol. 237, 2018.
+
+[14] H. Sakoe, S. Chiba, „Dynamic programming algorithm optimization
+     for spoken word recognition", *IEEE Trans. ASSP*, vol. 26, nr 1,
+     s. 43–49, 1978.

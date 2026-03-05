@@ -1,0 +1,17 @@
+Rysunek 4.7 — Diagram struktury routingu frontendowego
+
+CO PRZEDSTAWIA:
+Diagram struktury routingu aplikacji React/TypeScript:
+RootLayout → Public routes (/, /songs, /rounds, /ranking, /play, /wiki, /thesis)
+AuthLayout → Login/Register
+AdminLayout → Dashboard, Users, Lab, Settings
+Widoczna hierarchia layoutów i lazy-loading z page() helper.
+
+JAK ZDOBYĆ:
+1. Otwórz plik diagramu:
+   audioverse-react/public/diagrams/routing-structure.drawio
+   Pełna ścieżka: c:\Users\Radko\source\repos\AudioVerse\audioverse-react\public\diagrams\routing-structure.drawio
+2. Otwórz w https://app.diagrams.net (File → Open from → Device)
+3. Eksportuj jako PNG (300 DPI, białe tło)
+4. Diagram oparty na konfiguracji z:
+   audioverse-react/src/App.tsx

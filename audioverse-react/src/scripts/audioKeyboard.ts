@@ -1,6 +1,6 @@
 // audioKeyboard.ts
 let audioContext: AudioContext | null = null;
-let eqSettings: { [key: string]: number } = {};
+const eqSettings: { [key: string]: number } = {};
 
 export const waveformTypes: { [key: string]: OscillatorType } = {
     "Pianino": "sawtooth",
@@ -44,12 +44,12 @@ export const keyboardLayout = [
 
 export const instruments = ["Pianino", "Organy", "Skrzypce", "Gitara", "Saksofon"];
 
-// Aktualizacja wartości equalizera
+// Equalizer value update
 export const updateEqualizer = (note: string, value: number) => {
     eqSettings[note] = value;
 };
 
-// Pobieranie wartości equalizera dla danego dźwięku
+// Getting equalizer values for a given sound
 export const getFrequencyGain = (note: string) => {
     return eqSettings[note] || 0;
 };
@@ -62,7 +62,7 @@ export const startAudioContext = () => {
     return false;
 };
 
-// Funkcja do odtwarzania dźwięków z equalizerem
+// Function for playing sounds with equalizer
 export const playSynth = (
     note: string,
     instrument: string,
@@ -75,25 +75,25 @@ export const playSynth = (
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
-    // Pobranie waveformu z presetu lub domyślnie "sine"
+    // Getting waveform from preset or default "sine"
     const waveform = waveformTypes[instrument] || "sine";
     osc.type = waveform;
 
-    // Ustawienie częstotliwości
+    // Setting frequency
     osc.frequency.setValueAtTime(frequencies[note], audioContext.currentTime);
     osc.connect(gain);
     gain.connect(audioContext.destination);
 
-    // Pobranie ustawień lub wartości domyślnych
+    // Getting settings or default values
     const attack = settings?.attack || 0.02;
     const sustain = settings?.sustain || 0.6;
     const release = settings?.release || 0.8;
     const volume = settings?.volume || 1.0;
 
-    // 🔥 Uwzględnienie equalizera
+    // 🔥 Considering the equalizer
     const adjustedGain = volume * eqGain;
 
-    // Ustawienie głośności z equalizerem
+    // Setting volume with equalizer
     gain.gain.setValueAtTime(0, audioContext.currentTime);
     gain.gain.linearRampToValueAtTime(adjustedGain, audioContext.currentTime + attack);
     gain.gain.linearRampToValueAtTime(adjustedGain * sustain, audioContext.currentTime + attack + 0.05);
@@ -102,10 +102,10 @@ export const playSynth = (
     osc.start();
     setTimeout(() => osc.stop(), release * 1000);
 
-    // Podświetlenie klawisza
+    // Key highlight
     highlightKey(note, setActiveKeys);
 
-    // 🔥 Tworzenie AudioBuffer do zwrócenia
+    // 🔥 Creating AudioBuffer to return
     const buffer = audioContext.createBuffer(1, audioContext.sampleRate * release, audioContext.sampleRate);
     const channelData = buffer.getChannelData(0);
 

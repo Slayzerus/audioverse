@@ -1,0 +1,79 @@
+// Porównanie analizy pitch i rysowania timeline w Ultrastar Worldparty vs AudioVerse
+
+---
+# Ultrastar Worldparty
+
+**Analiza pitch:**
+- Wykorzystuje własną implementację autocorrelation (patrz: TCaptureBuffer.AnalyzeByAutocorrelation w URecord.pas).
+- Próbki audio są analizowane w oknach (np. 1024/4096 sampli), sprawdzany jest RMS/volume, potem wykrywana jest częstotliwość.
+- Wynik pitch jest mapowany na "ToneAbs" (absolutny numer półtonu, np. C2-A5) oraz "Tone" (relatywny do oktawy, 0-11).
+- Dodatkowo jest walidacja głośności (ToneValid), aby ignorować szum.
+- Pitch jest porównywany z nutami z pliku tekstowego (USong.pas, UNote.pas), z tolerancją na oktawy (przesunięcia +/-12).
+- Wykryty pitch jest używany do oceny trafienia nuty i przyznawania punktów.
+
+**Rysowanie timeline:**
+- Nuty są rysowane jako prostokąty na osi czasu (OpenGL, UDraw.pas, UScreenSingView.pas).
+- Oś Y to wysokość nuty (ToneAbs), oś X to czas (Start, Length nuty).
+- Nuty mają różne kolory (zwykłe, golden, rap), overlay dla trafionych nut.
+- Pitch gracza jest rysowany jako marker/linia na timeline, z przesunięciem na Y zgodnie z wykrytym ToneAbs.
+- Dodatkowo rysowane są beaty, linie pomocnicze, waveform (SingDrawNoteLines).
+- Jest obsługa duetów, medley, dynamiczne skalowanie timeline.
+
+---
+# AudioVerse
+
+**Analiza pitch:**
+- Wykorzystuje zewnętrzne biblioteki (pitchy, aubio.js, opcjonalnie crepe backend).
+- Próbki audio są analizowane w oknach (np. 100ms), obliczany RMS, potem wykrywana częstotliwość (Hz).
+- Wynik pitch jest konwertowany na skalę Ultrastar (MIDI → Ultrastar: C4=48, pitch = round(midi-12)).
+- Walidacja: clarity (pitchy), zakres Hz, RMS.
+- Pitch jest porównywany z nutami z pliku Ultrastar, z logowaniem różnicy.
+- Wykryty pitch jest używany do rysowania overlay na timeline i eksportu do formatu Ultrastar.
+
+**Rysowanie timeline:**
+- Nuty są rysowane jako prostokąty na osi czasu (Canvas, React, karaokeTimeline.ts).
+- Oś Y to wysokość nuty (Ultrastar pitch), oś X to czas (Start, Duration).
+- Nuty mają różne kolory (gracz, golden, rap), overlay dla wykrytego pitchu.
+- Pitch gracza jest rysowany jako marker/linia na timeline, z przesunięciem na Y zgodnie z wykrytym pitch.
+- Dodatkowo rysowane są waveform, RMS, debug overlay.
+- Jest obsługa multi-gracza, dynamiczne skalowanie timeline.
+
+---
+# Wnioski
+
+1. **Algorytm pitch:**
+   - Ultrastar Worldparty używa własnej implementacji autocorrelation, AudioVerse korzysta z zewnętrznych bibliotek (pitchy, aubio.js).
+   - Oba systemy analizują okna audio, sprawdzają RMS/głośność, walidują wynik.
+   - Warto rozważyć tuning parametrów okna, RMS, clarity, aby lepiej dopasować do Worldparty.
+
+2. **Skalowanie pitch:**
+   - Worldparty mapuje pitch na ToneAbs (absolutny półton), AudioVerse na Ultrastar pitch (MIDI-12).
+   - Oba systemy przesuwają pitch o oktawy, aby dopasować do nuty (np. jeśli różnica >6, przesunięcie o 12).
+   - Warto sprawdzić czy mapping MIDI→Ultrastar jest identyczny z ToneAbs.
+
+3. **Rysowanie timeline:**
+   - Worldparty używa OpenGL, AudioVerse Canvas/React.
+   - Oś Y: wysokość nuty, Oś X: czas.
+   - Kolory, overlay, beaty, waveform są podobnie realizowane.
+   - Warto porównać skalowanie osi Y (czy nuty są na tych samych "szynach").
+
+4. **Walidacja pitch:**
+   - Worldparty: ToneValid, RMS threshold, ignorowanie szumu.
+   - AudioVerse: clarity, RMS, zakres Hz.
+   - Warto porównać progi RMS/clarity i sposób walidacji.
+
+5. **Obsługa duetów/multi-gracza:**
+   - Worldparty: obsługa duetów, multi-gracza, overlay dla każdego gracza.
+   - AudioVerse: multi-gracz, overlay, kolory.
+
+6. **Eksport/porównanie nut:**
+   - Oba systemy porównują wykryty pitch z nutami z pliku tekstowego, z tolerancją na oktawy.
+   - Warto porównać logikę "trafienia nuty" (czy jest taka sama tolerancja).
+
+---
+# Rekomendacje
+- Przetestować mapping MIDI→Ultrastar vs ToneAbs na tych samych próbkach.
+- Porównać progi RMS/clarity i tuning okna analizy.
+- Ujednolicić skalowanie osi Y timeline.
+- Rozważyć implementację własnego autocorrelation dla porównania z pitchy/aubio.js.
+- Dodać opcję porównania trafienia nuty z Worldparty (np. logika tolerancji oktaw).

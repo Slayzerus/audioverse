@@ -1,0 +1,109 @@
+version: '3.8'
+
+# Minimal docker-compose — PostgreSQL + Adminer for quick local dev
+# For full version with Redis, MinIO, AI services use Env/debug/docker-compose.yml
+#
+# AI services (CPU-only, optional):
+#   docker compose -f docker-compose.minimal.yaml --profile ai up -d
+#
+# Only laboratory (pitch detection):
+#   docker compose -f docker-compose.minimal.yaml up -d audio_pitch sing_score
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-audioverse
+    environment:
+      POSTGRES_DB: audioverse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: haslo123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d audioverse"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    restart: unless-stopped
+
+  # ════════════════════════════════════════════════════════════
+  #  AI AUDIO — laboratory serwisy (CPU-only, profil "ai")
+  #  Wymagane przez: /api/karaoke/lab/*
+  #
+  #  audio_pitch:    CREPE + pYIN (torch CPU) — ~1.2 GB image
+  #  audio_separate: Demucs (torch CPU) — ~2 GB image, 3-8s/plik
+  #  sing_score:     DTW scoring (lekki, ~200 MB)
+  #  audio_rhythm:   Rhythm analysis (lekki)
+  #  audio_vad:      Voice Activity Detection (lekki)
+  #  audio_analysis: Audio features (lekki)
+  # ════════════════════════════════════════════════════════════
+
+  audio_pitch:
+    build:
+      context: ../../../utils/ai/audio_pitch
+    container_name: av-min-audio-pitch
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    profiles: ["ai"]
+
+  audio_separate:
+    build:
+      context: ../../../utils/ai/audio_separate
+    container_name: av-min-audio-separate
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    profiles: ["ai"]
+
+  sing_score:
+    build:
+      context: ../../../utils/ai/sing_score
+    container_name: av-min-sing-score
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    profiles: ["ai"]
+
+  audio_rhythm:
+    build:
+      context: ../../../utils/ai/audio_rhythm
+    container_name: av-min-audio-rhythm
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    profiles: ["ai"]
+
+  audio_vad:
+    build:
+      context: ../../../utils/ai/audio_vad
+    container_name: av-min-audio-vad
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    profiles: ["ai"]
+
+  audio_analysis:
+    build:
+      context: ../../../utils/ai/audio_analysis
+    container_name: av-min-audio-analysis
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    profiles: ["ai"]
+
+volumes:
+  postgres_data:

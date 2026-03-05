@@ -12,10 +12,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em var(--link-color));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em var(--accent-primary));
 }
 
 @keyframes logo-spin {
@@ -38,5 +38,66 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--text-tertiary);
+}
+
+/* Monaco editor line highlight classes used by TextTab */
+.monaco-parse-highlight {
+  background-color: rgba(255,200,200,0.45) !important;
+}
+.monaco-validate-highlight {
+  background-color: rgba(255,235,200,0.45) !important;
+}
+
+/* Glyph margin icons for Monaco issues */
+.monaco-glyph-parse {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--error);
+  display: inline-block;
+  margin-left: 2px;
+}
+.monaco-glyph-validate {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--warning);
+  display: inline-block;
+  margin-left: 2px;
+}
+
+/* icons shown in the issue list (next to messages) */
+.issue-list-glyph {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.issue-list-glyph-parse { background: var(--error); }
+.issue-list-glyph-validate { background: var(--warning); }
+
+/* Quickfix popup shown near cursor in editor */
+.editor-quickfix-popup {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 6px;
+  gap: 6px;
+}
+.editor-quickfix-popup button {
+  background: var(--accent-primary);
+  color: var(--btn-text);
+  border: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.editor-quickfix-popup button:hover { opacity: 0.95; }
+
+/* Karaoke preview highlight */
+.karaoke-active-line {
+  background: color-mix(in srgb, var(--info) 12%, transparent);
+  border-left: 3px solid color-mix(in srgb, var(--info) 35%, transparent);
+  padding-left: 6px;
 }

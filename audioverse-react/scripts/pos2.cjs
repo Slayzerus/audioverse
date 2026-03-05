@@ -1,0 +1,12 @@
+const fs = require('fs');
+const s = fs.readFileSync('src/components/controls/karaoke/KaraokeManager.tsx','utf8');
+const idx = 4854;
+const before = s.slice(0, idx);
+const lines = before.split('\n');
+console.log('line', lines.length, 'col', lines[lines.length-1].length+1);
+console.log('---\nContext:\n');
+const all = s.split('\n');
+const line = lines.length;
+const start = Math.max(0, line-10);
+const end = Math.min(all.length, line+10);
+for (let i=start;i<end;i++) console.log((i+1).toString().padStart(4,' ')+': '+all[i]);

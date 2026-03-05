@@ -15,9 +15,9 @@ export type HeadwearProps = {
 
 /// Internal helper to normalize palette + common stroke/fills.
 function usePalette(colors: string[]) {
-    const base = pick(colors, 0, "#333");
+    const base = pick(colors, 0, "var(--anim-headwear-base, #333)");
     const accent = pick(colors, 1, base);
-    const stroke = pick(colors, 2, "#111");
+    const stroke = pick(colors, 2, "var(--anim-stroke, #111)");
     return { base, accent, stroke };
 }
 

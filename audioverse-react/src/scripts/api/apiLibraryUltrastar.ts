@@ -6,18 +6,20 @@ import {
     UseQueryOptions,
     QueryKey,
 } from "@tanstack/react-query";
-import { apiClient, apiPath } from "./libraryApiClient";
+import { apiClient, apiPath } from "./audioverseApiClient";
 import type { KaraokeSongFile } from "../../models/modelsKaraoke";
 
 /// Base API path for Ultrastar endpoints.
-export const ULTRASTAR_BASE = "/api/ultrastar";
+export const ULTRASTAR_BASE = "/api/karaoke/ultrastar";
 
 /// Query keys for React Query caches.
+/** @internal  use React Query hooks below */
 export const US_QK = {
     songs: ["library", "ultrastar", "songs"] as const,
 };
 
 /// Triggers a full rescan and returns the refreshed list of songs.
+/** @internal */
 export const postScanUltrastar = async (): Promise<KaraokeSongFile[]> => {
     const { data } = await apiClient.post<KaraokeSongFile[]>(
         apiPath(ULTRASTAR_BASE, "/scan")
@@ -27,25 +29,35 @@ export const postScanUltrastar = async (): Promise<KaraokeSongFile[]> => {
 
 /// Fetches songs. When ensureScanned is true and cache is empty on the server,
 /// the service will perform a one-off scan before returning.
+/** @internal */
 export const fetchUltrastarSongs = async (
     ensureScanned = false
 ): Promise<KaraokeSongFile[]> => {
-    const qs = ensureScanned ? "?ensureScanned=true" : "";
-    const { data } = await apiClient.get<KaraokeSongFile[]>(
-        apiPath(ULTRASTAR_BASE, `/songs${qs}`)
-    );
-    return Array.isArray(data) ? data : [];
+    try {
+        const qs = ensureScanned ? "?ensureScanned=true" : "";
+        const { data } = await apiClient.get<KaraokeSongFile[]>(
+            apiPath(ULTRASTAR_BASE, `/songs${qs}`)
+        );
+        return Array.isArray(data) ? data : [];
+    } catch (err: unknown) {
+        // 404 means the endpoint doesn't exist yet — return empty gracefully
+        if (err && typeof err === "object" && "response" in err) {
+            const resp = (err as { response?: { status?: number } }).response;
+            if (resp?.status === 404) return [];
+        }
+        throw err;
+    }
 };
 
 /// Parses an uploaded Ultrastar .txt file (multipart/form-data) and returns a single song model.
 /// This is a pure parser; it does not add the song to the index.
+/** @internal */
 export const postParseUltrastar = async (file: File): Promise<KaraokeSongFile> => {
     const form = new FormData();
     form.append("file", file);
     const { data } = await apiClient.post<KaraokeSongFile>(
         apiPath(ULTRASTAR_BASE, "/parse"),
-        form,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        form
     );
     return data;
 };

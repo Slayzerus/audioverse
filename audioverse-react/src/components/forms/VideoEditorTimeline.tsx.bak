@@ -1,0 +1,139 @@
+/**
+ * VideoEditorTimeline — bottom timeline with trim handles, playhead,
+ * text overlay markers, and playback controls.
+ */
+
+import React from "react";
+import { Button } from "react-bootstrap";
+import { formatTime } from "../../scripts/videoEffects";
+import type { VideoEditorAPI } from "./useVideoEditor";
+
+interface Props {
+    api: VideoEditorAPI;
+}
+
+const VideoEditorTimeline: React.FC<Props> = ({ api }) => {
+    const {
+        accent, timelineRef,
+        duration, currentTime, isPlaying,
+        trimStart, effectiveTrimEnd,
+        textOverlays, selectedTextId,
+        togglePlay, skipForward, skipBack,
+        handleTimelineMouseDown, speed,
+    } = api;
+
+    return (
+        <div style={{
+            padding: "10px 16px", borderTop: "1px solid #333", background: "#222226",
+        }}>
+            {/* Progress bar with trim handles */}
+            <div
+                ref={timelineRef}
+                style={{
+                    position: "relative", height: 32, borderRadius: 6,
+                    background: "#333", cursor: "pointer", marginBottom: 8,
+                }}
+                onMouseDown={(e) => handleTimelineMouseDown(e, "seek")}
+            >
+                {/* Trimmed area */}
+                <div style={{
+                    position: "absolute",
+                    left: `${(trimStart / duration) * 100}%`,
+                    width: `${((effectiveTrimEnd - trimStart) / duration) * 100}%`,
+                    top: 0, bottom: 0,
+                    background: `${accent}33`, borderRadius: 4,
+                }} />
+
+                {/* Playhead */}
+                <div style={{
+                    position: "absolute",
+                    left: `${(currentTime / duration) * 100}%`,
+                    top: 0, bottom: 0, width: 2,
+                    background: accent, borderRadius: 1,
+                    transition: "left 0.05s linear",
+                }}>
+                    <div style={{
+                        position: "absolute", top: -4, left: -6,
+                        width: 14, height: 14, borderRadius: "50%",
+                        background: accent, border: "2px solid #fff",
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.4)",
+                    }} />
+                </div>
+
+                {/* Trim start handle */}
+                <div
+                    style={{
+                        position: "absolute",
+                        left: `${(trimStart / duration) * 100}%`,
+                        top: 0, bottom: 0, width: 8,
+                        background: "#ff9800", borderRadius: "4px 0 0 4px",
+                        cursor: "ew-resize", transform: "translateX(-4px)",
+                    }}
+                    onMouseDown={(e) => { e.stopPropagation(); handleTimelineMouseDown(e, "start"); }}
+                />
+
+                {/* Trim end handle */}
+                <div
+                    style={{
+                        position: "absolute",
+                        left: `${(effectiveTrimEnd / duration) * 100}%`,
+                        top: 0, bottom: 0, width: 8,
+                        background: "#ff9800", borderRadius: "0 4px 4px 0",
+                        cursor: "ew-resize", transform: "translateX(-4px)",
+                    }}
+                    onMouseDown={(e) => { e.stopPropagation(); handleTimelineMouseDown(e, "end"); }}
+                />
+
+                {/* Text overlay markers */}
+                {textOverlays.map((ov) => (
+                    <div key={ov.id} style={{
+                        position: "absolute",
+                        left: `${(ov.startTime / duration) * 100}%`,
+                        width: `${((ov.endTime - ov.startTime) / duration) * 100}%`,
+                        bottom: 2, height: 4, borderRadius: 2,
+                        background: selectedTextId === ov.id ? "#4fc3f7" : "#4fc3f788",
+                        pointerEvents: "none",
+                    }} />
+                ))}
+            </div>
+
+            {/* Playback buttons + time */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+                <span style={{ fontSize: 11, color: "#888", minWidth: 50, textAlign: "right" }}>
+                    {formatTime(currentTime)}
+                </span>
+
+                <Button variant="dark" size="sm" onClick={skipBack} title="-5s" style={{ padding: "4px 8px" }}>
+                    <i className="fa fa-backward" />
+                </Button>
+                <Button
+                    size="sm"
+                    style={{
+                        background: accent, borderColor: accent, color: "#fff",
+                        width: 40, height: 40, borderRadius: "50%",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 16,
+                    }}
+                    onClick={togglePlay}
+                >
+                    <i className={`fa ${isPlaying ? "fa-pause" : "fa-play"}`} style={{ marginLeft: isPlaying ? 0 : 2 }} />
+                </Button>
+                <Button variant="dark" size="sm" onClick={skipForward} title="+5s" style={{ padding: "4px 8px" }}>
+                    <i className="fa fa-forward" />
+                </Button>
+
+                <span style={{ fontSize: 11, color: "#888", minWidth: 50 }}>
+                    {formatTime(effectiveTrimEnd)}
+                </span>
+
+                <div style={{ width: 1, height: 20, background: "#444" }} />
+
+                <span style={{ fontSize: 11, color: "#666" }}>
+                    {speed !== 1 && <span style={{ color: accent }}>{speed.toFixed(2)}×</span>}
+                </span>
+            </div>
+        </div>
+    );
+};
+
+export default React.memo(VideoEditorTimeline);

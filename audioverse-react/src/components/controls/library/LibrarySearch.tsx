@@ -1,5 +1,6 @@
 // src/components/controls/library/LibrarySearch.tsx
 import React, { useMemo, useRef, useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { useAudioRecordsQuery } from "../../../scripts/api/apiLibraryStream";
 import { useUltrastarSongsQuery } from "../../../scripts/api/apiLibraryUltrastar";
 import type { SongRecord } from "../../../models/modelsAudio";
@@ -20,14 +21,14 @@ type Props = {
 };
 
 /// Small UI styles.
-const box: React.CSSProperties = { border: "1px solid #d1d5db", borderRadius: 8, padding: "6px 10px" };
+const box: React.CSSProperties = { border: "1px solid var(--border-light, #d1d5db)", borderRadius: 8, padding: "6px 10px" };
 const listBox: React.CSSProperties = {
     position: "absolute",
     top: "100%",
     left: 0,
     right: 0,
-    background: "#fff",
-    border: "1px solid #e5e7eb",
+    background: "var(--bg, #fff)",
+    border: "1px solid var(--border-light, #e5e7eb)",
     borderRadius: 8,
     marginTop: 6,
     boxShadow: "0 6px 24px rgba(0,0,0,.12)",
@@ -76,7 +77,8 @@ function scoreUltrastar(q: string, s: KaraokeSongFile) {
 type Tab = "audio" | "ultrastar";
 
 /// Search box that offers results in tabs: Audio and Ultrastar.
-export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxResults = 5, autoFocus, onPick, onPickUltrastar }) => {
+export const LibrarySearch: React.FC<Props> = ({ placeholder, maxResults = 5, autoFocus, onPick, onPickUltrastar }) => {
+    const { t } = useTranslation();
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
@@ -146,24 +148,24 @@ export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxR
                 aria-selected={active}
                 onMouseEnter={() => setActiveIdx(i)}
                 onClick={() => { onPick?.(r); setOpen(false); setQuery(""); }}
-                style={{
+                    style={{
                     display: "grid",
                     gridTemplateColumns: "40px 1fr auto",
                     gap: 8,
                     padding: "6px 8px",
                     cursor: "pointer",
                     alignItems: "center",
-                    background: active ? "#eef2ff" : "#fff",
+                    background: active ? "var(--active-bg, #eef2ff)" : "var(--bg, #fff)",
                 }}
             >
                 <div>
                     {r.albumDetails?.coverUrl ? (
-                        <img src={r.albumDetails.coverUrl} alt="" style={{ width: 36, height: 36, objectFit: "cover", borderRadius: 6 }} />
-                    ) : <div style={{ width: 36, height: 36, background: "#e2e8f0", borderRadius: 6 }} />}
+                        <img src={r.albumDetails.coverUrl} alt={r.title || 'Album artwork'} style={{ width: 36, height: 36, objectFit: "cover", borderRadius: 6 }} />
+                    ) : <div style={{ width: 36, height: 36, background: "var(--placeholder-bg, #e2e8f0)", borderRadius: 6 }} />}
                 </div>
                 <div style={{ overflow: "hidden" }}>
                     <div style={{ fontWeight: 600, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>{r.title}</div>
-                    <div style={{ color: "#64748b", fontSize: 12, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
+                    <div style={{ color: "var(--text-dim, #64748b)", fontSize: 12, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
                         {(r.artists ?? []).join(", ")}
                     </div>
                 </div>
@@ -190,12 +192,12 @@ export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxR
                     padding: "6px 8px",
                     cursor: "pointer",
                     alignItems: "center",
-                    background: active ? "#eef2ff" : "#fff",
+                    background: active ? "var(--active-bg, #eef2ff)" : "var(--bg, #fff)",
                 }}
             >
                 <div style={{ overflow: "hidden" }}>
-                    <div style={{ fontWeight: 600, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>{s.title ?? "(brak tytułu)"}</div>
-                    <div style={{ color: "#64748b", fontSize: 12, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
+                    <div style={{ fontWeight: 600, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>{s.title ?? t('common.noTitle', '(no title)')}</div>
+                    <div style={{ color: "var(--text-dim, #64748b)", fontSize: 12, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
                         {s.artist ?? ""}
                     </div>
                 </div>
@@ -212,7 +214,7 @@ export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxR
         <div style={{ position: "relative" }}>
             <input
                 ref={inputRef}
-                placeholder={placeholder}
+                placeholder={placeholder ?? t('librarySearch.searchPlaceholder', 'Search...')}
                 value={query}
                 onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
                 onKeyDown={onKeyDown}
@@ -223,18 +225,18 @@ export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxR
             {open && (
                 <div style={listBox} onMouseDown={(e) => e.preventDefault()}>
                     {/* Tabs header */}
-                    <div style={{ display: "flex", gap: 6, padding: "6px 8px", borderBottom: "1px solid #e5e7eb" }}>
+                    <div style={{ display: "flex", gap: 6, padding: "6px 8px", borderBottom: "1px solid var(--border-light, #e5e7eb)" }}>
                         <button
                             type="button"
                             onClick={() => setTab("audio")}
-                            style={{ border: "1px solid", borderColor: tab === "audio" ? "#4f46e5" : "#e5e7eb", borderRadius: 6, padding: "2px 8px", background: "#fff", color: tab === "audio" ? "#4f46e5" : undefined }}
+                            style={{ border: "1px solid", borderColor: tab === "audio" ? "var(--primary, #4f46e5)" : "var(--border-light, #e5e7eb)", borderRadius: 6, padding: "2px 8px", background: "var(--bg, #fff)", color: tab === "audio" ? "var(--primary, #4f46e5)" : undefined }}
                         >
                             Audio
                         </button>
                         <button
                             type="button"
                             onClick={() => setTab("ultrastar")}
-                            style={{ border: "1px solid", borderColor: tab === "ultrastar" ? "#4f46e5" : "#e5e7eb", borderRadius: 6, padding: "2px 8px", background: "#fff", color: tab === "ultrastar" ? "#4f46e5" : undefined }}
+                            style={{ border: "1px solid", borderColor: tab === "ultrastar" ? "var(--primary, #4f46e5)" : "var(--border-light, #e5e7eb)", borderRadius: 6, padding: "2px 8px", background: "var(--bg, #fff)", color: tab === "ultrastar" ? "var(--primary, #4f46e5)" : undefined }}
                         >
                             Ultrastar
                         </button>
@@ -242,18 +244,18 @@ export const LibrarySearch: React.FC<Props> = ({ placeholder = "Szukaj…", maxR
 
                     {/* Body */}
                     <div>
-                        {!query.trim() && <div style={{ padding: 8, color: "#6b7280" }}>Wpisz, aby wyszukać…</div>}
-                        {query.trim() && tab === "audio" && qAudio.isLoading && <div style={{ padding: 8, color: "#6b7280" }}>Szukam…</div>}
-                        {query.trim() && tab === "ultrastar" && qUs.isLoading && <div style={{ padding: 8, color: "#6b7280" }}>Szukam…</div>}
+                        {!query.trim() && <div style={{ padding: 8, color: "#6b7280" }}>{t('librarySearch.typeToSearch', 'Type to search...')}</div>}
+                        {query.trim() && tab === "audio" && qAudio.isLoading && <div style={{ padding: 8, color: "#6b7280" }}>{t('librarySearch.searching', 'Searching...')}</div>}
+                        {query.trim() && tab === "ultrastar" && qUs.isLoading && <div style={{ padding: 8, color: "#6b7280" }}>{t('librarySearch.searching', 'Searching...')}</div>}
 
                         {tab === "audio" && audioResults.length > 0 && audioResults.map(renderAudioRow)}
                         {tab === "audio" && query.trim() && !qAudio.isLoading && audioResults.length === 0 && (
-                            <div style={{ padding: 8, color: "#6b7280" }}>Brak wyników.</div>
+                            <div style={{ padding: 8, color: "#6b7280" }}>{t('librarySearch.noResults', 'No results.')}</div>
                         )}
 
                         {tab === "ultrastar" && usResults.length > 0 && usResults.map(renderUsRow)}
                         {tab === "ultrastar" && query.trim() && !qUs.isLoading && usResults.length === 0 && (
-                            <div style={{ padding: 8, color: "#6b7280" }}>Brak wyników.</div>
+                            <div style={{ padding: 8, color: "#6b7280" }}>{t('librarySearch.noResults', 'No results.')}</div>
                         )}
                     </div>
                 </div>

@@ -1,0 +1,3 @@
+Źródło własne — diagram struktury routingu frontendowego
+audioverse-react/src/App.tsx
+2026-02-20

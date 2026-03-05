@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-02-28T23:57:22.8462259Z",
+  "generator": "AudioVerse.DiagramGenerator",
+  "groups": [
+    {
+      "name": "Audio",
+      "fillColor": "#dae8fc",
+      "strokeColor": "#6c8ebf",
+      "nodes": [
+        {
+          "id": "AudioVerse.Domain.Entities.Audio.Song",
+          "name": "Song",
+          "icon": "??",
+          "description": "Katalog muzyczny",
+          "fillColor": "#dae8fc",
+          "strokeColor": "#6c8ebf",
+          "properties": [
+            "int Id",
+            "string Title",
+            "int? AlbumId",
+            "string ISRC",
+            "int? PrimaryArtistId",
+            "bool IsDeleted",
+            "DateTime? DeletedAt",
+            "int? DeletedByUserId"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "fillColor": "#d5e8d4",
+      "strokeColor": "#82b366",
+      "nodes": [
+        {
+          "id": "AudioVerse.Domain.Entities.Events.Event",
+          "name": "Event",
+          "icon": "\uD83D\uDCC5",
+          "description": "Core event - scheduled gathering",
+          "fillColor": "#d5e8d4",
+          "strokeColor": "#82b366",
+          "properties": [
+            "int Id",
+            "string Title",
+            "string Description",
+            "EventType Type",
+            "DateTime? StartTime",
+            "DateTime? EndTime",
+            "int? OrganizerId",
+            "int? MaxParticipants",
+            "bool WaitingListEnabled",
+            "EventVisibility Visibility",
+            "bool IsDeleted",
+            "DateTime? DeletedAt",
+            "int? DeletedByUserId",
+            "int? LocationId",
+            "string LocationName",
+            "EventStatus Status",
+            "EventLocationType LocationType",
+            "EventAccessType Access",
+            "string CodeHash",
+            "string AccessToken",
+            "string Poster",
+            "RecurrencePattern? Recurrence",
+            "int? RecurrenceInterval",
+            "int? SeriesParentId",
+            "bool CarryOverProposals",
+            "string CancellationReason",
+            "DateTime? OriginalStartTime",
+            "string Name"
+          ]
+        },
+        {
+          "id": "AudioVerse.Domain.Entities.Events.EventParticipant",
+          "name": "EventParticipant",
+          "icon": "\uD83C\uDF9F\uFE0F",
+          "description": "RSVP / attendance tracking",
+          "fillColor": "#d5e8d4",
+          "strokeColor": "#82b366",
+          "properties": [
+            "int Id",
+            "int EventId",
+            "int UserId",
+            "EventParticipantStatus Status",
+            "DateTime RegisteredAt",
+            "DateTime? ArrivedAt"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Karaoke",
+      "fillColor": "#e1d5e7",
+      "strokeColor": "#9673a6",
+      "nodes": [
+        {
+          "id": "AudioVerse.Domain.Entities.Karaoke.KaraokeSessions.KaraokeSession",
+          "name": "KaraokeSession",
+          "icon": "\uD83C\uDFA4",
+          "description": "Sesja karaoke w ramach eventu",
+          "fillColor": "#e1d5e7",
+          "strokeColor": "#9673a6",
+          "properties": [
+            "int Id",
+            "int? EventId",
+            "string Name",
+            "KaraokeSessionMode Mode",
+            "DateTime CreatedAt",
+            "DateTime? StartedAt",
+            "DateTime? EndedAt",
+            "bool TeamMode",
+            "bool IsLimitedToEventPlaylist"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Laboratory",
+      "fillColor": "#dcedc8",
+      "strokeColor": "#689f38",
+      "nodes": [
+        {
+          "id": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperiment",
+          "name": "LaboratoryExperiment",
+          "icon": "\uD83D\uDD2C",
+          "description": "Pitch detection experiment with CREPE/pYIN metrics",
+          "fillColor": "#dcedc8",
+          "strokeColor": "#689f38",
+          "properties": [
+            "int Id",
+            "Guid ExperimentGuid",
+            "string Title",
+            "string Operator",
+            "DateTime ExecutedAt",
+            "int BenchmarkRuns",
+            "int FileCount",
+            "string ApiVersion",
+            "double? CrepeAvgRmseCents",
+            "double? CrepeAvgAccuracy50c",
+            "double? CrepeAvgPearsonR",
+            "double? CrepeAvgLatencyMs",
+            "double? PyinAvgRmseCents",
+            "double? PyinAvgAccuracy50c",
+            "double? PyinAvgPearsonR",
+            "double? PyinAvgLatencyMs",
+            "double? SeparationAvgDeltaRmseCents",
+            "double? DtwScore",
+            "string ResultsJson",
+            "string Notes"
+          ]
+        },
+        {
+          "id": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperimentSample",
+          "name": "LaboratoryExperimentSample",
+          "icon": "\uD83C\uDFB5",
+          "description": "Audio sample with per-file CREPE/pYIN metrics \u002B MinIO storage",
+          "fillColor": "#f0f4c3",
+          "strokeColor": "#afb42b",
+          "properties": [
+            "int Id",
+            "int ExperimentId",
+            "string FileName",
+            "long FileSizeBytes",
+            "double? CrepeRmseHz",
+            "double? CrepeRmseCents",
+            "double? CrepeAccuracy50c",
+            "double? CrepePearsonR",
+            "long? CrepeLatencyMs",
+            "double? CrepeMedianHz",
+            "double? PyinRmseHz",
+            "double? PyinRmseCents",
+            "double? PyinAccuracy50c",
+            "double? PyinPearsonR",
+            "long? PyinLatencyMs",
+            "double? PyinMedianHz",
+            "double? SeparationRmseCentsBefore",
+            "double? SeparationRmseCentsAfter",
+            "long? SeparationLatencyMs",
+            "string PitchTrajectoryJson",
+            "string StoragePath"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UserProfiles",
+      "fillColor": "#fff2cc",
+      "strokeColor": "#d6b656",
+      "nodes": [
+        {
+          "id": "AudioVerse.Domain.Entities.UserProfiles.UserProfile",
+          "name": "UserProfile",
+          "icon": "\uD83D\uDC64",
+          "description": "Profil u\u017Cytkownika",
+          "fillColor": "#fff2cc",
+          "strokeColor": "#d6b656",
+          "properties": [
+            "string RefreshToken",
+            "DateTime RefreshTokenExpiryTime",
+            "string FullName",
+            "bool IsBlocked",
+            "bool RequirePasswordChange",
+            "DateTime? PasswordExpiryDate",
+            "int? PasswordValidityDays",
+            "DateTime CreatedAt",
+            "DateTime? LastPasswordChangeDate",
+            "bool TotpEnabled",
+            "string TotpSecret",
+            "int? ContactId",
+            "string PhotoKey"
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperiment",
+      "target": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperimentSample",
+      "label": "1:N",
+      "propertyName": "Samples",
+      "dashed": false
+    },
+    {
+      "source": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperimentSample",
+      "target": "AudioVerse.Domain.Entities.Karaoke.LaboratoryExperiment",
+      "label": "N:1",
+      "propertyName": "Experiment",
+      "dashed": false
+    },
+    {
+      "source": "AudioVerse.Domain.Entities.Karaoke.KaraokeSessions.KaraokeSession",
+      "target": "AudioVerse.Domain.Entities.Events.Event",
+      "label": "N:1",
+      "propertyName": "Event",
+      "dashed": false
+    },
+    {
+      "source": "AudioVerse.Domain.Entities.Events.Event",
+      "target": "AudioVerse.Domain.Entities.UserProfiles.UserProfile",
+      "label": "N:1",
+      "propertyName": "Organizer",
+      "dashed": false
+    },
+    {
+      "source": "AudioVerse.Domain.Entities.Events.EventParticipant",
+      "target": "AudioVerse.Domain.Entities.Events.Event",
+      "label": "N:1",
+      "propertyName": "Event",
+      "dashed": false
+    },
+    {
+      "source": "AudioVerse.Domain.Entities.Events.EventParticipant",
+      "target": "AudioVerse.Domain.Entities.UserProfiles.UserProfile",
+      "label": "N:1",
+      "propertyName": "User",
+      "dashed": false
+    }
+  ]
+}

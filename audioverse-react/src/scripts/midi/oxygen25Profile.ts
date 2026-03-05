@@ -10,18 +10,18 @@ export type ControlId =
 
 export type OxygenLayout = {
     name: string;
-    deviceMatch: string; // fragment nazwy urządzenia do automatycznego wyboru
-    // domyślne CC/Note – można nadpisać w UI
+    deviceMatch: string; // device name fragment for automatic selection
+    // default CC/Note – can be overridden in UI
     knobs: { index: number; cc: number; label: string }[];
     fader?: { cc: number; label: string };
-    pads: { note: number; label: string }[]; // nuty dla padów (Note On)
+    pads: { note: number; label: string }[]; // notes for pads (Note On)
     transport: Partial<Record<"play" | "stop" | "record" | "rew" | "ff" | "loop", number>>; // CC -> akcja
 };
 
 export const oxygen25mkiv: OxygenLayout = {
     name: "M-Audio Oxygen 25 (MKIV)",
     deviceMatch: "OXYGEN", // wykryje również „M-Audio OXYGEN 25…”
-    // typowy układ: 8 gałek
+    // typical layout: 8 knobs
     knobs: [
         { index: 1, cc: 21, label: "Knob 1" },
         { index: 2, cc: 22, label: "Knob 2" },
@@ -34,7 +34,7 @@ export const oxygen25mkiv: OxygenLayout = {
     ],
     // 25-ka zwykle ma 1 suwak
     fader: { cc: 7, label: "Fader (Channel Volume)" },
-    // 8 padów – startowo mapujemy na klasyczny zakres GM Drums
+    // 8 pads – initially mapped to classic GM Drums range
     pads: [
         { note: 36, label: "Kick C1" },
         { note: 38, label: "Snare D1" },

@@ -1,0 +1,446 @@
+# Rozdział 4 — Implementacja
+
+## 4.1. Backend — AudioVerse.API (.NET 10)
+
+Backend zorganizowany jest według wzorca CQRS zaimplementowanego
+przez bibliotekę MediatR 12 (rys. 4.1). Każda operacja klienta transluje się na
+komendę (`Command`) lub zapytanie (`Query`), obsługiwane przez dedykowane
+`Handler` w warstwie `AudioVerse.Application`. Kontrolery są cienkie —
+zawierają jedynie akcję HTTP i delegację do mediatora:
+
+```csharp
+[HttpPost("singing")]
+public async Task<IActionResult> SaveSinging(
+    [FromBody] SaveKaraokeSingingCommand cmd,
+    CancellationToken ct)
+    => Ok(await _mediator.Send(cmd, ct));
+```
+
+> **Rysunek 4.1** — Diagram architektury CQRS w AudioVerse: Controller → MediatR
+> → Handler → Repository → DbContext → PostgreSQL. Widoczne przykłady:
+> SaveKaraokeSingingCommand → SaveKaraokeSingingHandler (zapis wyników) i
+> GetRankingsQuery → GetRankingsHandler (odczyt rankingów).
+> Źródło: własne, diagram dostępny w pliku
+> `AudioVerse.API/Docs/diagrams/08-cqrs-architecture.drawio`.
+
+### 4.1.1. Zarządzanie sesjami i rundami
+
+`KaraokeController` (trasa `/api/karaoke`) udostępnia operacje (rys. 4.2):
+tworzenie sesji (`CreateSession`), dołączenie przez kod (`JoinByCode`),
+tworzenie i konfigurowanie rundy (`CreateRound`, `AssignPlayers`),
+zapis wyników śpiewania (`SaveSinging`), pobieranie rankingów.
+
+Stan sesji synchronizowany jest w czasie rzeczywistym przez
+`KaraokeHub` (SignalR) — po zakończeniu rundy serwer emituje zdarzenie
+`RoundFinished` do klienta gracza.
+
+> **Rysunek 4.2** — Diagram przepływu sesji karaoke: CreateSession → kod
+> dołączenia → JoinByCode → CreateRound → AssignPlayers → strumieniowanie
+> PCM → detekcja pitch → zapis wyników → RoundFinished → ekran rankingu.
+> Źródło: własne, diagram dostępny w pliku
+> `AudioVerse.API/Docs/diagrams/09-karaoke-session-flow.drawio`.
+
+### 4.1.2. Baza piosenek i format UltraStar
+
+`KaraokeSongsController` obsługuje CRUD piosenek oraz wersje pliku
+(jedna piosenka może mieć kilka wersji dostosowanych do różnych
+poziomów trudności). `UltrastarController` serwuje surowy plik TXT
+z MinIO. Obsługiwane są typy nut: `:` (zwykła), `*` (złota), `F`
+(freestyle), `-` (pauza), `#` (rap), `G` (rap-złota).
+
+### 4.1.3. Komunikacja w czasie rzeczywistym — KaraokeHub (SignalR)
+
+`KaraokeHub` nasłuchuje zdarzeń (rys. 4.3):
+- `StartRound(roundId)` — emitowany do wszystkich graczy,
+- `ScoreUpdate(playerId, score, combo)` — aktualizacja co 5 s,
+- `RoundFinished(rankings)` — wyniki po zakończeniu piosenki.
+
+Frontend rejestruje handlery przez SDK SignalR TypeScript:
+
+```typescript
+connection.on("RoundFinished", (rankings: PlayerRanking[]) => {
+    navigate(`/karaoke/ranking/${roundId}`);
+});
+```
+
+Oprócz SignalR system korzysta z surowego kanału WebSocket (trasa `/ws/pitch`)
+do strumieniowania PCM 16-bit, mono, 16 kHz z przeglądarki. Bufor
+`Int16Array` (4096 próbek, 256 ms) przesyłany jest przez `WebSocket.send()`;
+serwer Python akumuluje sygnał do 1 sekundy i odsyała wynik F0 jako JSON
+`{hz, confidence}`. Szczegóły implementacji WebSocket opisano
+w sekcji 4.2.1.
+
+> **Rysunek 4.3** — Diagram przepływu autoryzacji JWT i OAuth 2.0 w AudioVerse:
+> Login → Identity Server → JWT Bearer → SignalR; przepływ OAuth
+> (Google / Spotify / Twitch / Discord) → callback → token refresh.
+> Role: User i Admin z oddzielnymi uprawnieniami do endpointów.
+> Źródło: własne, diagram dostępny w pliku
+> `AudioVerse.API/Docs/diagrams/06-auth-jwt-flow.drawio`.
+
+### 4.1.4. LaboratoryController — moduł pomiarowy
+
+`LaboratoryController` (trasa `/api/karaoke/lab`, rola: Admin z wyjątkami
+`/health` i `/report/pdf` oznaczonymi `[AllowAnonymous]`) to dedykowany
+kontroler zaimplementowany na potrzeby testów opisanych w rozdziale 5.
+Wszystkie 9 endpointów opisano w tabeli 4.1 i zilustrowano na rysunkach 4.4 i 4.5.
+
+**Tabela 4.1. Endpointy modułu laboratoryjnego (/api/karaoke/lab)**
+
+| Metoda | Trasa                       | Opis                                                                  |
+|--------|-----------------------------|-----------------------------------------------------------------------|
+| GET    | /health                     | Pings wszystkich 5 mikroserwisów AI; zwraca status + latencyMs        |
+| POST   | /pitch/crepe                | Detekcja F0 algorytmem CREPE (torchcrepe + Viterbi); zwraca {algorithm, latencyMs, medianHz, noteName, frameCount, track[]} |
+| POST   | /pitch/pyin                 | Detekcja F0 algorytmem pYIN (librosa); identyczny format odpowiedzi  |
+| POST   | /pitch/compare              | Uruchamia oba algorytmy, oblicza ComparisonMetrics (RMSE Hz, RMSE cents, Acc@50c, Pearson r) |
+| POST   | /score/dtw                  | Ocena śpiewu DTW; zwraca score 0–100, pitchAccuracy, rhythmAccuracy  |
+| POST   | /batch/pitch                | Przetwarzanie do 20 plików; wynik CSV-friendly                        |
+| POST   | /benchmark/latency          | N powtórzeń (?runs=1–20, default 5); zwraca {avgMs, minMs, maxMs, stdDevMs} |
+| POST   | /report/pdf                 | Pełny pipeline + generowanie PDF przez QuestPDF                      |
+
+> **Rysunek 4.4** — Swagger UI endpointu modułu laboratoryjnego
+> (`/api/karaoke/lab`). Widoczne wszystkie 9 endpointów z opisami,
+> formatów wejścia/wyjścia i możliwością testowania bezpośrednio z przeglądarki.
+> Źródło: własne, zrzut ekranu Swagger UI dostępnego pod adresem
+> `http://localhost:5000/swagger` po uruchomieniu `docker compose up -d`.
+
+**Metoda `ComputeMetrics(double[] a, double[] b)`** (prywatna) oblicza
+metryki dla pary trajektorii F0:
+
+```csharp
+var rmseHz = Math.Sqrt(pairs.Average(p => Math.Pow(p.A - p.B, 2)));
+var rmseCents = Math.Sqrt(pairs.Average(p =>
+    Math.Pow(1200 * Math.Log2(p.A / p.B), 2)));
+var acc50c = pairs.Count(p =>
+    Math.Abs(1200 * Math.Log2(p.A / p.B)) < 50.0) / (double)pairs.Count;
+var pearsonR = /* wzór Pearsona */ ;
+return new ComparisonMetrics(rmseHz, rmseCents, acc50c, pearsonR, pairs.Count);
+```
+
+Endpoint `/report/pdf` wywołuje `LaboratoryReportPdfService` (QuestPDF)
+i zwraca strumień `application/pdf`. Raport zawiera: nagłówek z logo i datą,
+executive summary KPI, wykresy CREPE vs pYIN per plik, wykres latencji
+z linią 150 ms, tabelę separacji Demucs, automatycznie generowane wnioski.
+
+> **Rysunek 4.5** — Diagram pipeline modułu laboratoryjnego: Upload WAV →
+> LaboratoryController → audio_separate (Demucs) → audio_pitch (pYIN/CREPE) →
+> ComputeMetrics (RMSE, Acc@50c, Pearson r) → sing_score (DTW) →
+> LaboratoryReportPdfService (QuestPDF) → odpowiedź PDF.
+> Źródło: własne, diagram dostępny w pliku
+> `AudioVerse.API/Docs/diagrams/13-laboratory-pipeline-flow.drawio`.
+
+
+## 4.2. Mikroserwisy AI (Python / FastAPI)
+
+Każdy mikroserwis uruchomiony jest w osobnym kontenerze Dockera
+z bazowym obrazem `python:3.11-slim`. Rejestrują metryki latencji do
+Prometheusa przez `prometheus_fastapi_instrumentator`.
+
+### 4.2.1. audio_pitch — detekcja wysokości dźwięku
+
+Mikroserwis `audio_pitch` (port 8001) obsługuje:
+- `POST /pitch` — wgraj plik WAV/MP3, resampling librosa do 16 kHz mono,
+  uruchomienie CREPE lub pYIN (parametr `algorithm`), zwróć trajektorię.
+- `WebSocket /ws/pitch_server` — strumieniowanie PCM 16-bit 16 kHz;
+  bufor akumulowany do 1 s, pYIN uruchamiane per bufor, F0 zwracane jako JSON.
+
+```python
+@app.websocket("/ws/pitch_server")
+async def ws_pitch(websocket: WebSocket):
+    await websocket.accept()
+    buffer = bytearray()
+    while True:
+        data = await websocket.receive_bytes()
+        buffer.extend(data)
+        if len(buffer) >= SR * 2:          # 1 sekunda PCM 16-bit
+            audio = np.frombuffer(buffer, dtype=np.int16).astype(np.float32) / 32768
+            f0, _, probs = librosa.pyin(audio, fmin=80, fmax=1000, sr=SR)
+            hz  = float(np.nanmedian(f0))
+            conf = float(np.nanmean(probs))
+            await websocket.send_json({"hz": hz, "confidence": conf})
+            buffer.clear()
+```
+
+### 4.2.2. sing_score — ocena śpiewu metodą DTW
+
+Mikroserwis `sing_score` (port 8002):
+- `POST /score` — przyjmuje dwa pliki WAV (śpiewak + referencja),
+  wyznacza trajektorie F0 obu (CREPE lub pYIN), normalizuje do
+  wspólnego grid czasowego, oblicza dystans DTW (dtaidistance),
+  mapuje na score 0–100.
+- `WebSocket /score/live` — streaming score co 10 ramek PCM.
+
+Normalizacja score: $s = 100 \cdot (1 - d / d_{\max})$, gdzie $d_{\max}$
+to empiryczny percentyl 99 ze zbioru kalibracyjnego.
+
+
+## 4.3. Frontend — interfejs użytkownika (React + TypeScript)
+
+Frontend zbudowany jest jako SPA (Single-Page Application) w React 18
++ TypeScript 5.3 (rys. 4.6). Zarządzanie stanem serwera — React Query v5 (`@tanstack/react-query`).
+Nawigacja — React Router v6. Budowanie — Vite 5.
+
+> **Rysunek 4.6** — Struktura routingu aplikacji React/TypeScript: RootLayout
+> z trasami publicznymi (/songs, /ranking, /play, /wiki), AuthLayout
+> (/login, /register) i AdminLayout (/admin/dashboard, /admin/lab).
+> Widoczna hierarchia layoutów z lazy-loadingiem.
+> Źródło: własne, diagram oparty na konfiguracji z
+> `audioverse-react/src/App.tsx`.
+
+### 4.3.1. Przeglądarka piosenek (KaraokeSongBrowserPage)
+
+Strona przeglądarki piosenek (rys. 4.7) zawiera filtrowanie po tytule, artyście,
+języku i gatunku z debounced search (300 ms), stronicowanie wyników
+przez react-query `useSuspenseQuery` i podgląd metadanych piosenki
+po kliknięciu na kafelek. Obsługa stanu `isLoading` / `isError`
+z skeleton loaderami.
+
+> **Rysunek 4.7** — Przeglądarka piosenek (KaraokeSongBrowserPage):
+> panel filtrowania po tytule, artyście, języku i gatunku; siatka kafelków
+> z okładką, tytułem i artystą; paginacja wyników.
+> Źródło: własne, zrzut ekranu aplikacji AudioVerse, widok KaraokeSongBrowserPage
+> (`audioverse-react/src/pages/party/KaraokeSongBrowserPage.tsx`).
+
+### 4.3.2. Ekran rozgrywki (KaraokeRoundPage)
+
+Główny ekran rozgrywki (rys. 4.8) składa się z:
+- odtwarzacza audio sterowanego przez `useKaraokeAudio` (hook),
+- komponentu `<KaraokeCanvas>` renderującego timeline nut na elemencie
+  `<canvas>` pełnoekranowym (1920 × 1080 px) z `requestAnimationFrame`,
+- pola aktywnej sylaby wyróżniającej aktualnie wymawianą literę,
+- wskaźnika score i combo aktualizowanego przez SignalR.
+
+Renderowanie nut na Canvas odbywa się przez `drawTimeline()` z pliku
+`karaokeTimelineRenderer.ts` — pełny opis w sekcji 4.4.
+
+> **Rysunek 4.8** — Ekran rozgrywki karaoke (KaraokeRoundPage):
+> pełnoekranowy Canvas 1920×1080 px z timeline nut, kursorem pitch (linia pionowa),
+> aktywną sylabą, wskaźnik score i combo w prawym górnym rogu.
+> Źródło: własne, zrzut ekranu aplikacji AudioVerse, widok KaraokeRoundPage
+> (`audioverse-react/src/pages/party/KaraokeRoundPage.tsx`).
+
+### 4.3.3. Ekran rankingu (KaraokeRankingPage)
+
+Po zakończeniu piosenki (zdarzenie `RoundFinished` z KaraokeHub) klient
+nawiguje automatycznie do ekranu rankingu (rys. 4.9). Strona wyświetla tabelę graczy
+posortowaną malejąco po `Score`, z kolumnami: Gracz, Score, Hits, Misses,
+Good, Perfect, Combo. Przycisk `Następna runda` tworzy nową rundę
+z tą samą listą graczy.
+
+> **Rysunek 4.9** — Ekran rankingu po zakończeniu piosenki (KaraokeRankingPage):
+> tabela graczy posortowana malejąco po Score, kolumny Hits / Misses / Good /
+> Perfect / Combo, animacja wejścia rekordów i przycisk przejścia do następnej rundy.
+> Źródło: własne, zrzut ekranu aplikacji AudioVerse, widok KaraokeRankingPage
+> (`audioverse-react/src/pages/party/KaraokeRankingPage.tsx`).
+
+### 4.3.4. Ekran tworzenia sesji i dołączania
+
+Rozpoczęcie rozgrywki obejmuje dwa widoki (rys. 4.10): formularz tworzenia sesji
+karaoke z automatycznie generowanym kodem dołączenia (`/parties`)
+oraz ekran wpisania kodu przez gracza (`/join`). Do jednej sesji
+może dołączyć do 4 graczy jednocześnie.
+
+> **Rysunek 4.10** — Widok tworzenia sesji karaoke (formularz z kodem
+> dołączenia, lista piosenek, przycisk „Utwórz sesję") i ekran dołączania
+> do sesji (pole na kod, przycisk „Dołącz").
+> Źródło: własne, zrzuty ekranu widoków PartiesPage i JoinPartyPage
+> (`audioverse-react/src/pages/party/`).
+
+### 4.3.5. Ustawienia wejścia audio
+
+Strona `/settings/audio-input` (rys. 4.11) umożliwia wybór urządzenia mikrofonowego,
+podgląd poziomu sygnału (wizualizacja waveform w czasie rzeczywistym),
+test mikrofonu i wybór algorytmu detekcji pitch: pYIN (latencja ~78 ms, zalecany do
+rozgrywki real-time) lub CREPE (latencja ~310 ms na CPU; na serwerze
+z GPU poniżej 150 ms — dostępny jako tryb live lub do analizy post-hoc).
+
+> **Rysunek 4.11** — Strona ustawień wejścia audio: lista mikrofonów,
+> wizualizacja poziomu sygnału (VU meter), wybór algorytmu detekcji pitch
+> (pYIN / CREPE) i przycisk testu mikrofonu.
+> Źródło: własne, zrzut ekranu widoku AudioInputSettingsPage
+> (`audioverse-react/src/pages/settings/AudioInputSettingsPage.tsx`).
+
+
+## 4.4. Silnik karaoke — timeline i detekcja pitch w przeglądarce
+
+Silnik gry karaoke zawarty jest w dwóch modułach TypeScript:
+
+- `karaokeNoteParsing.ts` — parsowanie pliku UltraStar TXT,
+- `karaokeTimelineRenderer.ts` — renderowanie na Canvas 2D.
+
+### 4.4.1. Parsowanie pliku UltraStar po stronie klienta
+
+Funkcja `parseNotes()` przetwarza tablicę linii pliku TXT na obiekty
+`KaraokeNoteData`:
+
+```typescript
+interface KaraokeNoteData {
+    type:       ':' | '*' | 'F' | '#' | 'G';
+    startTime:  number;   // sekundy od początku audio
+    endTime:    number;
+    pitch:      number;   // UltraStar pitch (0–11 + oktawa)
+    text:       string;   // sylaba
+}
+```
+
+BPM pobierany jest z nagłówka `#BPM:` obsługującego zarówno separator
+przecinkowy (`148,50`) jak i kropkowy (`148.50`). Jeśli nagłówek jest
+nieobecny, stosowany jest fallback 120 BPM.
+
+Przeliczanie beat → sekundy według formuły UltraStar WorldParty
+(zob. sekcja 2.12):
+
+```typescript
+const startTime = (beat * 15) / bpm + gap / 1000;
+const endTime   = ((beat + duration) * 15) / bpm + gap / 1000;
+```
+
+### 4.4.2. Konwersja Hz na pitch UltraStar — octave folding
+
+Funkcja `hzToUltrastarPitch(hz, targetNotePitch)` implementuje
+algorytm octave folding z oryginalnego kodu UltraStar:
+
+- $\text{midi} = \text{round}(69 + 12 \log_2(hz / 440))$
+- $\text{detected} = \text{midi} \bmod 12$ (pitch class 0–11)
+- Pętla: dopóki $\text{detected} - \text{target} > 6$: $\text{detected} -= 12$
+- Pętla: dopóki $\text{detected} - \text{target} < -6$: $\text{detected} += 12$
+
+Wynik to pitch w oktawie najbliższej nucie docelowej, co eliminuje
+błędy oktawowe przy ocenie śpiewu.
+
+### 4.4.3. Renderowanie nut i efekty wizualne
+
+`karaokeTimelineRenderer.ts` (893 linie) rysuje na Canvas 2D:
+
+- **Paski nut** — zaokrąglone prostokąty (cap style gloss) w kolorze
+  zależnym od gracza; złote nuty (`*`) rysowane złotą gradientem.
+- **Kursor pitch** — pionowa linia nakładana na timeline z aktualnie
+  wykrytą przez pYIN wysokością dźwięku.
+- **Efekt cząsteczkowy** dla nut zlatych — animacja `BouncingBall`
+  emitująca 12 iskier przy trafieniu nuty golden.
+- **Combo display** — licznik w prawym górnym rogu, animowany skalą
+  przy wzroście combo.
+- **Verse ratings** — pasek z oceną wersetową (Perfect / Great / Good /
+  Miss) po zakończeniu każdej frazy.
+
+### 4.4.4. System punktacji i combo
+
+Per każdą ramkę (co 16 ms) funkcja `scoreFrame()` oblicza:
+
+- Wykryty pitch `hzToUltrastarPitch(f0, noteTarget)`.
+- `error = |detected - noteTarget|` — błąd półtonowy.
+- Klasyfikacja: `error == 0` → Perfect; `error ≤ 1` → Good; inaczej Miss.
+- Przyrost score: Perfect → +10 pkt × mnożnik; Good → +5 pkt; Miss → 0.
+- Combo: rośnie przy Perfect/Good, zeruje się przy Miss.
+- Złota nuta (`*`): punkty pomnożone × 2.
+
+Wynik zapisywany jest w encji `KaraokeSinging` przez endpoint
+`POST /api/karaoke/singing`.
+
+
+## 4.5. Ocena śpiewu — kryteria i metryki
+
+System AudioVerse stosuje wielowymiarowy model oceny:
+
+- **Score** (0–10 000 pkt) — skumulowana punktacja za każdą nutę,
+  przeliczana ze wskaźnika DTW przez normę liniową.
+- **Hits / Misses / Good / Perfect** — kumulatywne liczniki nut,
+  przypisane w locie na podstawie cent-error.
+- **Combo** — seria kolejnych nut z cent-error < 60c.
+- **Golden notes** — nuty oznaczone `*` w pliku UltraStar dają podwojoną
+  punktację.
+
+**Metryki eksperymentalne** (moduł laboratoryjny):
+
+- **RMSE Hz**: $\sqrt{\frac{1}{N}\sum_i (f_i^{\text{est}} - f_i^{\text{ref}})^2}$
+- **RMSE cents**: $\frac{1200}{\ln 2} \cdot \sqrt{\frac{1}{N}\sum_i \ln^2\!\left(\frac{f_i^{\text{est}}}{f_i^{\text{ref}}}\right)}$
+- **Dokładność Acc@50c**: procent ramek z $|\text{error}| < 50c$
+- **Pearson r**: korelacja liniowa trajektorii F0
+
+RMSE w centach (a nie Hz) jest właściwą metryką dla muzyki, gdyż skala
+chromatyczna jest logarytmiczna: odległość pół tonu = 100 centów, niezależnie
+od rejestru.
+
+
+## 4.6. Generowanie raportów PDF — LaboratoryReportPdfService
+
+`LaboratoryReportPdfService` (`AudioVerse.API/Services/`, 749 linii)
+generuje raport PDF oparty na bibliotece QuestPDF 2024.10 (rys. 4.12).
+Kolorystyka raportu nawiązuje do marki AudioVerse: tło nawigacyjne
+`#1a1a2e` (granat), akcent `#e94560` (czerwień).
+
+Sekcje raportu (w kolejności):
+
+- abstract — narracyjne streszczenie eksperymentu (bez numeru sekcji).
+- Nagłówek z logo, tytułem eksperymentu i datą.
+- Parametry eksperymentu (plik audio, algorytm, liczba powtórzeń).
+- Executive summary — KPI: mediana Hz, RMSE centów, Acc@50c, latencja.
+- Stan mikroserwisów AI — zielone/czerwone wskaźniki z latencyMs (warunkowa).
+- Wykres latencji z zaznaczoną linią 150 ms jako próg real-time (warunkowa).
+- Kalibracja algorytmów — pomiar na syntetycznej prawdzie podstawowej (warunkowa).
+- Wyniki CREPE vs pYIN per każdy plik batch + wartości zagregowane (warunkowa).
+- Analiza trajektorii F0 — wykresy liniowe CREPE vs pYIN w czasie (warunkowa).
+- Wynik DTW scoring 0–100 z interpretacją słowną (warunkowa; aktywna gdy dostępne
+  dane oceny śpiewu).
+- Automatycznie generowane wnioski (wybór na bazie progów RMSE i latencji).
+- Literatura (pozycje [1]–[5]).
+- Stopka z numerami stron.
+
+> **Rysunek 4.12** — Strona modułu laboratoryjnego w panelu admina (/admin/lab):
+> zakładki Pitch, Separation, Score, Benchmark, Report; formularz uploadu
+> pliku WAV; wyniki analizy z metrykami, trajektoriami F0 i wskaźnikami
+> statusu mikroserwisów AI (zielone/czerwone).
+> Źródło: własne, zrzut ekranu widoku LabPage
+> (`audioverse-react/src/pages/admin/lab/LabPage.tsx`).
+
+
+## 4.7. Wdrożenie — Docker Compose
+
+Plik `docker-compose.yaml` definiuje 10 serwisów (rys. 4.13):
+
+```yaml
+services:
+  audioverse-api:        # ASP.NET Core 10, port 5000
+  audioverse-identity:   # Identity Server, port 5001
+  audio-pitch:           # FastAPI pYIN+CREPE, port 8001
+  sing-score:            # FastAPI DTW, port 8002
+  audio-rhythm:          # FastAPI rhythm, port 8004
+  audio-vad:             # FastAPI VAD, port 8005
+  audio-analysis:        # FastAPI analiza całościowa, port 8006
+  postgresql:            # PostgreSQL 16, vol. pgdata
+  minio:                 # MinIO S3, porty 9000/9001
+  redis:                 # Redis Stack, port 6379
+```
+
+Serwisy AI z GPU (`audio-pitch`) mają sekcję:
+
+```yaml
+deploy:
+  resources:
+    reservations:
+      devices:
+        - driver: nvidia
+          count: 1
+          capabilities: [gpu]
+```
+
+Uruchomienie systemu wymaga jednej komendy: `docker compose up -d`.
+Migracje bazy danych uruchamiane są automatycznie podczas startu
+`audioverse-api` przez `context.Database.MigrateAsync()`.
+
+Konfiguracja środowiska GPU (sterowniki NVIDIA, CUDA, odpowiednia wersja
+biblieki PyTorch/torchcrepe) może się różnić w zależności od modelu karty
+graficznej. W celu uproszczenia instalacji powstał dedykowany kreator
+**AudioVerse SetupWizard** (projekt `AudioVerse.SetupWizard` w repozytorium
+`audioverse-dotnet`, gotowy plik wykonywalny w katalogu `Instalator`).
+Kreator przeprowadza użytkownika przez rozpoznanie sprzętu, dobór
+właściwych wersji zależności i ich automatyczną instalację.
+Obecna konfiguracja projektu została przetestowana na karcie
+NVIDIA RTX 5060 Ti 16 GB; na starszym sprzęcie może być wymagane
+ręczne dostosowanie wersji bibliotek.
+
+> **Rysunek 4.13** — Diagram kontenerów Docker Compose systemu AudioVerse:
+> 10 serwisów (API, Identity, 5 × AI FastAPI, PostgreSQL, MinIO, Redis)
+> z oznaczonymi portami i zależnościami sieciowymi.
+> Źródło: własne, diagram dostępny w pliku
+> `AudioVerse.API/Docs/diagrams/11-docker-containers.drawio`
+> (otworzyć w draw.io lub VS Code z rozszerzeniem Draw.io Integration).

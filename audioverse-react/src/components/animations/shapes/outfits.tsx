@@ -16,9 +16,9 @@ export type OutfitProps = {
 /// Internal palette helper.
 function pal(c: string[]) {
     return {
-        base: pick(c, 0, "#3B82F6"),
-        accent: pick(c, 1, "#2563EB"),
-        stroke: pick(c, 2, "#111"),
+        base: pick(c, 0, "var(--anim-outfit-base, #3B82F6)"),
+        accent: pick(c, 1, "var(--anim-outfit-accent, #2563EB)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
     };
 }
 
@@ -55,7 +55,7 @@ export const OutfitSuit: React.FC<OutfitProps> = ({ colors, transform, scale = 1
             <path d={TORSO_PATH} fill={base} />
             <path d="M-28 -54 l10 18 h-12 z" fill={accent} />
             <path d="M28 -54 l-10 18 h12 z" fill={accent} />
-            <rect x={-6} y={-30} width={12} height={10} rx={2} fill="#fff" />
+            <rect x={-6} y={-30} width={12} height={10} rx={2} fill={"var(--card-bg, #fff)"} />
         </g>
     );
 };
@@ -136,7 +136,7 @@ export const OutfitJersey: React.FC<OutfitProps> = ({ colors, transform, scale =
     return (
         <g transform={`${transform ?? ""} scale(${scale})`}>
             <path d={TORSO_PATH} fill={base} />
-            <rect x={-10} y={-34} width={20} height={16} rx={2} fill="#fff" opacity={0.9} />
+            <rect x={-10} y={-34} width={20} height={16} rx={2} fill={"var(--card-bg, #fff)"} opacity={0.9} />
             <rect x={-36} y={-20} width={72} height={6} fill={accent} />
         </g>
     );
@@ -148,7 +148,7 @@ export const OutfitTux: React.FC<OutfitProps> = ({ colors, transform, scale = 1 
     return (
         <g transform={`${transform ?? ""} scale(${scale})`}>
             <path d={TORSO_PATH} fill={base} />
-            <path d="M-10 -54 l10 18 l10 -18" fill="#fff" />
+            <path d="M-10 -54 l10 18 l10 -18" fill={"var(--card-bg, #fff)"} />
             <circle cx={0} cy={-32} r={1.6} fill={accent} />
             <circle cx={0} cy={-28} r={1.6} fill={accent} />
         </g>

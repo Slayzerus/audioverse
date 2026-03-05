@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { useToast } from "../ui/ToastProvider";
 import AnimatedPerson from "./AnimatedPerson";
 import type { CharacterConfig, FeatureConfig } from "./characterTypes";
 import { DEFAULT_CHARACTER, VARIANTS } from "./characterTypes";
@@ -8,7 +10,7 @@ const KEY = "audioverse.character.config";
 /* ---------- helpers ---------- */
 function clampPalette(colors: string[]): string[] {
     const c = (colors || []).slice(0, 3);
-    if (c.length === 0) c.push("#000000");
+    if (c.length === 0) c.push("var(--anim-default-black, #000000)");
     while (c.length < 3) c.push(c[c.length - 1]);
     return c;
 }
@@ -55,7 +57,7 @@ function ColorInputs({
                     className="px-2 py-0.5 border rounded text-xs"
                     disabled={count >= 3}
                     onClick={() =>
-                        onChange([...view, view[view.length - 1] || "#000000"])
+                        onChange([...view, view[view.length - 1] || "var(--anim-default-black, #000000)"])
                     }
                 >
                     +
@@ -111,6 +113,7 @@ function FeatureEditor({
 
 /* ---------- main ---------- */
 export default function AnimatedCharacterEditor() {
+    const { t } = useTranslation();
     const [json, setJson] = useState<string>("");
     const [cfg, setCfg] = useState<CharacterConfig>(() => {
         try {
@@ -126,12 +129,14 @@ export default function AnimatedCharacterEditor() {
         localStorage.setItem(KEY, JSON.stringify(cfg));
     }, [cfg]);
 
+    const { showToast } = useToast();
+
     const applyJson = () => {
         try {
             const parsed = JSON.parse(json) as CharacterConfig;
             setCfg(parsed);
         } catch {
-            alert("Nieprawidłowy JSON");
+            showToast(t('characterEditor.invalidJson'), 'error');
         }
     };
 
@@ -172,16 +177,16 @@ export default function AnimatedCharacterEditor() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
             <div className="space-y-3">
-                <Row title="Nazwa">
+                <Row title={t('characterEditor.name')}>
                     <input
                         className="px-2 py-1 border rounded w-60"
                         value={cfg.name || ""}
                         onChange={(e) => setCfg({ ...cfg, name: e.target.value })}
-                        placeholder="np. Juror #1"
+                        placeholder={t('characterEditor.namePlaceholder')}
                     />
                 </Row>
 
-                <Row title="Rozmiar">
+                <Row title={t('characters.size')}>
                     <input
                         type="range"
                         min={140}
@@ -195,49 +200,49 @@ export default function AnimatedCharacterEditor() {
                 </Row>
 
                 <FeatureEditor
-                    title="Kształt twarzy"
+                    title={t('characters.faceShape')}
                     feature={cfg.face}
                     variants={VARIANTS.face}
                     onChange={(face) => setCfg({ ...cfg, face })}
                 />
                 <FeatureEditor
-                    title="Fryzura"
+                    title={t('characters.hairstyle')}
                     feature={cfg.hair}
                     variants={VARIANTS.hair}
                     onChange={(hair) => setCfg({ ...cfg, hair })}
                 />
                 <FeatureEditor
-                    title="Oczy"
+                    title={t('characters.eyes')}
                     feature={cfg.eyes}
                     variants={VARIANTS.eyes}
                     onChange={(eyes) => setCfg({ ...cfg, eyes })}
                 />
                 <FeatureEditor
-                    title="Nos"
+                    title={t('characters.nose')}
                     feature={cfg.nose}
                     variants={VARIANTS.nose}
                     onChange={(nose) => setCfg({ ...cfg, nose })}
                 />
                 <FeatureEditor
-                    title="Usta"
+                    title={t('characters.mouth')}
                     feature={cfg.mouth}
                     variants={VARIANTS.mouth}
                     onChange={(mouth) => setCfg({ ...cfg, mouth })}
                 />
                 <FeatureEditor
-                    title="Ubranie"
+                    title={t('characters.clothing')}
                     feature={cfg.outfit}
                     variants={VARIANTS.outfit}
                     onChange={(outfit) => setCfg({ ...cfg, outfit })}
                 />
                 <FeatureEditor
-                    title="Nakrycie głowy"
+                    title={t('characters.headwear')}
                     feature={cfg.headwear}
                     variants={VARIANTS.headwear}
                     onChange={(headwear) => setCfg({ ...cfg, headwear })}
                 />
                 <FeatureEditor
-                    title="Rekwizyt"
+                    title={t('characters.prop')}
                     feature={cfg.prop}
                     variants={VARIANTS.prop}
                     onChange={(prop) => setCfg({ ...cfg, prop })}
@@ -248,18 +253,18 @@ export default function AnimatedCharacterEditor() {
                         className="px-3 py-1 bg-gray-100 border rounded"
                         onClick={randomizeColors}
                     >
-                        Losuj kolory
+                        {t('characterEditor.randomizeColors')}
                     </button>
                     <button
                         className="px-3 py-1 bg-gray-100 border rounded"
                         onClick={downloadJson}
                     >
-                        Pobierz JSON
+                        {t('characters.downloadJson')}
                     </button>
                 </div>
 
                 <div className="pt-4">
-                    <div className="text-sm font-semibold mb-1">JSON</div>
+                    <div className="text-sm font-semibold mb-1">{t('characterEditor.jsonSection')}</div>
                     <textarea
                         className="w-full h-56 p-2 font-mono text-xs border rounded"
                         value={json}
@@ -270,7 +275,7 @@ export default function AnimatedCharacterEditor() {
                             className="px-3 py-1 bg-blue-600 text-white rounded"
                             onClick={applyJson}
                         >
-                            Załaduj z JSON
+                            {t('characterEditor.applyJson')}
                         </button>
                         <button
                             className="px-3 py-1 border rounded"
@@ -278,14 +283,14 @@ export default function AnimatedCharacterEditor() {
                                 navigator.clipboard.writeText(JSON.stringify(cfg, null, 2))
                             }
                         >
-                            Kopiuj do schowka
+                            {t('characterEditor.copyToClipboard')}
                         </button>
                     </div>
                 </div>
             </div>
 
             <div className="flex flex-col items-center gap-3">
-                <div className="text-sm text-gray-600">Podgląd</div>
+                <div className="text-sm text-gray-600">{t('characterEditor.preview')}</div>
                 <AnimatedPerson character={cfg} score={10} startPose="idle" />
             </div>
         </div>

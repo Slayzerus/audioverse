@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube, faSpotify } from "@fortawesome/free-brands-svg-icons";
 import { faGem, faMusic, faWaveSquare } from "@fortawesome/free-solid-svg-icons";
@@ -9,52 +10,31 @@ import { faGem, faMusic, faWaveSquare } from "@fortawesome/free-solid-svg-icons"
 export type SourceKind = "youtube" | "tidal" | "spotify" | "hls" | "audio";
 
 /// <summary>
-/// Props for a single playlist row component.
+/// The actual data for a single playlist item.
 /// </summary>
-export interface GenericPlaylistItemProps {
+export interface PlaylistItemData {
     /// <summary>Stable internal id for DnD and updates.</summary>
     id: string;
     /// <summary>Zero-based index in the list.</summary>
     index: number;
-
     /// <summary>Artist name.</summary>
     artist: string;
     /// <summary>Song title.</summary>
     title: string;
     /// <summary>Optional version/remix tag.</summary>
     version?: string | undefined;
-
-    /// <summary>Controls if "version" input is visible.</summary>
-    allowVersion?: boolean;
-    /// <summary>Disables all editing and reordering.</summary>
-    readOnly?: boolean;
-
-    /// <summary>Patches a subset of fields.</summary>
-    onChange: (patch: { artist?: string; title?: string; version?: string | undefined }) => void;
-    /// <summary>Removes the row.</summary>
-    onRemove: () => void;
-    /// <summary>Moves the row up by one.</summary>
-    onMoveUp: () => void;
-    /// <summary>Moves the row down by one.</summary>
-    onMoveDown: () => void;
-
-    /// <summary>Whether moving up is currently possible.</summary>
-    canMoveUp?: boolean;
-    /// <summary>Whether moving down is currently possible.</summary>
-    canMoveDown?: boolean;
-
     /// <summary>Optional explicit position (1-based). If omitted, derived from index+1.</summary>
     lp?: number;
-    /// <summary>Changes the position (1-based) – caller handles reordering.</summary>
-    onChangeLp?: (n: number) => void;
-
     /// <summary>Available sources to render as icons.</summary>
     sourcesAvailable?: SourceKind[];
-    /// <summary>Currently selected source (highlighted).</summary>
-    activeSource?: SourceKind;
-    /// <summary>Click on an icon to select a source.</summary>
-    onSelectSource?: (kind: SourceKind) => void;
+}
 
+/// <summary>
+/// Display configuration for a playlist item row.
+/// </summary>
+export interface PlaylistItemDisplay {
+    /// <summary>Controls if "version" input is visible.</summary>
+    allowVersion?: boolean;
     /// <summary>
     /// Optional drag handle props if you want a dedicated handle inside the row.
     /// Not required when the outer container is already draggable.
@@ -63,29 +43,87 @@ export interface GenericPlaylistItemProps {
 }
 
 /// <summary>
+/// All event handlers / callbacks for a playlist item row.
+/// </summary>
+export interface PlaylistItemCallbacks {
+    /// <summary>Patches a subset of fields.</summary>
+    onChange: (patch: { artist?: string; title?: string; version?: string | undefined }) => void;
+    /// <summary>Removes the row.</summary>
+    onRemove: () => void;
+    /// <summary>Moves the row up by one.</summary>
+    onMoveUp: () => void;
+    /// <summary>Moves the row down by one.</summary>
+    onMoveDown: () => void;
+    /// <summary>Changes the position (1-based) – caller handles reordering.</summary>
+    onChangeLp?: (n: number) => void;
+    /// <summary>Click on an icon to select a source.</summary>
+    onSelectSource?: (kind: SourceKind) => void;
+}
+
+/// <summary>
+/// Current state relevant to the playlist item row.
+/// </summary>
+export interface PlaylistItemState {
+    /// <summary>Disables all editing and reordering.</summary>
+    readOnly?: boolean;
+    /// <summary>Whether moving up is currently possible.</summary>
+    canMoveUp?: boolean;
+    /// <summary>Whether moving down is currently possible.</summary>
+    canMoveDown?: boolean;
+    /// <summary>Currently selected source (highlighted).</summary>
+    activeSource?: SourceKind;
+}
+
+/// <summary>
+/// Props for a single playlist row component (grouped).
+/// </summary>
+export interface GenericPlaylistItemProps {
+    data: PlaylistItemData;
+    display: PlaylistItemDisplay;
+    callbacks: PlaylistItemCallbacks;
+    state: PlaylistItemState;
+}
+
+/// <summary>
 /// A single editable playlist row with optional source icons and actions.
 /// </summary>
 export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
-                                                                            id,
-                                                                            index,
-                                                                            artist,
-                                                                            title,
-                                                                            version,
-                                                                            allowVersion = true,
-                                                                            readOnly = false,
-                                                                            onChange,
-                                                                            onRemove,
-                                                                            onMoveUp,
-                                                                            onMoveDown,
-                                                                            canMoveUp = true,
-                                                                            canMoveDown = true,
-                                                                            lp,
-                                                                            onChangeLp,
-                                                                            sourcesAvailable = [],
-                                                                            activeSource,
-                                                                            onSelectSource,
-                                                                            dragHandleProps,
+                                                                            data,
+                                                                            display,
+                                                                            callbacks,
+                                                                            state,
                                                                         }) => {
+    const {
+        id: _id,
+        index,
+        artist,
+        title,
+        version,
+        lp,
+        sourcesAvailable = [],
+    } = data;
+
+    const {
+        allowVersion = true,
+        dragHandleProps,
+    } = display;
+
+    const {
+        onChange,
+        onRemove,
+        onMoveUp,
+        onMoveDown,
+        onChangeLp,
+        onSelectSource,
+    } = callbacks;
+
+    const {
+        readOnly = false,
+        canMoveUp = true,
+        canMoveDown = true,
+        activeSource,
+    } = state;
+    const { t } = useTranslation();
     const artistRef = useRef<HTMLInputElement | null>(null);
 
     // Autofocus on first empty artist field (newly added row).
@@ -119,7 +157,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
             placeItems: "center",
             borderRadius: 6,
             border: "1px solid #e5e7eb",
-            background: selected ? "#eef2ff" : "#fff",
+            background: selected ? "var(--active-bg, #eef2ff)" : "var(--bg, #fff)",
             opacity: available ? 1 : 0.35,
             cursor: available && onSelectSource && !readOnly ? "pointer" : "default",
             transition: "transform .05s ease",
@@ -146,6 +184,8 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                         kind === "hls"     ? "HLS" :
                             "Audio";
 
+        const sourceAriaLabel = t('playlistItem.sourceLabel', { label }) + (selected ? ` ${t('playlistItem.sourceSelected')}` : '');
+
         const onClick = () => {
             if (!available || !onSelectSource || readOnly) return;
             onSelectSource(kind);
@@ -160,7 +200,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                 disabled={!available || readOnly}
                 style={baseStyle}
                 aria-pressed={selected}
-                aria-label={`Źródło: ${label}${selected ? " (wybrane)" : ""}`}
+                aria-label={sourceAriaLabel}
             >
                 <FontAwesomeIcon icon={icon} style={{ color }} />
             </button>
@@ -175,7 +215,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
         <div
             className="gpi-row"
             role="group"
-            aria-label={`Utwór ${index + 1}`}
+            aria-label={t('playlistItem.trackNumber', { index: index + 1 })}
             style={{
                 display: "grid",
                 gridTemplateColumns: allowVersion
@@ -193,7 +233,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                 onChange={(e) => onChangeLp?.(Number(e.target.value))}
                 disabled={readOnly || !onChangeLp}
                 aria-label="Lp"
-                title="Pozycja na liście"
+                title={t('playlistItem.positionOnList')}
                 style={lpInputStyle}
             />
 
@@ -228,7 +268,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                     type="text"
                     value={version ?? ""}
                     onChange={(e) => onChange({ version: e.target.value || undefined })}
-                    placeholder="Version (optional)"
+                    placeholder={t('playlistItem.versionOptional')}
                     onKeyDown={handleKeyDown}
                     disabled={readOnly}
                     aria-label="Version"
@@ -241,7 +281,7 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
             <div
                 className="gpi-sources"
                 style={{ display: "flex", gap: 6, justifyContent: "flex-end", alignItems: "center" }}
-                aria-label="Dostępne źródła"
+                aria-label={t('playlistItem.availableSources')}
             >
                 {ICON_ORDER.map(renderSourceIcon)}
             </div>
@@ -254,8 +294,8 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                         type="button"
                         {...dragHandleProps}
                         draggable
-                        aria-label="Przenieś (przeciągnij)"
-                        title="Przenieś (przeciągnij)"
+                        aria-label={t('playlistItem.dragReorder')}
+                        title={t('playlistItem.dragReorder')}
                         style={iconBtnStyle}
                     >
                         ≡
@@ -265,8 +305,8 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                     type="button"
                     onClick={onMoveUp}
                     disabled={!canMoveUp || readOnly}
-                    aria-label="Przesuń w górę"
-                    title="W górę"
+                    aria-label={t('playlistItem.moveUp')}
+                    title={t('playlistItem.moveUp')}
                     style={iconBtnStyle}
                 >
                     ↑
@@ -275,8 +315,8 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                     type="button"
                     onClick={onMoveDown}
                     disabled={!canMoveDown || readOnly}
-                    aria-label="Przesuń w dół"
-                    title="W dół"
+                    aria-label={t('playlistItem.moveDown')}
+                    title={t('playlistItem.moveDown')}
                     style={iconBtnStyle}
                 >
                     ↓
@@ -285,9 +325,9 @@ export const GenericPlaylistItem: React.FC<GenericPlaylistItemProps> = ({
                     type="button"
                     onClick={onRemove}
                     disabled={readOnly}
-                    aria-label="Usuń"
-                    title="Usuń"
-                    style={{ ...iconBtnStyle, color: "#b91c1c" }}
+                    aria-label={t('common.delete')}
+                    title={t('common.delete')}
+                    style={{ ...iconBtnStyle, color: "var(--danger, #b91c1c)" }}
                 >
                     ✕
                 </button>
@@ -315,7 +355,7 @@ const inputStyle: React.CSSProperties = {
 
 const iconBtnStyle: React.CSSProperties = {
     border: "1px solid #d1d5db",
-    background: "#fff",
+    background: "var(--bg, #fff)",
     padding: "6px 8px",
     borderRadius: 6,
     cursor: "pointer",

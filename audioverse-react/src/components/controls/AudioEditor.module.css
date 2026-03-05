@@ -1,0 +1,189 @@
+.audio-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 0 0 5px;
+    background-color: var(--bg-primary);
+    width: 100%;
+    margin: auto;
+}
+
+.editor-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+}
+
+.control-button.active {
+    background-color: var(--accent-primary);
+    color: white;
+}
+
+.control-button.recording {
+    background-color: red;
+    color: white;
+}
+
+.control-button.active-loop {
+    background-color: orange;
+}
+
+.layers-panel {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.layer-label {
+    font-weight: bold;
+}
+
+.add-layer-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: var(--accent-primary);
+    color: var(--btn-text);
+    cursor: pointer;
+    border-radius: 5px;
+    width: 49px;
+}
+
+.layer-selection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.layer-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    /*background-color: var(--gray-300);*/
+    border-radius: 0;
+    width: 100px;
+}
+
+.layer-button.active-layer {
+    /*background-color: #007bff;
+    color: white;*/
+    background-color: var(--bg-secondary);
+    color: var(--nav-active);
+
+}
+
+.audio-timeline{
+    display:flex;
+    align-items:center;
+    justify-content: start;
+}
+
+.project-nav,
+.section-nav{
+    padding:0;
+    width: 100%;
+}
+
+.project-nav{
+    background-color: var(--bg-primary);
+}
+
+.section-nav{
+    background-color: var(--bg-primary);
+    display:flex;
+    /*background-color: var(--gray-750);*/
+}
+
+
+.project-button{
+    border-radius: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    /*background-color: darkgray;
+    margin-right: 1px;
+    margin-bottom: 1px;*/
+}
+
+.section-button{
+    border-radius: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-secondary);
+    /*background-color: darkgray;
+    margin-right: 1px;
+    margin-bottom: 1px;*/
+}
+
+.project-button.active{
+    color: var(--nav-active);
+    /*background-color: goldenrod;*/
+}
+
+.section-button.active{
+    color: var(--nav-active);
+    /*background-color: goldenrod;*/
+}
+
+.timeline-nav-button{
+    margin-right: 0;
+    border-radius: 0;
+    font-size: 12px;
+    padding: 0 10px;
+    height: 33px;
+    width: 50px;
+    background-color: var(--bg-primary);
+    border: none;
+}
+
+.timeline-nav{
+    display: flex;
+    width:100%;
+    background-color: var(--bg-primary);
+}
+
+/* Responsive: stack editor controls and layers on narrow screens */
+@media (max-width: 768px) {
+    .editor-controls {
+        flex-wrap: wrap;
+    }
+    .layers-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .layer-button {
+        width: 100%;
+    }
+    .audio-timeline {
+        flex-direction: column;
+    }
+    .timeline-nav {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .control-button {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    .timeline-nav-button {
+        font-size: 10px;
+        padding: 0 6px;
+        width: 40px;
+    }
+}

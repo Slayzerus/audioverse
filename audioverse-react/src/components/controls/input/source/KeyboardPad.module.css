@@ -1,0 +1,151 @@
+.piano-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 10px;
+    background: var(--surface-dark, var(--gray-900));
+    border-radius: 10px;
+    width: fit-content;
+    margin: 20px auto;
+}
+
+/* Białe klawisze */
+.white-keys {
+    display: flex;
+    position: relative;
+}
+
+.white-key {
+    width: 50px;
+    height: 180px;
+    background: var(--key-white-bg, var(--color-white));
+    border: 2px solid var(--key-border, var(--color-black));
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-primary, var(--color-black));
+}
+
+.white-key .key-label {
+    position: absolute;
+    bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Czarny klawisz */
+.black-key {
+    width: 30px;
+    height: 120px;
+    background: var(--key-black-bg, var(--color-black));
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-on-dark, var(--color-white));
+}
+
+.black-key .key-label {
+    bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Pozycjonowanie czarnych klawiszy */
+.black-key:nth-child(2) { left: 35px; }
+.black-key:nth-child(4) { left: 85px; }
+.black-key:nth-child(7) { left: 185px; }
+.black-key:nth-child(9) { left: 235px; }
+.black-key:nth-child(11) { left: 285px; }
+
+/* Stylizacja aktywowanych klawiszy */
+.white-key.pressed {
+    background: var(--key-white-pressed, var(--gray-200));
+}
+
+.black-key.pressed {
+    background: var(--key-black-pressed, var(--gray-750));
+}
+
+.key-label-single{
+    height:12px;
+    font-size:8px;
+}
+
+.key-label-single.kbd{
+    height:18px;
+    font-size:12px;
+    font-weight: 700;
+}
+.eq-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.eq-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    height: 150px;
+}
+
+.eq-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+}
+
+.eq-slider {
+    transform: rotate(-90deg);
+    width: 120px;
+    margin: 10px 0;
+}
+
+.eq-value {
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.info-icon {
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* Responsive: scale down piano and EQ on narrow screens */
+@media (max-width: 600px) {
+    .piano-container {
+        transform: scale(0.7);
+        transform-origin: top center;
+        margin: 10px auto;
+    }
+    .eq-grid {
+        height: 100px;
+    }
+    .eq-column {
+        width: 28px;
+    }
+    .eq-slider {
+        width: 80px;
+    }
+}

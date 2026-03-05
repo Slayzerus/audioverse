@@ -1,0 +1,352 @@
+/* ===== JoinRoundPopup.module.css ===== */
+
+/* Modal overlay */
+.modalOverlay {
+    z-index: 1080;
+}
+
+/* Modal headers */
+.createModalHeader {
+    background: #1a1a2e;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mainModalHeader {
+    background: #1a1a2e;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 16px;
+}
+
+.modalTitle {
+    font-size: 16px;
+    color: #fff;
+}
+
+.titleIcon {
+    font-size: 13px;
+}
+
+/* Modal bodies */
+.createModalBody {
+    background: #1a1a2e;
+}
+
+.modalBody {
+    background: #1a1a2e;
+    padding: 0;
+    min-height: 340px;
+}
+
+.bodyWrapper {
+    min-height: 340px;
+}
+
+/* Zone containers */
+.zoneLeft {
+    flex: 1 1 33%;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.zoneCenter {
+    flex: 1 1 33%;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.zoneRight {
+    flex: 1 1 33%;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Section labels (reusable) */
+.sectionLabel {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.5;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+/* Player cards */
+.playerGrid {
+    flex: 1;
+}
+
+.playerCard {
+    width: 96px;
+    height: 96px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s, transform 0.15s;
+    overflow: hidden;
+    position: relative;
+}
+
+.playerIcon {
+    font-size: 26px;
+    color: #fff;
+}
+
+.playerName {
+    font-size: 12px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.playerNameOverlay {
+    width: 100%;
+    padding: 3px 4px;
+    background: rgba(0, 0, 0, 0.55);
+    -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.5);
+}
+
+/* Add player card */
+.addCard {
+    width: 96px;
+    height: 96px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    gap: 2px;
+}
+
+.addCardIcon {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.addCardLabel {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+/* Assignments */
+.assignmentsList {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+}
+
+.emptyState {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.25;
+    color: #fff;
+    font-size: 12px;
+}
+
+.assignmentRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.assignmentAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.assignmentIcon {
+    font-size: 14px;
+    color: #fff;
+}
+
+.assignmentNameWrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.assignmentPlayerName {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.assignmentDevices {
+    margin-top: 2px;
+}
+
+.deviceBadge {
+    font-size: 8px;
+    padding: 1px 5px;
+    color: #fff;
+}
+
+.badgeIcon {
+    font-size: 7px;
+}
+
+.removeBtn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.15);
+    color: #f44;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.removeIcon {
+    font-size: 10px;
+}
+
+/* Auto-assign */
+.autoAssignDivider {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 6px;
+    margin-top: 6px;
+}
+
+.autoAssignLabel {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.autoAssignCheckbox {
+    accent-color: #43a047;
+}
+
+/* Mic section */
+.micSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.labelIcon {
+    font-size: 9px;
+}
+
+/* Device cards (mic & pad base) */
+.deviceCard {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap: 2px;
+}
+
+.micCard {
+    width: 96px;
+    min-height: 96px;
+    height: auto;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.padCard {
+    width: 96px;
+    height: 72px;
+    transition: border-color 0.2s, background 0.1s;
+}
+
+.cardOrdinal {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.ownerBadge {
+    font-size: 8px;
+    color: #fff;
+    border-radius: 3px;
+    padding: 0 4px;
+    max-width: 64px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.micUnownedLabel {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.4);
+    max-width: 64px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.noDevicesMsg {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 8px;
+}
+
+/* Gamepads */
+.gamepadsSection {
+    margin-top: 12px;
+}
+
+.padIcon {
+    font-size: 20px;
+}
+
+/* Footer */
+.footer {
+    background: #1a1a2e;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+}
+
+.playBtnWeight {
+    font-weight: 600;
+}
+
+.spinner {
+    width: 14px;
+    height: 14px;
+}
+
+.playIcon {
+    font-size: 11px;
+}

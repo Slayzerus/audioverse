@@ -2,10 +2,10 @@
 export interface DmxStateDto {
     fps: number;            // 10..44
     startCode: number;      // 0..255
-    frontSnapshot: number[]; // 513 liczb (0=start code, 1..512 kanały)
+    frontSnapshot: number[]; // 513 numbers (0=start code, 1..512 channels)
 }
 
-// ==== Enum typów kanałów (zgodny z backendem) ====
+// ==== Channel type enum (compatible with backend) ====
 export enum DmxChannelType {
     Unknown = "Unknown",
     Dimmer = "Dimmer",
@@ -15,7 +15,7 @@ export enum DmxChannelType {
     Options = "Options",
 }
 
-// ==== Segment kanału (zakres wartości) ====
+// ==== Channel segment (value range) ====
 export interface DmxChannelSegment {
     valueFrom: number; // 0..255
     valueTo: number;   // 0..255
@@ -24,7 +24,7 @@ export interface DmxChannelSegment {
     isOff?: boolean;
 }
 
-// ==== Opis pojedynczego kanału ====
+// ==== Single channel description ====
 export interface DmxDeviceChannelInfo {
     channel: number;          // 1..512
     name: string;
@@ -41,7 +41,7 @@ export interface DmxDeviceInfo {
     model: string;
     version?: string | null;
     modeName: string;     // np. "17ch"
-    footprint: number;    // liczba kanałów
+    footprint: number;    // number of channels
     channels: DmxDeviceChannelInfo[];
 }
 
@@ -50,5 +50,43 @@ export interface FtdiDeviceDto {
     serialNumber: string;
     description: string;
     locId: number;
-    deviceInfo: DmxDeviceInfo; // dostarczany przez Twój handler
+    deviceInfo: DmxDeviceInfo; // provided by your handler
+}
+
+// ── DMX Scenes ──
+
+export interface DmxScene {
+    id: number;
+    name?: string | null;
+    description?: string | null;
+    channelValuesJson?: string | null;
+    durationMs?: number | null;
+    createdAt: string;
+}
+
+export interface DmxSceneStep {
+    id: number;
+    sequenceId: number;
+    sceneId: number;
+    scene?: DmxScene | null;
+    order: number;
+    holdMs: number;
+    fadeMs: number;
+}
+
+export interface DmxSceneSequence {
+    id: number;
+    name?: string | null;
+    loop: boolean;
+    steps?: DmxSceneStep[] | null;
+}
+
+export interface BeatReactiveRequest {
+    bpm: number;
+    sceneId?: number | null;
+    beats: number;
+}
+
+export interface BeatTapRequest {
+    sceneId?: number | null;
 }

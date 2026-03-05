@@ -1,0 +1,131 @@
+/* ── Panel sizing ─────────────────────────── */
+.panelNarrow {
+  max-width: 520px;
+}
+.panelWide {
+  max-width: 820px;
+}
+
+/* ── Shared text sizes ────────────────────── */
+.smallLabel {
+  font-size: 12px;
+}
+
+/* ── AutoSavePanel ────────────────────────── */
+.noteText {
+  font-size: 13px;
+  color: #888;
+}
+
+/* ── UndoRedoPanel ────────────────────────── */
+.buttonRow {
+  display: flex;
+  gap: 8px;
+}
+.noteTextMargin {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ── ZoomSnapControls ─────────────────────── */
+.rangeW100 {
+  width: 100px;
+}
+.zoomValue {
+  font-size: 12px;
+  min-width: 35px;
+}
+.selectW100 {
+  width: 100px;
+}
+.inputW70 {
+  width: 70px;
+}
+
+/* ── MasterFXPanel ────────────────────────── */
+.masterVolGroup {
+  min-width: min(220px, 100%);
+}
+.rangeW140 {
+  width: 140px;
+}
+.volumeValue {
+  font-size: 12px;
+  width: 42px;
+  text-align: right;
+}
+.selectW140 {
+  width: 140px;
+}
+.freqGroup {
+  min-width: min(200px, 100%);
+}
+.freqValue {
+  font-size: 12px;
+  width: 60px;
+  text-align: right;
+}
+.narrowGroup {
+  min-width: min(170px, 100%);
+}
+.rangeW120 {
+  width: 120px;
+}
+.smallValue {
+  font-size: 12px;
+  width: 40px;
+  text-align: right;
+}
+.presetDivider {
+  border-top: 1px solid #444;
+}
+.presetLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaa;
+}
+.presetBtn {
+  font-size: 11px;
+  padding: 2px 8px;
+}
+.deletePresetSelect {
+  width: 140px;
+  font-size: 11px;
+}
+.presetNameInput {
+  width: 160px;
+  font-size: 11px;
+}
+.savePresetBtn {
+  font-size: 11px;
+  padding: 2px 10px;
+}
+
+/* ── RecordingOptionsPanel ────────────────── */
+.countInAlert {
+  font-size: 12px;
+  color: #f57c00;
+}
+.inputW80 {
+  width: 80px;
+}
+.levelLabel {
+  font-size: 12px;
+  color: #555;
+}
+.levelMeter {
+  position: relative;
+  background: #f1f1f1;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 80px;
+}
+.levelBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: width 80ms linear;
+}

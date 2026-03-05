@@ -1,0 +1,216 @@
+/**
+ * PhotoEditorCanvas.tsx — Canvas viewport for the PhotoEditor.
+ *
+ * Shows either:
+ *  - Compare mode (before / after with a slider)
+ *  - Regular mode (main canvas + optional crop overlay)
+ */
+
+import React from "react";
+import type { PhotoEditorAPI } from "./usePhotoEditor";
+
+interface Props {
+    api: PhotoEditorAPI;
+}
+
+// ── Crop Overlay (rule-of-thirds + 8 handles + size indicator) ──
+
+const CropOverlay: React.FC<{ api: PhotoEditorAPI }> = ({ api }) => {
+    const { cropMode, cropRect, mainCanvasRef, accent, handleCropMouseDown } = api;
+    if (!cropMode || !cropRect || !mainCanvasRef.current) return null;
+
+    const canvasEl = mainCanvasRef.current;
+    const cw = canvasEl.width;
+    const ch = canvasEl.height;
+    const left = (cropRect.x / cw) * 100;
+    const top = (cropRect.y / ch) * 100;
+    const width = (cropRect.w / cw) * 100;
+    const height = (cropRect.h / ch) * 100;
+
+    const handleStyle = (cursor: string): React.CSSProperties => ({
+        position: "absolute", width: 14, height: 14,
+        background: accent, border: "2px solid #fff",
+        borderRadius: 3, cursor, zIndex: 3,
+    });
+
+    return (
+        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2 }}>
+            {/* Darkened areas outside crop */}
+            <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
+            {/* Clear window */}
+            <div
+                style={{
+                    position: "absolute",
+                    left: `${left}%`, top: `${top}%`,
+                    width: `${width}%`, height: `${height}%`,
+                    background: "transparent",
+                    boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)",
+                    border: `2px solid ${accent}`,
+                    pointerEvents: "auto",
+                    cursor: "move",
+                }}
+                onMouseDown={(e) => handleCropMouseDown(e, "move")}
+            >
+                {/* Rule of thirds grid */}
+                <div style={{ position: "absolute", inset: 0 }}>
+                    {[1, 2].map(i => (
+                        <div key={`h${i}`} style={{
+                            position: "absolute", left: 0, right: 0,
+                            top: `${(i / 3) * 100}%`, height: 1,
+                            background: "rgba(255,255,255,0.3)",
+                        }} />
+                    ))}
+                    {[1, 2].map(i => (
+                        <div key={`v${i}`} style={{
+                            position: "absolute", top: 0, bottom: 0,
+                            left: `${(i / 3) * 100}%`, width: 1,
+                            background: "rgba(255,255,255,0.3)",
+                        }} />
+                    ))}
+                </div>
+                {/* Corner handles */}
+                <div style={{ ...handleStyle("nw-resize"), top: -7, left: -7 }} onMouseDown={e => handleCropMouseDown(e, "nw")} />
+                <div style={{ ...handleStyle("ne-resize"), top: -7, right: -7 }} onMouseDown={e => handleCropMouseDown(e, "ne")} />
+                <div style={{ ...handleStyle("sw-resize"), bottom: -7, left: -7 }} onMouseDown={e => handleCropMouseDown(e, "sw")} />
+                <div style={{ ...handleStyle("se-resize"), bottom: -7, right: -7 }} onMouseDown={e => handleCropMouseDown(e, "se")} />
+                {/* Edge handles */}
+                <div style={{ ...handleStyle("n-resize"), top: -7, left: "50%", transform: "translateX(-50%)" }} onMouseDown={e => handleCropMouseDown(e, "n")} />
+                <div style={{ ...handleStyle("s-resize"), bottom: -7, left: "50%", transform: "translateX(-50%)" }} onMouseDown={e => handleCropMouseDown(e, "s")} />
+                <div style={{ ...handleStyle("w-resize"), top: "50%", left: -7, transform: "translateY(-50%)" }} onMouseDown={e => handleCropMouseDown(e, "w")} />
+                <div style={{ ...handleStyle("e-resize"), top: "50%", right: -7, transform: "translateY(-50%)" }} onMouseDown={e => handleCropMouseDown(e, "e")} />
+                {/* Size indicator */}
+                <div style={{
+                    position: "absolute", bottom: -24, left: "50%", transform: "translateX(-50%)",
+                    background: "rgba(0,0,0,0.75)", color: "#fff", fontSize: 10,
+                    padding: "2px 8px", borderRadius: 3, whiteSpace: "nowrap",
+                }}>
+                    {Math.round(cropRect.w)} × {Math.round(cropRect.h)}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// ── Canvas Viewport ──
+
+const PhotoEditorCanvas: React.FC<Props> = React.memo(({ api }) => {
+    const {
+        containerRef, activeTab, zoom, accent,
+        showCompare, comparePosition, setCompareDragging,
+        mainCanvasRef, compareCanvasRef,
+        handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp,
+    } = api;
+
+    return (
+        <div
+            ref={containerRef}
+            style={{
+                flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                overflow: "auto", background: "#111115", position: "relative",
+                padding: 20,
+                cursor: activeTab === "draw" ? "crosshair" : undefined,
+            }}
+            onMouseDown={handleCanvasMouseDown}
+            onMouseMove={handleCanvasMouseMove}
+            onMouseUp={handleCanvasMouseUp}
+            onMouseLeave={handleCanvasMouseUp}
+        >
+            <div style={{
+                position: "relative",
+                transform: `scale(${zoom})`,
+                transformOrigin: "center center",
+                transition: "transform 0.15s ease",
+                maxWidth: "100%", maxHeight: "100%",
+            }}>
+                {showCompare ? (
+                    // ── Before / After comparison ──
+                    <div
+                        style={{ position: "relative", display: "inline-block", cursor: "ew-resize" }}
+                        onMouseDown={() => setCompareDragging(true)}
+                    >
+                        {/* "Before" (original) */}
+                        <canvas
+                            ref={compareCanvasRef}
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "60vh",
+                                objectFit: "contain",
+                                display: "block",
+                            }}
+                            role="img"
+                            aria-label="Photo editor original preview canvas"
+                        />
+                        {/* "After" (edited) clipped */}
+                        <div style={{
+                            position: "absolute", top: 0, left: 0, bottom: 0,
+                            width: `${comparePosition}%`,
+                            overflow: "hidden",
+                        }}>
+                            <canvas
+                                ref={mainCanvasRef}
+                                style={{
+                                    maxHeight: "60vh",
+                                    objectFit: "contain",
+                                    display: "block",
+                                }}
+                                role="img"
+                                aria-label="Photo editor edited preview canvas"
+                            />
+                        </div>
+                        {/* Slider line */}
+                        <div style={{
+                            position: "absolute", top: 0, bottom: 0,
+                            left: `${comparePosition}%`,
+                            width: 3, background: accent,
+                            transform: "translateX(-50%)",
+                            boxShadow: `0 0 8px ${accent}`,
+                        }}>
+                            <div style={{
+                                position: "absolute", top: "50%", left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: 28, height: 28, borderRadius: "50%",
+                                background: accent, display: "flex",
+                                alignItems: "center", justifyContent: "center",
+                                boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                            }}>
+                                <i className="fa fa-arrows-h" style={{ color: "#fff", fontSize: 12 }} />
+                            </div>
+                        </div>
+                        {/* Labels */}
+                        <div style={{
+                            position: "absolute", top: 8, left: 8,
+                            background: "rgba(0,0,0,0.6)", color: "#fff",
+                            padding: "2px 8px", borderRadius: 4, fontSize: 11, fontWeight: 600,
+                        }}>Original</div>
+                        <div style={{
+                            position: "absolute", top: 8, right: 8,
+                            background: `${accent}cc`, color: "#fff",
+                            padding: "2px 8px", borderRadius: 4, fontSize: 11, fontWeight: 600,
+                        }}>Edited</div>
+                    </div>
+                ) : (
+                    // ── Regular canvas view ──
+                    <div style={{ position: "relative", display: "inline-block" }}>
+                        <canvas
+                            ref={mainCanvasRef}
+                            style={{
+                                maxWidth: "100%",
+                                maxHeight: "60vh",
+                                objectFit: "contain",
+                                display: "block",
+                                borderRadius: 6,
+                                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+                            }}
+                            role="img"
+                            aria-label="Photo editor canvas"
+                        />
+                        <CropOverlay api={api} />
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+});
+
+PhotoEditorCanvas.displayName = "PhotoEditorCanvas";
+export default PhotoEditorCanvas;

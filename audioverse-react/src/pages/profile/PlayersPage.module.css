@@ -1,0 +1,290 @@
+/* ─── PlayersPage ─────────────────────────────────────────── */
+.page {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, rgba(30, 30, 45, 0.95), rgba(20, 20, 35, 0.98));
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  color: #e0e0e0;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6c63ff, #3f51b5);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 3px 12px rgba(108, 99, 255, 0.35);
+}
+.addBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 20px rgba(108, 99, 255, 0.5);
+}
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+.emptyText {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.05rem;
+}
+
+/* ── Player grid ── */
+.playerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+}
+
+/* ── Player card ── */
+.playerCard {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #6c63ff;
+  border-radius: 12px;
+  padding: 18px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.playerCard:hover {
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Avatar row ── */
+.avatarRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.playerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.playerName {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.primaryBadge {
+  display: inline-flex;
+  align-items: center;
+  color: #ffc107;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.playerColor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 2px;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+}
+
+.colorSwatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ── Action buttons ── */
+.actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+.actionPrimary:hover {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  border-color: rgba(255, 193, 7, 0.3);
+}
+.actionDanger:hover {
+  background: rgba(220, 53, 69, 0.2);
+  color: #ff6b7a;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+/* ── Expand toggle ── */
+.expandToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  padding: 6px 0 0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.expandToggle:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Game stats section ── */
+.gameConfigs {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.noStats {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 8px 0;
+}
+.noStatsHint {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 4px;
+}
+
+.gameConfigItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  margin-bottom: 5px;
+  font-size: 0.88rem;
+}
+
+.gameIcon {
+  font-size: 1.1rem;
+}
+
+.gameName {
+  flex: 1;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.gameStats {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+}
+
+/* ── Modal dark theme ── */
+.darkModal .modal-content {
+  background: #1e1e2d;
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+}
+
+.modalHeader {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 14px 14px 0 0;
+}
+.modalHeader .btn-close {
+  filter: invert(1);
+}
+
+.modalBody {
+  background: #1e1e2d;
+  padding: 20px 24px;
+  border-radius: 0 0 14px 14px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .page {
+    margin: 16px 8px;
+    padding: 18px 14px;
+  }
+  .playerGrid {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .addBtn {
+    justify-content: center;
+  }
+}

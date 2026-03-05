@@ -1,5 +1,5 @@
 // src/scripts/apiLibraryAiAudio.ts
-import { apiClient, apiPath } from "./libraryApiClient";
+import { apiClient, apiPath } from "./audioverseApiClient";
 import {
     AUDIO_WAV,
     APP_ZIP,
@@ -32,14 +32,15 @@ import {
     toFormDataRvc,
 } from "../../models/modelsAiAudio";
 
-/** Baza ścieżek dla AI audio */
-export const AI_BASE = "/api/aiAudio";
+/** Path base for AI audio */
+export const AI_BASE = "/api/ai/audio";
 
 /* ============================================================================
    Low-level API (fetchers)
    ========================================================================== */
 
 /* ---- ASR (file) --------------------------------------------------------- */
+/** @internal */
 export const postTranscribe = async (
     file: File,
     req?: TranscribeRequest
@@ -59,7 +60,8 @@ export const getAsrStreamWsUrl = (): string => {
     return `${proto}//${loc.host}${apiPath(AI_BASE, "/asr/stream")}`;
 };
 
-/* ---- TTS (Piper – ogólny) ---------------------------------------------- */
+/* ---- TTS (Piper – general) ---------------------------------------------- */
+/** @internal */
 export const postTts = async (body: SynthesizeRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/tts"),
@@ -70,6 +72,7 @@ export const postTts = async (body: SynthesizeRequest): Promise<ArrayBuffer> => 
 };
 
 /* ---- TTS (Coqui / OpenTTS) --------------------------------------------- */
+/** @internal */
 export const postTtsCoqui = async (body: TtsEngineRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/tts/coqui"),
@@ -79,6 +82,7 @@ export const postTtsCoqui = async (body: TtsEngineRequest): Promise<ArrayBuffer>
     return data;
 };
 
+/** @internal */
 export const postTtsOpenTts = async (body: TtsEngineRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/tts/opentts"),
@@ -89,6 +93,7 @@ export const postTtsOpenTts = async (body: TtsEngineRequest): Promise<ArrayBuffe
 };
 
 /* ---- ANALYZE ------------------------------------------------------------ */
+/** @internal */
 export const postAnalyze = async (file: File): Promise<AudioAnalysisResponse> => {
     const { data } = await apiClient.post<AudioAnalysisResponse>(
         apiPath(AI_BASE, "/analyze"),
@@ -97,6 +102,7 @@ export const postAnalyze = async (file: File): Promise<AudioAnalysisResponse> =>
     return data;
 };
 
+/** @internal */
 export const postRhythm = async (file: File): Promise<RhythmResponse> => {
     const { data } = await apiClient.post<RhythmResponse>(
         apiPath(AI_BASE, "/rhythm"),
@@ -105,6 +111,7 @@ export const postRhythm = async (file: File): Promise<RhythmResponse> => {
     return data;
 };
 
+/** @internal */
 export const postPitch = async (file: File): Promise<PitchResponse> => {
     const { data } = await apiClient.post<PitchResponse>(
         apiPath(AI_BASE, "/pitch"),
@@ -113,7 +120,7 @@ export const postPitch = async (file: File): Promise<PitchResponse> => {
     return data;
 };
 
-/** VAD – `aggressiveness` to **query param** */
+/** @internal VAD – `aggressiveness` to **query param** */
 export const postVad = async (file: File, aggressiveness = 2): Promise<VadSegment[]> => {
     const { data } = await apiClient.post<VadSegment[]>(
         apiPath(AI_BASE, `/vad?aggressiveness=${encodeURIComponent(aggressiveness)}`),
@@ -123,6 +130,7 @@ export const postVad = async (file: File, aggressiveness = 2): Promise<VadSegmen
 };
 
 /* ---- SEPARATION (Demucs) – ZIP ----------------------------------------- */
+/** @internal */
 export const postSeparate = async (file: File, stems = 2): Promise<SeparateZip> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, `/separate?stems=${encodeURIComponent(stems)}`),
@@ -133,6 +141,7 @@ export const postSeparate = async (file: File, stems = 2): Promise<SeparateZip> 
 };
 
 /* ---- TAGS --------------------------------------------------------------- */
+/** @internal */
 export const postTags = async (file: File): Promise<MusicTag[]> => {
     const { data } = await apiClient.post<MusicTag[]>(
         apiPath(AI_BASE, "/tags"),
@@ -142,6 +151,7 @@ export const postTags = async (file: File): Promise<MusicTag[]> => {
 };
 
 /* ---- SINGING (offline score) ------------------------------------------- */
+/** @internal */
 export const postSingingScore = async (
     vocal: File,
     reference: File
@@ -162,10 +172,24 @@ export const getSingingScoreLiveWsUrl = (): string => {
     const proto = loc.protocol === "https:" ? "wss:" : "ws:";
     return `${proto}//${loc.host}${apiPath(AI_BASE, "/score/live")}`;
 };
-// Ramki jakie dostajesz po WS: JSON -> SingingLiveUpdate
+
+/** Pitch WS proxies: server (send raw PCM) and client (send JSON pitch) */
+export const getPitchServerWsUrl = (): string => {
+    const loc = window.location;
+    const proto = loc.protocol === "https:" ? "wss:" : "ws:";
+    return `${proto}//${loc.host}${apiPath(AI_BASE, "/pitch/ws/pitch_server")}`;
+};
+
+export const getPitchClientWsUrl = (): string => {
+    const loc = window.location;
+    const proto = loc.protocol === "https:" ? "wss:" : "ws:";
+    return `${proto}//${loc.host}${apiPath(AI_BASE, "/pitch/ws/pitch_client")}`;
+};
+// Frames you get from WS: JSON -> SingingLiveUpdate
 export type SingingScoreLiveFrame = SingingLiveUpdate;
 
 /* ---- SVS: DiffSinger / ViSinger (multipart) ---------------------------- */
+/** @internal */
 export const postDiffSinger = async (req: DiffSingerRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/sing/diffsinger"),
@@ -175,6 +199,7 @@ export const postDiffSinger = async (req: DiffSingerRequest): Promise<ArrayBuffe
     return data;
 };
 
+/** @internal */
 export const postViSinger = async (req: ViSingerRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/sing/visinger"),
@@ -185,6 +210,7 @@ export const postViSinger = async (req: ViSingerRequest): Promise<ArrayBuffer> =
 };
 
 /* ---- SVC: So-VITS / RVC (multipart) ----------------------------------- */
+/** @internal */
 export const postSoVits = async (req: SoVitsConvertRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/sing/convert/sovits"),
@@ -194,6 +220,7 @@ export const postSoVits = async (req: SoVitsConvertRequest): Promise<ArrayBuffer
     return data;
 };
 
+/** @internal */
 export const postRvc = async (req: RvcConvertRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/sing/convert/rvc"),
@@ -204,6 +231,7 @@ export const postRvc = async (req: RvcConvertRequest): Promise<ArrayBuffer> => {
 };
 
 /* ---- Text → Music / SFX ----------------------------------------------- */
+/** @internal */
 export const postMusicGen = async (body: MusicGenRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/musicgen"),
@@ -213,6 +241,7 @@ export const postMusicGen = async (body: MusicGenRequest): Promise<ArrayBuffer> 
     return data;
 };
 
+/** @internal */
 export const postRiffusion = async (body: RiffusionRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/gen/riffusion"),
@@ -222,6 +251,7 @@ export const postRiffusion = async (body: RiffusionRequest): Promise<ArrayBuffer
     return data;
 };
 
+/** @internal */
 export const postAudioCraft = async (body: AudioCraftRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/gen/audiocraft"),
@@ -231,6 +261,7 @@ export const postAudioCraft = async (body: AudioCraftRequest): Promise<ArrayBuff
     return data;
 };
 
+/** @internal */
 export const postWaveGan = async (body: WaveGanRequest): Promise<ArrayBuffer> => {
     const { data } = await apiClient.post<ArrayBuffer>(
         apiPath(AI_BASE, "/gen/wavegan"),
@@ -251,7 +282,7 @@ export const Mime = {
 /* ============================================================================
    (Opcjonalnie) Helpery UI
    ========================================================================== */
-/** Tworzy URL do pobrania z ArrayBuffer (WAV/ZIP). Nie zapominać o URL.revokeObjectURL. */
+/** Creates URL for download from ArrayBuffer (WAV/ZIP). Don't forget URL.revokeObjectURL. */
 export const bufferToBlobUrl = (buf: ArrayBuffer, mime = AUDIO_WAV): string => {
     const blob = new Blob([buf], { type: mime });
     return URL.createObjectURL(blob);

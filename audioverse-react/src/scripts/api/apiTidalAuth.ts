@@ -10,6 +10,7 @@ import {
 
 export const AUTH_BASE = "/api/auth";
 
+/** @internal  use React Query hooks below */
 export const AUTH_QK = {
     tidalAuthorizeUrl: (params: {
         redirectUri: string;
@@ -21,6 +22,7 @@ export const AUTH_QK = {
 };
 
 // ---- Low-level API ----
+/** @internal */
 export const fetchTidalAuthorizeUrl = async (params: {
     redirectUri: string;
     scopes?: string[];
@@ -48,6 +50,7 @@ export const getTidalCallback = async (code: string, redirectUri: string): Promi
     return res.data;
 };
 
+/** @internal */
 export const postTidalRefresh = async (refreshToken: string): Promise<TidalAuthTokens> => {
     const res = await apiClient.post<TidalAuthTokens>(apiPath(AUTH_BASE, "/tidal/refresh"), {
         refreshToken,
@@ -55,6 +58,7 @@ export const postTidalRefresh = async (refreshToken: string): Promise<TidalAuthT
     return res.data;
 };
 
+/** @internal */
 export const postTidalSetAccessToken = async (accessToken: string): Promise<void> => {
     await apiClient.post(apiPath(AUTH_BASE, "/tidal/set-token"), {
         accessToken,
@@ -74,7 +78,7 @@ export const useTidalAuthorizeUrlQuery = (
 ) => {
     const enabled = !!params.redirectUri;
     return useQuery({
-        queryKey: AUTH_QK.tidalAuthorizeUrl(params as any),
+        queryKey: AUTH_QK.tidalAuthorizeUrl({ ...params, redirectUri: params.redirectUri ?? '' }),
         queryFn: () => fetchTidalAuthorizeUrl(params as { redirectUri: string }),
         enabled,
         staleTime: 5 * 60 * 1000,

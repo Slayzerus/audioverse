@@ -1,36 +1,18 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Użyj: NETWORK_NAME=my-net ./start-all.sh
 NETWORK_NAME="${NETWORK_NAME:-audioverse-net}"
 
-ensure_network() {
-  if ! docker network ls --filter "name=^${NETWORK_NAME}$" --format "{{.Name}}" | grep -q "^${NETWORK_NAME}$"; then
-    echo "Creating docker network: $NETWORK_NAME"
-    docker network create "$NETWORK_NAME" >/dev/null
-  else
-    echo "Docker network '$NETWORK_NAME' already exists."
-  fi
-}
+if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
+  echo "Creating docker network: $NETWORK_NAME"
+  docker network create "$NETWORK_NAME" >/dev/null
+fi
 
-export COMPOSE_PROFILES="${COMPOSE_PROFILES:-core,aiaudio,aivideo}"
+echo "=== Starting infra + app ==="
+docker compose up -d
 
-main() {
-  ensure_network
+echo "=== Starting AI Audio ==="
+docker compose --profile aiaudio up -d
 
-  shopt -s nullglob
-  files=(docker-compose.*.yml)
-  if ((${#files[@]} == 0)); then
-    echo "No docker-compose.<abc>.yml files found in current directory."
-    exit 0
-  fi
-
-  for file in "${files[@]}"; do
-    echo "Starting $file ..."
-    docker compose -f "$file" up -d
-  done
-
-  echo "All docker-compose.*.yml started."
-}
-
-main "$@"
+echo "=== Done ==="
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"

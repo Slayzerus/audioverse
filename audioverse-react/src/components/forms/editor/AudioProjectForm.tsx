@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { addProject/*, getProjects*/ } from "../../../scripts/api/apiEditor";
 /*import { AudioProject } from "../../../models/editorModels";*/
 
@@ -8,6 +9,7 @@ interface AudioProjectFormProps {
 }
 
 const AudioProjectForm: React.FC<AudioProjectFormProps> = ({ onCancel, onCreate }) => {
+    const { t } = useTranslation();
     const [name, setName] = useState("");
 
     const handleAddProject = async () => {
@@ -19,17 +21,17 @@ const AudioProjectForm: React.FC<AudioProjectFormProps> = ({ onCancel, onCreate 
 
     return (
         <div>
-            <h2>New Project</h2>
+            <h2>{t('audioProjectForm.title')}</h2>
             <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Nazwa projektu"
+                placeholder={t('audioProjectForm.placeholderName')}
                 style={{color:"black"}}
             />
             <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-                <button className="btn btn-danger" onClick={onCancel}>Cancel</button>
-                <button className="btn btn-success" onClick={handleAddProject}>Create</button>
+                <button className="btn btn-danger" onClick={onCancel}>{t('audioProjectForm.cancel')}</button>
+                <button className="btn btn-success" onClick={handleAddProject}>{t('audioProjectForm.create')}</button>
             </div>
         </div>
     );

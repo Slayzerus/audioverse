@@ -1,0 +1,83 @@
+:root {
+  --focus-color: var(--focus, var(--accent-primary));
+  --focus-color-alpha: var(--focus-alpha, rgba(76, 175, 80, 0.25));
+  --focus-bg: var(--focus-bg, rgba(76, 175, 80, 0.08));
+  --focus-outline-width: 2px;
+  --focus-shadow-spread: 4px;
+}
+
+.focusable-active {
+  outline: var(--focus-outline-width) solid var(--focus-color) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 var(--focus-shadow-spread) var(--focus-color-alpha);
+  background: var(--focus-bg);
+  position: relative;
+  z-index: 10;
+  transition: outline 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  border-radius: 10px;
+  padding-bottom: 4px;
+}
+
+/* Optional: subtle pulse animation for focus */
+@keyframes focus-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 var(--focus-shadow-spread) var(--focus-color-alpha);
+  }
+  50% {
+    box-shadow: 0 0 0 calc(var(--focus-shadow-spread) + 2px) var(--focus-color-alpha);
+  }
+}
+
+.focusable-active.focus-pulse {
+  animation: focus-pulse 2s ease-in-out infinite;
+}
+
+/* Highlight mode: Dim — dims surrounding content, focused element stays bright */
+.focusable-active-dim {
+  position: relative;
+  z-index: 10;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.4);
+}
+
+/* Highlight mode: Brighten — increases brightness of focused element */
+.focusable-active-brighten {
+  position: relative;
+  z-index: 10;
+  filter: brightness(1.3) contrast(1.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  transition: filter 0.15s ease, box-shadow 0.15s ease;
+  border-radius: 10px;
+}
+
+/* Highlight mode: Glow — neon glow effect */
+.focusable-active-glow {
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 0 8px var(--focus-color), 0 0 16px var(--focus-color-alpha), 0 0 24px var(--focus-color-alpha);
+  border-radius: 10px;
+  transition: box-shadow 0.2s ease;
+}
+
+@keyframes focus-glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--focus-color), 0 0 16px var(--focus-color-alpha); }
+  50% { box-shadow: 0 0 12px var(--focus-color), 0 0 24px var(--focus-color-alpha), 0 0 36px var(--focus-color-alpha); }
+}
+
+.focusable-active-glow.focus-pulse {
+  animation: focus-glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* Highlight mode: Scale — subtle scale-up on focus */
+.focusable-active-scale {
+  position: relative;
+  z-index: 10;
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  outline: 1px solid var(--focus-color-alpha);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, outline 0.15s ease;
+  border-radius: 10px;
+}

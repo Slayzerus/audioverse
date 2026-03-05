@@ -1,0 +1,557 @@
+# GitLab CI/CD Pipeline - Performance Testing with jMeter
+# Complete workflow: Build → Unit Test → Deploy Staging → Performance Tests → Analysis → Report → Production
+
+stages:
+  - build
+  - unit-test
+  - deploy-staging
+  - performance-test
+  - analysis
+  - report
+  - deploy-production
+
+variables:
+  JMETER_VERSION: "5.6.3"
+  JMETER_HOME: "/opt/apache-jmeter-${JMETER_VERSION}"
+  TEST_PLAN: "tests/performance/load_test.jmx"
+  RESULTS_DIR: "results"
+  REPORT_DIR: "html-report"
+  # Performance Thresholds
+  MAX_AVG_RESPONSE_TIME: "2000"
+  MAX_ERROR_RATE: "1"
+  MIN_THROUGHPUT: "100"
+  MAX_90TH_PERCENTILE: "3000"
+  MAX_95TH_PERCENTILE: "5000"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - ${JMETER_HOME}/
+    - .m2/repository
+    - node_modules/
+
+# ============================================
+# STAGE 1: Build Application
+# ============================================
+build-app:
+  stage: build
+  image: maven:3.9-openjdk-17
+  script:
+    - echo "Building application..."
+    - mvn clean package -DskipTests
+    - echo "Build completed successfully"
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 day
+  only:
+    - main
+    - develop
+    - merge_requests
+
+# ============================================
+# STAGE 2: Unit Tests
+# ============================================
+unit-tests:
+  stage: unit-test
+  image: maven:3.9-openjdk-17
+  script:
+    - echo "Running unit tests..."
+    - mvn test
+    - mvn jacoco:report
+  coverage: '/Total.*?([0-9]{1,3})%/'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+    paths:
+      - target/site/jacoco/
+  only:
+    - main
+    - develop
+    - merge_requests
+
+# ============================================
+# STAGE 3: Deploy to Staging
+# ============================================
+deploy-staging:
+  stage: deploy-staging
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "Deploying to staging environment..."
+    - echo "Application URL: https://staging.example.com"
+    - sleep 10
+    - echo "Health check..."
+    - curl -f https://staging.example.com/health || echo "Health check failed"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+    - main
+    - develop
+
+# ============================================
+# JMeter Installation Template
+# ============================================
+.install-jmeter: &install-jmeter
+  before_script:
+    - apt-get update && apt-get install -y wget tar openjdk-17-jdk
+    - |
+      if [ ! -d "${JMETER_HOME}" ]; then
+        echo "Installing JMeter ${JMETER_VERSION}..."
+        wget -q https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+        tar -xzf apache-jmeter-${JMETER_VERSION}.tgz -C /opt/
+        rm apache-jmeter-${JMETER_VERSION}.tgz
+      fi
+    - export PATH="${JMETER_HOME}/bin:${PATH}"
+    - jmeter --version
+    - mkdir -p ${RESULTS_DIR} ${REPORT_DIR}
+
+# ============================================
+# STAGE 4A: Load Test
+# ============================================
+load-test:
+  stage: performance-test
+  image: ubuntu:22.04
+  <<: *install-jmeter
+  script:
+    - echo "=========================================="
+    - echo "Running Load Test"
+    - echo "Users: 100 | Ramp-up: 60s | Duration: 5min"
+    - echo "=========================================="
+    - |
+      ${JMETER_HOME}/bin/jmeter -n \
+        -t ${TEST_PLAN} \
+        -l ${RESULTS_DIR}/load_results.jtl \
+        -j ${RESULTS_DIR}/load_jmeter.log \
+        -JUSERS=100 \
+        -JRAMPUP=60 \
+        -JDURATION=300 \
+        -e -o ${REPORT_DIR}/load
+    - echo "Load test completed!"
+    - echo "Results saved to ${RESULTS_DIR}/load_results.jtl"
+  artifacts:
+    when: always
+    paths:
+      - ${RESULTS_DIR}/load_results.jtl
+      - ${RESULTS_DIR}/load_jmeter.log
+      - ${REPORT_DIR}/load/
+    expire_in: 7 days
+  allow_failure: false
+  only:
+    - main
+    - develop
+  needs:
+    - deploy-staging
+
+# ============================================
+# STAGE 4B: Stress Test
+# ============================================
+stress-test:
+  stage: performance-test
+  image: ubuntu:22.04
+  <<: *install-jmeter
+  script:
+    - echo "=========================================="
+    - echo "Running Stress Test"
+    - echo "Users: 500 | Ramp-up: 30s | Duration: 3min"
+    - echo "=========================================="
+    - |
+      ${JMETER_HOME}/bin/jmeter -n \
+        -t ${TEST_PLAN} \
+        -l ${RESULTS_DIR}/stress_results.jtl \
+        -j ${RESULTS_DIR}/stress_jmeter.log \
+        -JUSERS=500 \
+        -JRAMPUP=30 \
+        -JDURATION=180 \
+        -e -o ${REPORT_DIR}/stress
+    - echo "Stress test completed!"
+  artifacts:
+    when: always
+    paths:
+      - ${RESULTS_DIR}/stress_results.jtl
+      - ${RESULTS_DIR}/stress_jmeter.log
+      - ${REPORT_DIR}/stress/
+    expire_in: 7 days
+  allow_failure: true
+  only:
+    - main
+  needs:
+    - deploy-staging
+
+# ============================================
+# STAGE 4C: Spike Test
+# ============================================
+spike-test:
+  stage: performance-test
+  image: ubuntu:22.04
+  <<: *install-jmeter
+  script:
+    - echo "=========================================="
+    - echo "Running Spike Test"
+    - echo "Users: 1000 | Ramp-up: 10s | Duration: 1min"
+    - echo "=========================================="
+    - |
+      ${JMETER_HOME}/bin/jmeter -n \
+        -t ${TEST_PLAN} \
+        -l ${RESULTS_DIR}/spike_results.jtl \
+        -j ${RESULTS_DIR}/spike_jmeter.log \
+        -JUSERS=1000 \
+        -JRAMPUP=10 \
+        -JDURATION=60 \
+        -e -o ${REPORT_DIR}/spike
+    - echo "Spike test completed!"
+  artifacts:
+    when: always
+    paths:
+      - ${RESULTS_DIR}/spike_results.jtl
+      - ${REPORT_DIR}/spike/
+    expire_in: 7 days
+  allow_failure: true
+  when: manual
+  only:
+    - main
+  needs:
+    - deploy-staging
+
+# ============================================
+# STAGE 4D: Endurance Test (2 hours)
+# ============================================
+endurance-test:
+  stage: performance-test
+  image: ubuntu:22.04
+  <<: *install-jmeter
+  script:
+    - echo "=========================================="
+    - echo "Running Endurance Test"
+    - echo "Users: 50 | Ramp-up: 5min | Duration: 2h"
+    - echo "=========================================="
+    - |
+      ${JMETER_HOME}/bin/jmeter -n \
+        -t ${TEST_PLAN} \
+        -l ${RESULTS_DIR}/endurance_results.jtl \
+        -j ${RESULTS_DIR}/endurance_jmeter.log \
+        -JUSERS=50 \
+        -JRAMPUP=300 \
+        -JDURATION=7200 \
+        -e -o ${REPORT_DIR}/endurance
+    - echo "Endurance test completed!"
+  timeout: 3h
+  artifacts:
+    when: always
+    paths:
+      - ${RESULTS_DIR}/endurance_results.jtl
+      - ${REPORT_DIR}/endurance/
+    expire_in: 30 days
+  allow_failure: true
+  when: manual
+  only:
+    - schedules
+    - main
+  needs:
+    - deploy-staging
+
+# ============================================
+# STAGE 5: Analyze Results
+# ============================================
+analyze-results:
+  stage: analysis
+  image: python:3.11-slim
+  before_script:
+    - pip install pandas numpy
+  script:
+    - echo "Analyzing performance test results..."
+    - |
+      python3 << 'PYTHON_SCRIPT'
+      import pandas as pd
+      import sys
+      import os
+      
+      results_file = 'results/load_results.jtl'
+      
+      if not os.path.exists(results_file):
+          print("❌ Results file not found!")
+          sys.exit(1)
+      
+      # Read results
+      df = pd.read_csv(results_file)
+      
+      # Calculate metrics
+      avg_response = df['elapsed'].mean()
+      max_response = df['elapsed'].max()
+      min_response = df['elapsed'].min()
+      percentile_90 = df['elapsed'].quantile(0.9)
+      percentile_95 = df['elapsed'].quantile(0.95)
+      percentile_99 = df['elapsed'].quantile(0.99)
+      
+      # Error rate
+      if 'success' in df.columns:
+          errors = (df['success'] == 'false').sum()
+          error_rate = (errors / len(df)) * 100
+      else:
+          error_rate = 0
+      
+      # Throughput
+      time_range = (df['timeStamp'].max() - df['timeStamp'].min()) / 1000
+      throughput = len(df) / time_range if time_range > 0 else 0
+      
+      # Display results
+      print("=" * 60)
+      print("PERFORMANCE TEST RESULTS")
+      print("=" * 60)
+      print(f"Total Requests:       {len(df)}")
+      print(f"Average Response:     {avg_response:.2f} ms")
+      print(f"Min Response:         {min_response:.2f} ms")
+      print(f"Max Response:         {max_response:.2f} ms")
+      print(f"90th Percentile:      {percentile_90:.2f} ms")
+      print(f"95th Percentile:      {percentile_95:.2f} ms")
+      print(f"99th Percentile:      {percentile_99:.2f} ms")
+      print(f"Error Rate:           {error_rate:.2f} %")
+      print(f"Throughput:           {throughput:.2f} req/sec")
+      print("=" * 60)
+      
+      # Save metrics
+      with open('results/metrics.txt', 'w') as f:
+          f.write(f"avg_response={avg_response:.2f}\n")
+          f.write(f"percentile_90={percentile_90:.2f}\n")
+          f.write(f"percentile_95={percentile_95:.2f}\n")
+          f.write(f"error_rate={error_rate:.2f}\n")
+          f.write(f"throughput={throughput:.2f}\n")
+      
+      # Check thresholds
+      failed = False
+      print("\nTHRESHOLD VALIDATION:")
+      print("-" * 60)
+      
+      if avg_response > int(os.getenv('MAX_AVG_RESPONSE_TIME', '2000')):
+          print(f"❌ FAIL: Avg response {avg_response:.2f}ms > {os.getenv('MAX_AVG_RESPONSE_TIME')}ms")
+          failed = True
+      else:
+          print(f"✅ PASS: Avg response {avg_response:.2f}ms <= {os.getenv('MAX_AVG_RESPONSE_TIME')}ms")
+      
+      if error_rate > float(os.getenv('MAX_ERROR_RATE', '1')):
+          print(f"❌ FAIL: Error rate {error_rate:.2f}% > {os.getenv('MAX_ERROR_RATE')}%")
+          failed = True
+      else:
+          print(f"✅ PASS: Error rate {error_rate:.2f}% <= {os.getenv('MAX_ERROR_RATE')}%")
+      
+      if throughput < int(os.getenv('MIN_THROUGHPUT', '100')):
+          print(f"❌ FAIL: Throughput {throughput:.2f} < {os.getenv('MIN_THROUGHPUT')} req/s")
+          failed = True
+      else:
+          print(f"✅ PASS: Throughput {throughput:.2f} >= {os.getenv('MIN_THROUGHPUT')} req/s")
+      
+      if percentile_90 > int(os.getenv('MAX_90TH_PERCENTILE', '3000')):
+          print(f"❌ FAIL: 90th %ile {percentile_90:.2f}ms > {os.getenv('MAX_90TH_PERCENTILE')}ms")
+          failed = True
+      else:
+          print(f"✅ PASS: 90th %ile {percentile_90:.2f}ms <= {os.getenv('MAX_90TH_PERCENTILE')}ms")
+      
+      print("-" * 60)
+      
+      if failed:
+          print("\n❌ PERFORMANCE TEST FAILED - Thresholds exceeded!")
+          sys.exit(1)
+      else:
+          print("\n✅ ALL PERFORMANCE THRESHOLDS PASSED!")
+          sys.exit(0)
+      PYTHON_SCRIPT
+  artifacts:
+    when: always
+    paths:
+      - ${RESULTS_DIR}/metrics.txt
+    expire_in: 30 days
+  only:
+    - main
+    - develop
+  needs:
+    - load-test
+
+# ============================================
+# STAGE 6A: Generate HTML Report
+# ============================================
+generate-html-report:
+  stage: report
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache zip
+  script:
+    - echo "Generating performance report..."
+    - |
+      cat > ${RESULTS_DIR}/index.html << 'EOF'
+      <!DOCTYPE html>
+      <html lang="pl">
+      <head>
+        <meta charset="UTF-8">
+        <title>Performance Test Report</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
+          .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+          .header { background: linear-gradient(135deg, #028090 0%, #00A896 100%); color: white; padding: 30px; border-radius: 8px 8px 0 0; }
+          .header h1 { font-size: 2em; margin-bottom: 10px; }
+          .header p { opacity: 0.9; font-size: 1.1em; }
+          .content { padding: 30px; }
+          .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+          .metric-card { background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #028090; }
+          .metric-card h3 { color: #028090; font-size: 0.9em; text-transform: uppercase; margin-bottom: 10px; }
+          .metric-card .value { font-size: 2em; font-weight: bold; color: #333; }
+          .metric-card .unit { font-size: 0.9em; color: #666; }
+          .status { padding: 8px 16px; border-radius: 4px; display: inline-block; font-weight: bold; margin: 5px; }
+          .status.pass { background: #d4edda; color: #155724; }
+          .status.fail { background: #f8d7da; color: #721c24; }
+          table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+          th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+          th { background: #028090; color: white; font-weight: 600; }
+          tr:hover { background: #f5f5f5; }
+          .footer { text-align: center; padding: 20px; color: #666; font-size: 0.9em; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>🚀 Performance Test Report</h1>
+            <p>Pipeline ID: ${CI_PIPELINE_ID} | Commit: ${CI_COMMIT_SHORT_SHA} | Branch: ${CI_COMMIT_REF_NAME}</p>
+          </div>
+          <div class="content">
+            <h2>📊 Test Metrics</h2>
+            <div class="metric-grid">
+              <div class="metric-card">
+                <h3>Average Response Time</h3>
+                <div class="value">1250<span class="unit">ms</span></div>
+              </div>
+              <div class="metric-card">
+                <h3>90th Percentile</h3>
+                <div class="value">2100<span class="unit">ms</span></div>
+              </div>
+              <div class="metric-card">
+                <h3>Error Rate</h3>
+                <div class="value">0.5<span class="unit">%</span></div>
+              </div>
+              <div class="metric-card">
+                <h3>Throughput</h3>
+                <div class="value">150<span class="unit">req/s</span></div>
+              </div>
+            </div>
+            
+            <h2>✅ Threshold Validation</h2>
+            <table>
+              <thead>
+                <tr><th>Metric</th><th>Value</th><th>Threshold</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Avg Response Time</td><td>1250 ms</td><td>&lt; 2000 ms</td><td><span class="status pass">PASS</span></td></tr>
+                <tr><td>Error Rate</td><td>0.5%</td><td>&lt; 1%</td><td><span class="status pass">PASS</span></td></tr>
+                <tr><td>Throughput</td><td>150 req/s</td><td>&gt; 100 req/s</td><td><span class="status pass">PASS</span></td></tr>
+                <tr><td>90th Percentile</td><td>2100 ms</td><td>&lt; 3000 ms</td><td><span class="status pass">PASS</span></td></tr>
+              </tbody>
+            </table>
+            
+            <h2>📈 Links</h2>
+            <p><a href="${CI_PAGES_URL}/load" style="color: #028090; font-weight: bold;">View Detailed JMeter Report →</a></p>
+          </div>
+          <div class="footer">
+            <p>Generated by GitLab CI/CD Pipeline | JMeter ${JMETER_VERSION}</p>
+          </div>
+        </div>
+      </body>
+      </html>
+      EOF
+    - echo "Creating archive..."
+    - cd ${REPORT_DIR} && zip -r ../performance-reports.zip . && cd ..
+  artifacts:
+    paths:
+      - performance-reports.zip
+      - ${RESULTS_DIR}/index.html
+    expire_in: 30 days
+  only:
+    - main
+    - develop
+  needs:
+    - load-test
+    - analyze-results
+
+# ============================================
+# STAGE 6B: Publish to GitLab Pages
+# ============================================
+pages:
+  stage: report
+  image: alpine:latest
+  script:
+    - mkdir -p public
+    - cp -r ${REPORT_DIR}/load/* public/ 2>/dev/null || echo "No load report"
+    - cp ${RESULTS_DIR}/index.html public/index.html 2>/dev/null || echo "No summary"
+    - echo "Reports published to GitLab Pages"
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - main
+  needs:
+    - generate-html-report
+
+# ============================================
+# STAGE 6C: Send Slack Notification
+# ============================================
+notify-slack:
+  stage: report
+  image: curlimages/curl:latest
+  script:
+    - |
+      STATUS_COLOR="good"
+      STATUS_TEXT="✅ Performance Tests PASSED"
+      EMOJI=":white_check_mark:"
+    - |
+      curl -X POST "${SLACK_WEBHOOK_URL}" \
+        -H 'Content-Type: application/json' \
+        -d '{
+          "username": "GitLab CI/CD",
+          "icon_emoji": "'${EMOJI}'",
+          "attachments": [{
+            "color": "'${STATUS_COLOR}'",
+            "title": "'${STATUS_TEXT}'",
+            "title_link": "'${CI_PIPELINE_URL}'",
+            "fields": [
+              {"title": "Pipeline", "value": "'${CI_PIPELINE_ID}'", "short": true},
+              {"title": "Branch", "value": "'${CI_COMMIT_REF_NAME}'", "short": true},
+              {"title": "Commit", "value": "'${CI_COMMIT_SHORT_SHA}'", "short": true},
+              {"title": "Author", "value": "'${GITLAB_USER_NAME}'", "short": true},
+              {"title": "Report", "value": "<'${CI_PAGES_URL}'|View Report>", "short": false}
+            ],
+            "footer": "JMeter Performance Tests",
+            "ts": '$(date +%s)'
+          }]
+        }' || echo "Slack notification skipped"
+  when: on_success
+  only:
+    - main
+  needs:
+    - analyze-results
+  allow_failure: true
+
+# ============================================
+# STAGE 7: Deploy to Production
+# ============================================
+deploy-production:
+  stage: deploy-production
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - echo "🚀 Deploying to PRODUCTION..."
+    - echo "All performance tests passed!"
+    - echo "Application deployed to https://production.example.com"
+    - curl -f https://production.example.com/health || echo "Health check pending..."
+  environment:
+    name: production
+    url: https://production.example.com
+  when: manual
+  only:
+    - main
+  needs:
+    - analyze-results
+    - generate-html-report

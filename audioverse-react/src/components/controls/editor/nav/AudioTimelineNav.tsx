@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../AudioEditor.css";
+import styles from "../../AudioEditor.module.css";
 
 interface AudioTimelineNavProps {
     isPlaying: boolean;
@@ -35,7 +35,7 @@ const AudioTimelineNav: React.FC<AudioTimelineNavProps> = ({
                                                                             onAdjustDuration
                                                                       }) => {
     return (
-        <div className="timeline-nav">
+        <div className={styles['timeline-nav']}>
             <div className="fw-bold" style={{
                 fontSize: "14px",
                 backgroundColor: "black",
@@ -46,34 +46,34 @@ const AudioTimelineNav: React.FC<AudioTimelineNavProps> = ({
                 <div style={{height: "12px"}}>{formatTime(currentTime)}</div>
                 <div>{formatTime(duration)}</div>
             </div>
-            <button onClick={onRecord} className={`btn btn-secondary timeline-nav-button`}>
+            <button onClick={onRecord} className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 <i className="fa-solid fa-circle"></i>
             </button>
-            <button onClick={onPlayPause} className={`btn btn-secondary timeline-nav-button`}>
+            <button onClick={onPlayPause} className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 {isPlaying ? <i className="fa-solid fa-square"></i> : <i className="fa-solid fa-play"></i>}
             </button>
             <button onClick={onLoop}
-                    className={`btn ${isLooping ? "btn-primary" : "btn-secondary"} timeline-nav-button`}>
+                    className={`btn ${isLooping ? "btn-primary" : "btn-secondary"} ${styles['timeline-nav-button']}`}>
                 <i className="fa-solid fa-infinity"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button" onClick={() => onAdjustDuration(-1)}>
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`} onClick={() => onAdjustDuration(-1)}>
                 <i className="fa-solid fa-minus" style={{marginRight: "2px"}}></i>
                 <i className="fa-regular fa-clock"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button" onClick={() => onAdjustDuration(1)}>
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`} onClick={() => onAdjustDuration(1)}>
                 <i className="fa-solid fa-plus" style={{marginRight: "2px"}}></i>
                 <i className="fa-regular fa-clock"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button">
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 <i className="fa-solid fa-arrow-pointer"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button">
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 <i className="fa-regular fa-hand"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button">
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 <i className="fa-solid fa-arrows-left-right"></i>
             </button>
-            <button className="btn btn-secondary timeline-nav-button">
+            <button className={`btn btn-secondary ${styles['timeline-nav-button']}`}>
                 <i className="fa-regular fa-clipboard"></i>
             </button>
 

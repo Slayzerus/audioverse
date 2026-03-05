@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { logger } from "../utils/logger";
+const log = logger.scoped('FontLoader');
 
 interface FontLoaderProps {
-    fontPath: string; // Ścieżka do katalogu np. "/src/assets/fonts/"
-    formats?: string[]; // Lista formatów np. ["ttf", "woff", "otf"]
+    fontPath: string; // Path to directory e.g. "/src/assets/fonts/"
+    formats?: string[]; // List of formats e.g. ["ttf", "woff", "otf"]
 }
 
-const FontLoader = ({ fontPath, formats = ["ttf"] }: FontLoaderProps) => {
+const FontLoader = ({ fontPath: _fontPath, formats: _formats = ["ttf"] }: FontLoaderProps) => {
     const [fonts, setFonts] = useState<string[]>([]);
     const [text, setText] = useState<string>("AudioVerse");
     const [fontSize, setFontSize] = useState<number>(32);
@@ -31,7 +33,7 @@ const FontLoader = ({ fontPath, formats = ["ttf"] }: FontLoaderProps) => {
 
                     // ✅ Tworzymy dynamiczne @font-face
                     const style = document.createElement("style");
-                    style.innerHTML = `
+                    style.textContent = `
                         @font-face {
                             font-family: '${fontName}';
                             src: url('${fontUrl}') format('${fontFile.split(".").pop()}');
@@ -42,7 +44,7 @@ const FontLoader = ({ fontPath, formats = ["ttf"] }: FontLoaderProps) => {
 
                 setFonts(fontNames);
             } catch (error) {
-                console.error("Błąd wczytywania czcionek:", error);
+                log.error("Error loading fonts:", error);
             }
         }
 

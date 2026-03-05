@@ -1,51 +1,103 @@
 ﻿using MediatR;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using AudioVerse.Application.Commands.User;
 using Microsoft.Extensions.Logging;
-using AudioVerse.Domain.Entities;
 using AudioVerse.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using AudioVerse.Application.Services.User;
+using AudioVerse.Application.Models;
+using AudioVerse.Domain.Entities.UserProfiles;
 
 namespace AudioVerse.Application.Handlers.User
 {
-    public class LoginUserHandler : IRequestHandler<LoginUserCommand, (string, string)>
+    public class LoginUserHandler : IRequestHandler<LoginUserCommand, LoginResponse>
     {
         private readonly ILogger<LoginUserHandler> _logger;
         private readonly IPasswordService _passwordService;
         private readonly IUserProfileRepository _repository;
-        private readonly string _jwtSecret = "super-secret-key-for-jwt-authentication"; // 🔴 Zmienić na ENV w produkcji
+        private readonly ITokenService _tokenService;
+        private readonly ILoginAttemptService _loginAttemptService;
         private readonly UserManager<UserProfile> _userManager;
 
         public LoginUserHandler(
             UserManager<UserProfile> userManager,
             ILogger<LoginUserHandler> logger,
             IPasswordService passwordService,
-            IUserProfileRepository repository)
+            IUserProfileRepository repository,
+            ITokenService tokenService,
+            ILoginAttemptService loginAttemptService)
         {
             _userManager = userManager;
             _logger = logger;
             _passwordService = passwordService;
             _repository = repository;
+            _tokenService = tokenService;
+            _loginAttemptService = loginAttemptService;
         }
 
-        public async Task<(string, string)> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<LoginResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByNameAsync(request.Username);
+            
             if (user == null)
-                throw new Exception("Login lub Hasło niepoprawne");
+            {
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Login lub Hasło niepoprawne",
+                    IsBlocked = false,
+                    RequirePasswordChange = false
+                };
+            }
 
-            // Sprawdzenie czy konto jest zablokowane
+            // Sprawdzenie czy konto jest czasowo zablokowane (15 minut po 5 błędnych logowaniach)
+            var (isLockedOut, remainingTime) = await _loginAttemptService.IsUserBlockedAsync(user.Id);
+            if (isLockedOut)
+            {
+                await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, false);
+                
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = $"Konto czasowo zablokowane. Spróbuj ponownie za {(int)remainingTime.TotalSeconds} sekund.",
+                    IsBlocked = true,
+                    RequirePasswordChange = false,
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
+            }
+
+            // Sprawdzenie czy konto jest trwale zablokowane
             if (user.IsBlocked)
-                throw new Exception("Konto zostało zablokowane. Skontaktuj się z administratorem.");
+            {
+                await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, false);
+                
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Konto zostało zablokowane. Skontaktuj się z administratorem.",
+                    IsBlocked = true,
+                    RequirePasswordChange = false,
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
+            }
 
             bool isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!isPasswordValid)
-                throw new Exception("Login lub Hasło niepoprawne");
+            {
+                // Zarejestruj nieudaną próbę
+                await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, false);
+                
+                return new LoginResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Login lub Hasło niepoprawne",
+                    IsBlocked = false,
+                    RequirePasswordChange = false,
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
+            }
 
             // Sprawdzenie czy hasło wygasło
             var isExpired = await _passwordService.IsPasswordExpiredAsync(user);
@@ -53,65 +105,69 @@ namespace AudioVerse.Application.Handlers.User
             {
                 user.RequirePasswordChange = true;
                 await _repository.UpdateAsync(user);
-                throw new Exception("Hasło wygasło. Wymagana zmiana hasła.");
+                
+                // Zarejestruj próbę z wygasłym hasłem
+                await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, true);
+                
+                var roles = await _userManager.GetRolesAsync(user);
+                var tempToken = _tokenService.GenerateAccessToken(user, roles, requirePasswordChange: true);
+                
+                return new LoginResponse
+                {
+                    Success = true,
+                    AccessToken = tempToken,
+                    RefreshToken = string.Empty,
+                    ErrorMessage = "Hasło wygasło. Wymagana zmiana hasła.",
+                    IsBlocked = false,
+                    RequirePasswordChange = true,
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
             }
 
             // Sprawdzenie czy wymagana jest zmiana hasła
             if (user.RequirePasswordChange)
             {
-                // Zwracamy specjalny token wskazujący na konieczność zmiany hasła
-                var tempToken = GenerateJwtToken(user.Id, user.UserName ?? "", requirePasswordChange: true);
-                return (tempToken, string.Empty);
+                await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, true);
+                
+                var roles = await _userManager.GetRolesAsync(user);
+                var tempToken = _tokenService.GenerateAccessToken(user, roles, requirePasswordChange: true);
+                
+                return new LoginResponse
+                {
+                    Success = true,
+                    AccessToken = tempToken,
+                    RefreshToken = string.Empty,
+                    ErrorMessage = "Wymagana zmiana hasła przy pierwszym logowaniu.",
+                    IsBlocked = false,
+                    RequirePasswordChange = true,
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
             }
 
-            var accessToken = GenerateJwtToken(user.Id, user.UserName ?? "");
-            var refreshToken = GenerateRefreshToken();
+            // Pomyślne logowanie
+            await _loginAttemptService.RecordLoginAttemptAsync(user.Id, user.UserName!, true);
+
+            var accessRoles = await _userManager.GetRolesAsync(user);
+            var accessToken = _tokenService.GenerateAccessToken(user, accessRoles);
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
             await _userManager.UpdateAsync(user);
 
-            return (accessToken, refreshToken);
-        }
-
-        private string GenerateJwtToken(int userId, string username, bool requirePasswordChange = false)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSecret);
-
-            var claims = new List<Claim>
+            return new LoginResponse
             {
-                new Claim("id", userId.ToString()),
-                new Claim("username", username),
-                new Claim("requirePasswordChange", requirePasswordChange.ToString())
+                Success = true,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                ErrorMessage = null,
+                IsBlocked = false,
+                RequirePasswordChange = false,
+                UserId = user.Id,
+                Username = user.UserName
             };
-
-            // Dodanie roli administratora
-            if (username == "ADMIN")
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-            }
-            else
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "User"));
-            }
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
-        private string GenerateRefreshToken()
-        {
-            var randomNumber = new byte[32];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
         }
     }
 }

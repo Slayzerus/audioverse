@@ -1,0 +1,12 @@
+# Ignore generated secrets
+/secrets/
+
+# Ignore local env files
+.env
+
+# Ignore certs (if generated locally)
+/certs/
+
+# SoundFont files (large binaries — not tracked in git)
+*.sf2
+*.SF2

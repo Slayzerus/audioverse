@@ -1,0 +1,25 @@
+# Cloudflare Tunnel config — routes subdomains to local AI sidecar containers.
+#
+# Replace <TUNNEL_ID> with your actual tunnel ID from:
+#   cloudflared tunnel create audioverse-gpu
+#
+# Credentials file is auto-generated during tunnel creation.
+
+tunnel: <TUNNEL_ID>
+credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
+
+ingress:
+  # MotionGPT
+  - hostname: ai-motion-gpt.audioverse-gpu.example.com
+    service: http://motion_gpt:8300
+
+  # MDM
+  - hostname: ai-motion-mdm.audioverse-gpu.example.com
+    service: http://motion_mdm:8301
+
+  # MoMask
+  - hostname: ai-motion-momask.audioverse-gpu.example.com
+    service: http://motion_momask:8302
+
+  # Catch-all (required by cloudflared)
+  - service: http_status:404

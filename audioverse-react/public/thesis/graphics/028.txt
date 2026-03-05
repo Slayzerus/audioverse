@@ -1,0 +1,17 @@
+Rysunek 4.13 — Moduł laboratoryjny — strona frontendowa
+
+CO PRZEDSTAWIA:
+Widok strony modułu laboratoryjnego w panelu admina (/admin/lab):
+zakładki Pitch, Separation, Score, Benchmark, Report. Formularz
+uploadu pliku WAV, wybór algorytmu (pYIN/CREPE), przycisk "Analizuj",
+wyświetlone wyniki (metryki, trajektorie, wykresy). Status
+mikroserwisów AI (zielone/czerwone wskaźniki).
+
+JAK ZDOBYĆ:
+1. Uruchom system: docker compose up -d
+2. Zaloguj się jako admin do AudioVerse (http://localhost:5173)
+3. Przejdź do /admin/lab (menu Admin → Laboratory)
+4. Wgraj plik WAV i uruchom analizę (np. zakładka Pitch → Compare)
+5. Poczekaj na wyniki — powinny być widoczne metryki i wykresy
+6. Zrób screenshot całej strony z widocznymi wynikami
+7. Źródło: audioverse-react/src/pages/admin/lab/LabPage.tsx

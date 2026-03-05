@@ -6,6 +6,8 @@ namespace AudioVerse.Application.Commands.Admin
         int UserId,
         string? FullName = null,
         string? Email = null,
-        string? UserName = null
+        string? UserName = null,
+        bool? RequirePasswordChange = null,
+        DateTime? PasswordExpiryDate = null
     ) : IRequest<bool>;
 }

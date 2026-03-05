@@ -16,7 +16,7 @@ export type NoseProps = {
 };
 
 function strokeCol(c: string[]) {
-    return pick(c, 0, "#111");
+    return pick(c, 0, "var(--anim-stroke, #111)");
 }
 
 export const NoseLine: React.FC<NoseProps> = ({ colors, y = 0, scale = 1, transform, strokeWidth = 1.6 }) => (

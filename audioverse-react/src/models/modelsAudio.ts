@@ -128,7 +128,7 @@ export type SongRecord = {
     musicBrainzReleaseArtistId?: string | null;
     musicBrainzReleaseGroupId?: string | null;
 
-    // okładka
+    // cover image
     hasEmbeddedCover: boolean;
     embeddedCoverMimeType?: string | null;
     embeddedCoverByteLength?: number | null;
@@ -167,8 +167,8 @@ export interface PlayerSource {
     kind: "youtube" | "hls" | "audio";
     url?: string;
     videoId?: string;
-    headers?: Record<string, string>;   // np. { Authorization: "Bearer …" } – jeśli MUSISZ (lepiej proxy)
-    withCredentials?: boolean;          // true jeśli trzeba wysyłać cookies
+    headers?: Record<string, string>;   // e.g. { Authorization: "Bearer …" } – if you MUST (better to proxy)
+    withCredentials?: boolean;          // true if cookies need to be sent
     proxyUrl?: string;                  // np. "/api/streams/tidal/track/123?quality=HiFi"
     quality?: string;
     codec?: string;

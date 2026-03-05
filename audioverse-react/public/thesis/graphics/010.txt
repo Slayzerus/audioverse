@@ -1,0 +1,18 @@
+Rysunek 4.9 — Ekran rozgrywki karaoke (KaraokeRoundPage)
+
+CO PRZEDSTAWIA:
+Pełnoekranowy Canvas 1920×1080 px z timeline nut (kolorowe prostokąty
+z sylabami), kursorem pitch (pionowa linia), aktywną sylabą (podświetlona),
+wskaźnik score i combo w prawym górnym rogu. Widoczne złote nuty (*),
+efekty cząsteczkowe i verse ratings.
+
+JAK ZDOBYĆ:
+1. Identyczny widok jak Rysunek 1.1 (001.png), ale z innym momentem
+   piosenki lub inną piosenką — pokazujący więcej elementów UI
+2. Uruchom system: docker compose up -d
+3. Rozpocznij rundę karaoke z piosenką zawierającą złote nuty (*)
+4. Zrób screenshot w momencie, gdy widoczne są:
+   - nuty na timeline (w tym złote)
+   - kursor pitch
+   - score > 0 i combo > 1
+5. Źródło: audioverse-react/src/pages/party/KaraokeRoundPage.tsx

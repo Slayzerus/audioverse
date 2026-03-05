@@ -1,0 +1,28 @@
+Wytyczne do wykonywania prac dyplomowych inżynierskich
+
+Praca dyplomowa inżynierska jest podsumowaniem umiejętności i wiedzy studenta nabytej w toku studiów pierwszego stopnia. Tematyka pracy dyplomowej winna w miarę możliwości pozwalać na szerokie wykorzystanie zdobytej wiedzy zgodnie z profilem absolwenta dla danego kierunku studiów przy uwzględnieniu ukończonej specjalności i zawierać rozwiązanie konkretnego problemu na poziomie wiedzy zawodowej w zakresie dostępnej techniki. 
+Praca dyplomowa jest pracą własną studenta realizowaną pod kierunkiem promotora, który za promotorstwo otrzymuje ekwiwalent godzinowy określony w stosownej uchwale Senatu. Promotor powinien śledzić tok realizacji pracy dyplomowej i udzielać dyplomantowi pomocy merytorycznej w kluczowych fragmentach pracy. Systematyczne indywidualne konsultacje mają być gwarancją samodzielności pracy studenta.
+Praca dyplomowa powinna:
+	rozwijać umiejętności dyplomanta w zakresie rozwiązywania zagadnień technicznych przy wykorzystaniu wiedzy o charakterze ogólnym i specjalistycznym oraz dostępnej literatury,
+	wykazać, że dyplomant posiada kompetencje zawodowe w zakresie dostępnej techniki 
+i potrafi stosować współczesne narzędzia inżynierskie,
+	wykazać umiejętność przeprowadzenia koniecznych badań eksperymentalnych i pomiarów, jeżeli wymaga tego realizacja zadanej tematyki pracy dyplomowej.
+Podczas realizacji pracy dyplomowej student powinien wykazać że:
+	potrafi w jasny sposób sprecyzować cel i zakres własnej pracy,
+	zapoznał się z literaturą dotyczącą tematu pracy i na bazie innych podobnych opracowań potrafi przedstawić własne rozwiązanie zagadnienia z odpowiednim uzasadnieniem swojego wyboru,
+	potrafi czytelnie przedstawić swoje opracowanie i sformułować stosowne wnioski.
+Objętość pracy nie powinna przekraczać 80 stron formatu A4, a nakład pracy związany z jej realizacją nie powinien przekraczać około100 godzin.
+Praca dyplomowa winna zawierać:
+1.	Stronę tytułową według wzoru znajdującego się w załączniku 7.1 do procedury PU13.
+2.	Spis treści.
+3.	Wstęp zawierający omówienie całości problematyki ujętej tematyką pracy 
+i sformułowanym celem.
+4.	Analizę literatury związanej z tematyką pracy. Odniesienia do literatury powinny być ujmowane np. liczbowo w prostokątnych nawiasach i być zgodne z numeracją wykazu literatury umieszczoną na końcu pracy.
+5.	Ocenę rozwiązań technicznych podobnego typu z oceną ich cech i na tym tle przedstawienie propozycji własnego rozwiązania.
+6.	W zależności od tematu: modele obliczeniowe, wyniki symulacji komputerowych, obliczenia, schematy, wyniki badań, rysunki dotyczące realizowanego projektu.
+7.	Podsumowanie i wnioski końcowe.
+8.	Wykaz literatury i ewentualne załączniki.
+Dyplomant składa pracę w terminie określonym przez regulamin studiów 
+z nadanym numerem pracy i nazwiskiem promotora w jednym egzemplarzu 
+i w wersji elektronicznej.
+

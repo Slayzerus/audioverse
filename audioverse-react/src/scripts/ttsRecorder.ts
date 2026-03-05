@@ -1,3 +1,7 @@
+import { logger } from "../utils/logger";
+
+const log = logger.scoped('ttsRecorder');
+
 class TTSRecorder {
     private synth: SpeechSynthesis;
     private audioContext: AudioContext;
@@ -17,9 +21,7 @@ class TTSRecorder {
 
     private async ensureAudioContext() {
         if (this.audioContext.state === "suspended") {
-            console.log("[TTS] AudioContext jest wstrzymany, wznawiam...");
             await this.audioContext.resume();
-            console.log("[TTS] AudioContext wznowiony.");
         }
     }
 
@@ -43,55 +45,48 @@ class TTSRecorder {
         pitch: number = 1,
         volume: number = 1
     ): Promise<Blob> {
-        return new Promise(async (resolve, reject) => {
-            console.log("[TTS] Rozpoczynam syntezę mowy:", { text, voiceURI, rate, pitch, volume });
+        await this.ensureAudioContext();
 
-            await this.ensureAudioContext();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = rate;
+        utterance.pitch = pitch;
+        utterance.volume = volume;
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = rate;
-            utterance.pitch = pitch;
-            utterance.volume = volume;
-
-            const voices = await this.getVoices();
-            if (voiceURI) {
-                const selectedVoice = voices.find((v) => v.voiceURI === voiceURI);
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                    console.log("[TTS] Wybrano głos:", selectedVoice.name);
-                } else {
-                    console.error("[TTS] Nie znaleziono głosu!");
-                    return reject(new Error("Nie znaleziono głosu!"));
-                }
+        const voices = await this.getVoices();
+        if (voiceURI) {
+            const selectedVoice = voices.find((v) => v.voiceURI === voiceURI);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            } else {
+                log.error("Voice not found!");
+                throw new Error("Voice not found!");
             }
+        }
 
-            // 🔹 Tworzymy MediaStreamDestination do przechwycenia dźwięku
-            const destination = this.audioContext.createMediaStreamDestination();
-            this.mediaRecorder = new MediaRecorder(destination.stream);
-            this.chunks = [];
+        // 🔹 Creating MediaStreamDestination to capture audio
+        const destination = this.audioContext.createMediaStreamDestination();
+        const mediaRecorder = new MediaRecorder(destination.stream);
+        this.mediaRecorder = mediaRecorder;
+        this.chunks = [];
 
-            this.mediaRecorder.ondataavailable = (event) => {
-                console.log("[TTS] Otrzymano fragment dźwięku:", event.data);
+        return new Promise((resolve) => {
+            mediaRecorder.ondataavailable = (event) => {
                 this.chunks.push(event.data);
             };
 
-            this.mediaRecorder.onstop = () => {
+            mediaRecorder.onstop = () => {
                 const blob = new Blob(this.chunks, { type: "audio/wav" });
-                console.log("[TTS] Plik audio utworzony:", blob);
                 resolve(blob);
             };
 
-            // 🔹 Podłączamy syntezator mowy do Web Audio API
+            // 🔹 Connecting speech synthesizer to Web Audio API
             const utteranceSource = this.audioContext.createMediaStreamSource(destination.stream);
             utteranceSource.connect(this.audioContext.destination);
-            utteranceSource.connect(destination); // Przechwycenie dźwięku do MediaRecorder
-
-            console.log("[TTS] Rozpoczynam nagrywanie...");
-            this.mediaRecorder.start();
+            utteranceSource.connect(destination); // Capturing audio to MediaRecorder
+            mediaRecorder.start();
             this.synth.speak(utterance);
 
             utterance.onend = () => {
-                console.log("[TTS] Mowa zakończona, zatrzymuję nagrywanie...");
                 setTimeout(() => {
                     this.mediaRecorder?.stop();
                 }, 500);
@@ -100,7 +95,6 @@ class TTSRecorder {
     }
 
     public async saveAudio(blob: Blob, filename: string = "speech.wav"): Promise<void> {
-        console.log("[TTS] Zapisuję plik audio:", filename);
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;

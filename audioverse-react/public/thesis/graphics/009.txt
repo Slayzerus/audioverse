@@ -1,0 +1,15 @@
+Rysunek 4.8 — Przeglądarka piosenek (KaraokeSongBrowserPage)
+
+CO PRZEDSTAWIA:
+Identyczny widok jak Rysunek 2.2, ale w kontekście rozdziału 4 (implementacja).
+Panel filtrowania po tytule, artyście, języku i gatunku. Siatka kafelków
+z okładką, tytułem i artystą. Paginacja wyników.
+
+JAK ZDOBYĆ:
+1. Możesz użyć tego samego screenshota co dla Rysunku 2.2 (003.png)
+   lub zrobić osobny z innym stanem filtrów
+2. Uruchom system: docker compose up -d
+3. Otwórz http://localhost:5173/songs
+4. Pokaż aktywne filtry (np. język: English, gatunek: Rock)
+5. Zrób screenshot
+6. Źródło: audioverse-react/src/pages/party/KaraokeSongBrowserPage.tsx

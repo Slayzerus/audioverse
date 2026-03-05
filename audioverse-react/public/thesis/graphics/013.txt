@@ -1,0 +1,23 @@
+Rysunek 5.2 — Wykres słupkowy RMSE (centy) dla pYIN i CREPE
+
+CO PRZEDSTAWIA:
+Wykres słupkowy z 5 grupami (pliki A-E). Dla każdego pliku dwa słupki
+obok siebie: niebieski — pYIN, czerwony — CREPE. Oś Y: RMSE [centy].
+Pozioma linia przerywana = próg 50 centów (akceptowalność).
+Wartości: A(8.1/5.3), B(22.4/12.7), C(48.7/29.1), D(71.2/45.2), E(31.1/17.8).
+
+JAK ZDOBYĆ:
+1. Wygeneruj raport PDF: POST /api/karaoke/lab/report/pdf
+   (z 5 plikami testowymi o różnym SNR)
+2. Wykres RMSE jest zawarty w sekcji wyników raportu PDF
+3. Alternatywnie: użyj danych z Tabeli 5.2 i narysuj w Pythonie:
+   import matplotlib.pyplot as plt
+   import numpy as np
+   labels = ['A', 'B', 'C', 'D', 'E']
+   pyin = [8.1, 22.4, 48.7, 71.2, 31.1]
+   crepe = [5.3, 12.7, 29.1, 45.2, 17.8]
+   x = np.arange(len(labels))
+   fig, ax = plt.subplots(); ax.bar(x-0.2, pyin, 0.4, label='pYIN', color='steelblue')
+   ax.bar(x+0.2, crepe, 0.4, label='CREPE', color='indianred')
+   ax.axhline(50, ls='--', c='gray'); ax.set_ylabel('RMSE [centy]')
+   ax.legend(); plt.savefig('013.png', dpi=300)

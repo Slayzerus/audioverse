@@ -16,11 +16,11 @@ export function drawRift(
 
     const center = h / 2;
     const gap = Math.max(8, 18 - energy * 10); // szerokość „szczeliny”
-    const amp = (h * 0.35) * (0.6 + energy * 0.7); // amplituda boków
+    const amp = (h * 0.35) * (0.6 + energy * 0.7); // side amplitude
     const N = timeDomain.length;
     const stepX = w / (N - 1);
 
-    // GÓRNA połówka (faza lekko przesunięta)
+    // UPPER half (phase slightly shifted)
     g.beginPath();
     for (let i = 0; i < N; i++) {
         const v = (timeDomain[i] - 128) / 128; // -1..1
@@ -36,7 +36,7 @@ export function drawRift(
     g.lineWidth = 2;
     g.stroke();
 
-    // DOLNA połówka (lustrzana + inne przesunięcie fazy)
+    // LOWER half (mirrored + different phase shift)
     g.beginPath();
     for (let i = 0; i < N; i++) {
         const v = (timeDomain[i] - 128) / 128;
@@ -52,7 +52,7 @@ export function drawRift(
     g.lineWidth = 2;
     g.stroke();
 
-    // subtelna poświata wzdłuż krawędzi „riftu”
+    // subtle glow along the rift edges
     g.globalCompositeOperation = "lighter";
     g.strokeStyle = "rgba(255,255,255,0.08)";
     g.lineWidth = 6;

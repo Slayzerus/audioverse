@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { addAudioClip } from "../../../scripts/api/apiEditor";
+import { useToast } from "../../ui/ToastProvider";
 
 const AudioClipUploadForm = () => {
     const [file, setFile] = useState<File | null>(null);
+    const { t } = useTranslation();
+
+    const { showToast } = useToast();
 
     const handleUpload = async () => {
         if (!file) return;
@@ -17,15 +22,15 @@ const AudioClipUploadForm = () => {
                 size: file.size
             };
             await addAudioClip(audioClip);
-            alert("AudioClip dodany!");
+            showToast(t('clipUpload.added', 'AudioClip added!'), 'success');
         };
     };
 
     return (
         <div>
-            <h2>Dodaj AudioClip</h2>
+            <h2>{t('clipUpload.title', 'Add AudioClip')}</h2>
             <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-            <button onClick={handleUpload}>Prześlij</button>
+            <button onClick={handleUpload}>{t('clipUpload.upload', 'Upload')}</button>
         </div>
     );
 };

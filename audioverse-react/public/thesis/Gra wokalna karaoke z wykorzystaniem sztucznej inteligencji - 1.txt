@@ -1,0 +1,122 @@
+# Rozdział 1 — Wstęp
+
+## 1.1. Wprowadzenie
+
+Muzyka od zawsze pełniła istotną rolę w życiu człowieka, stanowiąc formę
+sztuki, środek wyrażania emocji, narzędzie integracji społecznej oraz źródło
+rozrywki. W epoce cyfrowej dostępność muzyki zasadniczo się zmieniła:
+platformy streamingowe, interfejsy programistyczne i powszechny
+dostęp do sieci internetowej sprawiają, że słuchacze stali się zarazem aktywnymi
+uczestnikami tworzenia muzyki. Jedną z popularnych form aktywnego angażowania
+odbiorców w świat muzyki jest karaoke — rozrywka polegająca na śpiewaniu
+piosenek przy akompaniamencie podkładu muzycznego, często wzbogaconego
+o wyświetlany w czasie rzeczywistym tekst i nuty [11].
+
+Tradycyjne systemy karaoke ograniczają się do dostarczania ścieżki
+instrumentalnej i tekstu, pozostawiając ocenę wykonania subiektywnym
+odczuciom uczestników. Algorytmy detekcji podstawowej częstotliwości
+(F0, ang. *fundamental frequency estimation*), separacji źródeł audio
+i dynamicznego dopasowywania czasowego (DTW, ang. *Dynamic Time Warping*) [14]
+oferują dziś dokładność wystarczającą do automatycznej, interaktywnej
+oceny jakości śpiewu w czasie rzeczywistym [1], [5]. Dzięki temu karaoke
+może pełnić funkcję trenera wokalnego — z obiektywną informacją zwrotną
+per nuta, a nie wyłącznie rozrywką. Funkcję rozrywkową dzięki temu można 
+wzbogacić o element współzawodnictwa.
+
+## 1.2. Cel i zakres pracy
+
+Celem niniejszej pracy inżynierskiej jest zaprojektowanie, implementacja
+i ocena systemu gry wokalnej karaoke wykorzystującej metody
+sztucznej inteligencji do analizy i oceny śpiewu użytkownika. System ma
+stanowić połączenie tradycyjnej rozrywki karaoke z inteligentnym mechanizmem
+oceny, dostarczającym użytkownikowi natychmiastowej informacji zwrotnej na
+temat poprawności intonacji i rytmu w formie punktów.
+
+Zakres pracy obejmuje:
+
+- analizę literatury naukowej dotyczącej automatycznej analizy śpiewu,
+  algorytmów detekcji F0 oraz separacji źródeł audio;
+- przegląd i porównawczą ocenę istniejących aplikacji karaoke pod kątem
+  wykorzystania metod sztucznej inteligencji;
+- dobór i opis metod AI zastosowanych w systemie: pYIN i CREPE do detekcji F0
+  oraz DTW do porównawczej oceny śpiewu;
+- zaprojektowanie i implementację architektury mikroserwisowej systemu
+  AudioVerse, obejmującej warstwę frontendową (React/TypeScript),
+  backendową (ASP.NET Core/.NET 10) oraz mikroserwisy AI (Python/FastAPI);
+- implementację dedykowanego modułu laboratoryjnego (LaboratoryController)
+  umożliwiającego pomiarowe testy algorytmów detekcji F0;
+- weryfikację działania algorytmów pYIN i CREPE dla plików wokalnych
+  z różnym poziomem akompaniamentu i pomiar latencji mikroserwisów AI;
+- ocenę spełnienia wymagań niefunkcjonalnych i sformułowanie zaleceń
+  dotyczących doboru algorytmu do zastosowań webowych.
+
+Praca skupia się wyłącznie na aspektach muzycznych — intonacji i rytmie —
+i nie obejmuje rozpoznawania mowy ani detekcji dykcji. Wszystkie eksperymenty
+i testy opisane w pracy przeprowadzono w trybie singleplayer.
+
+
+## 1.3. Motywacja
+
+Autor niniejszej pracy od wielu lat korzysta z UltraStar Deluxe —
+open-source'owego następcy SingStar na PC — jako podstawowej formy
+rozrywki karaoke. To właśnie regularne sesje z tym systemem uświadomiły,
+że automatyczna ocena intonacji może pełnić funkcję wykraczającą poza
+punktację: jest narzędziem rzeczywistej nauki kontroli głosu. Dobry
+głos nie jest warunkiem koniecznym — istotna jest informacja zwrotna
+w czasie rzeczywistym, para nuta po nucie, pozwalająca ćwiczyć
+ton z iteracyjną precyzją, której nie oferuje żadna forma śpiewania
+„na sucho". Welch i in. [13] potwierdzają to eksperymentalnie: regularny
+trening ze sprzężeniem zwrotnym istotnie poprawia dokładność intonacji.
+
+Pierwszym źródłem motywacji jest zatem wiarygodność tej funkcji
+coachingowej — i jej obecna niedostępność poza środowiskiem desktopowym.
+Istniejące platformy mobilne karaoke kierują rozgrywkę ku rywalizacji
+online, co — zdaniem autora — mija się z imprezowym, wspólnotowym
+charakterem karaoke: grą *couch*, w jednym pomieszczeniu, z żywą
+publicznością. Proponowane rozwiązanie webowe, działające w przeglądarce
+bez instalacji, przywraca tę formułę w nowoczesnym środowisku i dostarcza
+obiektywnej oceny per nuta każdemu użytkownikowi, niezależnie od sprzętu.
+
+Drugim czynnikiem jest dostępność zaawansowanych modeli AI jako bibliotek
+open-source. Modele CREPE [5] i Demucs [6] można wdrożyć na serwerze z GPU
+klasy konsumenckiej, co kilka lat temu byłoby niemożliwe w warunkach
+akademickich. Biblioteka librosa udostępnia skuteczną implementację pYIN [4],
+co umożliwiło szybką integrację algorytmu bez implementacji od zera.
+
+Trzecim bodźcem jest zidentyfikowana luka technologiczna: żadna z popularnych
+platform karaoke nie łączy detekcji F0 opartej na głębokim uczeniu z oceną
+DTW i wizualną informacją zwrotną w czasie rzeczywistym w ramach otwartej,
+webowej platformy działającej w przeglądarce bez instalacji.
+
+Czwartym czynnikiem jest potrzeba mierzalności: brak dostępnego narzędzia
+do porównania pYIN i CREPE na nagraniach z akompaniamentem w warunkach
+latencji typowych dla aplikacji webowej. System AudioVerse zawiera dedykowany
+moduł pomiarowy (LaboratoryController) umożliwiający takie testy
+w sposób reprodukowalny i zautomatyzowany.
+
+
+## 1.4. Struktura pracy
+
+Praca składa się z pięciu rozdziałów merytorycznych.
+
+- **Rozdział 1** (niniejszy) zawiera wprowadzenie, sformułowanie celów
+i zakresu oraz motywację podjętego tematu.
+
+- **Rozdział 2** obejmuje analizę literatury naukowej i stosowanych metod:
+historię karaoke, przegląd automatycznej analizy śpiewu w literaturze,
+porównanie siedmiu aplikacji karaoke, a następnie opis metod stosowanych
+w systemie — podstawy cyfrowego przetwarzania sygnałów, algorytmy detekcji F0
+(YIN, pYIN, CREPE), algorytm DTW, format UltraStar TXT oraz stos
+technologiczny i koncepcję komunikacji w czasie rzeczywistym.
+
+- **Rozdział 3** opisuje projekt i architekturę systemu AudioVerse: wymagania
+funkcjonalne i niefunkcjonalne, architekturę mikroserwisową oraz model danych.
+
+- **Rozdział 4** omawia implementację systemu: backend ASP.NET Core z wzorcem
+CQRS, mikroserwisy AI (pYIN, CREPE, DTW), interfejs użytkownika React,
+silnik karaoke oparty na Canvas API, moduł laboratoryjny LaboratoryController
+i wdrożenie w Docker Compose.
+
+- **Rozdział 5** poświęcony jest testom i analizie wyników: testom funkcjonalnym,
+porównaniu algorytmów pYIN/CREPE, benchmarkowi latencji mikroserwisów
+AI i podsumowaniu z wnioskami.

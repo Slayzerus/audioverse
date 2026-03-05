@@ -18,13 +18,12 @@ export class InputManager {
     };
 
     private handleGamepadEvent = () => {
-        console.log("Gamepad connected.");
     };
 
     private pollGamepads = () => {
         const gamepads = navigator.getGamepads();
         if (gamepads) {
-            Array.from(gamepads).forEach((gp, index) => {
+            Array.from(gamepads).forEach((gp, _index) => {
                 if (gp) {
                     gp.buttons.forEach((button, i) => {
                         if (button.pressed) {

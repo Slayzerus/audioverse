@@ -61,6 +61,7 @@ export interface IAudioSourceProperties {
     /// <summary>Source type discriminator.</summary>
     type: AudioSourceType;
     /// <summary>React component used to render source controls.</summary>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: React.ComponentType<any>;
     /// <summary>High-level audio role.</summary>
     audioType: AudioType;
@@ -77,6 +78,7 @@ export type IAudioSourceDescriptor = IAudioSourceProperties;
 /// Registry of components keyed by source type string.
 /// Supports both legacy and compact labels.
 /// </summary>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AudioSourceComponentRegistry: Record<string, React.ComponentType<any>> = {
     // Recorder
     [AudioSourceType.Recorder]: AudioRecorder,
@@ -105,7 +107,7 @@ export class AudioSourceProperties implements IAudioSourceProperties {
     /// <summary>Source type discriminator.</summary>
     public type: AudioSourceType;
     /// <summary>React component used to render source controls.</summary>
-    public component: React.ComponentType<any>;
+    public component: React.ComponentType<Record<string, unknown>>;
     /// <summary>High-level audio role.</summary>
     public audioType: AudioType;
     /// <summary>Initial parameters.</summary>

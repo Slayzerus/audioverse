@@ -1,0 +1,2757 @@
+/**
+ * ModelEditor — Blender-style 3D model editor powered by Three.js.
+ *
+ * Features:
+ *  - Multi-format import: FBX, GLTF/GLB, OBJ+MTL, DAE (Collada), STL, PLY, 3DS,
+ *    3MF, AMF, PCD (point clouds), VTK/VTP, VRML/WRL, GCode, SVG (extruded), USDZ
+ *  - Multi-format export: GLTF, GLB, OBJ, STL, PLY, USDZ
+ *  - Animation system: timeline, play/pause/stop, animation list, speed control
+ *  - Multiple FBX merge (e.g. character mesh + separate animation files)
+ *  - Scene hierarchy panel with visibility toggles
+ *  - Transform gizmos (Translate / Rotate / Scale) via TransformControls
+ *  - Orbit camera with zoom, pan, rotate
+ *  - Material & texture inspector/editor
+ *  - Grid, axes helpers, environment lighting
+ *  - AI animation generation (pose-from-video via backend)
+ *  - Keyboard shortcuts: G (grab/translate), R (rotate), S (scale), Delete,
+ *    Space (play/pause), Numpad views, F (focus selected)
+ */
+
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
+import * as THREE from "three";
+// @ts-expect-error — three/examples/jsm re-exports
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// @ts-expect-error — three/examples/jsm re-exports
+import { TransformControls } from "three/examples/jsm/controls/TransformControls";
+// @ts-expect-error — three/examples/jsm re-exports
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter";
+// @ts-expect-error — three/examples/jsm re-exports
+import { OBJExporter } from "three/examples/jsm/exporters/OBJExporter";
+// @ts-expect-error — three/examples/jsm re-exports
+import { STLExporter } from "three/examples/jsm/exporters/STLExporter";
+// @ts-expect-error — three/examples/jsm re-exports
+import { PLYExporter } from "three/examples/jsm/exporters/PLYExporter";
+// @ts-expect-error — three/examples/jsm re-exports
+import { USDZExporter } from "three/examples/jsm/exporters/USDZExporter";
+// @ts-expect-error — three/examples/jsm re-exports
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { ColladaLoader } from "three/examples/jsm/loaders/ColladaLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { TDSLoader } from "three/examples/jsm/loaders/TDSLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { ThreeMFLoader } from "three/examples/jsm/loaders/3MFLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { AMFLoader } from "three/examples/jsm/loaders/AMFLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { PCDLoader } from "three/examples/jsm/loaders/PCDLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { VTKLoader } from "three/examples/jsm/loaders/VTKLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { VRMLLoader } from "three/examples/jsm/loaders/VRMLLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { GCodeLoader } from "three/examples/jsm/loaders/GCodeLoader";
+// @ts-expect-error — three/examples/jsm re-exports
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
+import {
+  postPose3dFromVideo,
+} from "../../scripts/api/apiLibraryAiVideo";
+import styles from "./ModelEditor.module.css";
+import { logger } from "../../utils/logger";
+import {
+  type SceneNode,
+  type AnimClip,
+  type TransformMode,
+  type ShadingMode,
+  type EditorMode,
+  type PropTab,
+  type AddMenuCat,
+  type Pose3DSequenceResult,
+  DEG,
+  fmtTime,
+  SUPPORTED_EXTENSIONS,
+  pose3dToClip,
+} from "./modelEditorTypes";
+import { Vec3Row, Vec3RowDeg, MaterialCard } from "./ModelEditorSubComponents";
+
+const log = logger.scoped('ModelEditor');
+
+interface ModelEditorProps {
+  className?: string;
+  onSaveToLibrary?: (dataUrl: string, name: string, mimeType: string) => void;
+}
+
+/* helpers */
+let _nid = 0;
+const nid = () => `n${++_nid}`;
+
+/* ═══════════════════════════════════════════
+   Component
+   ═══════════════════════════════════════════ */
+
+export const ModelEditor: React.FC<ModelEditorProps> = ({ className, onSaveToLibrary }) => {
+  /* ── refs ── */
+  const mountRef = useRef<HTMLDivElement>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const sceneRef = useRef<THREE.Scene>(new THREE.Scene());
+  const cameraRef = useRef<THREE.PerspectiveCamera>(
+    new THREE.PerspectiveCamera(50, 1, 0.01, 10000),
+  );
+  const orbitRef = useRef<OrbitControls | null>(null);
+  const transformRef = useRef<TransformControls | null>(null);
+  const clockRef = useRef(new THREE.Clock());
+  const mixerRef = useRef<THREE.AnimationMixer | null>(null);
+  const rafRef = useRef(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const mergeInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const raycasterRef = useRef(new THREE.Raycaster());
+  const skeletonHelperRef = useRef<THREE.SkeletonHelper | null>(null);
+
+  /* ── state ── */
+  const [sceneTree, setSceneTree] = useState<SceneNode[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [transformMode, setTransformMode] = useState<TransformMode>("translate");
+  const [animations, setAnimations] = useState<AnimClip[]>([]);
+  const [activeAnimIdx, setActiveAnimIdx] = useState(-1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [animTime, setAnimTime] = useState(0);
+  const [animDuration, setAnimDuration] = useState(0);
+  const [animSpeed, setAnimSpeed] = useState(1);
+  const [loopAnim, setLoopAnim] = useState(true);
+  const [bottomCollapsed, setBottomCollapsed] = useState(false);
+  const [showGrid, setShowGrid] = useState(true);
+  const [showAxes, setShowAxes] = useState(true);
+  const [wireframe, setWireframe] = useState(false);
+  const [bgColor, setBgColor] = useState("#111122");
+  const [statusText, setStatusText] = useState("Ready");
+  const [dragOver, setDragOver] = useState(false);
+  const [polyCount, setPolyCount] = useState(0);
+  const [meshCount, setMeshCount] = useState(0);
+  const [boneCount, setBoneCount] = useState(0);
+
+  // Material editor
+  const [selMaterialIdx, setSelMaterialIdx] = useState(0);
+  const [matRefresh, setMatRefresh] = useState(0);
+
+  // AI panel
+  const [aiStatus, setAiStatus] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
+
+  // Blender 2.0 — viewport & editor
+  const [shadingMode, setShadingMode] = useState<ShadingMode>("solid");
+  const [editorMode, setEditorMode] = useState<EditorMode>("object");
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const [outlinerSearch, setOutlinerSearch] = useState("");
+  const [snapEnabled, setSnapEnabled] = useState(false);
+  const [snapGrid, setSnapGrid] = useState(1);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const [addMenuOpen, setAddMenuOpen] = useState<AddMenuCat>(null);
+  const [gizmoSpace, setGizmoSpace] = useState<"local" | "world">("world");
+  const [propTab, setPropTab] = useState<PropTab>("object");
+  const [fogEnabled, setFogEnabled] = useState(false);
+  const [fogColor, setFogColor] = useState("#111122");
+  const [fogNear, setFogNear] = useState(10);
+  const [fogFar, setFogFar] = useState(100);
+  const [showLightHelpers, setShowLightHelpers] = useState(true);
+
+  // The root object that was loaded (mesh/character)
+  const rootObjectRef = useRef<THREE.Object3D | null>(null);
+  // Active animation action
+  const activeActionRef = useRef<THREE.AnimationAction | null>(null);
+  // All loaded animation clips (for the current model)
+  const allClipsRef = useRef<AnimClip[]>([]);
+
+  /* keep refs current */
+  const animTimeRef = useRef(animTime);
+  animTimeRef.current = animTime;
+  const isPlayingRef = useRef(isPlaying);
+  isPlayingRef.current = isPlaying;
+  const animSpeedRef = useRef(animSpeed);
+  animSpeedRef.current = animSpeed;
+  const loopAnimRef = useRef(loopAnim);
+  loopAnimRef.current = loopAnim;
+
+  /* ─────────────────────────────────────────
+     Scene setup
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    const scene = sceneRef.current;
+    const camera = cameraRef.current;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    rendererRef.current = renderer;
+    container.appendChild(renderer.domElement);
+
+    // Camera
+    camera.position.set(3, 2, 5);
+    camera.lookAt(0, 0, 0);
+
+    // Scene background
+    scene.background = new THREE.Color("#111122");
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    ambientLight.name = "__ambient";
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.name = "__dirLight";
+    dirLight.position.set(5, 8, 5);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(2048, 2048);
+    dirLight.shadow.camera.near = 0.1;
+    dirLight.shadow.camera.far = 50;
+    dirLight.shadow.camera.left = -10;
+    dirLight.shadow.camera.right = 10;
+    dirLight.shadow.camera.top = 10;
+    dirLight.shadow.camera.bottom = -10;
+    scene.add(dirLight);
+
+    const hemiLight = new THREE.HemisphereLight(0x8888ff, 0x444422, 0.4);
+    hemiLight.name = "__hemiLight";
+    scene.add(hemiLight);
+
+    // Ground plane
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(100, 100),
+      new THREE.ShadowMaterial({ opacity: 0.15 }),
+    );
+    ground.name = "__ground";
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Grid
+    const grid = new THREE.GridHelper(20, 20, 0x333355, 0x22223a);
+    grid.name = "__grid";
+    scene.add(grid);
+
+    // Axes
+    const axes = new THREE.AxesHelper(2);
+    axes.name = "__axes";
+    scene.add(axes);
+
+    // Orbit controls
+    const orbit = new OrbitControls(camera, renderer.domElement);
+    orbit.enableDamping = true;
+    orbit.dampingFactor = 0.08;
+    orbit.minDistance = 0.1;
+    orbit.maxDistance = 500;
+    orbit.target.set(0, 0.5, 0);
+    orbitRef.current = orbit;
+
+    // Transform controls
+    const tc = new TransformControls(camera, renderer.domElement);
+    tc.name = "__transformControls";
+    tc.addEventListener("dragging-changed", (e: { value: boolean }) => {
+      orbit.enabled = !e.value;
+    });
+    scene.add(tc);
+    transformRef.current = tc;
+
+    // Resize handler
+    const onResize = () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    const ro = new ResizeObserver(onResize);
+    ro.observe(container);
+    onResize();
+
+    // Animation loop
+    const animate = () => {
+      rafRef.current = requestAnimationFrame(animate);
+      const dt = clockRef.current.getDelta();
+      orbit.update();
+
+      // Update mixer
+      if (mixerRef.current && isPlayingRef.current) {
+        mixerRef.current.update(dt * animSpeedRef.current);
+        // Sync time state (throttled to ~15fps for React)
+        const action = activeActionRef.current;
+        if (action) {
+          const t = action.time;
+          // Only set state ~15 times/sec to avoid React overhead
+          if (Math.abs(t - animTimeRef.current) > 0.05) {
+            setAnimTime(t);
+          }
+        }
+      }
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      ro.disconnect();
+      // Dispose all scene objects to prevent GPU memory leaks
+      const scene = sceneRef.current;
+      scene.traverse((obj) => {
+        if ((obj as THREE.Mesh).geometry) (obj as THREE.Mesh).geometry.dispose();
+        if ((obj as THREE.Mesh).material) {
+          const mats = Array.isArray((obj as THREE.Mesh).material)
+            ? (obj as THREE.Mesh).material as THREE.Material[]
+            : [(obj as THREE.Mesh).material as THREE.Material];
+          mats.forEach((mat) => mat.dispose());
+        }
+      });
+      if (mixerRef.current) {
+        mixerRef.current.stopAllAction();
+      }
+      renderer.dispose();
+      orbit.dispose();
+      tc.dispose();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+    };
+    // Mount-only effect — deps intentionally empty: one-time Three.js scene setup
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Rebuild scene tree from Three.js scene
+     ───────────────────────────────────────── */
+  const rebuildTree = useCallback(() => {
+    const scene = sceneRef.current;
+    let polys = 0;
+    let meshes = 0;
+    let bones = 0;
+
+    const walk = (obj: THREE.Object3D, depth: number): SceneNode | null => {
+      // Skip internal helpers
+      if (obj.name.startsWith("__")) return null;
+      if (obj.type === "TransformControlsPlane" || obj.type === "TransformControlsGizmo") return null;
+      if ('isTransformControls' in obj) return null;
+
+      let nodeType: SceneNode["type"] = "group";
+      if (obj instanceof THREE.Mesh) {
+        nodeType = "mesh";
+        meshes++;
+        const geo = obj.geometry;
+        if (geo) {
+          const idx = geo.index;
+          polys += idx ? idx.count / 3 : (geo.attributes.position?.count ?? 0) / 3;
+        }
+      } else if (obj instanceof THREE.Bone) {
+        nodeType = "bone";
+        bones++;
+      } else if (obj instanceof THREE.Light) {
+        nodeType = "light";
+      } else if (obj instanceof THREE.Camera) {
+        nodeType = "camera";
+      } else if (
+        obj instanceof THREE.GridHelper ||
+        obj instanceof THREE.AxesHelper
+      ) {
+        nodeType = "helper";
+      }
+
+      const children: SceneNode[] = [];
+      for (const c of obj.children) {
+        const cn = walk(c, depth + 1);
+        if (cn) children.push(cn);
+      }
+
+      return {
+        id: (obj.userData.__nodeId as string) || ((obj.userData.__nodeId = nid()), obj.userData.__nodeId),
+        name: obj.name || obj.type,
+        type: nodeType,
+        object: obj,
+        children,
+        expanded: depth < 2,
+        visible: obj.visible,
+      };
+    };
+
+    const roots: SceneNode[] = [];
+    for (const c of scene.children) {
+      const n = walk(c, 0);
+      if (n) roots.push(n);
+    }
+
+    setSceneTree(roots);
+    setPolyCount(Math.round(polys));
+    setMeshCount(meshes);
+    setBoneCount(bones);
+  }, []);
+
+  /* ─────────────────────────────────────────
+     File loading
+     ───────────────────────────────────────── */
+
+  // Refs for forward-declared callbacks used in addObjectToScene
+  const playClipRef = useRef<(index: number) => void>(() => {});
+  const focusOnObjectRef = useRef<(obj: THREE.Object3D) => void>(() => {});
+
+  const addObjectToScene = useCallback(
+    (obj: THREE.Object3D, clips: THREE.AnimationClip[], filename: string) => {
+      const scene = sceneRef.current;
+
+      // Enable shadows
+      obj.traverse((child: THREE.Object3D) => {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      // Auto-scale: fit into a ~3-unit bounding box
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      if (maxDim > 0.01) {
+        const targetSize = 3;
+        const scale = targetSize / maxDim;
+        if (scale < 0.5 || scale > 2) {
+          obj.scale.multiplyScalar(scale);
+        }
+      }
+
+      // Center on ground
+      const box2 = new THREE.Box3().setFromObject(obj);
+      const center = box2.getCenter(new THREE.Vector3());
+      obj.position.sub(center);
+      obj.position.y += box2.getSize(new THREE.Vector3()).y / 2;
+
+      obj.name = obj.name || filename;
+      scene.add(obj);
+      rootObjectRef.current = obj;
+
+      // Setup mixer
+      if (clips.length > 0) {
+        const mixer = new THREE.AnimationMixer(obj);
+        mixerRef.current = mixer;
+        const newAnims: AnimClip[] = clips.map((c) => ({
+          name: c.name || "Animation",
+          clip: c,
+          duration: c.duration,
+          source: filename,
+        }));
+        allClipsRef.current = [...allClipsRef.current, ...newAnims];
+        setAnimations([...allClipsRef.current]);
+        // Auto-play first clip
+        if (allClipsRef.current.length > 0) {
+          playClipRef.current(0);
+        }
+      } else if (!mixerRef.current && rootObjectRef.current) {
+        mixerRef.current = new THREE.AnimationMixer(rootObjectRef.current);
+      }
+
+      // Focus camera
+      focusOnObjectRef.current(obj);
+      rebuildTree();
+      setStatusText(`Loaded: ${filename} (${clips.length} animation(s))`);
+    },
+    [rebuildTree],
+  );
+
+  /** Load a single file (auto-detect format) */
+  const loadFile = useCallback(
+    async (file: File) => {
+      const name = file.name.toLowerCase();
+      const ext = "." + name.split(".").pop();
+      const url = URL.createObjectURL(file);
+
+      setStatusText(`Loading ${file.name}...`);
+
+      try {
+        if (ext === ".fbx") {
+          const loader = new FBXLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, obj.animations ?? [], file.name);
+        } else if (ext === ".glb" || ext === ".gltf") {
+          const loader = new GLTFLoader();
+          const gltf = await new Promise<any>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(
+            gltf.scene,
+            gltf.animations ?? [],
+            file.name,
+          );
+        } else if (ext === ".obj") {
+          const loader = new OBJLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, [], file.name);
+        } else if (ext === ".dae") {
+          const loader = new ColladaLoader();
+          const collada = await new Promise<any>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(
+            collada.scene,
+            collada.scene?.animations ?? [],
+            file.name,
+          );
+        } else if (ext === ".stl") {
+          const loader = new STLLoader();
+          const geo = await new Promise<THREE.BufferGeometry>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          const mat = new THREE.MeshStandardMaterial({
+            color: 0x888888,
+            metalness: 0.3,
+            roughness: 0.6,
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.name = file.name;
+          addObjectToScene(mesh, [], file.name);
+        } else if (ext === ".ply") {
+          const loader = new PLYLoader();
+          const geo = await new Promise<THREE.BufferGeometry>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          geo.computeVertexNormals();
+          const mat = new THREE.MeshStandardMaterial({
+            color: 0x888888,
+            vertexColors: geo.hasAttribute("color"),
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.name = file.name;
+          addObjectToScene(mesh, [], file.name);
+        } else if (ext === ".3ds") {
+          const loader = new TDSLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, [], file.name);
+        } else if (ext === ".3mf") {
+          const loader = new ThreeMFLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, [], file.name);
+        } else if (ext === ".amf") {
+          const loader = new AMFLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, [], file.name);
+        } else if (ext === ".pcd") {
+          const loader = new PCDLoader();
+          const points: THREE.Points = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          points.name = file.name;
+          addObjectToScene(points, [], file.name);
+        } else if (ext === ".vtk" || ext === ".vtp") {
+          const loader = new VTKLoader();
+          const geo = await new Promise<THREE.BufferGeometry>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          geo.computeVertexNormals();
+          const mat = new THREE.MeshStandardMaterial({
+            color: 0x888888,
+            side: THREE.DoubleSide,
+          });
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.name = file.name;
+          addObjectToScene(mesh, [], file.name);
+        } else if (ext === ".wrl" || ext === ".vrml") {
+          const loader = new VRMLLoader();
+          const scene: THREE.Scene = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          const group = new THREE.Group();
+          group.name = file.name;
+          while (scene.children.length) group.add(scene.children[0]);
+          addObjectToScene(group, [], file.name);
+        } else if (ext === ".gcode") {
+          const loader = new GCodeLoader();
+          const obj: THREE.Group = await new Promise((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          addObjectToScene(obj, [], file.name);
+        } else if (ext === ".svg") {
+          const loader = new SVGLoader();
+          const data = await new Promise<any>((res, rej) =>
+            loader.load(url, res, undefined, rej),
+          );
+          const group = new THREE.Group();
+          group.name = file.name;
+          for (const path of data.paths) {
+            const shapes2 = SVGLoader.createShapes(path);
+            for (const shape of shapes2) {
+              const geo = new THREE.ExtrudeGeometry(shape, {
+                depth: 2,
+                bevelEnabled: false,
+              });
+              const mat = new THREE.MeshStandardMaterial({
+                color: path.color || 0x888888,
+                side: THREE.DoubleSide,
+              });
+              const mesh = new THREE.Mesh(geo, mat);
+              group.add(mesh);
+            }
+          }
+          // SVG is Y-down, flip
+          group.scale.set(0.01, -0.01, 0.01);
+          addObjectToScene(group, [], file.name);
+        } else {
+          setStatusText(`Unsupported format: ${ext}`);
+        }
+      } catch (err) {
+        log.error("Load error:", err);
+        setStatusText(`Error loading ${file.name}: ${String(err)}`);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    },
+    [addObjectToScene],
+  );
+
+  /** Merge additional FBX (e.g. animation-only FBX) onto the current model */
+  const mergeAnimationFBX = useCallback(
+    async (file: File) => {
+      const url = URL.createObjectURL(file);
+      setStatusText(`Merging animations from ${file.name}...`);
+      try {
+        const loader = new FBXLoader();
+        const obj: THREE.Group = await new Promise((res, rej) =>
+          loader.load(url, res, undefined, rej),
+        );
+        const clips = obj.animations ?? [];
+        if (clips.length === 0) {
+          setStatusText(`No animations found in ${file.name}`);
+          return;
+        }
+        // Retarget clips to current root mixer
+        const root = rootObjectRef.current;
+        if (!root) {
+          setStatusText("No model loaded — load a base model first");
+          return;
+        }
+        if (!mixerRef.current) {
+          mixerRef.current = new THREE.AnimationMixer(root);
+        }
+        const newAnims: AnimClip[] = clips.map((c) => ({
+          name: c.name || file.name.replace(/\.[^.]+$/, ""),
+          clip: c,
+          duration: c.duration,
+          source: file.name,
+        }));
+        allClipsRef.current = [...allClipsRef.current, ...newAnims];
+        setAnimations([...allClipsRef.current]);
+        setStatusText(
+          `Merged ${clips.length} animation(s) from ${file.name}`,
+        );
+      } catch (err) {
+        log.error("Merge error:", err);
+        setStatusText(`Error merging ${file.name}: ${String(err)}`);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    },
+    [],
+  );
+
+  /* ─────────────────────────────────────────
+     Animation controls
+     ───────────────────────────────────────── */
+  const playClip = useCallback((index: number) => {
+    const mixer = mixerRef.current;
+    if (!mixer || index < 0 || index >= allClipsRef.current.length) return;
+
+    // Stop current
+    if (activeActionRef.current) {
+      activeActionRef.current.stop();
+    }
+
+    const anim = allClipsRef.current[index];
+    const action = mixer.clipAction(anim.clip);
+    action.reset();
+    action.setLoop(
+      loopAnimRef.current ? THREE.LoopRepeat : THREE.LoopOnce,
+      Infinity,
+    );
+    action.clampWhenFinished = !loopAnimRef.current;
+    action.play();
+    activeActionRef.current = action;
+    setActiveAnimIdx(index);
+    setAnimDuration(anim.duration);
+    setAnimTime(0);
+    setIsPlaying(true);
+  }, []);
+  playClipRef.current = playClip;
+
+  const togglePlay = useCallback(() => {
+    if (activeAnimIdx < 0 && allClipsRef.current.length > 0) {
+      playClip(0);
+      return;
+    }
+    const action = activeActionRef.current;
+    if (!action) return;
+    if (isPlayingRef.current) {
+      action.paused = true;
+      setIsPlaying(false);
+    } else {
+      action.paused = false;
+      setIsPlaying(true);
+    }
+  }, [activeAnimIdx, playClip]);
+
+  const stopAnim = useCallback(() => {
+    const action = activeActionRef.current;
+    if (action) {
+      action.stop();
+      action.reset();
+    }
+    setIsPlaying(false);
+    setAnimTime(0);
+  }, []);
+
+  const seekAnim = useCallback((t: number) => {
+    const action = activeActionRef.current;
+    if (!action) return;
+    action.time = t;
+    action.paused = true;
+    setAnimTime(t);
+    setIsPlaying(false);
+    // Force one mixer update to show the pose
+    mixerRef.current?.update(0);
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Camera helpers
+     ───────────────────────────────────────── */
+  const focusOnObject = useCallback((obj: THREE.Object3D) => {
+    const box = new THREE.Box3().setFromObject(obj);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const dist = maxDim * 2;
+    const orbit = orbitRef.current;
+    if (orbit) {
+      orbit.target.copy(center);
+      cameraRef.current.position.copy(
+        center.clone().add(new THREE.Vector3(dist * 0.6, dist * 0.4, dist * 0.8)),
+      );
+      orbit.update();
+    }
+  }, []);
+  focusOnObjectRef.current = focusOnObject;
+
+  const setCameraPreset = useCallback((preset: string) => {
+    const orbit = orbitRef.current;
+    if (!orbit) return;
+    const target = orbit.target.clone();
+    const d = cameraRef.current.position.distanceTo(target);
+    let pos = new THREE.Vector3();
+
+    switch (preset) {
+      case "front":  pos.set(0, 0, d); break;
+      case "back":   pos.set(0, 0, -d); break;
+      case "left":   pos.set(-d, 0, 0); break;
+      case "right":  pos.set(d, 0, 0); break;
+      case "top":    pos.set(0, d, 0.001); break;
+      case "bottom": pos.set(0, -d, 0.001); break;
+      default: return;
+    }
+    cameraRef.current.position.copy(target.clone().add(pos));
+    orbit.update();
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Selection & transform
+     ───────────────────────────────────────── */
+  const selectObject = useCallback(
+    (node: SceneNode | null) => {
+      setSelectedId(node?.id ?? null);
+      const tc = transformRef.current;
+      if (!tc) return;
+      if (node && node.type !== "helper") {
+        tc.attach(node.object);
+        tc.setMode(transformMode);
+      } else {
+        tc.detach();
+      }
+    },
+    [transformMode],
+  );
+
+  // Update transform mode on TransformControls when it changes
+  useEffect(() => {
+    transformRef.current?.setMode(transformMode);
+  }, [transformMode]);
+
+  /* ─────────────────────────────────────────
+     Toggle helpers
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const grid = scene.getObjectByName("__grid");
+    if (grid) grid.visible = showGrid;
+  }, [showGrid]);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const axes = scene.getObjectByName("__axes");
+    if (axes) axes.visible = showAxes;
+  }, [showAxes]);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    scene.background = new THREE.Color(bgColor);
+  }, [bgColor]);
+
+  useEffect(() => {
+    const root = rootObjectRef.current;
+    if (!root) return;
+    root.traverse((child: THREE.Object3D) => {
+      if (child instanceof THREE.Mesh) {
+        const mats = Array.isArray(child.material)
+          ? child.material
+          : [child.material];
+        mats.forEach((m: THREE.Material) => {
+          if ("wireframe" in m) (m as THREE.MeshStandardMaterial).wireframe = wireframe;
+        });
+      }
+    });
+  }, [wireframe]);
+
+  /* ─────────────────────────────────────────
+     Viewport shading mode
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const renderer = rendererRef.current;
+    if (!renderer) return;
+    const scene = sceneRef.current;
+
+    switch (shadingMode) {
+      case "wireframe":
+        scene.traverse((obj: THREE.Object3D) => {
+          if (obj instanceof THREE.Mesh && !obj.name.startsWith("__")) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: THREE.Material) => { if ("wireframe" in m) (m as THREE.MeshStandardMaterial).wireframe = true; });
+          }
+        });
+        renderer.toneMapping = THREE.NoToneMapping;
+        renderer.toneMappingExposure = 1;
+        break;
+      case "solid":
+        scene.traverse((obj: THREE.Object3D) => {
+          if (obj instanceof THREE.Mesh && !obj.name.startsWith("__")) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: THREE.Material) => { if ("wireframe" in m) (m as THREE.MeshStandardMaterial).wireframe = false; });
+          }
+        });
+        renderer.toneMapping = THREE.NoToneMapping;
+        renderer.toneMappingExposure = 1;
+        break;
+      case "material":
+        scene.traverse((obj: THREE.Object3D) => {
+          if (obj instanceof THREE.Mesh && !obj.name.startsWith("__")) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: THREE.Material) => { if ("wireframe" in m) (m as THREE.MeshStandardMaterial).wireframe = false; });
+          }
+        });
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        break;
+      case "rendered":
+        scene.traverse((obj: THREE.Object3D) => {
+          if (obj instanceof THREE.Mesh && !obj.name.startsWith("__")) {
+            const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+            mats.forEach((m: THREE.Material) => { if ("wireframe" in m) (m as THREE.MeshStandardMaterial).wireframe = false; });
+          }
+        });
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.5;
+        break;
+    }
+  }, [shadingMode]);
+
+  /* ─────────────────────────────────────────
+     Gizmo space (local / world)
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    transformRef.current?.setSpace(gizmoSpace);
+  }, [gizmoSpace]);
+
+  /* ─────────────────────────────────────────
+     Snap settings on TransformControls
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const tc = transformRef.current;
+    if (!tc) return;
+    if (snapEnabled) {
+      tc.setTranslationSnap(snapGrid);
+      tc.setRotationSnap(THREE.MathUtils.degToRad(15));
+      tc.setScaleSnap(0.25);
+    } else {
+      tc.setTranslationSnap(null);
+      tc.setRotationSnap(null);
+      tc.setScaleSnap(null);
+    }
+  }, [snapEnabled, snapGrid]);
+
+  /* ─────────────────────────────────────────
+     Skeleton helper visualization
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const scene = sceneRef.current;
+    // Remove old skeleton helper
+    if (skeletonHelperRef.current) {
+      scene.remove(skeletonHelperRef.current);
+      skeletonHelperRef.current = null;
+    }
+    if (!showSkeleton || !rootObjectRef.current) return;
+
+    // Find SkinnedMesh
+    let hasRig = false;
+    rootObjectRef.current.traverse((obj: THREE.Object3D) => {
+      if (obj instanceof THREE.SkinnedMesh) hasRig = true;
+    });
+
+    if (hasRig) {
+      const helper = new THREE.SkeletonHelper(rootObjectRef.current);
+      helper.name = "__skeletonHelper";
+      scene.add(helper);
+      skeletonHelperRef.current = helper;
+    }
+  }, [showSkeleton, sceneTree]); // sceneTree updates when model loads
+
+  /* ─────────────────────────────────────────
+     Fog
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    if (fogEnabled) {
+      sceneRef.current.fog = new THREE.Fog(fogColor, fogNear, fogFar);
+    } else {
+      sceneRef.current.fog = null;
+    }
+  }, [fogEnabled, fogColor, fogNear, fogFar]);
+
+  /* ─────────────────────────────────────────
+     Light helpers visibility
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    sceneRef.current.traverse((obj: THREE.Object3D) => {
+      if (obj.name.startsWith("__helper_")) {
+        obj.visible = showLightHelpers;
+      }
+    });
+  }, [showLightHelpers, sceneTree]);
+
+  /* ─────────────────────────────────────────
+     Drag-and-drop
+     ───────────────────────────────────────── */
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOver(true);
+  }, []);
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragOver(false);
+      const files = Array.from(e.dataTransfer.files);
+      files.forEach((f) => {
+        const ext = "." + f.name.toLowerCase().split(".").pop();
+        if (SUPPORTED_EXTENSIONS.includes(ext)) {
+          loadFile(f);
+        }
+      });
+    },
+    [loadFile],
+  );
+
+  /* ─────────────────────────────────────────
+     Helpers (need to be before keyboard shortcuts)
+     ───────────────────────────────────────── */
+  const findNodeById = (
+    nodes: SceneNode[],
+    id: string,
+  ): SceneNode | null => {
+    for (const n of nodes) {
+      if (n.id === id) return n;
+      const found = findNodeById(n.children, id);
+      if (found) return found;
+    }
+    return null;
+  };
+
+  const selectedNode = selectedId ? findNodeById(sceneTree, selectedId) : null;
+
+  /** Get materials from selected mesh */
+  const selectedMaterials = useMemo((): THREE.Material[] => {
+    void matRefresh; // Trigger recomputation when materials change externally
+    if (!selectedNode || !(selectedNode.object instanceof THREE.Mesh))
+      return [];
+    const m = selectedNode.object.material;
+    return Array.isArray(m) ? m : [m];
+  }, [selectedNode, matRefresh]);
+
+  const deleteSelected = useCallback(() => {
+    if (!selectedNode) return;
+    selectedNode.object.removeFromParent();
+    transformRef.current?.detach();
+    setSelectedId(null);
+    rebuildTree();
+  }, [selectedNode, rebuildTree]);
+
+  const duplicateSelected = useCallback(() => {
+    if (!selectedNode) return;
+    const clone = selectedNode.object.clone(true);
+    clone.name = selectedNode.object.name + ".001";
+    clone.position.x += 1;
+    sceneRef.current.add(clone);
+    rebuildTree();
+    setStatusText(`Duplicated ${selectedNode.name}`);
+  }, [selectedNode, rebuildTree]);
+
+  /* ─────────────────────────────────────────
+     Keyboard shortcuts
+     ───────────────────────────────────────── */
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      // Don't capture when focus is in an input
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+      switch (e.key.toLowerCase()) {
+        case "g": setTransformMode("translate"); break;
+        case "r": setTransformMode("rotate"); break;
+        case "s": if (!e.ctrlKey) setTransformMode("scale"); break;
+        case " ":
+          e.preventDefault();
+          togglePlay();
+          break;
+        case "f":
+          if (rootObjectRef.current) focusOnObject(rootObjectRef.current);
+          break;
+        case "delete":
+          if (selectedId) {
+            const sel = findNodeById(sceneTree, selectedId);
+            if (sel) {
+              sel.object.removeFromParent();
+              transformRef.current?.detach();
+              setSelectedId(null);
+              rebuildTree();
+            }
+          }
+          break;
+        case "x":
+          if (e.ctrlKey && selectedId) {
+            const sel = findNodeById(sceneTree, selectedId);
+            if (sel) {
+              sel.object.removeFromParent();
+              transformRef.current?.detach();
+              setSelectedId(null);
+              rebuildTree();
+            }
+          }
+          break;
+        case "d":
+          if (e.shiftKey) {
+            e.preventDefault();
+            duplicateSelected();
+          }
+          break;
+        case "tab":
+          e.preventDefault();
+          setEditorMode((m) =>
+            m === "object" ? "edit" : m === "edit" ? "pose" : "object",
+          );
+          break;
+        case "n":
+          if (!e.ctrlKey) {
+            // N-panel toggle could go here
+          }
+          break;
+        // Numpad camera presets
+        case "1": if (e.code.startsWith("Numpad")) setCameraPreset("front"); break;
+        case "3": if (e.code.startsWith("Numpad")) setCameraPreset("right"); break;
+        case "7": if (e.code.startsWith("Numpad")) setCameraPreset("top"); break;
+        // Numpad extras
+        case "4": if (e.code.startsWith("Numpad")) setCameraPreset("left"); break;
+        case "6": if (e.code.startsWith("Numpad")) setCameraPreset("right"); break;
+        case "9": if (e.code.startsWith("Numpad")) setCameraPreset("back"); break;
+        case "2": if (e.code.startsWith("Numpad")) setCameraPreset("bottom"); break;
+      }
+
+      // Close add menu on Escape
+      if (e.key === "Escape") {
+        setAddMenuOpen(null);
+        setContextMenu(null);
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [
+    togglePlay,
+    focusOnObject,
+    selectedId,
+    sceneTree,
+    rebuildTree,
+    setCameraPreset,
+    duplicateSelected,
+  ]);
+
+  /* ─────────────────────────────────────────
+     File input handlers
+     ───────────────────────────────────────── */
+  const handleFileInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files) return;
+      Array.from(files).forEach(loadFile);
+      e.target.value = "";
+    },
+    [loadFile],
+  );
+
+  const handleMergeInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (!files) return;
+      Array.from(files).forEach(mergeAnimationFBX);
+      e.target.value = "";
+    },
+    [mergeAnimationFBX],
+  );
+
+  /* ─────────────────────────────────────────
+     Export GLTF/GLB
+     ───────────────────────────────────────── */
+  const exportGLTF = useCallback(
+    (binary: boolean) => {
+      const root = rootObjectRef.current;
+      if (!root) {
+        setStatusText("Nothing to export");
+        return;
+      }
+      const exporter = new GLTFExporter();
+      const options: any = {
+        binary,
+        animations: allClipsRef.current.map((a) => a.clip),
+      };
+      exporter.parse(
+        root,
+        (result: any) => {
+          let blob: Blob;
+          if (binary) {
+            blob = new Blob([result], { type: "application/octet-stream" });
+          } else {
+            blob = new Blob([JSON.stringify(result, null, 2)], {
+              type: "application/json",
+            });
+          }
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `export.${binary ? "glb" : "gltf"}`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+          setStatusText(`Exported ${binary ? "GLB" : "GLTF"} successfully`);
+        },
+        (err: any) => {
+          log.error("Export error:", err);
+          setStatusText(`Export error: ${String(err)}`);
+        },
+        options,
+      );
+    },
+    [],
+  );
+
+  /* ─────────────────────────────────────────
+     Export OBJ
+     ───────────────────────────────────────── */
+  const exportOBJ = useCallback(() => {
+    const root = rootObjectRef.current;
+    if (!root) { setStatusText("Nothing to export"); return; }
+    const exporter = new OBJExporter();
+    const result = exporter.parse(root);
+    const blob = new Blob([result], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "export.obj";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    setStatusText("Exported OBJ successfully");
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Export STL
+     ───────────────────────────────────────── */
+  const exportSTL = useCallback((binary: boolean) => {
+    const root = rootObjectRef.current;
+    if (!root) { setStatusText("Nothing to export"); return; }
+    const exporter = new STLExporter();
+    const result = exporter.parse(root, { binary });
+    let blob: Blob;
+    if (binary) {
+      blob = new Blob([result], { type: "application/octet-stream" });
+    } else {
+      blob = new Blob([result], { type: "text/plain" });
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `export.stl`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    setStatusText(`Exported STL${binary ? " (binary)" : ""} successfully`);
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Export PLY
+     ───────────────────────────────────────── */
+  const exportPLY = useCallback((binary: boolean) => {
+    const root = rootObjectRef.current;
+    if (!root) { setStatusText("Nothing to export"); return; }
+    const exporter = new PLYExporter();
+    exporter.parse(root, (result: any) => {
+      let blob: Blob;
+      if (binary) {
+        blob = new Blob([result], { type: "application/octet-stream" });
+      } else {
+        blob = new Blob([result], { type: "text/plain" });
+      }
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "export.ply";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setStatusText(`Exported PLY${binary ? " (binary)" : ""} successfully`);
+    }, { binary });
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Export USDZ
+     ───────────────────────────────────────── */
+  const exportUSDZ = useCallback(async () => {
+    const root = rootObjectRef.current;
+    if (!root) { setStatusText("Nothing to export"); return; }
+    try {
+      const exporter = new USDZExporter();
+      const result = await exporter.parse(root);
+      const blob = new Blob([result], { type: "application/octet-stream" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "export.usdz";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      setStatusText("Exported USDZ successfully");
+    } catch (err: any) {
+      log.error("USDZ export error:", err);
+      setStatusText(`USDZ export error: ${String(err)}`);
+    }
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Dispose Three.js resources (prevent GPU memory leaks)
+     ───────────────────────────────────────── */
+  const disposeObject = useCallback((obj: THREE.Object3D) => {
+    obj.traverse((child) => {
+      if ((child as THREE.Mesh).geometry) {
+        (child as THREE.Mesh).geometry.dispose();
+      }
+      if ((child as THREE.Mesh).material) {
+        const mats = Array.isArray((child as THREE.Mesh).material)
+          ? (child as THREE.Mesh).material as THREE.Material[]
+          : [(child as THREE.Mesh).material as THREE.Material];
+        mats.forEach((mat) => {
+          // Dispose all textures
+          const m = mat as unknown as Record<string, { dispose?: () => void } | undefined>;
+          ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap', 'alphaMap', 'envMap', 'lightMap', 'bumpMap', 'displacementMap', 'specularMap'].forEach((prop) => {
+            if (m[prop] && typeof m[prop].dispose === 'function') m[prop].dispose();
+          });
+          mat.dispose();
+        });
+      }
+    });
+  }, []);
+
+  /* ─────────────────────────────────────────
+     Clear scene
+     ───────────────────────────────────────── */
+  const clearScene = useCallback(() => {
+    if (!window.confirm("Clear the entire scene? This cannot be undone.")) return;
+    const scene = sceneRef.current;
+    // Remove all non-helper objects
+    const toRemove: THREE.Object3D[] = [];
+    scene.traverse((obj) => {
+      if (!obj.name.startsWith("__") && obj !== scene && obj.parent === scene) {
+        toRemove.push(obj);
+      }
+    });
+    toRemove.forEach((o) => {
+      disposeObject(o);
+      scene.remove(o);
+    });
+
+    // Properly stop animation mixer
+    if (mixerRef.current) {
+      mixerRef.current.stopAllAction();
+      if (rootObjectRef.current) {
+        mixerRef.current.uncacheRoot(rootObjectRef.current);
+      }
+    }
+
+    // Reset
+    transformRef.current?.detach();
+    rootObjectRef.current = null;
+    mixerRef.current = null;
+    activeActionRef.current = null;
+    allClipsRef.current = [];
+    setAnimations([]);
+    setActiveAnimIdx(-1);
+    setIsPlaying(false);
+    setAnimTime(0);
+    setAnimDuration(0);
+    setSelectedId(null);
+    rebuildTree();
+    setStatusText("Scene cleared");
+  }, [rebuildTree, disposeObject]);
+
+  /* ─────────────────────────────────────────
+     Save to Library (export GLB as dataUrl → parent callback)
+     ───────────────────────────────────────── */
+  const saveToLibrary = useCallback(() => {
+    if (!onSaveToLibrary) return;
+    const root = rootObjectRef.current;
+    if (!root) { setStatusText("Nothing to save"); return; }
+    const exporter = new GLTFExporter();
+    exporter.parse(
+      root,
+      (result: any) => {
+        const blob = new Blob([result], { type: "model/gltf-binary" });
+        const reader = new FileReader();
+        reader.onload = () => {
+          const defaultName = "model.glb";
+          const name = window.prompt("Save to library as:", defaultName);
+          if (!name || !name.trim()) return;
+          onSaveToLibrary(reader.result as string, name.trim(), "model/gltf-binary");
+        };
+        reader.readAsDataURL(blob);
+      },
+      (err: any) => {
+        log.error("Save to library error:", err);
+        setStatusText(`Save error: ${String(err)}`);
+      },
+      { binary: true, animations: allClipsRef.current.map((a) => a.clip) },
+    );
+  }, [onSaveToLibrary]);
+
+  /* ─────────────────────────────────────────
+     Add Mesh / Light / Camera / Empty
+     ───────────────────────────────────────── */
+  const addPrimitive = useCallback(
+    (type: string) => {
+      let geo: THREE.BufferGeometry;
+      switch (type) {
+        case "cube": geo = new THREE.BoxGeometry(1, 1, 1); break;
+        case "sphere": geo = new THREE.SphereGeometry(0.5, 32, 32); break;
+        case "cylinder": geo = new THREE.CylinderGeometry(0.5, 0.5, 1, 32); break;
+        case "cone": geo = new THREE.ConeGeometry(0.5, 1, 32); break;
+        case "torus": geo = new THREE.TorusGeometry(0.5, 0.2, 16, 32); break;
+        case "plane": geo = new THREE.PlaneGeometry(2, 2); break;
+        case "circle": geo = new THREE.CircleGeometry(0.5, 32); break;
+        case "ring": geo = new THREE.RingGeometry(0.3, 0.5, 32); break;
+        case "dodecahedron": geo = new THREE.DodecahedronGeometry(0.5); break;
+        case "icosahedron": geo = new THREE.IcosahedronGeometry(0.5); break;
+        case "octahedron": geo = new THREE.OctahedronGeometry(0.5); break;
+        case "tetrahedron": geo = new THREE.TetrahedronGeometry(0.5); break;
+        case "torusKnot": geo = new THREE.TorusKnotGeometry(0.4, 0.15, 64, 16); break;
+        default: return;
+      }
+      const mat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.1, roughness: 0.7 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.name = type.charAt(0).toUpperCase() + type.slice(1);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      if (type === "plane" || type === "circle") {
+        mesh.rotation.x = -Math.PI / 2;
+        mesh.position.y = 0.001;
+      } else {
+        mesh.position.y = 0.5;
+      }
+      sceneRef.current.add(mesh);
+      rebuildTree();
+      setStatusText(`Added ${mesh.name}`);
+      setAddMenuOpen(null);
+    },
+    [rebuildTree],
+  );
+
+  const addSceneLight = useCallback(
+    (type: string) => {
+      let light: THREE.Light;
+      switch (type) {
+        case "point": {
+          const l = new THREE.PointLight(0xffffff, 1, 20);
+          l.position.set(0, 3, 0);
+          l.castShadow = true;
+          light = l; break;
+        }
+        case "spot": {
+          const l = new THREE.SpotLight(0xffffff, 1, 20, Math.PI / 6, 0.3);
+          l.position.set(0, 4, 2);
+          l.castShadow = true;
+          light = l; break;
+        }
+        case "directional": {
+          const l = new THREE.DirectionalLight(0xffffff, 1);
+          l.position.set(3, 5, 3);
+          l.castShadow = true;
+          light = l; break;
+        }
+        case "hemisphere": {
+          light = new THREE.HemisphereLight(0x8888ff, 0x442200, 0.5);
+          break;
+        }
+        default: return;
+      }
+      light.name = type.charAt(0).toUpperCase() + type.slice(1) + "Light";
+      sceneRef.current.add(light);
+      // Add helper
+      let helper: THREE.Object3D | null = null;
+      if (light instanceof THREE.PointLight) {
+        helper = new THREE.PointLightHelper(light, 0.3);
+      } else if (light instanceof THREE.SpotLight) {
+        helper = new THREE.SpotLightHelper(light);
+      } else if (light instanceof THREE.DirectionalLight) {
+        helper = new THREE.DirectionalLightHelper(light, 0.5);
+      } else if (light instanceof THREE.HemisphereLight) {
+        helper = new THREE.HemisphereLightHelper(light, 0.3);
+      }
+      if (helper) {
+        helper.name = `__helper_${light.name}`;
+        sceneRef.current.add(helper);
+      }
+      rebuildTree();
+      setStatusText(`Added ${light.name}`);
+      setAddMenuOpen(null);
+    },
+    [rebuildTree],
+  );
+
+  const addCameraObject = useCallback(() => {
+    const cam = new THREE.PerspectiveCamera(50, 16 / 9, 0.1, 1000);
+    cam.name = "Camera";
+    cam.position.set(5, 3, 5);
+    cam.lookAt(0, 0, 0);
+    sceneRef.current.add(cam);
+    const helper = new THREE.CameraHelper(cam);
+    helper.name = `__helper_Camera`;
+    sceneRef.current.add(helper);
+    rebuildTree();
+    setStatusText("Added Camera");
+    setAddMenuOpen(null);
+  }, [rebuildTree]);
+
+  const addEmpty = useCallback(
+    (type: string) => {
+      const obj = new THREE.Object3D();
+      obj.name = type === "arrows" ? "Empty_Arrows" : type === "cube_empty" ? "Empty_Cube" : "Empty";
+      sceneRef.current.add(obj);
+      if (type === "arrows") {
+        const h = new THREE.AxesHelper(0.5);
+        h.name = "__emptyAxes";
+        obj.add(h);
+      }
+      rebuildTree();
+      setStatusText(`Added ${obj.name}`);
+      setAddMenuOpen(null);
+    },
+    [rebuildTree],
+  );
+
+  /* ─────────────────────────────────────────
+     Raycaster click-to-select in viewport
+     ───────────────────────────────────────── */
+  const handleViewportClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (editorMode !== "object") return;
+      if (!mountRef.current || !rendererRef.current || !cameraRef.current) return;
+      // Ignore click on overlay/menu elements
+      if ((e.target as HTMLElement) !== rendererRef.current.domElement) return;
+      const rect = mountRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycasterRef.current.setFromCamera(new THREE.Vector2(x, y), cameraRef.current);
+      const meshes: THREE.Object3D[] = [];
+      sceneRef.current.traverse((obj: THREE.Object3D) => {
+        if (obj instanceof THREE.Mesh && !obj.name.startsWith("__")) meshes.push(obj);
+      });
+      const intersects = raycasterRef.current.intersectObjects(meshes, false);
+      if (intersects.length > 0) {
+        const hit = intersects[0].object;
+        const nodeId = hit.userData.__nodeId as string;
+        if (nodeId) {
+          const node = findNodeById(sceneTree, nodeId);
+          if (node) { selectObject(node); return; }
+        }
+        // If no nodeId yet, rebuild and try again
+        rebuildTree();
+      } else {
+        selectObject(null);
+      }
+    },
+    [editorMode, sceneTree, selectObject, rebuildTree],
+  );
+
+  /* ─────────────────────────────────────────
+     Context menu
+     ───────────────────────────────────────── */
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  const closeContextMenu = useCallback(() => setContextMenu(null), []);
+
+  // Close context menu on any click
+  useEffect(() => {
+    if (!contextMenu) return;
+    const close = () => setContextMenu(null);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, [contextMenu]);
+
+  /* ─────────────────────────────────────────
+     AI animation from video
+     ───────────────────────────────────────── */
+  const handleAIVideo = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      e.target.value = "";
+
+      setAiBusy(true);
+      setAiStatus("Uploading video for AI pose estimation...");
+      try {
+        const result: Pose3DSequenceResult = await postPose3dFromVideo(file);
+        setAiStatus(
+          `Got ${result.frame_count} frames at ${result.fps} fps. Creating animation clip...`,
+        );
+        // Convert pose data to Three.js animation clip
+        const clip = pose3dToClip(result);
+        if (clip && rootObjectRef.current) {
+          if (!mixerRef.current) {
+            mixerRef.current = new THREE.AnimationMixer(rootObjectRef.current);
+          }
+          const newAnim: AnimClip = {
+            name: `AI: ${file.name}`,
+            clip,
+            duration: clip.duration,
+            source: file.name,
+          };
+          allClipsRef.current = [...allClipsRef.current, newAnim];
+          setAnimations([...allClipsRef.current]);
+          playClip(allClipsRef.current.length - 1);
+          setAiStatus("Animation created successfully!");
+        } else {
+          setAiStatus("Could not create animation — load a rigged model first.");
+        }
+      } catch (err) {
+        log.error("AI pose error:", err);
+        setAiStatus(`Error: ${String(err)}`);
+      } finally {
+        setAiBusy(false);
+      }
+    },
+    [playClip],
+  );
+
+  /* ─────────────────────────────────────────
+     Helpers (continued)
+     ───────────────────────────────────────── */
+
+  const toggleNodeVisibility = useCallback(
+    (node: SceneNode) => {
+      node.object.visible = !node.object.visible;
+      rebuildTree();
+    },
+    [rebuildTree],
+  );
+
+  const toggleNodeExpanded = useCallback(
+    (node: SceneNode) => {
+      node.expanded = !node.expanded;
+      // Force re-render
+      setSceneTree((prev) => [...prev]);
+    },
+    [],
+  );
+
+  /* ─────────────────────────────────────────
+     Render scene tree recursively
+     ───────────────────────────────────────── */
+  const renderTreeNode = (node: SceneNode, depth: number): React.ReactNode => {
+    // Outliner search filter
+    if (outlinerSearch) {
+      const q = outlinerSearch.toLowerCase();
+      const match = node.name.toLowerCase().includes(q);
+      const childMatch = node.children.some(function cm(c: SceneNode): boolean {
+        return c.name.toLowerCase().includes(q) || c.children.some(cm);
+      });
+      if (!match && !childMatch) return null;
+    }
+
+    const hasChildren = node.children.length > 0;
+    const icon =
+      node.type === "mesh"   ? "◆" :
+      node.type === "bone"   ? "🦴" :
+      node.type === "light"  ? "💡" :
+      node.type === "camera" ? "📷" :
+      node.type === "helper" ? "◇" : "📁";
+
+    return (
+      <React.Fragment key={node.id}>
+        <div
+          className={`${styles.treeItem} ${selectedId === node.id ? styles.treeItemActive : ""}`}
+          style={{ paddingLeft: depth * 16 + 4 }}
+          onClick={() => selectObject(node)}
+        >
+          {hasChildren ? (
+            <span
+              className={styles.treeToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleNodeExpanded(node);
+              }}
+            >
+              {node.expanded ? "▼" : "▶"}
+            </span>
+          ) : (
+            <span className={styles.treeToggle} />
+          )}
+          <span className={styles.treeIcon}>{icon}</span>
+          <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis" }}>
+            {node.name}
+          </span>
+          <span
+            className={styles.treeVisibility}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleNodeVisibility(node);
+            }}
+          >
+            {node.visible ? "👁" : "◌"}
+          </span>
+        </div>
+        {node.expanded &&
+          node.children.map((c) => renderTreeNode(c, depth + 1))}
+      </React.Fragment>
+    );
+  };
+
+  /* ═══════════════════════════════════════════
+     Render
+     ═══════════════════════════════════════════ */
+  return (
+    <div className={`${styles.root} ${className ?? ""}`}>
+      {/* Hidden file inputs */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={SUPPORTED_EXTENSIONS.join(",")}
+        multiple
+        style={{ display: "none" }}
+        onChange={handleFileInput}
+      />
+      <input
+        ref={mergeInputRef}
+        type="file"
+        accept=".fbx,.glb,.gltf"
+        multiple
+        style={{ display: "none" }}
+        onChange={handleMergeInput}
+      />
+      <input
+        ref={videoInputRef}
+        type="file"
+        accept="video/*"
+        style={{ display: "none" }}
+        onChange={handleAIVideo}
+      />
+
+      {/* ── Menu bar ── */}
+      <div className={styles.menuBar}>
+        {/* Editor mode selector */}
+        <select
+          className={styles.modeSelect}
+          value={editorMode}
+          onChange={(e) => setEditorMode(e.target.value as EditorMode)}
+        >
+          <option value="object">Object Mode</option>
+          <option value="edit">Edit Mode</option>
+          <option value="pose">Pose Mode</option>
+        </select>
+        <div className={styles.menuSep} />
+        <button
+          className={styles.menuBtn}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          📂 Open
+        </button>
+        <button
+          className={styles.menuBtn}
+          onClick={() => mergeInputRef.current?.click()}
+          title="Merge animations from FBX/GLTF onto current model"
+        >
+          ➕ Merge Anim
+        </button>
+        <div className={styles.menuSep} />
+
+        {/* Add menu */}
+        <div className={styles.menuDropdownWrap}>
+          <button
+            className={styles.menuBtn}
+            onClick={() => setAddMenuOpen(addMenuOpen ? null : "mesh")}
+          >
+            ＋ Add ▾
+          </button>
+          {addMenuOpen && (
+            <div className={styles.dropdownMenu}>
+              <div className={styles.dropdownTitle}>Mesh</div>
+              {["cube","sphere","cylinder","cone","torus","plane","circle","ring","dodecahedron","icosahedron","octahedron","tetrahedron","torusKnot"].map((t) => (
+                <div key={t} className={styles.dropdownItem} onClick={() => addPrimitive(t)}>
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                </div>
+              ))}
+              <div className={styles.dropdownSep} />
+              <div className={styles.dropdownTitle}>Light</div>
+              {["point","spot","directional","hemisphere"].map((t) => (
+                <div key={t} className={styles.dropdownItem} onClick={() => addSceneLight(t)}>
+                  💡 {t.charAt(0).toUpperCase() + t.slice(1)}
+                </div>
+              ))}
+              <div className={styles.dropdownSep} />
+              <div className={styles.dropdownTitle}>Other</div>
+              <div className={styles.dropdownItem} onClick={addCameraObject}>📷 Camera</div>
+              <div className={styles.dropdownItem} onClick={() => addEmpty("arrows")}>⊹ Empty (Arrows)</div>
+            </div>
+          )}
+        </div>
+
+        {/* Edit menu */}
+        <button
+          className={styles.menuBtn}
+          onClick={duplicateSelected}
+          disabled={!selectedNode}
+          title="Duplicate selected (Shift+D)"
+        >
+          📋 Duplicate
+        </button>
+        <button
+          className={styles.menuBtn}
+          onClick={deleteSelected}
+          disabled={!selectedNode}
+          title="Delete selected (Delete)"
+        >
+          ✕ Delete
+        </button>
+
+        <div className={styles.menuSep} />
+        <button className={styles.menuBtn} onClick={() => exportGLTF(true)}>
+          💾 Export GLB
+        </button>
+        <button className={styles.menuBtn} onClick={() => exportGLTF(false)}>
+          📄 Export GLTF
+        </button>
+        <button className={styles.menuBtn} onClick={exportOBJ}>
+          📄 Export OBJ
+        </button>
+        <button className={styles.menuBtn} onClick={() => exportSTL(true)}>
+          📄 Export STL
+        </button>
+        <button className={styles.menuBtn} onClick={() => exportPLY(true)}>
+          📄 Export PLY
+        </button>
+        <button className={styles.menuBtn} onClick={exportUSDZ}>
+          📄 Export USDZ
+        </button>
+        {onSaveToLibrary && (
+          <>
+            <div className={styles.menuSep} />
+            <button className={styles.menuBtn} onClick={saveToLibrary}>
+              📦 Save to Library
+            </button>
+          </>
+        )}
+        <div className={styles.menuSep} />
+        <button className={styles.menuBtn} onClick={clearScene}>
+          🗑 Clear
+        </button>
+        <div className={styles.menuSep} />
+        <label className={styles.menuLabel}>Grid</label>
+        <input
+          type="checkbox"
+          checked={showGrid}
+          onChange={() => setShowGrid((v) => !v)}
+        />
+        <label className={styles.menuLabel}>Axes</label>
+        <input
+          type="checkbox"
+          checked={showAxes}
+          onChange={() => setShowAxes((v) => !v)}
+        />
+        <label className={styles.menuLabel}>Wire</label>
+        <input
+          type="checkbox"
+          checked={wireframe}
+          onChange={() => setWireframe((v) => !v)}
+        />
+        <label className={styles.menuLabel}>Skel</label>
+        <input
+          type="checkbox"
+          checked={showSkeleton}
+          onChange={() => setShowSkeleton((v) => !v)}
+        />
+        <label className={styles.menuLabel}>Helpers</label>
+        <input
+          type="checkbox"
+          checked={showLightHelpers}
+          onChange={() => setShowLightHelpers((v) => !v)}
+        />
+        <div className={styles.menuRight}>
+          <label className={styles.menuLabel}>BG</label>
+          <div className={styles.propColorSwatch} style={{ width: 18, height: 18, background: bgColor }}>
+            <input
+              type="color"
+              value={bgColor}
+              onChange={(e) => setBgColor(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main area ── */}
+      <div className={styles.mainArea}>
+        {/* Left panel: Scene hierarchy */}
+        <div className={styles.leftPanel}>
+          <div className={styles.panelSection}>
+            <div className={styles.panelTitle}>
+              📋 Outliner
+              <button onClick={rebuildTree} title="Refresh" aria-label="Refresh outliner">⟳</button>
+            </div>
+            {/* Search / filter */}
+            <div className={styles.outlinerSearch}>
+              <input
+                className={styles.propInput}
+                placeholder="🔍 Filter..."
+                value={outlinerSearch}
+                onChange={(e) => setOutlinerSearch(e.target.value)}
+                style={{ width: "100%", marginBottom: 4 }}
+              />
+            </div>
+            <div className={styles.panelContent} style={{ overflowY: "auto", flex: 1 }}>
+              {sceneTree.length === 0 && (
+                <div style={{ color: "#666", fontSize: 10, padding: "8px 0" }}>
+                  Drop a 3D file to begin
+                </div>
+              )}
+              {sceneTree.map((n) => renderTreeNode(n, 0))}
+            </div>
+          </div>
+        </div>
+
+        {/* Toolbar */}
+        <div className={styles.toolbar}>
+          <button
+            className={`${styles.toolBtn} ${transformMode === "translate" ? styles.toolBtnActive : ""}`}
+            onClick={() => setTransformMode("translate")}
+            title="Translate (G)"
+          >
+            ✥
+          </button>
+          <button
+            className={`${styles.toolBtn} ${transformMode === "rotate" ? styles.toolBtnActive : ""}`}
+            onClick={() => setTransformMode("rotate")}
+            title="Rotate (R)"
+          >
+            ↻
+          </button>
+          <button
+            className={`${styles.toolBtn} ${transformMode === "scale" ? styles.toolBtnActive : ""}`}
+            onClick={() => setTransformMode("scale")}
+            title="Scale (S)"
+          >
+            ⬡
+          </button>
+          <div className={styles.toolSep} />
+          {/* Snap */}
+          <button
+            className={`${styles.toolBtn} ${snapEnabled ? styles.toolBtnActive : ""}`}
+            onClick={() => setSnapEnabled((v) => !v)}
+            title={`Snap to Grid (${snapEnabled ? "ON" : "OFF"})`}
+          >
+            🧲
+          </button>
+          {/* Gizmo orientation */}
+          <button
+            className={styles.toolBtn}
+            onClick={() => setGizmoSpace((s) => (s === "local" ? "world" : "local"))}
+            title={`Orientation: ${gizmoSpace}`}
+          >
+            {gizmoSpace === "local" ? "🔶" : "🌐"}
+          </button>
+          <div className={styles.toolSep} />
+          {/* Camera views */}
+          <button
+            className={styles.toolBtn}
+            onClick={() =>
+              rootObjectRef.current && focusOnObject(rootObjectRef.current)
+            }
+            title="Focus (F)"
+          >
+            ◎
+          </button>
+          <button
+            className={styles.toolBtn}
+            onClick={() => setCameraPreset("front")}
+            title="Front view (Numpad 1)"
+          >
+            1
+          </button>
+          <button
+            className={styles.toolBtn}
+            onClick={() => setCameraPreset("right")}
+            title="Right view (Numpad 3)"
+          >
+            3
+          </button>
+          <button
+            className={styles.toolBtn}
+            onClick={() => setCameraPreset("top")}
+            title="Top view (Numpad 7)"
+          >
+            7
+          </button>
+          <div className={styles.toolSep} />
+          <button
+            className={styles.toolBtn}
+            onClick={deleteSelected}
+            title="Delete selected (Del)"
+          >
+            🗑
+          </button>
+          <button
+            className={styles.toolBtn}
+            onClick={duplicateSelected}
+            title="Duplicate (Shift+D)"
+            disabled={!selectedNode}
+          >
+            📋
+          </button>
+        </div>
+
+        {/* 3D Viewport */}
+        <div
+          ref={mountRef}
+          className={`${styles.viewportContainer} ${dragOver ? styles.dragOver : ""}`}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onClick={handleViewportClick}
+          onContextMenu={handleContextMenu}
+        >
+          <div className={styles.viewportOverlay}>
+            <span className={styles.viewportBadge}>
+              {editorMode.toUpperCase()} MODE
+            </span>
+            <span className={styles.viewportBadge}>
+              {polyCount.toLocaleString()} tris · {meshCount} meshes · {boneCount} bones
+            </span>
+          </div>
+          {/* Viewport Shading selector — top-right */}
+          <div className={styles.viewportShadingBar}>
+            {(["wireframe", "solid", "material", "rendered"] as ShadingMode[]).map((m) => (
+              <button
+                key={m}
+                className={`${styles.shadingBtn} ${shadingMode === m ? styles.shadingBtnActive : ""}`}
+                onClick={(e) => { e.stopPropagation(); setShadingMode(m); }}
+                title={m.charAt(0).toUpperCase() + m.slice(1)}
+              >
+                {m === "wireframe" ? "◇" : m === "solid" ? "◆" : m === "material" ? "🎨" : "☀"}
+              </button>
+            ))}
+          </div>
+          {/* Gizmo orientation indicator — top-right below shading */}
+          <div className={styles.viewportGizmoInfo}>
+            <button
+              className={styles.shadingBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                setGizmoSpace((s) => (s === "local" ? "world" : "local"));
+              }}
+              title={`Orientation: ${gizmoSpace}`}
+            >
+              {gizmoSpace === "local" ? "🔶 Local" : "🌐 World"}
+            </button>
+          </div>
+          {dragOver && (
+            <div className={styles.viewportDropZone}>
+              <span>Drop 3D files here</span>
+            </div>
+          )}
+        </div>
+
+        {/* Context menu (right-click) */}
+        {contextMenu && (
+          <div
+            className={styles.contextMenu}
+            style={{ top: contextMenu.y, left: contextMenu.x }}
+            onClick={closeContextMenu}
+          >
+            <div className={styles.contextItem} onClick={() => addPrimitive("cube")}>
+              <span>Add Cube</span>
+              <span className={styles.contextKey}>Shift+A</span>
+            </div>
+            <div className={styles.contextItem} onClick={() => addPrimitive("sphere")}>
+              <span>Add Sphere</span>
+            </div>
+            <div className={styles.contextItem} onClick={() => addSceneLight("point")}>
+              <span>Add Point Light</span>
+            </div>
+            <div className={styles.contextSep} />
+            <div
+              className={styles.contextItem}
+              onClick={duplicateSelected}
+              style={!selectedNode ? { opacity: 0.4, pointerEvents: "none" } : {}}
+            >
+              <span>Duplicate</span>
+              <span className={styles.contextKey}>Shift+D</span>
+            </div>
+            <div
+              className={styles.contextItem}
+              onClick={deleteSelected}
+              style={!selectedNode ? { opacity: 0.4, pointerEvents: "none" } : {}}
+            >
+              <span>Delete</span>
+              <span className={styles.contextKey}>Del</span>
+            </div>
+            <div className={styles.contextSep} />
+            <div className={styles.contextItem} onClick={() => {
+              if (rootObjectRef.current) focusOnObject(rootObjectRef.current);
+            }}>
+              <span>Focus Camera</span>
+              <span className={styles.contextKey}>F</span>
+            </div>
+            <div className={styles.contextItem} onClick={() => setSnapEnabled((v) => !v)}>
+              <span>{snapEnabled ? "✓ " : ""}Snap to Grid</span>
+            </div>
+          </div>
+        )}
+
+        {/* Right panel: Properties */}
+        <div className={styles.rightPanel}>
+          {/* Property tabs */}
+          <div className={styles.propTabs}>
+            {(["object", "material", "world", "modifiers", "physics"] as PropTab[]).map(
+              (t) => (
+                <button
+                  key={t}
+                  className={`${styles.propTabBtn} ${propTab === t ? styles.propTabBtnActive : ""}`}
+                  onClick={() => setPropTab(t)}
+                  title={t.charAt(0).toUpperCase() + t.slice(1)}
+                >
+                  {t === "object" ? "🔧" : t === "material" ? "🎨" : t === "world" ? "🌍" : t === "modifiers" ? "🔩" : "⚡"}
+                </button>
+              ),
+            )}
+          </div>
+
+          {/* ── Object tab ── */}
+          {propTab === "object" && (
+            <>
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🔧 Transform</div>
+                <div className={styles.panelContent}>
+                  {selectedNode ? (
+                    <>
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Name</span>
+                        <input
+                          className={styles.propInput}
+                          value={selectedNode.name}
+                          onChange={(e) => {
+                            selectedNode.object.name = e.target.value;
+                            rebuildTree();
+                          }}
+                        />
+                      </div>
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Type</span>
+                        <span style={{ fontSize: 10, color: "#888" }}>{selectedNode.type}</span>
+                      </div>
+                      <Vec3Row
+                        label="Position"
+                        value={selectedNode.object.position}
+                        onChange={() => setMatRefresh((n) => n + 1)}
+                      />
+                      <Vec3RowDeg
+                        label="Rotation"
+                        value={selectedNode.object.rotation}
+                        onChange={() => setMatRefresh((n) => n + 1)}
+                      />
+                      <Vec3Row
+                        label="Scale"
+                        value={selectedNode.object.scale}
+                        onChange={() => setMatRefresh((n) => n + 1)}
+                      />
+                    </>
+                  ) : (
+                    <div style={{ color: "#666", fontSize: 10 }}>
+                      Select an object
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Light properties — shown when light is selected */}
+              {selectedNode && selectedNode.object instanceof THREE.Light && (
+                <div className={styles.panelSection}>
+                  <div className={styles.panelTitle}>💡 Light</div>
+                  <div className={styles.panelContent}>
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>Color</span>
+                      <div
+                        className={styles.propColorSwatch}
+                        style={{ background: `#${(selectedNode.object as THREE.Light).color.getHexString()}` }}
+                      >
+                        <input
+                          type="color"
+                          value={`#${(selectedNode.object as THREE.Light).color.getHexString()}`}
+                          onChange={(e) => {
+                            (selectedNode.object as THREE.Light).color.set(e.target.value);
+                            setMatRefresh((n) => n + 1);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>Intensity</span>
+                      <input
+                        type="range"
+                        min={0}
+                        max={10}
+                        step={0.1}
+                        value={(selectedNode.object as THREE.Light).intensity}
+                        onChange={(e) => {
+                          (selectedNode.object as THREE.Light).intensity = parseFloat(e.target.value);
+                          setMatRefresh((n) => n + 1);
+                        }}
+                        style={{ flex: 1, accentColor: "#5566cc" }}
+                      />
+                      <span style={{ fontSize: 9, color: "#888", width: 28, textAlign: "right" }}>
+                        {(selectedNode.object as THREE.Light).intensity.toFixed(1)}
+                      </span>
+                    </div>
+                    {"castShadow" in selectedNode.object && (
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Shadow</span>
+                        <input
+                          type="checkbox"
+                          checked={selectedNode.object.castShadow}
+                          onChange={(e) => {
+                            selectedNode.object.castShadow = e.target.checked;
+                            setMatRefresh((n) => n + 1);
+                          }}
+                        />
+                      </div>
+                    )}
+                    {selectedNode.object instanceof THREE.SpotLight && (
+                      <>
+                        <div className={styles.propRow}>
+                          <span className={styles.propLabel}>Angle</span>
+                          <input
+                            type="range"
+                            min={0}
+                            max={90}
+                            step={1}
+                            value={(selectedNode.object.angle * DEG)}
+                            onChange={(e) => {
+                              (selectedNode.object as THREE.SpotLight).angle = parseFloat(e.target.value) / DEG;
+                              setMatRefresh((n) => n + 1);
+                            }}
+                            style={{ flex: 1, accentColor: "#5566cc" }}
+                          />
+                          <span style={{ fontSize: 9, color: "#888", width: 28, textAlign: "right" }}>
+                            {((selectedNode.object as THREE.SpotLight).angle * DEG).toFixed(0)}°
+                          </span>
+                        </div>
+                        <div className={styles.propRow}>
+                          <span className={styles.propLabel}>Penumbra</span>
+                          <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step={0.01}
+                            value={(selectedNode.object as THREE.SpotLight).penumbra}
+                            onChange={(e) => {
+                              (selectedNode.object as THREE.SpotLight).penumbra = parseFloat(e.target.value);
+                              setMatRefresh((n) => n + 1);
+                            }}
+                            style={{ flex: 1, accentColor: "#5566cc" }}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Camera properties — shown when camera is selected */}
+              {selectedNode && selectedNode.object instanceof THREE.PerspectiveCamera && (
+                <div className={styles.panelSection}>
+                  <div className={styles.panelTitle}>📷 Camera</div>
+                  <div className={styles.panelContent}>
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>FOV</span>
+                      <input
+                        type="range"
+                        min={10}
+                        max={120}
+                        step={1}
+                        value={(selectedNode.object as THREE.PerspectiveCamera).fov}
+                        onChange={(e) => {
+                          const cam = selectedNode.object as THREE.PerspectiveCamera;
+                          cam.fov = parseFloat(e.target.value);
+                          cam.updateProjectionMatrix();
+                          setMatRefresh((n) => n + 1);
+                        }}
+                        style={{ flex: 1, accentColor: "#5566cc" }}
+                      />
+                      <span style={{ fontSize: 9, color: "#888", width: 28, textAlign: "right" }}>
+                        {(selectedNode.object as THREE.PerspectiveCamera).fov.toFixed(0)}°
+                      </span>
+                    </div>
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>Near</span>
+                      <input
+                        className={styles.propInput}
+                        type="number"
+                        step={0.01}
+                        value={(selectedNode.object as THREE.PerspectiveCamera).near}
+                        onChange={(e) => {
+                          const cam = selectedNode.object as THREE.PerspectiveCamera;
+                          cam.near = parseFloat(e.target.value);
+                          cam.updateProjectionMatrix();
+                          setMatRefresh((n) => n + 1);
+                        }}
+                        style={{ width: 60 }}
+                      />
+                    </div>
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>Far</span>
+                      <input
+                        className={styles.propInput}
+                        type="number"
+                        step={1}
+                        value={(selectedNode.object as THREE.PerspectiveCamera).far}
+                        onChange={(e) => {
+                          const cam = selectedNode.object as THREE.PerspectiveCamera;
+                          cam.far = parseFloat(e.target.value);
+                          cam.updateProjectionMatrix();
+                          setMatRefresh((n) => n + 1);
+                        }}
+                        style={{ width: 80 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* AI Animation */}
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🤖 AI Animation</div>
+                <div className={styles.panelContent}>
+                  <div className={styles.aiPanel}>
+                    <div className={styles.aiHeader}>
+                      ✨ Generate animation from video
+                    </div>
+                    <p style={{ fontSize: 10, color: "#888", margin: "0 0 6px" }}>
+                      Upload a video and AI will extract 3D pose data to create an
+                      animation clip for the current model.
+                    </p>
+                    <div className={styles.aiBtnRow}>
+                      <button
+                        className={styles.aiBtn}
+                        disabled={aiBusy || !rootObjectRef.current}
+                        onClick={() => videoInputRef.current?.click()}
+                      >
+                        {aiBusy ? "Processing..." : "Upload Video"}
+                      </button>
+                    </div>
+                    {aiStatus && (
+                      <div className={styles.aiStatus}>{aiStatus}</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ── Material tab ── */}
+          {propTab === "material" && (
+            <div className={styles.panelSection}>
+              <div className={styles.panelTitle}>🎨 Materials</div>
+              <div className={styles.panelContent}>
+                {selectedMaterials.length > 0 ? (
+                  selectedMaterials.map((mat, i) => (
+                    <MaterialCard
+                      key={i}
+                      material={mat}
+                      active={i === selMaterialIdx}
+                      onClick={() => setSelMaterialIdx(i)}
+                      onUpdate={() => setMatRefresh((n) => n + 1)}
+                    />
+                  ))
+                ) : (
+                  <div style={{ color: "#666", fontSize: 10 }}>
+                    {selectedNode
+                      ? "No materials on this object"
+                      : "Select a mesh to inspect"}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── World tab ── */}
+          {propTab === "world" && (
+            <>
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🌍 Environment</div>
+                <div className={styles.panelContent}>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Background</span>
+                    <div className={styles.propColorSwatch} style={{ background: bgColor }}>
+                      <input
+                        type="color"
+                        value={bgColor}
+                        onChange={(e) => setBgColor(e.target.value)}
+                      />
+                    </div>
+                    <span style={{ fontSize: 9, color: "#888" }}>{bgColor}</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🌫 Fog</div>
+                <div className={styles.panelContent}>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Enable</span>
+                    <input
+                      type="checkbox"
+                      checked={fogEnabled}
+                      onChange={() => setFogEnabled((v) => !v)}
+                    />
+                  </div>
+                  {fogEnabled && (
+                    <>
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Color</span>
+                        <div className={styles.propColorSwatch} style={{ background: fogColor }}>
+                          <input
+                            type="color"
+                            value={fogColor}
+                            onChange={(e) => setFogColor(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Near</span>
+                        <input
+                          className={styles.propInput}
+                          type="number"
+                          value={fogNear}
+                          onChange={(e) => setFogNear(parseFloat(e.target.value))}
+                          style={{ width: 60 }}
+                        />
+                      </div>
+                      <div className={styles.propRow}>
+                        <span className={styles.propLabel}>Far</span>
+                        <input
+                          className={styles.propInput}
+                          type="number"
+                          value={fogFar}
+                          onChange={(e) => setFogFar(parseFloat(e.target.value))}
+                          style={{ width: 60 }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🔆 Scene Lights</div>
+                <div className={styles.panelContent}>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Show Helpers</span>
+                    <input
+                      type="checkbox"
+                      checked={showLightHelpers}
+                      onChange={() => setShowLightHelpers((v) => !v)}
+                    />
+                  </div>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Grid</span>
+                    <input
+                      type="checkbox"
+                      checked={showGrid}
+                      onChange={() => setShowGrid((v) => !v)}
+                    />
+                  </div>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Axes</span>
+                    <input
+                      type="checkbox"
+                      checked={showAxes}
+                      onChange={() => setShowAxes((v) => !v)}
+                    />
+                  </div>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Skeleton</span>
+                    <input
+                      type="checkbox"
+                      checked={showSkeleton}
+                      onChange={() => setShowSkeleton((v) => !v)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.panelSection}>
+                <div className={styles.panelTitle}>🧲 Snapping</div>
+                <div className={styles.panelContent}>
+                  <div className={styles.propRow}>
+                    <span className={styles.propLabel}>Snap</span>
+                    <input
+                      type="checkbox"
+                      checked={snapEnabled}
+                      onChange={() => setSnapEnabled((v) => !v)}
+                    />
+                  </div>
+                  {snapEnabled && (
+                    <div className={styles.propRow}>
+                      <span className={styles.propLabel}>Grid Size</span>
+                      <input
+                        className={styles.propInput}
+                        type="number"
+                        step={0.25}
+                        min={0.1}
+                        value={snapGrid}
+                        onChange={(e) => setSnapGrid(parseFloat(e.target.value) || 1)}
+                        style={{ width: 60 }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ── Modifiers tab ── */}
+          {propTab === "modifiers" && (
+            <div className={styles.panelSection}>
+              <div className={styles.panelTitle}>🔩 Modifiers</div>
+              <div className={styles.panelContent}>
+                {selectedNode && selectedNode.object instanceof THREE.Mesh ? (
+                  <>
+                    <button
+                      className={styles.btnSecondary}
+                      style={{ width: "100%", marginBottom: 4 }}
+                      onClick={() => {
+                        const mesh = selectedNode.object as THREE.Mesh;
+                        const geo = mesh.geometry;
+                        // Simple subdivision: compute positions from faces
+                        const pos = geo.attributes.position;
+                        if (pos) {
+                          // Use Three.js built-in wireframe approach as simple subdivision proxy
+                          const wireGeo = new THREE.WireframeGeometry(geo);
+                          mesh.geometry = wireGeo;
+                          setStatusText("Applied Wireframe modifier");
+                          rebuildTree();
+                        }
+                      }}
+                    >
+                      + Wireframe Modifier
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      style={{ width: "100%", marginBottom: 4 }}
+                      onClick={() => {
+                        const mesh = selectedNode.object as THREE.Mesh;
+                        mesh.geometry.computeVertexNormals();
+                        setStatusText("Recomputed normals");
+                      }}
+                    >
+                      Recompute Normals
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      style={{ width: "100%", marginBottom: 4 }}
+                      onClick={() => {
+                        const mesh = selectedNode.object as THREE.Mesh;
+                        const geo = mesh.geometry;
+                        // Center geometry
+                        geo.center();
+                        setStatusText("Centered geometry");
+                        setMatRefresh((n) => n + 1);
+                      }}
+                    >
+                      Center Geometry
+                    </button>
+                    <button
+                      className={styles.btnSecondary}
+                      style={{ width: "100%", marginBottom: 4 }}
+                      onClick={() => {
+                        const mesh = selectedNode.object as THREE.Mesh;
+                        // Flip normals
+                        const geo = mesh.geometry;
+                        const idx = geo.index;
+                        if (idx) {
+                          const arr = idx.array as Uint16Array | Uint32Array;
+                          for (let i = 0; i < arr.length; i += 3) {
+                            const tmp = arr[i];
+                            arr[i] = arr[i + 2];
+                            arr[i + 2] = tmp;
+                          }
+                          idx.needsUpdate = true;
+                          geo.computeVertexNormals();
+                          setStatusText("Flipped normals");
+                        }
+                      }}
+                    >
+                      Flip Normals
+                    </button>
+                  </>
+                ) : (
+                  <div style={{ color: "#666", fontSize: 10 }}>
+                    Select a mesh to apply modifiers
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── Physics tab ── */}
+          {propTab === "physics" && (
+            <div className={styles.panelSection}>
+              <div className={styles.panelTitle}>⚡ Physics (Info)</div>
+              <div className={styles.panelContent}>
+                <div style={{ color: "#666", fontSize: 10, lineHeight: 1.5 }}>
+                  Physics simulation preview is not yet available.
+                  <br /><br />
+                  Planned features:
+                  <br />• Rigid body simulation
+                  <br />• Soft body dynamics
+                  <br />• Cloth simulation
+                  <br />• Particle systems
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Bottom panel: Animation timeline ── */}
+      <div
+        className={`${styles.bottomPanel} ${bottomCollapsed ? styles.bottomPanelCollapsed : ""}`}
+      >
+        <div className={styles.bottomPanelHeader}>
+          <span
+            className={styles.bottomToggle}
+            onClick={() => setBottomCollapsed((c) => !c)}
+          >
+            {bottomCollapsed ? "▶" : "▼"}
+          </span>
+          <span
+            className={styles.bottomPanelTitle}
+            onClick={() => setBottomCollapsed((c) => !c)}
+          >
+            Animation ({animations.length} clip{animations.length !== 1 ? "s" : ""})
+          </span>
+          <div className={styles.menuSep} />
+          <div className={styles.transportBar}>
+            <button
+              className={styles.transportBtn}
+              onClick={() => seekAnim(0)}
+              title="Go to start"
+            >
+              ⏮
+            </button>
+            <button
+              className={`${styles.transportBtn} ${isPlaying ? styles.transportBtnActive : ""}`}
+              onClick={togglePlay}
+              title="Play/Pause (Space)"
+            >
+              {isPlaying ? "⏸" : "▶"}
+            </button>
+            <button className={styles.transportBtn} onClick={stopAnim} title="Stop">
+              ⏹
+            </button>
+            <button
+              className={`${styles.transportBtn} ${loopAnim ? styles.transportBtnActive : ""}`}
+              onClick={() => setLoopAnim((v) => !v)}
+              title="Loop"
+            >
+              🔁
+            </button>
+          </div>
+          <span className={styles.transportTime}>
+            {fmtTime(animTime)} / {fmtTime(animDuration)}
+          </span>
+          <div className={styles.menuSep} />
+          <label className={styles.menuLabel}>Speed</label>
+          <input
+            type="range"
+            min={0.1}
+            max={3}
+            step={0.1}
+            value={animSpeed}
+            onChange={(e) => setAnimSpeed(parseFloat(e.target.value))}
+            style={{ width: 60, accentColor: "#5566cc" }}
+          />
+          <span className={styles.menuLabel}>{animSpeed.toFixed(1)}×</span>
+        </div>
+
+        {!bottomCollapsed && (
+          <div className={styles.animListArea}>
+            {/* Animation list */}
+            <div className={styles.animList}>
+              {animations.length === 0 && (
+                <div style={{ color: "#666", fontSize: 10, padding: 8 }}>
+                  No animations loaded
+                </div>
+              )}
+              {animations.map((anim, i) => (
+                <div
+                  key={`${anim.name}-${i}`}
+                  className={`${styles.animItem} ${i === activeAnimIdx ? styles.animItemActive : ""}`}
+                  onClick={() => playClip(i)}
+                >
+                  <span>{anim.name}</span>
+                  <span className={styles.animDuration}>
+                    {anim.duration.toFixed(1)}s
+                  </span>
+                </div>
+              ))}
+              <div style={{ padding: "4px 8px" }}>
+                <button
+                  className={styles.btnSecondary}
+                  style={{ width: "100%", fontSize: 10 }}
+                  onClick={() => mergeInputRef.current?.click()}
+                >
+                  + Add Animation File
+                </button>
+              </div>
+            </div>
+
+            {/* Timeline area */}
+            <div className={styles.timelineArea}>
+              <div className={styles.timelineRuler}>
+                {animDuration > 0 &&
+                  Array.from({ length: Math.ceil(animDuration) + 1 }, (_, i) => {
+                    const pct = (i / animDuration) * 100;
+                    return (
+                      <React.Fragment key={i}>
+                        <div
+                          className={styles.rulerTick}
+                          style={{ left: `${pct}%` }}
+                        />
+                        <span
+                          className={styles.rulerLabel}
+                          style={{ left: `${pct}%` }}
+                        >
+                          {i}s
+                        </span>
+                      </React.Fragment>
+                    );
+                  })}
+                {/* Playhead */}
+                {animDuration > 0 && (
+                  <div
+                    className={styles.playhead}
+                    style={{
+                      left: `${(animTime / animDuration) * 100}%`,
+                      height: "100%",
+                    }}
+                  >
+                    <div className={styles.playheadHandle} />
+                  </div>
+                )}
+              </div>
+              {/* Scrub area */}
+              <div
+                className={styles.timelineTracks}
+                style={{ height: 140, cursor: "pointer" }}
+                onClick={(e) => {
+                  if (animDuration <= 0) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const pct = (e.clientX - rect.left) / rect.width;
+                  seekAnim(Math.max(0, Math.min(animDuration, pct * animDuration)));
+                }}
+              >
+                {/* Playhead line across tracks */}
+                {animDuration > 0 && (
+                  <div
+                    className={styles.playhead}
+                    style={{
+                      left: `${(animTime / animDuration) * 100}%`,
+                      height: "100%",
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Status bar ── */}
+      <div className={styles.statusBar}>
+        <span>{statusText}</span>
+        <span style={{ marginLeft: "auto" }}>
+          {polyCount.toLocaleString()} triangles · {meshCount} meshes ·{" "}
+          {boneCount} bones · {animations.length} anim(s)
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default ModelEditor;

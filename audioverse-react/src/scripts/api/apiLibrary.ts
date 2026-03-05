@@ -1,15 +1,13 @@
-import axios from "axios";
 import { useQuery, UseQueryOptions, QueryKey } from "@tanstack/react-query";
+import { apiClient } from "./audioverseApiClient";
+import { logger } from "../../utils/logger";
+const log = logger.scoped('apiLibrary');
 
-// const API_BASE_URL = "https://libraryapi.audioverse.io/api/youtube";
-const API_BASE_URL = "https://localhost:44305/api/youtube";
-
-export const apiLibrary = axios.create({
-    baseURL: API_BASE_URL,
-    headers: { "Content-Type": "application/json" },
-});
+// Baza YouTube search (przeniesiona z Library API do AudioVerse API)
+const YOUTUBE_BASE = "/api/karaoke/songs/youtube";
 
 // === Query Keys ===
+/** @internal  use React Query hooks below */
 export const LIB_QK = {
     ytSearch: (artist: string, title: string) =>
         ["library", "yt-search", artist ?? "", title ?? ""] as const,
@@ -21,12 +19,13 @@ export const searchYouTubeByArtistTitle = async (
     title: string
 ): Promise<string | null> => {
     try {
-        const { data } = await apiLibrary.get<{ videoId: string }>("/search", {
-            params: { artist, title },
+        const query = `${artist} ${title}`.trim();
+        const { data } = await apiClient.get<{ videoId: string }>(`${YOUTUBE_BASE}/search`, {
+            params: { query },
         });
         return data?.videoId ?? null;
     } catch (e) {
-        console.error("Błąd wyszukiwania w YouTube:", e);
+        log.error("Error searching YouTube:", e);
         return null;
     }
 };
@@ -45,7 +44,10 @@ export const useYouTubeSearchQuery = (
         ...options,
     });
 
-// (opcjonalne) default export kompatybilności
+// Backward compatibility — apiLibrary is no longer a separate axios instance
+export const apiLibrary = apiClient;
+
+// (optional) compatibility default export
 export default {
     searchYouTubeByArtistTitle,
 };

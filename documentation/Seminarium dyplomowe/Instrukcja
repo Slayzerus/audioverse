@@ -1,0 +1,48 @@
+Pliki 
+- Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji - 1.txt 
+- Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji - 2.txt 
+- Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji - 3.txt 
+- Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji - 4.txt 
+- Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji - 5.txt 
+
+...zawierają rozpisane kolejne rozdziały pracy inżynierskiej projektowej 
+na temat "Gra wokalna karaoke z wykorzystaniem sztucznej inteligencji". 
+Każdy plik odpowiada kolejnemu rozdziałowi pracy, zaczynając od wprowadzenia, 
+poprzez przegląd literatury, metodologię, implementację, aż do wyników i wniosków. 
+WAŻNE! Tej struktury nie można zmieniać, ponieważ jest ona zgodna z wymaganiami 
+formalnymi pracy inżynierskiej.
+
+Trzeba te punkty rozpisać w oparciu o projekty audioverse-react i audioverse-dotnet 
+(aplikacja mobilna audioverse-flutter nie jest skończona, więc o niej nie wspominamy.
+WAŻNE! Aplikacja ma wiele funkcjonalności dodatkowych, ale skupiamy się tylko i wyłącznie
+na karaoke, bo tylko tego dotyczy temat pracy. Nie wspominamy o innych funkcjonalnościach,
+bo na potrzeby screenów i tak najpewniej będą ukrywane. Możemy wspomnieć o Eventach,
+ale też tylko w kontekście karaoke, np. że można organizować wydarzenia karaoke, 
+ale nie rozwijamy tego tematu, bo nie jest on bezpośrednio związany z głównym tematem 
+pracy. Tryb online nie jest jeszcze przetestowany, ale architektura jest pod niego 
+przygotowana, więc skupiamy się tylko na trybie offline i singleplayer. 
+
+Praca ma charakter akademicki, więc należy zachować odpowiednią strukturę i język. 
+Muszą być cytaty, przypisy, bibliografia, obrazki i tabele (które również muszą mieć
+podpisy, przypisy, autorów, źródła itp.).
+
+Praca musi mieć minimum 40 stron, więc należy rozwinąć każdy punkt, dodając szczegółowe 
+opisy, analizy, porównania, a także przykłady i ilustracje.
+
+Każdy rozdział powinien być napisany w sposób klarowny i logiczny, z odpowiednimi nagłówkami 
+i podziałami na sekcje.
+
+Do opracowania można wykorzystać wszystkie materiały znajdujące się w katalogu
+Seminarium dyplomowe oraz w katalogach audioverse-react i audioverse-dotnet, 
+a także dodatkowe źródła z literatury naukowej.
+
+Cytaty muszą być zweryfikowane, prawdziwe, muszę mieć do każdego napisane w jaki sposób 
+mogę pozycję zdobyć (np. link do książki, artykułu, strony internetowej itp.).
+
+System działa świetnie, wygląda świetnie, jest stabilny, zabezpieczony testami,
+pełny najnowszych technologii i rozwiązań. Można go śmiało uznać za funkcjonalnie 
+skończony i dopracowany do perfekcji. Nie trzeba się na tym bardzo skupiać, ale można
+wspomnieć.
+
+W pliku WYTYCZNE_UBB.txt masz rozpisane wytyczne od uczelni, niewiele wnoszą, ale trzeba 
+je na pewno uwzględnić. 

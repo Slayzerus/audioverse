@@ -1,0 +1,3 @@
+Źródło własne — diagram przepływu autoryzacji JWT i OAuth
+audioverse-dotnet/AudioVerse.API/Docs/diagrams/06-auth-jwt-flow.drawio
+2026-02-20

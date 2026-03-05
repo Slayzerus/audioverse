@@ -1,0 +1,455 @@
+/* Empire RTS — shared game component styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  position: relative;
+  min-height: 70vh;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scoreItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gray-100);
+  transition: opacity 0.3s;
+}
+
+.dead {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.scoreColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.scoreValue {
+  min-width: 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameViewport {
+  position: relative;
+  width: 960px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 2px solid var(--gray-800);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0e1520;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Split-screen grid (2+ viewports) */
+.splitGrid {
+  display: grid;
+  width: 960px;
+  max-width: 100%;
+  gap: 2px;
+  border: 2px solid var(--gray-800);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--color-black);
+}
+.splitGrid.cols1 { grid-template-columns: 1fr; }
+.splitGrid.cols2 { grid-template-columns: 1fr 1fr; }
+.splitCell {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0e1520;
+}
+.splitCell canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Game Over overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 6px;
+  color: var(--gray-100);
+  gap: 1rem;
+  animation: fadeIn 0.3s ease-out;
+  z-index: 10;
+}
+
+.overlay h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.winnerText {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.overlayActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.restartBtn {
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--game-blue), var(--game-blue-dark));
+  color: var(--color-white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.restartBtn:hover {
+  transform: scale(1.05);
+}
+
+.backBtnOverlay {
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  border: 2px solid var(--gray-700);
+  background: transparent;
+  color: var(--gray-300);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.backBtnOverlay:hover {
+  border-color: var(--gray-500);
+  color: var(--color-white);
+}
+
+.overlayHint {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+
+.statsRow {
+  font-size: 0.9rem;
+  color: var(--gray-550);
+  display: flex;
+  gap: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Menu / Campaign / Tutorial
+   ═══════════════════════════════════════════════════════════ */
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem;
+  color: var(--gray-100);
+  gap: 1.5rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Profile bar */
+.profileBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--gray-800);
+  min-width: 400px;
+}
+
+.profileName {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.profileLevel {
+  font-size: 1rem;
+  color: var(--game-gold-bright);
+  font-weight: 700;
+}
+
+.xpBarOuter {
+  flex: 1;
+  height: 16px;
+  background: var(--gray-850);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+.xpBarInner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--game-blue), var(--game-emerald));
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.xpText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-white);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Menu grid */
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.menuCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1.2rem 0.8rem;
+  border-radius: 12px;
+  border: 2px solid var(--gray-750);
+  background: rgba(30, 30, 50, 0.7);
+  color: var(--gray-100);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.menuCard:hover:not(:disabled) {
+  background: rgba(50, 50, 80, 0.9);
+  border-color: var(--gray-600);
+  transform: translateY(-2px);
+}
+
+.menuCard.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.menuIcon {
+  font-size: 2rem;
+}
+
+.menuLabel {
+  font-size: 0.85rem;
+}
+
+.lockBadge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 0.65rem;
+  color: var(--gray-550);
+}
+
+/* Stats summary */
+.statsSummary {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--gray-550);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.menuActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.backBtn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  border: 2px solid var(--gray-700);
+  background: transparent;
+  color: var(--gray-300);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  border-color: var(--gray-500);
+  color: var(--color-white);
+}
+
+/* Campaign */
+.campaignTitle {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.campaignDesc {
+  color: var(--gray-550);
+  margin: 0;
+}
+
+.chapterList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.chapterCard {
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  border: 2px solid var(--gray-800);
+  background: rgba(25, 25, 45, 0.7);
+  transition: all 0.2s;
+}
+
+.chapterCard.chapterCurrent {
+  border-color: var(--game-blue);
+}
+
+.chapterCard.chapterDone {
+  border-color: var(--game-emerald);
+  opacity: 0.85;
+}
+
+.chapterCard.chapterLocked {
+  opacity: 0.4;
+}
+
+.chapterHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.chapterNum {
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chapterBadge {
+  font-size: 0.75rem;
+}
+
+.chapterName {
+  margin: 0 0 0.3rem;
+  font-size: 1.1rem;
+}
+
+.chapterDescText {
+  margin: 0 0 0.5rem;
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
+.chapterMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  margin-bottom: 0.4rem;
+}
+
+.chapterResources {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.chapterBest {
+  font-size: 0.8rem;
+  color: var(--game-gold-bright);
+  margin-top: 0.3rem;
+}
+
+.chapterBtn {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--game-orange), #d35400);
+  color: var(--color-white);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.chapterBtn:hover {
+  transform: scale(1.05);
+}
+
+.replayBtn {
+  background: linear-gradient(135deg, var(--gray-750), var(--gray-800));
+}
+
+/* Tutorial overlay card */
+.tutorialCard {
+  background: rgba(20, 20, 40, 0.95);
+  border: 2px solid var(--game-blue);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 480px;
+  text-align: center;
+}
+
+.tutorialCard h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--game-blue);
+}
+
+.tutorialNav {
+  margin: 0.5rem 0;
+}
+
+.tutorialStepIndicator {
+  font-size: 0.8rem;
+  color: var(--gray-600);
+}

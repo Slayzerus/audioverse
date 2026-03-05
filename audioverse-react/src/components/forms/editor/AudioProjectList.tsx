@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { getProjects } from "../../../scripts/api/apiEditor";
 import { AudioProject } from "../../../models/modelsEditor.ts";
 
 const AudioProjectList = () => {
     const [projects, setProjects] = useState<AudioProject[]>([]);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         fetchProjects();
@@ -22,7 +24,7 @@ const AudioProjectList = () => {
 
     return (
         <div>
-            <h2>Lista Projektów</h2>
+            <h2>{t('projectList.title', 'Project List')}</h2>
             <div style={{
                 display: "flex",
                 flexDirection: "column",

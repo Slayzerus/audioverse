@@ -1,0 +1,740 @@
+/* PhotoEditor.module.css — shared styles for the Photo Editor components */
+
+/* ── Main wrapper ── */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 85vh;
+  background: #1a1a1e;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+}
+
+.loadingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 400px;
+  color: #aaa;
+}
+
+.mainContent {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid #333;
+  background: #222226;
+}
+
+.toolbarGroup {
+  display: flex;
+  gap: 6.5px;
+}
+
+.toolbarDivider {
+  width: 1px;
+  background: #444;
+  margin: 0 4px;
+}
+
+.toolbarTitle {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ── Left panel ── */
+.leftPanel {
+  width: 280px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #333;
+  background: #222226;
+  overflow: hidden;
+}
+
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid #333;
+  flex-wrap: wrap;
+}
+
+.tabButton {
+  flex: 1 0 auto;
+  padding: 8px 0;
+  border: none;
+  min-width: 34px;
+  background: transparent;
+  color: #888;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 600;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.tabButtonActive {
+  composes: tabButton;
+  background: #2a2a30;
+}
+
+.tabIcon {
+  font-size: 14px;
+}
+
+.panelContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+
+/* ── Section titles ── */
+.sectionTitle {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.sectionTitleMb8 {
+  composes: sectionTitle;
+  margin-bottom: 8px;
+}
+
+.sectionInfo {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.sectionInfoMb {
+  composes: sectionInfo;
+  margin-bottom: 10px;
+}
+
+/* ── Pills (category / aspect / emoji) ── */
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.pillRowMb8 {
+  composes: pillRow;
+  margin-bottom: 8px;
+}
+
+.pillRowGap3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.pill {
+  border-radius: 12px;
+  border: 1px solid #444;
+  background: transparent;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+}
+
+.pillActive {
+  composes: pill;
+  color: #fff;
+}
+
+.pillCrop {
+  composes: pill;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.pillCropActive {
+  composes: pillCrop;
+  color: #fff;
+}
+
+.pillEmoji {
+  composes: pill;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.pillEmojiActive {
+  composes: pillEmoji;
+  color: #fff;
+}
+
+/* ── Grids ── */
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.emojiGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.shapeGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.frameGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+/* ── Slider rows ── */
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.sliderLabel {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.sliderLabelSelf {
+  composes: sliderLabel;
+  align-self: center;
+  margin-right: 4px;
+}
+
+.sliderValue {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 28px;
+}
+
+.sliderValueSm {
+  font-size: 10px;
+  min-width: 28px;
+}
+
+.adjustColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adjustHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  font-size: 11px;
+}
+
+.adjustIcon {
+  width: 14px;
+  text-align: center;
+}
+
+.adjustValue {
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 30px;
+  text-align: right;
+}
+
+.intensitySection {
+  margin-top: 12px;
+  padding: 8px 0;
+}
+
+.intensityHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+
+/* ── Color inputs ── */
+.colorInput {
+  width: 28px;
+  height: 28px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.colorInputLg {
+  width: 32px;
+  height: 30px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.colorInputDraw {
+  width: 32px;
+  height: 28px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ── Overlay toolbar ── */
+.overlayToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+  margin-bottom: 8px;
+}
+
+.overlayToolbarLabel {
+  font-size: 11px;
+  color: #aaa;
+  align-self: center;
+  margin-right: 4px;
+}
+
+.overlayToolbarBtn {
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+/* ── Overlay list ── */
+.overlaySection {
+  margin-top: 12px;
+  border-top: 1px solid #333;
+  padding-top: 8px;
+}
+
+.overlaySectionTitle {
+  font-weight: 600;
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.overlayItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: transparent;
+  font-size: 11px;
+  color: #ccc;
+  margin-bottom: 2px;
+}
+
+.overlayIcon {
+  width: 18px;
+  text-align: center;
+}
+
+.overlayName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overlayDeleteBtn {
+  background: none;
+  border: none;
+  color: #f55;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+}
+
+/* ── Buttons ── */
+.emojiBtn {
+  font-size: 22px;
+  padding: 4px 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.shapeBtn {
+  font-size: 20px;
+  padding: 6px 0;
+  border: 1px solid #444;
+  background: transparent;
+  color: #eee;
+  cursor: pointer;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.frameBtn {
+  font-size: 18px;
+  padding: 6px 0;
+  border: 1px solid #444;
+  background: transparent;
+  color: #eee;
+  cursor: pointer;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.removeFrameBtn {
+  font-size: 14px;
+  padding: 6px 0;
+  border: 1px solid #444;
+  background: transparent;
+  color: #f55;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.textFormatBtn {
+  min-width: 32px;
+}
+
+.textFormatBtnSm {
+  min-width: 28px;
+}
+
+.drawActionBtn {
+  flex: 1;
+}
+
+/* ── Text tab ── */
+.textArea {
+  background: #2a2a30;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  resize: none;
+}
+
+.textAreaSm {
+  composes: textArea;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.textBtnRow {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.textGapRow {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.editSelectedSection {
+  margin-top: 12px;
+  border-top: 1px solid #333;
+  padding-top: 8px;
+}
+
+.editSelectedLabel {
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+/* ── Shapes tab ── */
+.shapeColorRow {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.shapeColorLabel {
+  font-size: 11px;
+  color: #aaa;
+  align-self: center;
+  margin-right: 2px;
+}
+
+.shapeColorLabelMl {
+  composes: shapeColorLabel;
+  margin-left: 4px;
+}
+
+.shapeFillToggle {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+.frameColorRow {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.frameThicknessWrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.frameThicknessValue {
+  font-size: 10px;
+}
+
+/* ── Draw tab ── */
+.drawPreview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.drawActionRow {
+  display: flex;
+  gap: 4px;
+}
+
+.quickColorRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.quickColorSwatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #555;
+}
+
+/* ── Transform tab ── */
+.transformRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.transformZoomRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.transformZoomValue {
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 40px;
+}
+
+.transformInfo {
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #2a2a30;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ── Canvas viewport ── */
+.canvasViewport {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: #111115;
+  position: relative;
+  padding: 20px;
+}
+
+.zoomWrap {
+  position: relative;
+  transform-origin: center center;
+  transition: transform 0.15s ease;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.compareWrap {
+  position: relative;
+  display: inline-block;
+  cursor: ew-resize;
+}
+
+.canvasOriginal {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  display: block;
+}
+
+.canvasEdited {
+  max-height: 60vh;
+  object-fit: contain;
+  display: block;
+}
+
+.compareClip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.compareSlider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  transform: translateX(-50%);
+}
+
+.compareSliderKnob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.compareSliderIcon {
+  color: #fff;
+  font-size: 12px;
+}
+
+.compareLabelOriginal {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.compareLabelEdited {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.regularWrap {
+  position: relative;
+  display: inline-block;
+}
+
+.canvasRegular {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* ── Crop overlay ── */
+.cropOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cropDarkBg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+
+.cropGridContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.cropSizeLabel {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* ── Crop tab info ── */
+.cropInfo {
+  margin-bottom: 10px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.cropAspectLabel {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.cropAspectRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* ── Button style override for accent bg ── */
+.accentBtn {
+  color: #fff;
+  font-weight: 600;
+  width: 100%;
+}

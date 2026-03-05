@@ -1,0 +1,50 @@
+FROM nvidia/cuda:12.8.1-runtime-ubuntu22.04
+
+# Ustaw brak interaktywnych pytań apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /app
+
+# Python 3.11 + system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    software-properties-common \
+ && add-apt-repository ppa:deadsnakes/ppa \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 python3.11-venv python3.11-dev python3-pip \
+    libsndfile1 ffmpeg \
+ && ln -sf /usr/bin/python3.11 /usr/bin/python3 \
+ && ln -sf /usr/bin/python3.11 /usr/bin/python \
+ && rm -rf /var/lib/apt/lists/*
+
+# Kod
+COPY . .
+
+# Upgrade pip and wheel
+RUN python -m pip install --upgrade pip setuptools wheel
+
+# 1) Pinowane torch + torchaudio (CUDA 12.8 wheels — kompatybilne z RTX 50xx Blackwell)
+RUN pip install --no-cache-dir \
+    torch==2.7.0 \
+    torchaudio==2.7.0 \
+    --index-url https://download.pytorch.org/whl/cu128
+
+# 2) Reszta zależności (w tym torchcrepe)
+RUN pip install --no-cache-dir \
+    fastapi \
+    "uvicorn[standard]" \
+    websockets \
+    wsproto \
+    httptools \
+    torchcrepe \
+    "numpy<2" \
+    soundfile \
+    librosa \
+    python-multipart \
+    prometheus-client \
+    opentelemetry-instrumentation-fastapi \
+    opentelemetry-sdk \
+    opentelemetry-exporter-otlp \
+    onnxruntime-gpu
+
+EXPOSE 8084
+CMD ["uvicorn","main:app","--host","0.0.0.0","--port","8084"]

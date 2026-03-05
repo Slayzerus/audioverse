@@ -1,0 +1,22 @@
+.av-permissions-panel :global(.table) td button {
+  min-width: 56px;
+}
+.av-permissions-panel :global(.table) tbody tr:hover {
+  background-color: rgba(0,0,0,0.02);
+}
+.av-permissions-panel :global(.table) th.col-select {
+  width: 40px;
+}
+.av-permissions-panel :global(.btn):focus {
+  outline: 3px solid rgba(13,110,253,0.2);
+  outline-offset: 2px;
+}
+.av-permissions-panel :global(.visually-hidden) {
+  position: absolute !important;
+  height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap;
+}
+.av-permissions-panel caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+}

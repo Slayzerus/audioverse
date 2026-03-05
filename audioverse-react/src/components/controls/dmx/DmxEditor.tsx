@@ -9,6 +9,7 @@ import {
     putDmxChannel as setDmxChannel,
     postBlackout as blackoutDmx,
 } from "../../../scripts/api/apiDmx";
+import { useTranslation } from 'react-i18next';
 import {
     DmxDeviceInfo,
     DmxDeviceChannelInfo,
@@ -16,11 +17,15 @@ import {
     DmxChannelType
 } from "../../../models/modelsDmx";
 import { DmxChannelControl } from "./DmxChannelControls";
+import { logger } from "../../../utils/logger";
+
+const log = logger.scoped('DmxEditor');
 
 const clampByte = (n: number) => Math.max(0, Math.min(255, Math.round(n)));
 
 export default function DmxEditor() {
-    // urządzenia / wybór
+    const { t } = useTranslation();
+    // devices / selection
     const [devices, setDevices] = React.useState<FtdiDeviceDto[]>([]);
     const [selected, setSelected] = React.useState<FtdiDeviceDto | null>(null);
 
@@ -39,7 +44,7 @@ export default function DmxEditor() {
                 setDevices(devs);
                 if (devs.length > 0) setSelected(devs[0]);
             } catch (e) {
-                console.error(e);
+                log.error('Failed to get FTDI devices', e);
             }
         })();
         return () => {
@@ -59,7 +64,7 @@ export default function DmxEditor() {
                 if (typeof s.fps === "number") setFps(s.fps);
                 if (typeof s.startCode === "number") setStartCode(s.startCode);
             } catch {
-                // ignoruj błąd pollingu (np. brak otwartego portu)
+                // ignore polling error (e.g. no open port)
             }
         }, 500);
     }, []);
@@ -72,12 +77,12 @@ export default function DmxEditor() {
     const handleOpen = async () => {
         if (!selected) return;
         try {
-            // preferuj serialNumber; jeśli będzie puste, backend i tak poradzi sobie bez parametru
+            // prefer serialNumber; if empty, backend will handle it without the parameter
             await openDmxPort(selected.serialNumber || selected.description);
             setPortOpen(true);
             startPolling();
         } catch (e) {
-            console.error(e);
+            log.error('Failed to open DMX port', e);
         }
     };
     const handleClose = async () => {
@@ -85,7 +90,7 @@ export default function DmxEditor() {
             await closeDmxPort();
             setPortOpen(false);
         } catch (e) {
-            console.error(e);
+            log.error('Failed to close DMX port', e);
         }
     };
 
@@ -104,7 +109,7 @@ export default function DmxEditor() {
         });
     };
 
-    // aktualizacja kanału lokalnie + commit do API
+    // update channel locally + commit to API
     const handleChange = (ch: number, v: number) => {
         const nv = clampByte(v);
         setValues((prev) => {
@@ -117,7 +122,7 @@ export default function DmxEditor() {
         await setDmxChannel(ch, clampByte(v));
     };
 
-    // kanały do wyświetlenia – bierzemy z deviceInfo, jeśli jest
+    // channels to display – taken from deviceInfo, if present
     const deviceInfo: DmxDeviceInfo | null = selected?.deviceInfo ?? null;
     const channels: DmxDeviceChannelInfo[] = React.useMemo(() => {
         if (deviceInfo?.channels?.length) return deviceInfo.channels;
@@ -130,10 +135,10 @@ export default function DmxEditor() {
         }));
     }, [deviceInfo]);
 
-    // wygląd
+    // appearance
     return (
         <div style={{ padding: 16, display: "grid", gap: 16 }}>
-            {/* Nagłówek / sterowanie portem */}
+            {/* Header / port control */}
             <section
                 style={{
                     display: "grid",
@@ -162,7 +167,7 @@ export default function DmxEditor() {
                     </select>
                     {deviceInfo && (
                         <div style={{ marginTop: 6, fontSize: 12, color: "#6b7280" }}>
-                            Tryb: <b>{deviceInfo.modeName}</b>, footprint: <b>{deviceInfo.footprint}</b>
+                            {t('dmxEditor.mode', 'Mode')}: <b>{deviceInfo.modeName}</b>, footprint: <b>{deviceInfo.footprint}</b>
                         </div>
                     )}
                 </div>
@@ -172,14 +177,14 @@ export default function DmxEditor() {
                     disabled={!selected || portOpen}
                     style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #10b981", background: "#ecfdf5", cursor: "pointer" }}
                 >
-                    Otwórz port
+                    {t('dmxEditor.openPort', 'Open port')}
                 </button>
                 <button
                     onClick={handleClose}
                     disabled={!portOpen}
                     style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #ef4444", background: "#fef2f2", cursor: "pointer" }}
                 >
-                    Zamknij port
+                    {t('dmxEditor.closePort', 'Close port')}
                 </button>
                 <button
                     onClick={handleBlackout}
@@ -193,7 +198,7 @@ export default function DmxEditor() {
             <section
                 style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, minmax(160px, 1fr))",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(min(160px, 100%), 1fr))",
                     gap: 12,
                     alignItems: "end",
                 }}
@@ -225,14 +230,14 @@ export default function DmxEditor() {
                         onClick={handleApplyConfig}
                         style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #3b82f6", background: "#eff6ff", cursor: "pointer" }}
                     >
-                        Zastosuj konfigurację
+                        {t('dmxEditor.applyConfig', 'Apply configuration')}
                     </button>
                 </div>
             </section>
 
-            {/* Kanały */}
+            {/* Channels */}
             <section>
-                <h3 style={{ margin: "8px 0 12px", fontSize: 16 }}>Kanały</h3>
+                <h3 style={{ margin: "8px 0 12px", fontSize: 16 }}>{t('dmxEditor.channels', 'Channels')}</h3>
                 <div
                     style={{
                         display: "grid",

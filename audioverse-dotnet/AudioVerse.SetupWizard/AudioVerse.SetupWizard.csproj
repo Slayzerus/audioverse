@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- Skrypty .bat — nie kompiluj, tylko kopiuj do output -->
+  <ItemGroup>
+    <None Include="Scripts\*.bat" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Po kompilacji kopiuj output + utils do ../installer/ -->
+  <Target Name="CopyToInstaller" AfterTargets="Build">
+    <PropertyGroup>
+      <InstallerDir>$(SolutionDir)..\installer\</InstallerDir>
+      <UtilsSource>$(SolutionDir)..\utils\</UtilsSource>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(InstallerDir)" />
+
+    <!-- 1. Kopiuj exe + dll + baty -->
+    <ItemGroup>
+      <InstallerFiles Include="$(OutputPath)**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(InstallerFiles)"
+          DestinationFolder="$(InstallerDir)%(RecursiveDir)"
+          SkipUnchangedFiles="true" />
+
+    <!-- 2. Kopiuj baty z Scripts/ na root installera -->
+    <ItemGroup>
+      <BatFiles Include="Scripts\*.bat" />
+    </ItemGroup>
+    <Copy SourceFiles="@(BatFiles)"
+          DestinationFolder="$(InstallerDir)"
+          SkipUnchangedFiles="true" />
+
+    <!-- 3. Kopiuj utils/ (ai/, librosa/ itd.) -->
+    <ItemGroup>
+      <UtilsFiles Include="$(UtilsSource)**\*.*"
+                  Exclude="$(UtilsSource)**\__pycache__\**;$(UtilsSource)**\.venv\**;$(UtilsSource)**\*.pyc" />
+    </ItemGroup>
+    <Copy SourceFiles="@(UtilsFiles)"
+          DestinationFolder="$(InstallerDir)utils\%(RecursiveDir)"
+          SkipUnchangedFiles="true" />
+
+    <Message Importance="high"
+             Text="SetupWizard + utils skopiowane do $(InstallerDir)" />
+  </Target>
+
+</Project>

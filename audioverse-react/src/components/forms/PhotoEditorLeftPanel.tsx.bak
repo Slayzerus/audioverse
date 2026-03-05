@@ -1,0 +1,846 @@
+/**
+ * PhotoEditorLeftPanel.tsx — Left sidebar of the PhotoEditor.
+ *
+ * Contains 8 tab buttons and their corresponding panel content:
+ *   Filters, Adjust, Crop, Transform, Stickers, Text, Shapes, Draw
+ */
+
+import React from "react";
+import { Button, Form } from "react-bootstrap";
+import {
+    DEFAULT_ADJUSTMENTS,
+    type AdjustmentValues,
+} from "../../scripts/photoFilters";
+import {
+    type EmojiOverlay,
+    type TextOverlay,
+    type ShapeOverlay,
+    type DrawingOverlay,
+    type FrameOverlay,
+    EMOJI_CATALOG,
+    SHAPE_CATALOG,
+    FRAME_CATALOG,
+    type Overlay,
+} from "../../scripts/photoOverlays";
+import {
+    TAB_DEFS,
+    ASPECT_RATIOS,
+    ADJUSTMENT_SLIDERS,
+    type FilterCategory,
+} from "./photoEditorTypes";
+import FilterThumb from "./FilterThumb";
+import type { PhotoEditorAPI } from "./usePhotoEditor";
+
+interface Props {
+    api: PhotoEditorAPI;
+}
+
+// ── Overlay Toolbar (extracted from the original inline function) ──
+
+const OverlayToolbar: React.FC<{ api: PhotoEditorAPI }> = ({ api }) => {
+    const { selectedOverlay, accent, t, updateOverlay, pushHistory, moveOverlayBack, moveOverlayForward, deleteOverlay } = api;
+    if (!selectedOverlay) return null;
+    return (
+        <div style={{
+            display: "flex", flexWrap: "wrap", gap: 4, padding: "6px 0",
+            borderBottom: "1px solid #333", marginBottom: 8,
+        }}>
+            <span style={{ fontSize: 11, color: "#aaa", alignSelf: "center", marginRight: 4 }}>
+                <i className="fa fa-object-group me-1" />Warstwa
+            </span>
+            {/* Opacity */}
+            <Form.Range
+                min={0} max={100}
+                value={(selectedOverlay.opacity ?? 1) * 100}
+                onChange={e => updateOverlay(selectedOverlay.id, { opacity: Number(e.target.value) / 100 })}
+                onMouseUp={pushHistory}
+                style={{ accentColor: accent, maxWidth: 70 }}
+                title={t("photoEditor.opacity", "Opacity")}
+            />
+            <span style={{ fontSize: 10, color: accent, minWidth: 28 }}>
+                {Math.round((selectedOverlay.opacity ?? 1) * 100)}%
+            </span>
+            {/* Scale */}
+            {selectedOverlay.type !== "drawing" && selectedOverlay.type !== "frame" && (
+                <>
+                    <Form.Range
+                        min={20} max={500}
+                        value={(selectedOverlay.scaleX ?? 1) * 100}
+                        onChange={e => {
+                            const s = Number(e.target.value) / 100;
+                            updateOverlay(selectedOverlay.id, { scaleX: s, scaleY: s });
+                        }}
+                        onMouseUp={pushHistory}
+                        style={{ accentColor: accent, maxWidth: 60 }}
+                        title="Skala"
+                    />
+                    <span style={{ fontSize: 10, color: "#aaa", minWidth: 28 }}>
+                        {Math.round((selectedOverlay.scaleX ?? 1) * 100)}%
+                    </span>
+                </>
+            )}
+            {/* Rotation (for positioned overlays) */}
+            {selectedOverlay.type !== "drawing" && selectedOverlay.type !== "frame" && (
+                <Form.Range
+                    min={-180} max={180}
+                    value={selectedOverlay.rotation ?? 0}
+                    onChange={e => updateOverlay(selectedOverlay.id, { rotation: Number(e.target.value) })}
+                    onMouseUp={pushHistory}
+                    style={{ accentColor: accent, maxWidth: 60 }}
+                    title={t("photoEditor.rotation", "Rotation")}
+                />
+            )}
+            <Button variant="dark" size="sm" onClick={() => moveOverlayBack(selectedOverlay.id)} title={t("photoEditor.moveBack", "Move back")} style={{ padding: "2px 6px", fontSize: 11 }}>
+                <i className="fa fa-arrow-down" />
+            </Button>
+            <Button variant="dark" size="sm" onClick={() => moveOverlayForward(selectedOverlay.id)} title={t("photoEditor.moveForward", "Move forward")} style={{ padding: "2px 6px", fontSize: 11 }}>
+                <i className="fa fa-arrow-up" />
+            </Button>
+            <Button variant="outline-danger" size="sm" onClick={() => deleteOverlay(selectedOverlay.id)} style={{ padding: "2px 6px", fontSize: 11 }}>
+                <i className="fa fa-trash" />
+            </Button>
+        </div>
+    );
+};
+
+// ── Left Panel ──
+
+const PhotoEditorLeftPanel: React.FC<Props> = React.memo(({ api }) => {
+    const {
+        t, accent, accentDim,
+        activeTab, setActiveTab, setCropMode,
+        // Filters
+        selectedFilter, setSelectedFilter, filterIntensity, setFilterIntensity,
+        filterCategory, setFilterCategory, filteredList, generateThumbnail,
+        pushHistory,
+        // Adjustments
+        adjustments, handleAdjChange, handleAdjChangeEnd,
+        // Crop
+        image, cropRect, setCropRect, cropAspect, setCropAspect,
+        // Transform
+        rotation, setRotation, flipH, setFlipH, flipV, setFlipV, zoom, setZoom,
+        // Overlays
+        overlays, setOverlays, selectedOverlayId, setSelectedOverlayId, addOverlay, deleteOverlay,
+        mainCanvasRef,
+        // Stickers / Emoji
+        emojiCat, setEmojiCat,
+        // Text
+        textDraft, setTextDraft, textColor, setTextColor, textBold, setTextBold,
+        textItalic, setTextItalic, textOutline, setTextOutline, textFontSize, setTextFontSize,
+        textBg, setTextBg, selectedOverlay, updateOverlay,
+        // Shapes
+        shapeStroke, setShapeStroke, shapeFill, setShapeFill, shapeStrokeW, setShapeStrokeW,
+        // Frame
+        frameColor, setFrameColor, frameThick, setFrameThick,
+        // Drawing
+        drawColor, setDrawColor, drawWidth, setDrawWidth, drawingOverlayRef,
+        // Creators
+        createEmojiOverlay, createTextOverlay, createShapeOverlay, createFrameOverlay,
+    } = api;
+
+    return (
+        <div style={{
+            width: 280, minWidth: 280, display: "flex", flexDirection: "column",
+            borderRight: "1px solid #333", background: "#222226",
+            overflow: "hidden",
+        }}>
+            {/* Tab bar */}
+            <div style={{
+                display: "flex", borderBottom: "1px solid #333", flexWrap: "wrap",
+            }}>
+                {TAB_DEFS.map(tab => (
+                    <button
+                        key={tab.key}
+                        onClick={() => {
+                            setActiveTab(tab.key);
+                            if (tab.key === "crop") setCropMode(true);
+                            else setCropMode(false);
+                        }}
+                        title={tab.label}
+                        style={{
+                            flex: "1 0 auto", padding: "8px 0", border: "none",
+                            minWidth: 34,
+                            background: activeTab === tab.key ? "#2a2a30" : "transparent",
+                            color: activeTab === tab.key ? accent : "#888",
+                            borderBottom: activeTab === tab.key ? `2px solid ${accent}` : "2px solid transparent",
+                            cursor: "pointer", fontSize: 10, fontWeight: 600,
+                            transition: "all 0.15s",
+                            display: "flex", flexDirection: "column", alignItems: "center", gap: 1,
+                        }}
+                    >
+                        <i className={`fa ${tab.icon}`} style={{ fontSize: 14 }} />
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+
+            {/* Panel content */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "10px 12px" }}>
+                {/* ── FILTERS TAB ── */}
+                {activeTab === "filters" && (
+                    <>
+                        {/* Category pills */}
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 10 }}>
+                            {([
+                                { key: "all",      label: "All" },
+                                { key: "color",    label: "Color" },
+                                { key: "light",    label: "Light" },
+                                { key: "vintage",  label: "Vintage" },
+                                { key: "artistic", label: "Artistic" },
+                                { key: "fun",      label: "Fun" },
+                            ] as { key: FilterCategory; label: string }[]).map(cat => (
+                                <button
+                                    key={cat.key}
+                                    onClick={() => setFilterCategory(cat.key)}
+                                    style={{
+                                        padding: "3px 10px", borderRadius: 12, border: "1px solid",
+                                        borderColor: filterCategory === cat.key ? accent : "#444",
+                                        background: filterCategory === cat.key ? accentDim : "transparent",
+                                        color: filterCategory === cat.key ? "#fff" : "#aaa",
+                                        cursor: "pointer", fontSize: 11, fontWeight: 600,
+                                    }}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Filter grid */}
+                        <div style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gap: 6,
+                        }}>
+                            {filteredList.map(filter => (
+                                <FilterThumb
+                                    key={filter.id}
+                                    filter={filter}
+                                    selected={selectedFilter === filter.id}
+                                    accent={accent}
+                                    onSelect={() => {
+                                        setSelectedFilter(filter.id);
+                                        pushHistory();
+                                    }}
+                                    generateThumbnail={generateThumbnail}
+                                />
+                            ))}
+                        </div>
+
+                        {/* Intensity slider */}
+                        {selectedFilter !== "none" && (
+                            <div style={{ marginTop: 12, padding: "8px 0" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, fontSize: 11 }}>
+                                    <span style={{ color: "#aaa" }}>
+                                        <i className="fa fa-tachometer me-1" />
+                                        Intensity
+                                    </span>
+                                    <span style={{ color: accent, fontWeight: 600 }}>
+                                        {Math.round(filterIntensity * 100)}%
+                                    </span>
+                                </div>
+                                <Form.Range
+                                    min={0} max={100} value={filterIntensity * 100}
+                                    onChange={e => setFilterIntensity(Number(e.target.value) / 100)}
+                                    onMouseUp={() => pushHistory()}
+                                    style={{ accentColor: accent }}
+                                />
+                            </div>
+                        )}
+                    </>
+                )}
+
+                {/* ── ADJUST TAB ── */}
+                {activeTab === "adjust" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                        {ADJUSTMENT_SLIDERS.map(sl => (
+                            <div key={sl.key}>
+                                <div style={{
+                                    display: "flex", justifyContent: "space-between",
+                                    marginBottom: 2, fontSize: 11,
+                                }}>
+                                    <span style={{ color: "#aaa" }}>
+                                        <i className={`fa ${sl.icon} me-1`} style={{ width: 14, textAlign: "center" }} />
+                                        {sl.label}
+                                    </span>
+                                    <span
+                                        style={{
+                                            color: adjustments[sl.key] !== 0 ? accent : "#666",
+                                            fontWeight: 600, cursor: "pointer", minWidth: 30, textAlign: "right",
+                                        }}
+                                        onClick={() => handleAdjChange(sl.key, sl.key === "blur" ? 0 : 0)}
+                                        title="Reset"
+                                    >
+                                        {adjustments[sl.key]}
+                                    </span>
+                                </div>
+                                <Form.Range
+                                    min={sl.min} max={sl.max}
+                                    value={adjustments[sl.key]}
+                                    onChange={e => handleAdjChange(sl.key, Number(e.target.value))}
+                                    onMouseUp={handleAdjChangeEnd}
+                                    style={{ accentColor: accent }}
+                                />
+                            </div>
+                        ))}
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            className="mt-2"
+                            onClick={() => {
+                                handleAdjChange("brightness" as keyof AdjustmentValues, 0);
+                                // Reset all adjustments via a small workaround: set each to default
+                                // Actually, let's just use the api-level pushHistory after resetting
+                                // We'll set adjustments directly — but we expose handleAdjChange per key.
+                                // For a full reset we can use the original pattern:
+                                const defaults = { ...DEFAULT_ADJUSTMENTS };
+                                for (const key of Object.keys(defaults) as (keyof AdjustmentValues)[]) {
+                                    handleAdjChange(key, defaults[key]);
+                                }
+                                pushHistory();
+                            }}
+                        >
+                            <i className="fa fa-refresh me-1" />
+                            Resetuj korekty
+                        </Button>
+                    </div>
+                )}
+
+                {/* ── CROP TAB ── */}
+                {activeTab === "crop" && (
+                    <div>
+                        <div style={{ marginBottom: 10, fontSize: 11, color: "#aaa" }}>
+                            <i className="fa fa-info-circle me-1" />
+                            Drag corners or edges to crop the photo.
+                        </div>
+                        <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 12 }}>
+                            Aspect ratio
+                        </div>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                            {ASPECT_RATIOS.map(ar => (
+                                <button
+                                    key={ar.label}
+                                    onClick={() => {
+                                        setCropAspect(ar.value);
+                                        if (ar.value && cropRect && image) {
+                                            let newW = cropRect.w;
+                                            let newH = cropRect.w / ar.value;
+                                            if (newH > image.naturalHeight) {
+                                                newH = image.naturalHeight;
+                                                newW = newH * ar.value;
+                                            }
+                                            setCropRect({
+                                                x: Math.max(0, cropRect.x),
+                                                y: Math.max(0, cropRect.y),
+                                                w: Math.min(newW, image.naturalWidth),
+                                                h: Math.min(newH, image.naturalHeight),
+                                            });
+                                        }
+                                    }}
+                                    style={{
+                                        padding: "4px 12px", borderRadius: 6, border: "1px solid",
+                                        borderColor: cropAspect === ar.value ? accent : "#444",
+                                        background: cropAspect === ar.value ? accentDim : "transparent",
+                                        color: cropAspect === ar.value ? "#fff" : "#aaa",
+                                        cursor: "pointer", fontSize: 11, fontWeight: 600,
+                                    }}
+                                >
+                                    {ar.label}
+                                </button>
+                            ))}
+                        </div>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            className="mt-3"
+                            onClick={() => {
+                                if (image) {
+                                    setCropRect({ x: 0, y: 0, w: image.naturalWidth, h: image.naturalHeight });
+                                    setCropAspect(null);
+                                    pushHistory();
+                                }
+                            }}
+                        >
+                            <i className="fa fa-expand me-1" />
+                            Resetuj kadrowanie
+                        </Button>
+                    </div>
+                )}
+
+                {/* ── TRANSFORM TAB ── */}
+                {activeTab === "transform" && (
+                    <div>
+                        <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12 }}>
+                            Rotation
+                        </div>
+                        <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
+                            <Button variant="dark" size="sm" onClick={() => { setRotation((rotation - 90 + 360) % 360); pushHistory(); }}>
+                                <i className="fa fa-rotate-left me-1" /> -90°
+                            </Button>
+                            <Button variant="dark" size="sm" onClick={() => { setRotation((rotation + 90) % 360); pushHistory(); }}>
+                                <i className="fa fa-rotate-right me-1" /> +90°
+                            </Button>
+                            <Button variant="dark" size="sm" onClick={() => { setRotation(0); pushHistory(); }}>
+                                0°
+                            </Button>
+                        </div>
+
+                        <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12 }}>
+                            Flip
+                        </div>
+                        <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
+                            <Button
+                                variant={flipH ? "outline-info" : "dark"}
+                                size="sm"
+                                onClick={() => { setFlipH(!flipH); pushHistory(); }}
+                            >
+                                <i className="fa fa-arrows-h me-1" /> Horizontal
+                            </Button>
+                            <Button
+                                variant={flipV ? "outline-info" : "dark"}
+                                size="sm"
+                                onClick={() => { setFlipV(!flipV); pushHistory(); }}
+                            >
+                                <i className="fa fa-arrows-v me-1" /> Vertical
+                            </Button>
+                        </div>
+
+                        <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12 }}>
+                            Preview zoom
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <Form.Range
+                                min={50} max={300} value={zoom * 100}
+                                onChange={e => setZoom(Number(e.target.value) / 100)}
+                                style={{ accentColor: accent }}
+                            />
+                            <span style={{ fontSize: 11, color: accent, fontWeight: 600, minWidth: 40 }}>
+                                {Math.round(zoom * 100)}%
+                            </span>
+                        </div>
+
+                        <div style={{
+                            marginTop: 16, padding: 10, borderRadius: 8,
+                            background: "#2a2a30", fontSize: 11, color: "#aaa",
+                        }}>
+                            <div><strong>Rotation:</strong> {rotation}°</div>
+                            <div><strong>Flip H:</strong> {flipH ? "Yes" : "No"}</div>
+                            <div><strong>Flip V:</strong> {flipV ? "Yes" : "No"}</div>
+                            {cropRect && (
+                                <div>
+                                    <strong>Crop:</strong>{" "}
+                                    {Math.round(cropRect.w)} × {Math.round(cropRect.h)}
+                                    {" ("}x:{Math.round(cropRect.x)}, y:{Math.round(cropRect.y)})
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* ── STICKERS TAB ── */}
+                {activeTab === "stickers" && (
+                    <div>
+                        <OverlayToolbar api={api} />
+                        <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 12 }}>
+                            <i className="fa fa-smile-o me-1" /> Stickers / Emoji
+                        </div>
+                        {/* Category pills */}
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 3, marginBottom: 8 }}>
+                            {EMOJI_CATALOG.map(cat => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => setEmojiCat(cat.id)}
+                                    style={{
+                                        padding: "2px 8px", borderRadius: 10, border: "1px solid",
+                                        borderColor: emojiCat === cat.id ? accent : "#444",
+                                        background: emojiCat === cat.id ? accentDim : "transparent",
+                                        color: emojiCat === cat.id ? "#fff" : "#aaa",
+                                        cursor: "pointer", fontSize: 11, fontWeight: 600,
+                                    }}
+                                >
+                                    {cat.icon} {cat.label}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Emoji grid */}
+                        <div style={{
+                            display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2,
+                            maxHeight: 260, overflowY: "auto",
+                        }}>
+                            {EMOJI_CATALOG.find(c => c.id === emojiCat)?.emojis.map((em, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => {
+                                        const cw = mainCanvasRef.current?.width ?? 400;
+                                        const ch = mainCanvasRef.current?.height ?? 400;
+                                        addOverlay(createEmojiOverlay(em, cw, ch));
+                                    }}
+                                    style={{
+                                        fontSize: 22, padding: "4px 0", border: "none",
+                                        background: "transparent", cursor: "pointer",
+                                        borderRadius: 6, lineHeight: 1,
+                                    }}
+                                    title={em}
+                                >
+                                    {em}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Overlay list */}
+                        {overlays.length > 0 && (
+                            <div style={{ marginTop: 12, borderTop: "1px solid #333", paddingTop: 8 }}>
+                                <div style={{ fontWeight: 600, fontSize: 11, color: "#aaa", marginBottom: 4 }}>
+                                    Warstwy ({overlays.length})
+                                </div>
+                                {overlays.map(ov => (
+                                    <div
+                                        key={ov.id}
+                                        onClick={() => setSelectedOverlayId(ov.id)}
+                                        style={{
+                                            display: "flex", alignItems: "center", gap: 6,
+                                            padding: "3px 6px", borderRadius: 4, cursor: "pointer",
+                                            background: selectedOverlayId === ov.id ? accentDim : "transparent",
+                                            fontSize: 11, color: "#ccc", marginBottom: 2,
+                                        }}
+                                    >
+                                        <span style={{ width: 18, textAlign: "center" }}>
+                                            {ov.type === "emoji" ? (ov as EmojiOverlay).emoji
+                                                : ov.type === "text" ? "T"
+                                                : ov.type === "shape" ? "◆"
+                                                : ov.type === "drawing" ? "✏"
+                                                : "▢"}
+                                        </span>
+                                        <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                            {ov.type === "text" ? (ov as TextOverlay).text.slice(0, 20)
+                                                : ov.type === "emoji" ? "Emoji"
+                                                : ov.type === "shape" ? (ov as ShapeOverlay).shapeKind
+                                                : ov.type === "drawing" ? `Rysunek (${(ov as DrawingOverlay).strokes.length})`
+                                                : ov.type === "frame" ? (ov as FrameOverlay).frameStyle
+                                                : ""}
+                                        </span>
+                                        <button
+                                            onClick={e => { e.stopPropagation(); deleteOverlay(ov.id); }}
+                                            style={{ background: "none", border: "none", color: "#f55", cursor: "pointer", fontSize: 11, padding: 0 }}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* ── TEXT TAB ── */}
+                {activeTab === "text" && (
+                    <div>
+                        <OverlayToolbar api={api} />
+                        <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12 }}>
+                            <i className="fa fa-font me-1" /> {t("photoEditor.addCaption", "Add caption")}
+                        </div>
+                        <Form.Control
+                            as="textarea"
+                            rows={2}
+                            value={textDraft}
+                            onChange={e => setTextDraft(e.target.value)}
+                            placeholder="Wpisz tekst..."
+                            style={{
+                                background: "#2a2a30", color: "#eee", border: "1px solid #444",
+                                borderRadius: 6, fontSize: 13, marginBottom: 8, resize: "none",
+                            }}
+                        />
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
+                            <Button
+                                variant={textBold ? "light" : "dark"} size="sm"
+                                onClick={() => setTextBold(!textBold)} title="Bold"
+                                style={{ fontWeight: 700, minWidth: 32 }}
+                            >B</Button>
+                            <Button
+                                variant={textItalic ? "light" : "dark"} size="sm"
+                                onClick={() => setTextItalic(!textItalic)} title="Italic"
+                                style={{ fontStyle: "italic", minWidth: 32 }}
+                            >I</Button>
+                            <Button
+                                variant={textOutline ? "light" : "dark"} size="sm"
+                                onClick={() => setTextOutline(!textOutline)} title="Kontur"
+                                style={{ minWidth: 32 }}
+                            >O</Button>
+                            <Button
+                                variant={textBg ? "light" : "dark"} size="sm"
+                                onClick={() => setTextBg(!textBg)} title={t("photoEditor.background", "Background")}
+                                style={{ minWidth: 32 }}
+                            ><i className="fa fa-square" /></Button>
+                            <input
+                                type="color" value={textColor}
+                                onChange={e => setTextColor(e.target.value)}
+                                style={{ width: 32, height: 30, border: "none", cursor: "pointer", padding: 0 }}
+                                title="Kolor tekstu"
+                            />
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+                            <span style={{ fontSize: 11, color: "#aaa" }}>Rozmiar:</span>
+                            <Form.Range
+                                min={12} max={120} value={textFontSize}
+                                onChange={e => setTextFontSize(Number(e.target.value))}
+                                style={{ accentColor: accent, flex: 1 }}
+                            />
+                            <span style={{ fontSize: 11, color: accent, fontWeight: 600, minWidth: 28 }}>{textFontSize}px</span>
+                        </div>
+                        <Button
+                            size="sm"
+                            style={{ background: accent, borderColor: accent, color: "#fff", fontWeight: 600, width: "100%" }}
+                            disabled={!textDraft.trim()}
+                            onClick={() => {
+                                const ov = createTextOverlay(textDraft);
+                                ov.color = textColor;
+                                ov.bold = textBold;
+                                ov.italic = textItalic;
+                                ov.fontSize = textFontSize;
+                                ov.outlineColor = textOutline ? "#000000" : null;
+                                ov.outlineWidth = textOutline ? 2 : 0;
+                                ov.background = textBg ? "rgba(0,0,0,0.5)" : null;
+                                addOverlay(ov);
+                            }}
+                        >
+                            <i className="fa fa-plus me-1" /> {t("photoEditor.addText", "Add text")}
+                        </Button>
+                        {/* Edit selected text inline */}
+                        {selectedOverlay?.type === "text" && (
+                            <div style={{ marginTop: 12, borderTop: "1px solid #333", paddingTop: 8 }}>
+                                <div style={{ fontSize: 11, color: "#aaa", marginBottom: 4 }}>{t("photoEditor.editSelectedText", "Edit selected text:")}</div>
+                                <Form.Control
+                                    as="textarea" rows={2}
+                                    value={(selectedOverlay as TextOverlay).text}
+                                    onChange={e => updateOverlay(selectedOverlay.id, { text: e.target.value })}
+                                    onBlur={pushHistory}
+                                    style={{
+                                        background: "#2a2a30", color: "#eee", border: "1px solid #444",
+                                        borderRadius: 6, fontSize: 12, resize: "none",
+                                    }}
+                                />
+                                <div style={{ display: "flex", gap: 4, marginTop: 6 }}>
+                                    <input
+                                        type="color"
+                                        value={(selectedOverlay as TextOverlay).color}
+                                        onChange={e => { updateOverlay(selectedOverlay.id, { color: e.target.value }); }}
+                                        onBlur={pushHistory}
+                                        style={{ width: 28, height: 28, border: "none", cursor: "pointer", padding: 0 }}
+                                        aria-label={t("photoEditor.textColor", "Text overlay color")}
+                                    />
+                                    <Button
+                                        variant={(selectedOverlay as TextOverlay).bold ? "light" : "dark"} size="sm"
+                                        onClick={() => { updateOverlay(selectedOverlay.id, { bold: !(selectedOverlay as TextOverlay).bold }); pushHistory(); }}
+                                        style={{ fontWeight: 700, minWidth: 28 }}
+                                    >B</Button>
+                                    <Button
+                                        variant={(selectedOverlay as TextOverlay).italic ? "light" : "dark"} size="sm"
+                                        onClick={() => { updateOverlay(selectedOverlay.id, { italic: !(selectedOverlay as TextOverlay).italic }); pushHistory(); }}
+                                        style={{ fontStyle: "italic", minWidth: 28 }}
+                                    >I</Button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* ── SHAPES TAB ── */}
+                {activeTab === "shapes" && (
+                    <div>
+                        <OverlayToolbar api={api} />
+                        {/* Shapes */}
+                        <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 12 }}>
+                            <i className="fa fa-star me-1" /> Shapes
+                        </div>
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 8 }}>
+                            <span style={{ fontSize: 11, color: "#aaa", alignSelf: "center", marginRight: 2 }}>Stroke:</span>
+                            <input type="color" value={shapeStroke} onChange={e => setShapeStroke(e.target.value)}
+                                style={{ width: 28, height: 28, border: "none", padding: 0, cursor: "pointer" }} title="Stroke color" />
+                            <span style={{ fontSize: 11, color: "#aaa", alignSelf: "center", marginLeft: 4, marginRight: 2 }}>Fill:</span>
+                            <input type="color" value={shapeFill || "#ffffff"} onChange={e => setShapeFill(e.target.value)}
+                                style={{ width: 28, height: 28, border: "none", padding: 0, cursor: "pointer" }} title={t("photoEditor.fillColor", "Fill color")} />
+                            <Button variant={shapeFill ? "light" : "dark"} size="sm" onClick={() => setShapeFill(shapeFill ? "" : "#ffffff")}
+                                style={{ fontSize: 10, padding: "2px 6px" }}>
+                                {shapeFill ? "Off" : "On"}
+                            </Button>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+                            <span style={{ fontSize: 11, color: "#aaa" }}>Width:</span>
+                            <Form.Range min={1} max={20} value={shapeStrokeW} onChange={e => setShapeStrokeW(Number(e.target.value))}
+                                style={{ accentColor: accent, flex: 1 }} />
+                            <span style={{ fontSize: 11, color: accent, fontWeight: 600, minWidth: 24 }}>{shapeStrokeW}px</span>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4, marginBottom: 16 }}>
+                            {SHAPE_CATALOG.map(s => (
+                                <button
+                                    key={s.id}
+                                    title={s.label}
+                                    onClick={() => {
+                                        const ov = createShapeOverlay(s.id);
+                                        ov.strokeColor = shapeStroke;
+                                        ov.fillColor = shapeFill || null;
+                                        ov.strokeWidth = shapeStrokeW;
+                                        addOverlay(ov);
+                                    }}
+                                    style={{
+                                        fontSize: 20, padding: "6px 0", border: "1px solid #444",
+                                        background: "transparent", color: "#eee",
+                                        cursor: "pointer", borderRadius: 6, lineHeight: 1,
+                                    }}
+                                >
+                                    {s.icon}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Frames */}
+                        <div style={{ fontWeight: 600, marginBottom: 6, fontSize: 12 }}>
+                            <i className="fa fa-picture-o me-1" /> Ramki
+                        </div>
+                        <div style={{ display: "flex", gap: 4, marginBottom: 8 }}>
+                            <input type="color" value={frameColor} onChange={e => setFrameColor(e.target.value)}
+                                style={{ width: 28, height: 28, border: "none", padding: 0, cursor: "pointer" }}
+                                aria-label={t("photoEditor.frameColor", "Frame color")} />
+                            <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1 }}>
+                                <span style={{ fontSize: 11, color: "#aaa" }}>Grub.:</span>
+                                <Form.Range min={1} max={10} value={frameThick} onChange={e => setFrameThick(Number(e.target.value))}
+                                    style={{ accentColor: accent, flex: 1 }} />
+                                <span style={{ fontSize: 10, color: accent }}>{frameThick}</span>
+                            </div>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4 }}>
+                            {FRAME_CATALOG.map(fr => (
+                                <button
+                                    key={fr.id}
+                                    title={fr.label}
+                                    onClick={() => {
+                                        setOverlays((prev: Overlay[]) => prev.filter(o => o.type !== "frame"));
+                                        const ov = createFrameOverlay(fr.id, frameColor);
+                                        ov.thickness = frameThick / 100;
+                                        addOverlay(ov);
+                                    }}
+                                    style={{
+                                        fontSize: 18, padding: "6px 0", border: "1px solid #444",
+                                        background: "transparent", color: "#eee",
+                                        cursor: "pointer", borderRadius: 6, lineHeight: 1,
+                                    }}
+                                >
+                                    {fr.icon}
+                                </button>
+                            ))}
+                            <button
+                                title={t("photoEditor.removeFrame", "Remove frame")}
+                                onClick={() => { setOverlays((prev: Overlay[]) => prev.filter(o => o.type !== "frame")); pushHistory(); }}
+                                style={{
+                                    fontSize: 14, padding: "6px 0", border: "1px solid #444",
+                                    background: "transparent", color: "#f55",
+                                    cursor: "pointer", borderRadius: 6,
+                                }}
+                            >✕</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* ── DRAW TAB ── */}
+                {activeTab === "draw" && (
+                    <div>
+                        <OverlayToolbar api={api} />
+                        <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 12 }}>
+                            <i className="fa fa-paint-brush me-1" /> Freehand drawing
+                        </div>
+                        <div style={{ fontSize: 11, color: "#aaa", marginBottom: 10 }}>
+                            <i className="fa fa-info-circle me-1" />
+                            Draw directly on the photo by holding the left mouse button.
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+                            <span style={{ fontSize: 11, color: "#aaa" }}>Color:</span>
+                            <input
+                                type="color" value={drawColor}
+                                onChange={e => setDrawColor(e.target.value)}
+                                style={{ width: 32, height: 28, border: "none", padding: 0, cursor: "pointer" }}
+                                aria-label={t("photoEditor.drawColor", "Drawing color")}
+                            />
+                            {/* Quick color presets */}
+                            {["#ff0000","#ff8800","#ffff00","#00cc00","#0088ff","#8800ff","#ff00ff","#ffffff","#000000"].map(c => (
+                                <div
+                                    key={c}
+                                    onClick={() => setDrawColor(c)}
+                                    style={{
+                                        width: 18, height: 18, borderRadius: 3,
+                                        background: c, cursor: "pointer",
+                                        border: drawColor === c ? `2px solid ${accent}` : "1px solid #555",
+                                    }}
+                                />
+                            ))}
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+                            <span style={{ fontSize: 11, color: "#aaa" }}>Width:</span>
+                            <Form.Range
+                                min={1} max={30} value={drawWidth}
+                                onChange={e => setDrawWidth(Number(e.target.value))}
+                                style={{ accentColor: accent, flex: 1 }}
+                            />
+                            <span style={{ fontSize: 11, color: accent, fontWeight: 600, minWidth: 24 }}>{drawWidth}px</span>
+                        </div>
+                        {/* Drawing preview circle */}
+                        <div style={{
+                            display: "flex", justifyContent: "center", marginBottom: 12,
+                        }}>
+                            <div style={{
+                                width: Math.max(drawWidth, 4), height: Math.max(drawWidth, 4),
+                                borderRadius: "50%", background: drawColor,
+                                border: "1px solid #555",
+                            }} />
+                        </div>
+                        <div style={{ display: "flex", gap: 4 }}>
+                            <Button
+                                variant="outline-warning"
+                                size="sm"
+                                onClick={() => {
+                                    if (drawingOverlayRef.current) {
+                                        const id = drawingOverlayRef.current.id;
+                                        setOverlays((prev: Overlay[]) => prev.map(o => {
+                                            if (o.id === id && o.type === "drawing") {
+                                                const d = o as DrawingOverlay;
+                                                if (d.strokes.length <= 1) return o;
+                                                return { ...d, strokes: d.strokes.slice(0, -1) };
+                                            }
+                                            return o;
+                                        }));
+                                        pushHistory();
+                                    }
+                                }}
+                                style={{ flex: 1 }}
+                            >
+                                <i className="fa fa-undo me-1" /> Undo stroke
+                            </Button>
+                            <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => {
+                                    if (drawingOverlayRef.current) {
+                                        deleteOverlay(drawingOverlayRef.current.id);
+                                        drawingOverlayRef.current = null;
+                                    }
+                                }}
+                                style={{ flex: 1 }}
+                            >
+                                <i className="fa fa-trash me-1" /> Clear
+                            </Button>
+                        </div>
+                        <Button
+                            variant="dark" size="sm" className="mt-2 w-100"
+                            onClick={() => {
+                                drawingOverlayRef.current = null;
+                            }}
+                        >
+                            <i className="fa fa-plus me-1" /> New drawing layer
+                        </Button>
+                    </div>
+                )}
+
+            </div>
+        </div>
+    );
+});
+
+PhotoEditorLeftPanel.displayName = "PhotoEditorLeftPanel";
+export default PhotoEditorLeftPanel;

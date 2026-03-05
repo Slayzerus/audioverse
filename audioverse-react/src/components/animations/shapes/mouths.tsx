@@ -17,9 +17,9 @@ export type MouthProps = {
 
 function pal(c: string[]) {
     return {
-        lip: pick(c, 0, "#E11D48"),
-        inner: pick(c, 1, "#FEE2E2"),
-        stroke: pick(c, 2, "#111"),
+        lip: pick(c, 0, "var(--anim-lip, #E11D48)"),
+        inner: pick(c, 1, "var(--anim-inner, #FEE2E2)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
     };
 }
 
@@ -70,8 +70,8 @@ export const MouthSmirk: React.FC<MouthProps> = ({ colors, y = 12, scale = 1, tr
 
 export const MouthWow: typeof MouthO = MouthO;
 export const MouthTongue: React.FC<MouthProps> = ({ colors, y = 12, scale = 1, transform }) => {
-    const { lip, inner } = pal(colors);
-    return <g transform={`${transform ?? ""} translate(0 ${y}) scale(${scale})`}><path d="M-10 0 q10 10 20 0" stroke={lip} strokeWidth={1.6} fill="none"/><path d="M-6 0 q6 6 12 0" fill="#f87171" /></g>;
+    const { lip, inner: _inner } = pal(colors);
+    return <g transform={`${transform ?? ""} translate(0 ${y}) scale(${scale})`}><path d="M-10 0 q10 10 20 0" stroke={lip} strokeWidth={1.6} fill="none"/><path d="M-6 0 q6 6 12 0" fill={"var(--tongue, #f87171)"} /></g>;
 };
 export const MouthLaugh: React.FC<MouthProps> = ({ colors, y = 12, scale = 1, transform }) => {
     const { inner, lip } = pal(colors);

@@ -1,0 +1,20 @@
+# audioverse-react/Dockerfile.storybook
+# Buduje statyczny Storybook i serwuje go przez nginx.
+# Build context: repo root (.)
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY audioverse-react/package*.json ./
+RUN npm ci
+COPY audioverse-react/ .
+# Honest-living packages (wymagane przez komponenty)
+COPY honest-living/packages/shared/ /honest-living/packages/shared/
+COPY honest-living/packages/game-engine/ /honest-living/packages/game-engine/
+COPY honest-living/packages/client/ /honest-living/packages/client/
+RUN ln -s /app/node_modules /honest-living/node_modules
+ENV NODE_ENV=production
+RUN npx storybook build -o /app/storybook-static
+
+FROM nginx:1.27-alpine
+COPY --from=build /app/storybook-static /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

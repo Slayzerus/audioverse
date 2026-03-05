@@ -1,3 +1,4 @@
+import React from "react";
 import { AudioClip } from "../../../models/modelsEditor.ts";
 
 interface Props {
@@ -35,4 +36,4 @@ const AudioClipBox: React.FC<Props> = ({ clip, onSelect }) => {
     );
 };
 
-export default AudioClipBox;
+export default React.memo(AudioClipBox);

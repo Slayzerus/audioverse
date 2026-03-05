@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { InputType } from "../../../../../scripts/input/source/mapping/inputType";
 import { GamepadState, GamepadManager } from "../../../../../scripts/input/source/gamepad";
 import AudioInputSelect from "../../settings/AudioInputSelect";
@@ -8,6 +9,7 @@ interface InputMappingSelectProps {
 }
 
 const InputMappingSelect: React.FC<InputMappingSelectProps> = ({ onMappingChange }) => {
+    const { t } = useTranslation();
     const [inputType, setInputType] = useState<InputType>(InputType.Keyboard);
     const [device, setDevice] = useState<string | null>(null);
     const [action, setAction] = useState<string>("");
@@ -35,7 +37,7 @@ const InputMappingSelect: React.FC<InputMappingSelectProps> = ({ onMappingChange
 
     return (
         <div>
-            <label>Rodzaj Inputu:</label>
+            <label>{t('inputMapping.inputType', 'Input Type')}:</label>
             <select value={inputType} onChange={(e) => setInputType(e.target.value as InputType)}>
                 {Object.values(InputType).map(type => (
                     <option key={type} value={type}>{type}</option>
@@ -44,7 +46,7 @@ const InputMappingSelect: React.FC<InputMappingSelectProps> = ({ onMappingChange
 
             {inputType === InputType.Gamepad && (
                 <div>
-                    <label>Urządzenie:</label>
+                    <label>{t('inputMapping.device', 'Device')}:</label>
                     <select onChange={(e) => setDevice(e.target.value)}>
                         {gamepads.map(gp => (
                             <option key={gp.id} value={gp.id}>{gp.id}</option>
@@ -57,7 +59,7 @@ const InputMappingSelect: React.FC<InputMappingSelectProps> = ({ onMappingChange
                 <AudioInputSelect selectedDevice={device} onDeviceChange={setDevice} />
             )}
 
-            <label>Akcja:</label>
+            <label>{t('inputMapping.action', 'Action')}:</label>
             <select value={action} onChange={(e) => setAction(e.target.value)}>
                 {(inputType === InputType.Keyboard ? keys : inputType === InputType.Gamepad ? gamepads.flatMap(gp => gp.buttons.map((_, i) => `Button ${i}`)) : notes)
                     .map(item => <option key={item} value={item}>{item}</option>)

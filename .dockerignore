@@ -1,0 +1,19 @@
+# Ignore everything by default
+*
+
+# Allow audioverse-react
+!audioverse-react/
+audioverse-react/node_modules
+audioverse-react/dist
+audioverse-react/coverage
+audioverse-react/.git
+audioverse-react/cypress
+audioverse-react/e2e
+
+# Allow honest-living/packages (must un-ignore parent first)
+!honest-living/
+honest-living/*
+!honest-living/packages/
+honest-living/packages/*/node_modules
+honest-living/packages/*/dist
+honest-living/packages/*/.turbo

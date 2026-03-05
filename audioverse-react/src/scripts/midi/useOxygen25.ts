@@ -39,11 +39,11 @@ export function useOxygen25(events: OxygenEvents = {}, preset: OxygenLayout = ox
 
     const onEvent = useCallback(
         (ev: MidiCoreEvent) => {
-            // zapisz nazwę urządzenia natychmiast gdy cokolwiek przyjdzie
+            // save device name immediately when anything arrives
             const name = ev.deviceName || "MIDI";
             setInputsInfo((prev) => (prev.includes(name) ? prev : [...prev, name]));
 
-            // learn / normalna obsługa – bez zmian…
+            // learn / normal handling – no changes…
             const learn = learnRef.current;
             if (learn.mode !== "idle") {
                 if (learn.mode === "knob" && ev.type === "cc") {
@@ -114,7 +114,7 @@ export function useOxygen25(events: OxygenEvents = {}, preset: OxygenLayout = ox
     );
 
     const { supported, granted, inputs } = useWebMidi({
-        // ważne: nie filtrujemy po nazwie – pokaż wszystko
+        // important: don't filter by name – show everything
         inputNameIncludes: undefined,
         onEvent,
         sysex: false,

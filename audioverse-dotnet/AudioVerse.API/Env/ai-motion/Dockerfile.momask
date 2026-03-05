@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+RUN pip install --no-cache-dir fastapi uvicorn pydantic numpy
+
+# Clone MoMask repo & install
+RUN apt-get update && apt-get install -y git && \
+    git clone --depth 1 https://github.com/EricGuo5513/momask-codes.git /opt/momask && \
+    pip install --no-cache-dir -r /opt/momask/requirements.txt 2>/dev/null || true && \
+    apt-get remove -y git && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONPATH="/opt/momask:${PYTHONPATH}"
+
+COPY momask/app.py /app/app.py
+
+EXPOSE 8302
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8302"]

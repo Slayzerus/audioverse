@@ -1,0 +1,25 @@
+Rysunek 5.3 — Trajektoria F0 — nakładka CREPE vs pYIN (detail)
+
+CO PRZEDSTAWIA:
+Zbliżenie na wykres trajektorii F0 (2-3 sekundy, fragmenty z błędami):
+linia CREPE (czerwona, gładka), linia pYIN (niebieska, z saltacjami),
+referencja ground truth (szara przerywana). Zaznaczone:
+  - Moment, w którym pYIN ma błąd oktawowy (skok o 12 semitonów)
+  - Moment, w którym CREPE poprawnie wygładza przejście między nutami
+Wykres ilustruje przewagę dekodera Viterbi w CREPE.
+
+JAK ZDOBYĆ:
+1. Użyj endpointa POST /api/karaoke/lab/pitch/compare
+   z plikiem WAV zawierającym fragment wokalowy z wyraźnymi przejściami
+   między nutami (np. skok kwintowy)
+2. Z odpowiedzi JSON wyciągnij tablice track[] dla obu algorytmów
+3. Narysuj w Pythonie (matplotlib):
+   import matplotlib.pyplot as plt
+   fig, ax = plt.subplots(figsize=(10, 4))
+   ax.plot(time_pyin, f0_pyin, 'b-', label='pYIN', alpha=0.7)
+   ax.plot(time_crepe, f0_crepe, 'r-', label='CREPE', alpha=0.7)
+   ax.plot(time_ref, f0_ref, 'k--', label='Referencja', alpha=0.4)
+   ax.set_xlabel('Czas [s]'); ax.set_ylabel('F0 [Hz]')
+   ax.legend(); plt.savefig('030.png', dpi=300, bbox_inches='tight')
+4. Alternatywnie: wygeneruj raport PDF (POST /api/karaoke/lab/report/pdf)
+   i wyeksportuj fragment wykresu trajektorii w powiększeniu

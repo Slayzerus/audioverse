@@ -1,10 +1,13 @@
 import React, { useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { useLocalPlaylists, type LocalPlaylist } from "./useLocalPlaylists";
 import {
     MusicPlatform,                              // ⬅️ enum
     type CreatePlaylistOnPlatformRequest,
     type CreatePlaylistResult,
 } from "../../../scripts/api/apiPlaylists";
+import { logger } from "../../../utils/logger";
+const log = logger.scoped('PlaylistList');
 
 type Props = {
     selectedId?: string;
@@ -15,10 +18,11 @@ type Props = {
 
 const box: React.CSSProperties = { border: "1px solid #e5e7eb", borderRadius: 8, background: "#fff" };
 const row: React.CSSProperties = { ...box, padding: "8px 10px", cursor: "pointer" };
-const btn: React.CSSProperties = { border: "1px solid #d1d5db", borderRadius: 8, padding: "6px 10px", background: "#fff", cursor: "pointer" };
-const btnPrimary: React.CSSProperties = { ...btn, background: "#4f46e5", borderColor: "#4f46e5", color: "#fff" };
+const btn: React.CSSProperties = { border: "1px solid var(--border-light, #d1d5db)", borderRadius: 8, padding: "6px 10px", background: "var(--bg, #fff)", cursor: "pointer" };
+const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary, #4f46e5)", borderColor: "var(--primary, #4f46e5)", color: "var(--bg, #fff)" };
 
 export const PlaylistList: React.FC<Props> = ({ selectedId, onSelect, onCreateRemote }) => {
+    const { t } = useTranslation();
     const store = useLocalPlaylists();
     const [name, setName] = useState("");
     const all = useMemo(() => store.list(), [store]);
@@ -27,15 +31,16 @@ export const PlaylistList: React.FC<Props> = ({ selectedId, onSelect, onCreateRe
         <div style={{ display: "grid", gap: 10 }}>
             <div style={{ display: "flex", gap: 8 }}>
                 <input
-                    placeholder="Nazwa playlisty…"
+                    placeholder={t('playlistList.playlistName', 'Playlist name...')}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     style={{ flex: 1, border: "1px solid #d1d5db", borderRadius: 8, padding: "6px 10px" }}
+                    aria-label="Playlist name"
                 />
                 <button
                     type="button"
                     disabled={!name.trim()}
-                    style={name.trim() ? btnPrimary : { ...btn, cursor: "not-allowed", color: "#9ca3af", background: "#f3f4f6" }}
+                    style={name.trim() ? btnPrimary : { ...btn, cursor: "not-allowed", color: "var(--muted, #9ca3af)", background: "var(--bg-muted, #f3f4f6)" }}
                     onClick={async () => {
                         const created = store.create(name.trim());
                         setName("");
@@ -49,14 +54,14 @@ export const PlaylistList: React.FC<Props> = ({ selectedId, onSelect, onCreateRe
                                     songs: created.items,
                                 });
                             } catch (err) {
-                                console.error("Remote playlist create failed:", err); // ⬅️ żadnych pustych catchy
+                                log.error("Remote playlist create failed:", err); // ⬅️ żadnych pustych catchy
                             }
                         }
 
                         onSelect?.(created);
                     }}
                 >
-                    + Dodaj
+                    + {t('common.add', 'Add')}
                 </button>
             </div>
 
@@ -64,15 +69,15 @@ export const PlaylistList: React.FC<Props> = ({ selectedId, onSelect, onCreateRe
                 {all.map((p) => {
                     const active = p.id === selectedId;
                     return (
-                        <button key={p.id} onClick={() => onSelect?.(p)} style={{ ...row, background: active ? "#eef2ff" : "#fff" }}>
+                        <button key={p.id} onClick={() => onSelect?.(p)} style={{ ...row, background: active ? "var(--active-bg, #eef2ff)" : "var(--bg, #fff)" }}>
                             <div style={{ fontWeight: 600 }}>{p.name}</div>
-                            <div style={{ color: "#64748b", fontSize: 12 }}>
-                                {p.items.length} utw. • {new Date(p.updatedAt).toLocaleString()}
+                            <div style={{ color: "var(--text-dim, #64748b)", fontSize: 12 }}>
+                                {t('playlistList.itemCount', '{{count}} songs', { count: p.items.length })} \u2022 {new Date(p.updatedAt).toLocaleString()}
                             </div>
                         </button>
                     );
                 })}
-                {!all.length && <div style={{ color: "#6b7280" }}>Brak playlist. Dodaj pierwszą ↑</div>}
+                {!all.length && <div style={{ color: "var(--muted, #6b7280)" }}>{t('playlistList.emptyState', 'No playlists. Add the first one ↑')}</div>}
             </div>
         </div>
     );

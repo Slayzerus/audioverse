@@ -13,7 +13,7 @@ export function useLocalStorageState<T>(key: string, initial: T) {
     useEffect(() => {
         try {
             localStorage.setItem(key, JSON.stringify(state));
-        } catch {}
+        } catch { /* Best-effort — no action needed on failure */ }
     }, [key, state]);
 
     return [state, setState] as const;

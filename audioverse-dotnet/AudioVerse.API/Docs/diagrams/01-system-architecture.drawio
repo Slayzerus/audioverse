@@ -1,0 +1,125 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.0">
+  <diagram id="arch-overview" name="Architektura systemu">
+    <mxGraphModel dx="1737" dy="878" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;fontSize=22;fontStyle=1;align=center;verticalAlign=middle;" value="AudioVerse - Architektura systemu" vertex="1">
+          <mxGeometry height="40" width="500" x="510" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="clients-group" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1;fontSize=13;align=center;spacingTop=4;" value="Klienci" vertex="1">
+          <mxGeometry height="200" width="380" x="40" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="react" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;spacingTop=4;spacingBottom=4;spacingLeft=6;spacingRight=6;" value="React SPA&#xa;audioverse-react&#xa;Port: 3080 (nginx :80)" vertex="1">
+          <mxGeometry height="70" width="340" x="60" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="gamepad" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" value="Gamepad / Mikrofon - WebHID / Web Audio API" vertex="1">
+          <mxGeometry height="34" width="340" x="60" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" value="Nginx&#xa;Odwrotny proxy&#xa;Zakonczenie SSL&#xa;:80 / :443" vertex="1">
+          <mxGeometry height="90" width="180" x="610" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-group" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontStyle=1;fontSize=13;align=center;spacingTop=4;" value="Backend (.NET 10)" vertex="1">
+          <mxGeometry height="250" width="600" x="440" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;spacingTop=6;spacingBottom=6;spacingLeft=8;spacingRight=8;" value="AudioVerse.API&#xa;Port: 5000&#xa;&#xa;Kontrolery REST&#xa;Huby SignalR (6)&#xa;MediatR CQRS&#xa;EF Core + Postgres&#xa;Magazyn MinIO" vertex="1">
+          <mxGeometry height="150" width="210" x="470" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="identity" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;spacingTop=6;spacingBottom=6;spacingLeft=8;spacingRight=8;" value="AudioVerse.IdentityServer&#xa;Port: 5002&#xa;&#xa;OpenIddict&#xa;Tokeny JWT&#xa;Rejestracja&#xa;Polityka hasel" vertex="1">
+          <mxGeometry height="150" width="210" x="710" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="layers" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;align=center;spacingTop=2;spacingBottom=2;" value="Domena &gt; Aplikacja &gt; Infrastruktura &gt; API" vertex="1">
+          <mxGeometry height="26" width="450" x="470" y="458" as="geometry" />
+        </mxCell>
+        <mxCell id="infra-group" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;fontStyle=1;fontSize=13;align=center;spacingTop=4;" value="Infrastruktura (Docker)" vertex="1">
+          <mxGeometry height="220" width="520" x="40" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="postgres" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" value="PostgreSQL 16&#xa;:5432&#xa;Migracje EF Core" vertex="1">
+          <mxGeometry height="60" width="150" x="60" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="redis" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" value="Redis 7&#xa;:6379&#xa;Pamiec podreczna + Lobby" vertex="1">
+          <mxGeometry height="60" width="150" x="230" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="minio" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" value="MinIO&#xa;:9000 / :9001&#xa;Magazyn obiektow" vertex="1">
+          <mxGeometry height="60" width="140" x="400" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="rabbitmq" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;dashed=1;spacingTop=4;spacingBottom=4;" value="RabbitMQ (opcjonalny)&#xa;:5672 - Powiadomienia" vertex="1">
+          <mxGeometry height="50" width="150" x="60" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="mailhog" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;dashed=1;spacingTop=4;spacingBottom=4;" value="MailHog&#xa;:1025 / :8025 - Email dev" vertex="1">
+          <mxGeometry height="50" width="150" x="230" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-group" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;fontStyle=1;fontSize=13;align=center;spacingTop=4;" value="Serwisy AI (Python)" vertex="1">
+          <mxGeometry height="220" width="520" x="600" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-audio" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=10;spacingTop=4;spacingBottom=4;" value="Audio AI&#xa;analiza :8081&#xa;ocena_spiewu :8082&#xa;rytm :8083&#xa;wysokosc :8084&#xa;detekcja_glosu :8085&#xa;separacja :8086" vertex="1">
+          <mxGeometry height="140" width="160" x="620" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-voice" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=10;spacingTop=4;spacingBottom=4;" value="Glos / TTS / ASR&#xa;faster_whisper (ASR)&#xa;piper_tts (TTS)&#xa;openvoice (klonowanie)&#xa;fish_speech&#xa;gpt_sovits" vertex="1">
+          <mxGeometry height="140" width="150" x="800" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="ai-gen" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;spacingLeft=10;spacingTop=4;spacingBottom=4;" value="Generatywne&#xa;comfyui (obrazy)&#xa;audiocraft (muzyka)&#xa;triposr (3D)&#xa;bark (efekty dzw.)&#xa;librosa :8088" vertex="1">
+          <mxGeometry height="140" width="130" x="970" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="cicd" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e6d0de;strokeColor=#996185;fontSize=11;align=center;spacingTop=6;spacingBottom=6;" value="Potok Azure DevOps&#xa;Wykryj &gt; Testuj &gt; Buduj &gt; Wypchnij &gt; Wdroz &gt; Weryfikuj&#xa;Agent: Contabo VPS (self-hosted)" vertex="1">
+          <mxGeometry height="60" width="520" x="40" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="dockerhub" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e6d0de;strokeColor=#996185;fontSize=10;align=center;spacingTop=4;spacingBottom=4;" value="Docker Hub&#xa;slayzer/audioverse-api&#xa;slayzer/audioverse-identity&#xa;slayzer/audioverse-react" vertex="1">
+          <mxGeometry height="60" width="200" x="600" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="react" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" target="nginx">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.35;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#ffffff;fontSize=9;" target="api" value="/api/*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="673" y="230" />
+              <mxPoint x="575" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.65;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#ffffff;fontSize=9;" target="identity" value="/connect/*">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="postgres">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="365" />
+              <mxPoint x="135" y="365" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="redis">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="420" />
+              <mxPoint x="305" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="minio">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="575" y="520" />
+              <mxPoint x="470" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="identity" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" target="postgres">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="815" y="520" />
+              <mxPoint x="210" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="backend-group" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;labelBackgroundColor=#ffffff;fontSize=9;" target="ai-group" value="HTTP REST">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="cicd" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="dockerhub">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

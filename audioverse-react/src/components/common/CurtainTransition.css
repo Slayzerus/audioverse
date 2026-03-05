@@ -1,0 +1,677 @@
+/* ═══════════════════════════════════════════════════════════════════
+   CurtainTransition.css — Polished karaoke scene transition effects
+   20 unique effects, each with "cover" and "reveal" phases.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Root container ── */
+.ct-root {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+/* ── Common layer (single-element effects) ── */
+.ct-layer {
+  position: absolute;
+  inset: 0;
+  background: var(--ct-primary, var(--bg-primary));
+}
+
+/* ── Panel base (two-panel effects) ── */
+.ct-panel {
+  position: absolute;
+  background: var(--ct-primary, var(--bg-primary));
+}
+
+/* ── Blinds strip base ── */
+.ct-strip {
+  position: absolute;
+  background: var(--ct-primary, var(--bg-primary));
+}
+
+/* ── Grid base (pixelate) ── */
+.ct-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--ct-cols, 8), 1fr);
+  grid-template-rows: repeat(var(--ct-rows, 5), 1fr);
+}
+.ct-cell {
+  background: var(--ct-primary, var(--bg-primary));
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. FADE (black)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--fade.ct-phase--cover .ct-layer {
+  animation: ct-fade-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--fade.ct-phase--reveal .ct-layer {
+  animation: ct-fade-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ct-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. FADE WHITE
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--fadeWhite .ct-layer {
+  background: var(--color-white);
+}
+.ct-effect--fadeWhite.ct-phase--cover .ct-layer {
+  animation: ct-fade-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--fadeWhite.ct-phase--reveal .ct-layer {
+  animation: ct-fade-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. FLASH (quick bright flash)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--flash .ct-layer {
+  background: var(--color-white);
+}
+.ct-effect--flash.ct-phase--cover .ct-layer {
+  animation: ct-flash-in var(--ct-duration, 800ms) ease-out forwards;
+}
+.ct-effect--flash.ct-phase--reveal .ct-layer {
+  animation: ct-flash-out var(--ct-duration, 800ms) ease-in forwards;
+}
+
+@keyframes ct-flash-in {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  100% { opacity: 1; background: var(--ct-primary, var(--bg-primary)); }
+}
+@keyframes ct-flash-out {
+  0%   { opacity: 1; }
+  40%  { opacity: 1; background: var(--color-white); }
+  100% { opacity: 0; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. WIPE DOWN
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--wipeDown.ct-phase--cover .ct-layer {
+  animation: ct-wipe-down-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--wipeDown.ct-phase--reveal .ct-layer {
+  animation: ct-wipe-down-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-wipe-down-in  { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes ct-wipe-down-out { from { transform: translateY(0); }    to { transform: translateY(100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. WIPE UP
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--wipeUp.ct-phase--cover .ct-layer {
+  animation: ct-wipe-up-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--wipeUp.ct-phase--reveal .ct-layer {
+  animation: ct-wipe-up-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-wipe-up-in  { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes ct-wipe-up-out { from { transform: translateY(0); }   to { transform: translateY(-100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. WIPE LEFT
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--wipeLeft.ct-phase--cover .ct-layer {
+  animation: ct-wipe-left-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--wipeLeft.ct-phase--reveal .ct-layer {
+  animation: ct-wipe-left-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-wipe-left-in  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes ct-wipe-left-out { from { transform: translateX(0); }   to { transform: translateX(-100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. WIPE RIGHT
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--wipeRight.ct-phase--cover .ct-layer {
+  animation: ct-wipe-right-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--wipeRight.ct-phase--reveal .ct-layer {
+  animation: ct-wipe-right-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-wipe-right-in  { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes ct-wipe-right-out { from { transform: translateX(0); }    to { transform: translateX(100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   8. CURTAIN HORIZONTAL (left/right panels)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--curtainH .ct-panel-1 { left: 0; top: 0; width: 50%; height: 100%; }
+.ct-effect--curtainH .ct-panel-2 { right: 0; top: 0; width: 50%; height: 100%; }
+
+.ct-effect--curtainH.ct-phase--cover .ct-panel-1 {
+  animation: ct-curtain-left-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainH.ct-phase--cover .ct-panel-2 {
+  animation: ct-curtain-right-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainH.ct-phase--reveal .ct-panel-1 {
+  animation: ct-curtain-left-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainH.ct-phase--reveal .ct-panel-2 {
+  animation: ct-curtain-right-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-curtain-left-in   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes ct-curtain-right-in  { from { transform: translateX(100%); }  to { transform: translateX(0); } }
+@keyframes ct-curtain-left-out  { from { transform: translateX(0); }     to { transform: translateX(-100%); } }
+@keyframes ct-curtain-right-out { from { transform: translateX(0); }     to { transform: translateX(100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. CURTAIN VERTICAL (top/bottom panels)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--curtainV .ct-panel-1 { top: 0; left: 0; width: 100%; height: 50%; }
+.ct-effect--curtainV .ct-panel-2 { bottom: 0; left: 0; width: 100%; height: 50%; }
+
+.ct-effect--curtainV.ct-phase--cover .ct-panel-1 {
+  animation: ct-curtain-top-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainV.ct-phase--cover .ct-panel-2 {
+  animation: ct-curtain-bottom-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainV.ct-phase--reveal .ct-panel-1 {
+  animation: ct-curtain-top-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--curtainV.ct-phase--reveal .ct-panel-2 {
+  animation: ct-curtain-bottom-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-curtain-top-in     { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes ct-curtain-bottom-in  { from { transform: translateY(100%); }  to { transform: translateY(0); } }
+@keyframes ct-curtain-top-out    { from { transform: translateY(0); }     to { transform: translateY(-100%); } }
+@keyframes ct-curtain-bottom-out { from { transform: translateY(0); }     to { transform: translateY(100%); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   10. THEATER CURTAIN (fabric-texture horizontal panels)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--theaterCurtain .ct-panel-1,
+.ct-effect--theaterCurtain .ct-panel-2 {
+  /* Vertical fold stripes simulating velvet curtain fabric */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0,0,0,0.35) 6px,
+      rgba(255,255,255,0.04) 12px,
+      transparent 18px,
+      rgba(0,0,0,0.2) 24px,
+      rgba(255,255,255,0.06) 30px,
+      transparent 36px
+    ),
+    linear-gradient(180deg,
+      rgba(0,0,0,0.4) 0%,
+      var(--ct-primary, #8b0000) 8%,
+      var(--ct-primary, #8b0000) 92%,
+      rgba(0,0,0,0.5) 100%
+    );
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.3);
+}
+
+/* Gold trim at the meeting edge */
+.ct-effect--theaterCurtain .ct-panel-1 {
+  left: 0; top: 0; width: 50%; height: 100%;
+  border-right: 3px solid rgba(218,165,32,0.6);
+}
+.ct-effect--theaterCurtain .ct-panel-2 {
+  right: 0; top: 0; width: 50%; height: 100%;
+  border-left: 3px solid rgba(218,165,32,0.6);
+}
+
+/* Tassel / swag at the top (using pseudo-element on root) */
+.ct-effect--theaterCurtain::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(180deg,
+    rgba(218,165,32,0.4) 0%,
+    rgba(218,165,32,0.15) 60%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ct-effect--theaterCurtain.ct-phase--cover .ct-panel-1 {
+  animation: ct-curtain-left-in var(--ct-duration, 800ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.ct-effect--theaterCurtain.ct-phase--cover .ct-panel-2 {
+  animation: ct-curtain-right-in var(--ct-duration, 800ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.ct-effect--theaterCurtain.ct-phase--reveal .ct-panel-1 {
+  animation: ct-theater-left-out var(--ct-duration, 800ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.ct-effect--theaterCurtain.ct-phase--reveal .ct-panel-2 {
+  animation: ct-theater-right-out var(--ct-duration, 800ms) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Theater curtains bunch up slightly when opening (scaleX compression) */
+@keyframes ct-theater-left-out {
+  0%   { transform: translateX(0) scaleX(1); }
+  40%  { transform: translateX(-10%) scaleX(0.85); }
+  100% { transform: translateX(-100%) scaleX(0.7); }
+}
+@keyframes ct-theater-right-out {
+  0%   { transform: translateX(0) scaleX(1); }
+  40%  { transform: translateX(10%) scaleX(0.85); }
+  100% { transform: translateX(100%) scaleX(0.7); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   11. CIRCLE IRIS (circle clip-path)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--circleIris.ct-phase--cover .ct-layer {
+  animation: ct-circle-cover var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--circleIris.ct-phase--reveal .ct-layer {
+  animation: ct-circle-reveal var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-circle-cover {
+  from { clip-path: circle(0% at 50% 50%); }
+  to   { clip-path: circle(150% at 50% 50%); }
+}
+@keyframes ct-circle-reveal {
+  from { clip-path: circle(150% at 50% 50%); }
+  to   { clip-path: circle(0% at 50% 50%); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   12. DIAMOND IRIS (diamond clip-path)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--diamondIris.ct-phase--cover .ct-layer {
+  animation: ct-diamond-cover var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--diamondIris.ct-phase--reveal .ct-layer {
+  animation: ct-diamond-reveal var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-diamond-cover {
+  from { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+  to   { clip-path: polygon(50% -50%, 150% 50%, 50% 150%, -50% 50%); }
+}
+@keyframes ct-diamond-reveal {
+  from { clip-path: polygon(50% -50%, 150% 50%, 50% 150%, -50% 50%); }
+  to   { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   13. STAR WIPE (5-point star clip-path)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--starWipe.ct-phase--cover .ct-layer {
+  animation: ct-star-cover var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--starWipe.ct-phase--reveal .ct-layer {
+  animation: ct-star-reveal var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+/* Star from center point to full star that overflows viewport */
+@keyframes ct-star-cover {
+  from {
+    clip-path: polygon(
+      50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%,
+      50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%
+    );
+  }
+  to {
+    clip-path: polygon(
+      50% -80%, 64% 25%, 120% 25%, 74% 60%,
+      88% 130%, 50% 82%, 12% 130%, 26% 60%,
+      -20% 25%, 36% 25%
+    );
+  }
+}
+@keyframes ct-star-reveal {
+  from {
+    clip-path: polygon(
+      50% -80%, 64% 25%, 120% 25%, 74% 60%,
+      88% 130%, 50% 82%, 12% 130%, 26% 60%,
+      -20% 25%, 36% 25%
+    );
+  }
+  to {
+    clip-path: polygon(
+      50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%,
+      50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%
+    );
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   14. DIAGONAL WIPE
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--diagonalWipe .ct-layer {
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  transform-origin: center center;
+}
+.ct-effect--diagonalWipe.ct-phase--cover .ct-layer {
+  animation: ct-diag-cover var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--diagonalWipe.ct-phase--reveal .ct-layer {
+  animation: ct-diag-reveal var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-diag-cover {
+  from { transform: rotate(45deg) translateY(-142%); }
+  to   { transform: rotate(45deg) translateY(0%); }
+}
+@keyframes ct-diag-reveal {
+  from { transform: rotate(45deg) translateY(0%); }
+  to   { transform: rotate(45deg) translateY(142%); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   15. BLINDS HORIZONTAL (horizontal strips)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--blindsH .ct-strip {
+  left: 0;
+  width: 100%;
+  height: calc(100% / var(--ct-strip-n, 8));
+  top: calc(var(--ct-strip-i, 0) * 100% / var(--ct-strip-n, 8));
+  transform-origin: center top;
+}
+.ct-effect--blindsH.ct-phase--cover .ct-strip {
+  animation: ct-blind-h-in var(--ct-duration, 800ms) ease-in-out forwards;
+  animation-delay: calc(var(--ct-strip-i, 0) * 40ms);
+}
+.ct-effect--blindsH.ct-phase--reveal .ct-strip {
+  animation: ct-blind-h-out var(--ct-duration, 800ms) ease-in-out forwards;
+  animation-delay: calc(var(--ct-strip-i, 0) * 40ms);
+}
+
+@keyframes ct-blind-h-in  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes ct-blind-h-out { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   16. BLINDS VERTICAL (vertical strips)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--blindsV .ct-strip {
+  top: 0;
+  height: 100%;
+  width: calc(100% / var(--ct-strip-n, 8));
+  left: calc(var(--ct-strip-i, 0) * 100% / var(--ct-strip-n, 8));
+  transform-origin: left center;
+}
+.ct-effect--blindsV.ct-phase--cover .ct-strip {
+  animation: ct-blind-v-in var(--ct-duration, 800ms) ease-in-out forwards;
+  animation-delay: calc(var(--ct-strip-i, 0) * 40ms);
+}
+.ct-effect--blindsV.ct-phase--reveal .ct-strip {
+  animation: ct-blind-v-out var(--ct-duration, 800ms) ease-in-out forwards;
+  animation-delay: calc(var(--ct-strip-i, 0) * 40ms);
+}
+
+@keyframes ct-blind-v-in  { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ct-blind-v-out { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   17. ZOOM FADE (scale + opacity)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--zoomFade.ct-phase--cover .ct-layer {
+  animation: ct-zoom-fade-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--zoomFade.ct-phase--reveal .ct-layer {
+  animation: ct-zoom-fade-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-zoom-fade-in {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes ct-zoom-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(3); filter: blur(8px); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   18. ZOOM ROTATE (scale + rotation + opacity)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--zoomRotate.ct-phase--cover .ct-layer {
+  animation: ct-zoom-rotate-in var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--zoomRotate.ct-phase--reveal .ct-layer {
+  animation: ct-zoom-rotate-out var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-zoom-rotate-in {
+  from { opacity: 0; transform: scale(0.2) rotate(-180deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes ct-zoom-rotate-out {
+  from { opacity: 1; transform: scale(1) rotate(0deg); }
+  to   { opacity: 0; transform: scale(0.2) rotate(180deg); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   19. DOOR OPEN (3D perspective rotating panels)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--doorOpen {
+  perspective: 1200px;
+}
+.ct-effect--doorOpen .ct-panel-1 {
+  left: 0; top: 0; width: 50%; height: 100%;
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+.ct-effect--doorOpen .ct-panel-2 {
+  right: 0; top: 0; width: 50%; height: 100%;
+  transform-origin: right center;
+  backface-visibility: hidden;
+}
+
+.ct-effect--doorOpen.ct-phase--cover .ct-panel-1 {
+  animation: ct-door-left-close var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--doorOpen.ct-phase--cover .ct-panel-2 {
+  animation: ct-door-right-close var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--doorOpen.ct-phase--reveal .ct-panel-1 {
+  animation: ct-door-left-open var(--ct-duration, 800ms) ease-in-out forwards;
+}
+.ct-effect--doorOpen.ct-phase--reveal .ct-panel-2 {
+  animation: ct-door-right-open var(--ct-duration, 800ms) ease-in-out forwards;
+}
+
+@keyframes ct-door-left-close  { from { transform: rotateY(-90deg); } to { transform: rotateY(0deg); } }
+@keyframes ct-door-right-close { from { transform: rotateY(90deg); }  to { transform: rotateY(0deg); } }
+@keyframes ct-door-left-open   { from { transform: rotateY(0deg); }   to { transform: rotateY(-90deg); } }
+@keyframes ct-door-right-open  { from { transform: rotateY(0deg); }   to { transform: rotateY(90deg); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   20. GLITCH (multi-layer digital glitch)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--glitch .ct-glitch-1 {
+  background: var(--ct-primary, var(--bg-primary));
+}
+.ct-effect--glitch .ct-glitch-2 {
+  background: rgba(255, 0, 80, 0.6);
+  mix-blend-mode: screen;
+}
+.ct-effect--glitch .ct-glitch-3 {
+  background: rgba(0, 200, 255, 0.5);
+  mix-blend-mode: screen;
+}
+
+.ct-effect--glitch.ct-phase--cover .ct-glitch-1 {
+  animation: ct-glitch-main-in var(--ct-duration, 800ms) steps(1) forwards;
+}
+.ct-effect--glitch.ct-phase--cover .ct-glitch-2 {
+  animation: ct-glitch-r-in var(--ct-duration, 800ms) steps(1) forwards;
+}
+.ct-effect--glitch.ct-phase--cover .ct-glitch-3 {
+  animation: ct-glitch-b-in var(--ct-duration, 800ms) steps(1) forwards;
+}
+
+.ct-effect--glitch.ct-phase--reveal .ct-glitch-1 {
+  animation: ct-glitch-main-out var(--ct-duration, 800ms) steps(1) forwards;
+}
+.ct-effect--glitch.ct-phase--reveal .ct-glitch-2 {
+  animation: ct-glitch-r-out var(--ct-duration, 800ms) steps(1) forwards;
+}
+.ct-effect--glitch.ct-phase--reveal .ct-glitch-3 {
+  animation: ct-glitch-b-out var(--ct-duration, 800ms) steps(1) forwards;
+}
+
+@keyframes ct-glitch-main-in {
+  0%   { opacity: 0; clip-path: inset(0 0 100% 0); }
+  10%  { opacity: 1; clip-path: inset(40% 0 30% 0); }
+  20%  { clip-path: inset(10% 0 60% 0); }
+  30%  { clip-path: inset(70% 0 5% 0); }
+  40%  { clip-path: inset(20% 0 40% 0); }
+  50%  { clip-path: inset(0 0 50% 0); }
+  60%  { clip-path: inset(50% 0 0 0); }
+  70%  { clip-path: inset(10% 0 10% 0); }
+  80%  { clip-path: inset(0 0 20% 0); }
+  90%  { clip-path: inset(5% 0 0 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes ct-glitch-r-in {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  15%  { opacity: 0.8; transform: translate(8px, -3px); clip-path: inset(20% 0 50% 0); }
+  30%  { transform: translate(-6px, 4px); clip-path: inset(60% 0 10% 0); }
+  45%  { transform: translate(4px, -2px); clip-path: inset(10% 0 70% 0); }
+  60%  { transform: translate(-3px, 5px); clip-path: inset(45% 0 30% 0); }
+  75%  { transform: translate(5px, -4px); clip-path: inset(5% 0 60% 0); }
+  90%  { transform: translate(-2px, 2px); clip-path: inset(30% 0 20% 0); }
+  100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+}
+@keyframes ct-glitch-b-in {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  12%  { opacity: 0.7; transform: translate(-5px, 6px); clip-path: inset(55% 0 20% 0); }
+  28%  { transform: translate(7px, -5px); clip-path: inset(15% 0 55% 0); }
+  42%  { transform: translate(-4px, 3px); clip-path: inset(70% 0 5% 0); }
+  58%  { transform: translate(6px, -3px); clip-path: inset(25% 0 45% 0); }
+  72%  { transform: translate(-3px, 4px); clip-path: inset(40% 0 30% 0); }
+  88%  { transform: translate(2px, -2px); clip-path: inset(10% 0 50% 0); }
+  100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes ct-glitch-main-out {
+  0%   { opacity: 1; clip-path: inset(0 0 0 0); }
+  10%  { clip-path: inset(5% 0 0 0); }
+  20%  { clip-path: inset(0 0 20% 0); }
+  40%  { clip-path: inset(30% 0 30% 0); }
+  60%  { clip-path: inset(50% 0 20% 0); }
+  80%  { clip-path: inset(20% 0 60% 0); }
+  90%  { clip-path: inset(40% 0 55% 0); }
+  100% { opacity: 0; clip-path: inset(0 0 100% 0); }
+}
+@keyframes ct-glitch-r-out {
+  0%   { opacity: 0.8; transform: translate(0, 0); }
+  20%  { transform: translate(6px, -4px); clip-path: inset(10% 0 60% 0); }
+  50%  { transform: translate(-5px, 3px); clip-path: inset(40% 0 30% 0); }
+  80%  { transform: translate(3px, -2px); clip-path: inset(70% 0 10% 0); }
+  100% { opacity: 0; transform: translate(0, 0); }
+}
+@keyframes ct-glitch-b-out {
+  0%   { opacity: 0.7; transform: translate(0, 0); }
+  25%  { transform: translate(-4px, 5px); clip-path: inset(30% 0 40% 0); }
+  55%  { transform: translate(5px, -3px); clip-path: inset(60% 0 15% 0); }
+  85%  { transform: translate(-2px, 2px); clip-path: inset(15% 0 70% 0); }
+  100% { opacity: 0; transform: translate(0, 0); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   21. PIXELATE (grid dissolve)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.ct-effect--pixelate .ct-grid {
+  position: absolute;
+  inset: 0;
+}
+.ct-effect--pixelate.ct-phase--cover .ct-cell {
+  opacity: 0;
+  animation: ct-cell-in calc(var(--ct-duration, 800ms) * 0.5) ease-out forwards;
+  animation-delay: calc(var(--ct-cell-delay, 0) * 1ms);
+}
+.ct-effect--pixelate.ct-phase--reveal .ct-cell {
+  opacity: 1;
+  animation: ct-cell-out calc(var(--ct-duration, 800ms) * 0.5) ease-in forwards;
+  animation-delay: calc(var(--ct-cell-delay, 0) * 1ms);
+}
+
+@keyframes ct-cell-in  { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
+@keyframes ct-cell-out { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0); } }
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   IMMERSIVE MODE — hide navbar & breadcrumb during karaoke
+   ═══════════════════════════════════════════════════════════════════ */
+
+body.karaoke-immersive .navbar,
+body.karaoke-immersive .navbar-wrapper,
+body.karaoke-immersive nav.bg-dark {
+  display: none !important;
+}
+
+body.karaoke-immersive .karaoke-breadcrumb {
+  display: none !important;
+}
+
+body.karaoke-immersive #main-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+body.karaoke-immersive .karaoke-manager {
+  min-height: 100vh;
+  padding-top: 0;
+}

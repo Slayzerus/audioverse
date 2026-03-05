@@ -68,7 +68,7 @@ export class ChoreoBuilder {
         return this;
     }
 
-    // pętla podczas odtwarzania – np. .loop(3) albo .loop(Infinity)
+    // loop during playback – e.g. .loop(3) or .loop(Infinity)
     loop(times: number | typeof Infinity): this {
         this.loopCount = times;
         return this;
@@ -172,7 +172,8 @@ export async function runSeq(
     if (builderOrSteps instanceof ChoreoBuilder) {
         const loop = builderOrSteps.getLoop();
         if (loop === Infinity) {
-            // pętla nieskończona
+            // infinite loop
+            // Intentional infinite loop for unbounded choreography playback
             // eslint-disable-next-line no-constant-condition
             while (true) {
                 const steps = compile(builderOrSteps, ctx);
@@ -196,7 +197,7 @@ export async function runWave(
     staggerMs = 220,
     ctx: RunContext = {}
 ): Promise<void> {
-    const steps = compile(choreo as any, ctx);
+    const steps = compile(choreo as ChoreoBuilder | ChoreoStep[] | InternalStep[], ctx);
     await Promise.all(
         actors.map((fx, i) => runChoreoWithDelay(fx, steps, i * Math.max(0, staggerMs)))
     );
@@ -222,7 +223,7 @@ export async function runRounds(
     const jobs = actors.map((fx, i) =>
         runChoreoWithDelay(
             fx,
-            compile(programs[i % programs.length] as any, ctx),
+            compile(programs[i % programs.length] as ChoreoBuilder | ChoreoStep[] | InternalStep[], ctx),
             staggerMs * i
         )
     );

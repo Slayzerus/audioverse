@@ -1,0 +1,120 @@
+<mxfile host="app.diagrams.net" modified="2026-02-26" type="device">
+  <diagram id="fe-arch" name="Frontend Architecture">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;AudioVerse Frontend Architecture&lt;/b&gt;" style="text;html=1;fontSize=22;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="10" width="500" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ REACT APP ═══ -->
+        <mxCell id="react-app" value="&lt;b&gt;React 18 App (Vite)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1200" height="180" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="router" value="&lt;b&gt;React Router v6&lt;/b&gt;&lt;br&gt;createBrowserRouter&lt;br&gt;Lazy routes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="60" y="110" width="160" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="layouts" value="&lt;b&gt;Layouts&lt;/b&gt;&lt;br&gt;RootLayout&lt;br&gt;AuthLayout&lt;br&gt;AdminLayout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="240" y="110" width="150" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="pages" value="&lt;b&gt;Pages (50+)&lt;/b&gt;&lt;br&gt;Dashboard, Karaoke,&lt;br&gt;Games, Library, Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="410" y="110" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="components" value="&lt;b&gt;Components (200+)&lt;/b&gt;&lt;br&gt;React.memo (28)&lt;br&gt;Bootstrap + FA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="600" y="110" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="hooks" value="&lt;b&gt;Custom Hooks&lt;/b&gt;&lt;br&gt;useKaraokeManager&lt;br&gt;useEditorTrack&lt;br&gt;useGameSession" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="790" y="110" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="i18n" value="&lt;b&gt;i18next&lt;/b&gt;&lt;br&gt;Translations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="980" y="110" width="120" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ CONTEXTS ═══ -->
+        <mxCell id="contexts" value="&lt;b&gt;React Contexts&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="560" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="user-ctx" value="&lt;b&gt;UserContext&lt;/b&gt;&lt;br&gt;auth, roles, players" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="60" y="320" width="160" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gamepad-ctx" value="&lt;b&gt;GamepadNavigation&lt;/b&gt;&lt;br&gt;focus trap, register" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="320" width="160" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="editor-ctx" value="&lt;b&gt;EditorTrackContext&lt;/b&gt;&lt;br&gt;36 shared state values" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6ffe6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="420" y="320" width="160" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ API LAYER ═══ -->
+        <mxCell id="api-layer" value="&lt;b&gt;API Layer (TanStack Query)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="640" y="280" width="600" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api-client" value="&lt;b&gt;apiClient (Axios)&lt;/b&gt;&lt;br&gt;apiConfig.ts → API_ROOT&lt;br&gt;JWT interceptor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="660" y="320" width="170" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api-hooks" value="&lt;b&gt;697+ API Hooks&lt;/b&gt;&lt;br&gt;69 api*.ts files&lt;br&gt;useQuery / useMutation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="850" y="320" width="170" height="55" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="signalr" value="&lt;b&gt;SignalR Hubs&lt;/b&gt;&lt;br&gt;Real-time events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="320" width="140" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ BACKEND ═══ -->
+        <mxCell id="backend" value="&lt;b&gt;.NET 10 Backend&lt;/b&gt;&lt;br&gt;REST API + SignalR + IdentityServer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="400" y="450" width="500" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ INFRASTRUCTURE ═══ -->
+        <mxCell id="infra" value="&lt;b&gt;Infrastructure&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;verticalAlign=top;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="200" y="540" width="900" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="postgres" value="PostgreSQL" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="230" y="565" width="100" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="redis" value="Redis" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="370" y="565" width="100" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="minio" value="MinIO (S3)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="510" y="565" width="100" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="ai" value="AI Services&lt;br&gt;(Whisper, Demucs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="650" y="565" width="140" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="nginx" value="Nginx" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="830" y="565" width="100" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- ═══ ARROWS ═══ -->
+        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="router" target="layouts" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="layouts" target="pages" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="pages" target="components" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="pages" target="hooks" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="hooks" target="api-hooks" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="api-hooks" target="api-client" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="api-client" target="backend" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="signalr" target="backend" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="backend" target="postgres" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="backend" target="redis" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="backend" target="minio" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="pages" target="user-ctx" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="components" target="gamepad-ctx" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

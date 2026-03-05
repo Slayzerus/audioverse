@@ -1,0 +1,958 @@
+# Piosenki karaoke — linkowanie z katalogiem audio i rozszerzone filtrowanie
+
+> **Data**: 2025-07-27 · **Dotyczy**: `POST /api/karaoke/get-filtered-songs`, `POST /api/karaoke/parse-ultrastar`, `POST /api/karaoke/scan-folder`, `POST /api/karaoke/songs/import-youtube/{videoId}`
+
+---
+
+## Opis zmiany
+
+Każda piosenka karaoke (`KaraokeSongFile`) może teraz być **automatycznie powiązana** z piosenką z katalogu audio (`Song`). Przy imporcie / parsowaniu pliku Ultrastar lub imporcie z YouTube backend automatycznie wyszukuje metadane w **Spotify** (preferowane) i **YouTube**, tworzy wpis `Song` + `Artist` w katalogu audio i linkuje go z piosenką karaoke.
+
+### Co się zmienia dla frontu
+
+1. **`KaraokeSongDto`** — nowe pola w response
+2. **`SongFilterRequest`** — nowe filtry w `POST /api/karaoke/get-filtered-songs`
+3. **`LinkedSongInfoDto`** — nowy zagnieżdżony obiekt ze szczegółowymi danymi (artysta, album, linki streamingowe, ISRC, czas trwania)
+
+---
+
+## 1. Nowe pola w `KaraokeSongDto`
+
+Pola dodane do każdego response zwracającego piosenkę karaoke:
+
+| Pole | Typ | Opis |
+|---|---|---|
+| `externalSource` | `string \| null` | Źródło importu: `"Spotify"`, `"YouTube"` lub `null` |
+| `externalId` | `string \| null` | Identyfikator w źródle (np. Spotify track ID, YouTube video ID) |
+| `externalCoverUrl` | `string \| null` | URL okładki z serwisu zewnętrznego |
+| `linkedSongId` | `number \| null` | ID powiązanej piosenki w katalogu audio. `null` = nie dopasowano |
+| `linkedSong` | `LinkedSongInfoDto \| null` | Pełne dane z katalogu audio (patrz sekcja 3) |
+
+### Przykład response — piosenka ze zlinkowanymi danymi
+
+```json
+{
+  "id": 42,
+  "title": "Never Gonna Give You Up",
+  "artist": "Rick Astley",
+  "genre": "Pop",
+  "language": "English",
+  "year": "1987",
+  "bpm": 113.0,
+  "isVerified": true,
+  "inDevelopment": false,
+  "format": 0,
+  "externalSource": "Spotify",
+  "externalId": "4PTG3Z6ehGkBFwjybzWkR8",
+  "externalCoverUrl": "https://i.scdn.co/image/ab67616d0000b273...",
+  "linkedSongId": 15,
+  "linkedSong": {
+    "songId": 15,
+    "title": "Never Gonna Give You Up",
+    "isrc": "GBARL8700123",
+    "artistName": "Rick Astley",
+    "artistImageUrl": "https://i.scdn.co/image/...",
+    "artistCountry": "GB",
+    "artistBio": "Richard Paul Astley is an English singer...",
+    "albumTitle": "Whenever You Need Somebody",
+    "albumReleaseYear": 1987,
+    "albumCoverUrl": "https://i.scdn.co/image/...",
+    "streamingLinks": [
+      "https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8"
+    ],
+    "externalCoverUrl": "https://i.scdn.co/image/ab67616d0000b273...",
+    "durationSeconds": 213,
+    "details": [
+      { "type": "StreamingLinks", "value": "spotify:track:4PTG3Z6ehGkBFwjybzWkR8|https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8" },
+      { "type": "Identifiers", "value": "spotify:4PTG3Z6ehGkBFwjybzWkR8" },
+      { "type": "Popularity", "value": "cover_url:https://i.scdn.co/image/ab67616d0000b273..." },
+      { "type": "Credits", "value": "duration_seconds:213" }
+    ]
+  },
+  "coverPath": "cover.jpg",
+  "audioPath": "song.mp3",
+  "videoPath": "",
+  "gap": 0,
+  "videoGap": 0,
+  "start": 0,
+  "end": 0,
+  "ownerId": null,
+  "canBeModifiedByAll": null,
+  "filePath": "/songs/rick-astley/never-gonna.txt",
+  "notes": []
+}
+```
+
+### Przykład — piosenka bez linkowania
+
+```json
+{
+  "id": 99,
+  "title": "Lokalna piosenka",
+  "artist": "Nieznany",
+  "linkedSongId": null,
+  "linkedSong": null,
+  "externalSource": null,
+  "externalId": null,
+  "externalCoverUrl": null
+}
+```
+
+---
+
+## 2. Rozszerzone filtry — `POST /api/karaoke/get-filtered-songs`
+
+### Nowe pola w `SongFilterRequest`
+
+| Pole | Typ | Domyślna | Opis |
+|---|---|---|---|
+| `searchQuery` | `string?` | `null` | Wyszukiwanie pełnotekstowe — szuka w tytule i artyście karaoke **oraz** w danych zlinkowanej piosenki (tytuł Song, artysta z katalogu, nazwa albumu) |
+| `hasLinkedSong` | `bool?` | `null` | `true` = tylko piosenki z dopasowaniem do katalogu, `false` = tylko bez, `null` = wszystkie |
+| `externalSource` | `string?` | `null` | Filtruj po źródle: `"Spotify"`, `"YouTube"` |
+| `durationFromSec` | `int?` | `null` | Min czas trwania w sekundach (wymaga zlinkowanej piosenki) |
+| `durationToSec` | `int?` | `null` | Max czas trwania w sekundach |
+| `linkedArtistName` | `string?` | `null` | Szukaj po nazwie artysty **z katalogu audio** (nie z pola `artist` karaoke) |
+| `isrc` | `string?` | `null` | Filtruj po kodzie ISRC z katalogu audio |
+| `includeLinkedSongDetails` | `bool` | `true` | `false` = nie dołączaj obiektu `linkedSong` (lżejszy response) |
+
+### Istniejące pola (bez zmian)
+
+| Pole | Typ | Domyślna | Opis |
+|---|---|---|---|
+| `artists` | `string[]?` | `null` | Lista artystów (exact match na polu `artist` karaoke) |
+| `genres` | `string[]?` | `null` | Lista gatunków — szuka **też** w danych zlinkowanej piosenki |
+| `languages` | `string[]?` | `null` | Lista języków |
+| `years` | `int[]?` | `null` | Lista lat |
+| `ownerIds` | `int[]?` | `null` | Lista właścicieli |
+| `isVerified` | `bool?` | `null` | Filtruj po weryfikacji |
+| `inDevelopment` | `bool?` | `null` | Filtruj po statusie development |
+| `titleContains` | `string?` | `null` | Szukaj w tytule karaoke (substring) |
+| `bpmFrom` | `decimal?` | `null` | Min BPM |
+| `bpmTo` | `decimal?` | `null` | Max BPM |
+| `page` | `int` | `1` | Numer strony |
+| `pageSize` | `int` | `50` | Rozmiar strony |
+| `sortBy` | `string` | `"Title"` | Sortowanie: `Title`, `Artist`, `Year`, `Bpm`, **`LinkedArtist`** ← NOWY |
+| `sortDir` | `string` | `"asc"` | Kierunek: `asc` / `desc` |
+
+### Przykład request — wyszukaj piosenki Spotify z czasem trwania 2–4 min
+
+```json
+POST /api/karaoke/get-filtered-songs
+Authorization: Bearer <jwt>
+
+{
+  "externalSource": "Spotify",
+  "durationFromSec": 120,
+  "durationToSec": 240,
+  "hasLinkedSong": true,
+  "sortBy": "LinkedArtist",
+  "sortDir": "asc",
+  "page": 1,
+  "pageSize": 20
+}
+```
+
+### Przykład — wyszukiwanie pełnotekstowe (tytuł + artysta + album zlinkowanej piosenki)
+
+```json
+{
+  "searchQuery": "Astley",
+  "includeLinkedSongDetails": true
+}
+```
+
+### Przykład — lekki request bez szczegółów linkowania
+
+```json
+{
+  "genres": ["Pop"],
+  "bpmFrom": 100,
+  "bpmTo": 140,
+  "includeLinkedSongDetails": false
+}
+```
+
+Response z `includeLinkedSongDetails: false`:
+
+```json
+{
+  "linkedSongId": 15,
+  "linkedSong": null
+}
+```
+
+---
+
+## 3. TypeScript interfaces
+
+### `KaraokeSongDto` (rozszerzony)
+
+```typescript
+interface KaraokeSongDto {
+  id: number;
+  title: string;
+  artist: string;
+  genre: string;
+  language: string;
+  year: string;
+  coverPath: string;
+  audioPath: string;
+  videoPath: string;
+  gap: number;
+  videoGap: number;
+  start: number;
+  end: number;
+  bpm: number;
+  isVerified: boolean;
+  inDevelopment: boolean;
+  ownerId: number | null;
+  canBeModifiedByAll: boolean | null;
+  format: number;
+  filePath: string;
+  notes: KaraokeSongFileNote[];
+
+  // ── Nowe pola ──
+  externalSource: string | null;   // "Spotify" | "YouTube" | null
+  externalId: string | null;       // Spotify track ID / YouTube video ID
+  externalCoverUrl: string | null; // URL okładki z serwisu
+  linkedSongId: number | null;     // FK do Song w katalogu audio
+  linkedSong: LinkedSongInfoDto | null; // Szczegóły (null jeśli brak lub wyłączone)
+}
+```
+
+### `LinkedSongInfoDto` (NOWY)
+
+```typescript
+interface LinkedSongInfoDto {
+  songId: number;
+  title: string;
+  isrc: string | null;            // International Standard Recording Code
+
+  // Artysta z katalogu audio
+  artistName: string | null;
+  artistImageUrl: string | null;   // URL zdjęcia artysty
+  artistCountry: string | null;    // Kraj (ISO)
+  artistBio: string | null;        // Biografia
+
+  // Album
+  albumTitle: string | null;
+  albumReleaseYear: number | null;
+  albumCoverUrl: string | null;
+
+  // Linki streamingowe — gotowe URL-e do wyświetlenia
+  streamingLinks: string[];        // np. ["https://open.spotify.com/track/...", "https://youtube.com/watch?v=..."]
+
+  // Dane pochodne
+  externalCoverUrl: string | null; // URL okładki (wyciągnięty z SongDetail)
+  durationSeconds: number | null;  // Czas trwania w sekundach
+
+  // Surowe dane — wszystkie SongDetail
+  details: SongDetailDto[];
+}
+```
+
+### `SongDetailDto` (NOWY)
+
+```typescript
+interface SongDetailDto {
+  type: string;   // "StreamingLinks" | "Identifiers" | "Popularity" | "Credits" | "Lyrics"
+  value: string;  // Surowa wartość
+}
+```
+
+### `SongFilterRequest` (rozszerzony)
+
+```typescript
+interface SongFilterRequest {
+  // Istniejące filtry
+  artists?: string[];
+  genres?: string[];
+  languages?: string[];
+  years?: number[];
+  ownerIds?: number[];
+  isVerified?: boolean;
+  inDevelopment?: boolean;
+  titleContains?: string;
+  bpmFrom?: number;
+  bpmTo?: number;
+
+  // ── Nowe filtry ──
+  searchQuery?: string;              // Szukaj wszędzie (tytuł, artysta, album zlinkowanej)
+  hasLinkedSong?: boolean;           // true/false/undefined
+  externalSource?: string;           // "Spotify" | "YouTube"
+  durationFromSec?: number;          // Min czas trwania (sek.)
+  durationToSec?: number;            // Max czas trwania (sek.)
+  linkedArtistName?: string;         // Szukaj po artyście z katalogu
+  isrc?: string;                     // ISRC code
+  includeLinkedSongDetails?: boolean; // default: true
+
+  // Paginacja i sortowanie
+  page?: number;        // default: 1
+  pageSize?: number;    // default: 50
+  sortBy?: string;      // "Title" | "Artist" | "Year" | "Bpm" | "LinkedArtist" ← NOWY
+  sortDir?: string;     // "asc" | "desc"
+}
+```
+
+---
+
+## 4. Automatyczne linkowanie — kiedy się dzieje
+
+| Endpoint | Co się dzieje |
+|---|---|
+| `POST /api/karaoke/parse-ultrastar` | Po parsowaniu pliku Ultrastar → backend szuka w Spotify/YouTube → tworzy `Song` + `Artist` → linkuje |
+| `POST /api/karaoke/scan-folder` | Po imporcie folderu → batch dopasowanie każdej piosenki |
+| `POST /api/karaoke/songs/import-youtube/{videoId}` | Po imporcie z YouTube → linkowanie. Response zawiera teraz `linkedSongId` |
+
+**Front nie musi nic robić** — linkowanie jest automatyczne. Wystarczy **wyświetlić** `linkedSong` jeśli nie jest `null`.
+
+---
+
+## 5. Import z YouTube — zmiana w response
+
+### Było
+
+```json
+{ "id": 42, "title": "...", "artist": "...", "source": "YouTube", "videoId": "dQw4w9WgXcQ" }
+```
+
+### Jest
+
+```json
+{
+  "id": 42,
+  "title": "Never Gonna Give You Up",
+  "artist": "Rick Astley",
+  "linkedSongId": 15,
+  "source": "YouTube",
+  "videoId": "dQw4w9WgXcQ"
+}
+```
+
+`linkedSongId` — `null` jeśli nie udało się dopasować (brak wyników w Spotify/YouTube lub brak konfiguracji).
+
+---
+
+## 6. Sugestie implementacji na froncie
+
+### Wyświetlanie okładki — priorytet
+
+```tsx
+const getCoverUrl = (song: KaraokeSongDto): string | null => {
+  return song.linkedSong?.albumCoverUrl
+      ?? song.linkedSong?.externalCoverUrl
+      ?? song.externalCoverUrl
+      ?? (song.coverPath ? `/covers/${song.coverPath}` : null);
+};
+```
+
+### Wyświetlanie linków streamingowych
+
+```tsx
+{song.linkedSong?.streamingLinks.map(link => (
+  <a key={link} href={link} target="_blank" rel="noopener noreferrer">
+    {link.includes('spotify') ? '🎵 Spotify' : link.includes('youtube') ? '▶️ YouTube' : '🔗 Link'}
+  </a>
+))}
+```
+
+### Czas trwania — formatowanie
+
+```tsx
+const formatDuration = (sec: number | null | undefined): string => {
+  if (!sec) return '—';
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+};
+
+// Użycie:
+<span>{formatDuration(song.linkedSong?.durationSeconds)}</span>
+```
+
+### Wyszukiwarka z debounce i nowymi filtrami
+
+```tsx
+const [filter, setFilter] = useState<SongFilterRequest>({
+  searchQuery: '',
+  includeLinkedSongDetails: true,
+  page: 1,
+  pageSize: 20,
+});
+
+useEffect(() => {
+  if ((filter.searchQuery?.length ?? 0) < 2 && !filter.genres?.length) return;
+  const timer = setTimeout(() => {
+    fetch('/api/karaoke/get-filtered-songs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(filter),
+    })
+      .then(r => r.json())
+      .then(data => setSongs(data.items));
+  }, 300);
+  return () => clearTimeout(timer);
+}, [filter]);
+```
+
+---
+
+## 7. SongDetail — typy wartości
+
+| `type` | Format `value` | Opis |
+|---|---|---|
+| `StreamingLinks` | `klucz:id\|https://...` | Np. `spotify:track:xxx\|https://open.spotify.com/track/xxx` |
+| `Identifiers` | `źródło:id` | Np. `spotify:4PTG3Z6ehGkBFwjybzWkR8` |
+| `Popularity` | `cover_url:https://...` | URL okładki |
+| `Credits` | `duration_seconds:213` | Czas trwania |
+| `Lyrics` | tekst | Tekst piosenki (jeśli dostępny) |
+
+> **Uwaga**: `streamingLinks`, `externalCoverUrl` i `durationSeconds` w `LinkedSongInfoDto` to **wygodne pola wyciągnięte** z tablicy `details` — nie trzeba ręcznie parsować `details`, chyba że potrzebujesz surowych danych.
+
+---
+
+## 8. Pytania i kontakt
+
+- **Swagger UI**: `http://localhost:5000/swagger` → grupa **Karaoke**
+- **Backend kontakt**: `@backend` na Teams / kanał `#audioverse-docs`
+
+---
+---
+
+# Kampania Karaoke + System Postępu (XP / Poziomy / Skille)
+
+> **Data**: 2025-07-27 · **Dotyczy**: `api/karaoke/campaigns/*`, `api/karaoke/progress/*`
+
+---
+
+## Opis
+
+### Kampania Karaoke
+
+Kampania to **ścieżka piosenek do przejścia** z rosnącym poziomem trudności. Gracz musi osiągnąć odpowiedni **pułap punktowy** w każdej rundzie, żeby odblokować następną. Kampanie opierają się na **szablonach** (`CampaignTemplate`), które definiują:
+
+- ile rund, jakie pułapy punktowe
+- jakie piosenki do wyboru w każdej rundzie
+- tryb śpiewania per runda (Normal, Blind, NoLyrics, SpeedRun, etc.)
+- nagrody (skille) za ukończenie rund
+- ilość XP za rundę
+
+**Tryby współpracy (coop):**
+
+| CoopMode | Opis |
+|---|---|
+| `Solo` (0) | Jeden gracz |
+| `AllMustPass` (1) | Wszyscy gracze muszą osiągnąć pułap — liczy się najniższy wynik |
+| `AnyOnePass` (2) | Wystarczy jeden — liczy się najwyższy wynik |
+
+### System Postępu
+
+- **XP** — zdobywane za śpiewanie (w kampanii i poza nią), za ukończenie rund kampanii
+- **Poziomy** — per gracz, per kategoria (Karaoke, Campaign, HonestLiving, Editor, Social)
+- **Skille** — odblokowywane za poziomy lub jako nagrody kampanii (np. „dodatkowa piosenka do wyboru")
+
+---
+
+## Endpointy
+
+### Szablony kampanii
+
+| Metoda | Endpoint | Opis |
+|---|---|---|
+| `GET` | `/api/karaoke/campaigns/templates` | Lista szablonów (publicznych) |
+| `GET` | `/api/karaoke/campaigns/templates/{templateId}` | Szczegóły szablonu z rundami i pulami piosenek |
+| `POST` | `/api/karaoke/campaigns/templates` | Utwórz szablon |
+| `PUT` | `/api/karaoke/campaigns/templates/{templateId}` | Edytuj szablon |
+
+### Kampanie (instancje)
+
+| Metoda | Endpoint | Opis |
+|---|---|---|
+| `POST` | `/api/karaoke/campaigns/start` | Rozpocznij nową kampanię |
+| `POST` | `/api/karaoke/campaigns/{campaignId}/join` | Dołącz do kampanii coop |
+| `GET` | `/api/karaoke/campaigns/{campaignId}` | Szczegóły kampanii z postępem rund |
+| `GET` | `/api/karaoke/campaigns/my` | Moje kampanie |
+| `POST` | `/api/karaoke/campaigns/{campaignId}/rounds/{roundNumber}/choose-song` | Wybierz piosenkę w rundzie |
+| `POST` | `/api/karaoke/campaigns/{campaignId}/rounds/{roundNumber}/submit-score` | Zgłoś wynik śpiewania |
+
+### Postęp gracza
+
+| Metoda | Endpoint | Opis |
+|---|---|---|
+| `GET` | `/api/karaoke/progress/{playerId}` | Postęp gracza (XP, poziomy per kategoria) |
+| `GET` | `/api/karaoke/progress/{playerId}/skills` | Odblokowane skille gracza |
+| `POST` | `/api/karaoke/progress/{playerId}/add-xp` | Dodaj XP (admin/test) |
+
+---
+
+## Request / Response — przykłady
+
+### Rozpocznij kampanię
+
+```json
+POST /api/karaoke/campaigns/start
+Authorization: Bearer <jwt>
+
+{
+  "templateId": 1,
+  "coopMode": 0
+}
+```
+
+`coopMode`: `0` = Solo, `1` = AllMustPass, `2` = AnyOnePass
+
+**Response (201 Created):**
+
+```json
+{
+  "id": 42,
+  "templateId": 1,
+  "coopMode": 0,
+  "startedAt": "2025-07-27T15:00:00Z",
+  "completedAt": null,
+  "currentRound": 1,
+  "totalScore": 0,
+  "totalXpEarned": 0,
+  "players": [
+    { "id": 1, "campaignId": 42, "playerId": 7, "totalScore": 0 }
+  ],
+  "roundProgress": [
+    { "roundNumber": 1, "status": 1, "chosenSongId": null, "bestScore": null, "xpEarned": 0 },
+    { "roundNumber": 2, "status": 0, "chosenSongId": null, "bestScore": null, "xpEarned": 0 },
+    { "roundNumber": 3, "status": 0, "chosenSongId": null, "bestScore": null, "xpEarned": 0 }
+  ]
+}
+```
+
+### Dołącz do kampanii coop
+
+```json
+POST /api/karaoke/campaigns/42/join
+// Brak body
+```
+
+### Wybierz piosenkę w rundzie
+
+```json
+POST /api/karaoke/campaigns/42/rounds/1/choose-song
+// Body: ID piosenki (z puli SongPool rundy)
+
+5
+```
+
+### Zgłoś wynik śpiewania
+
+```json
+POST /api/karaoke/campaigns/42/rounds/1/submit-score
+
+{
+  "score": 8500,
+  "singingId": 123
+}
+```
+
+**Response (runda ukończona, następna odblokowana):**
+
+```json
+{
+  "roundNumber": 1,
+  "status": 2,
+  "chosenSongId": 5,
+  "bestScore": 8500,
+  "xpEarned": 50,
+  "completedAt": "2025-07-27T15:10:00Z"
+}
+```
+
+### Pobierz postęp gracza
+
+```
+GET /api/karaoke/progress/7
+```
+
+**Response:**
+
+```json
+[
+  { "playerId": 7, "category": 0, "xp": 85, "level": 3, "xpToNextLevel": 520 },
+  { "playerId": 7, "category": 2, "xp": 150, "level": 2, "xpToNextLevel": 283 }
+]
+```
+
+Kategorie: `0` = Karaoke, `1` = HonestLiving, `2` = Campaign, `3` = Editor, `4` = Social
+
+### Pobierz skille gracza
+
+```
+GET /api/karaoke/progress/7/skills
+```
+
+**Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "playerId": 7,
+    "skillDefinitionId": 3,
+    "skillDefinition": {
+      "id": 3,
+      "name": "Dodatkowa piosenka",
+      "description": "Dodatkowa piosenka do wyboru w rundzie kampanii",
+      "iconUrl": "/icons/extra-song.png",
+      "scope": 0,
+      "effectKey": "extra_song_choice",
+      "effectValue": "1",
+      "requiredLevel": 0
+    },
+    "unlockedInCampaignId": 42,
+    "unlockedAt": "2025-07-27T15:10:00Z",
+    "usageCount": 0
+  }
+]
+```
+
+### Pobierz szczegóły szablonu kampanii
+
+```
+GET /api/karaoke/campaigns/templates/1
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "name": "Klasyczna ścieżka Pop",
+  "description": "Przejdź 5 rund popularnych piosenek pop z rosnącą trudnością",
+  "difficulty": 3,
+  "isPublic": true,
+  "createdByPlayerId": null,
+  "configJson": null,
+  "rounds": [
+    {
+      "id": 1,
+      "roundNumber": 1,
+      "name": "Rozgrzewka",
+      "scoreThreshold": 5000,
+      "singingMode": 0,
+      "songsToChoose": 3,
+      "timeLimitSeconds": null,
+      "xpReward": 50,
+      "rewardSkillDefinitionId": null,
+      "songPool": [
+        { "id": 1, "songId": 42, "song": { "id": 42, "title": "Never Gonna Give You Up", "artist": "Rick Astley" } },
+        { "id": 2, "songId": 15, "song": { "id": 15, "title": "Take On Me", "artist": "a-ha" } },
+        { "id": 3, "songId": 28, "song": { "id": 28, "title": "Billie Jean", "artist": "Michael Jackson" } }
+      ]
+    },
+    {
+      "id": 2,
+      "roundNumber": 2,
+      "name": "Na oślep",
+      "scoreThreshold": 7000,
+      "singingMode": 4,
+      "songsToChoose": 2,
+      "timeLimitSeconds": null,
+      "xpReward": 100,
+      "rewardSkillDefinitionId": 3,
+      "rewardSkillDefinition": {
+        "id": 3,
+        "name": "Dodatkowa piosenka",
+        "effectKey": "extra_song_choice",
+        "effectValue": "1",
+        "scope": 0
+      },
+      "songPool": [
+        { "id": 4, "songId": 50, "song": { "id": 50, "title": "Bohemian Rhapsody", "artist": "Queen" } },
+        { "id": 5, "songId": 61, "song": { "id": 61, "title": "Don't Stop Me Now", "artist": "Queen" } }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## TypeScript interfaces
+
+### Enumy
+
+```typescript
+enum CampaignCoopMode {
+  Solo = 0,
+  AllMustPass = 1,
+  AnyOnePass = 2,
+}
+
+enum CampaignRoundStatus {
+  Locked = 0,
+  Unlocked = 1,
+  Completed = 2,
+}
+
+enum ProgressCategory {
+  Karaoke = 0,
+  HonestLiving = 1,
+  Campaign = 2,
+  Editor = 3,
+  Social = 4,
+}
+
+enum SkillScope {
+  CampaignOnly = 0,
+  Global = 1,
+}
+
+// KaraokeRoundMode (istniejący, używany w singingMode)
+enum KaraokeRoundMode {
+  Normal = 0,
+  Demo = 1,
+  NoLyrics = 2,
+  NoTimeline = 3,
+  Blind = 4,
+  SpeedRun = 5,
+  Duet = 6,
+  FreeStyle = 7,
+}
+```
+
+### Kampania
+
+```typescript
+interface CampaignTemplate {
+  id: number;
+  name: string;
+  description: string | null;
+  difficulty: number;       // 1–5
+  isPublic: boolean;
+  createdByPlayerId: number | null;
+  configJson: string | null;
+  rounds: CampaignTemplateRound[];
+}
+
+interface CampaignTemplateRound {
+  id: number;
+  roundNumber: number;
+  name: string | null;
+  scoreThreshold: number;       // Pułap punktów do odblokowania następnej
+  singingMode: KaraokeRoundMode;
+  songsToChoose: number;         // Ile piosenek gracz może wybrać z puli
+  timeLimitSeconds: number | null;
+  xpReward: number;
+  rewardSkillDefinitionId: number | null;
+  rewardSkillDefinition: SkillDefinition | null;
+  songPool: CampaignTemplateRoundSong[];
+}
+
+interface CampaignTemplateRoundSong {
+  id: number;
+  songId: number;
+  song: { id: number; title: string; artist: string } | null;
+}
+
+interface Campaign {
+  id: number;
+  templateId: number;
+  template: CampaignTemplate | null;
+  coopMode: CampaignCoopMode;
+  startedAt: string;
+  completedAt: string | null;
+  currentRound: number;
+  totalScore: number;
+  totalXpEarned: number;
+  players: CampaignPlayer[];
+  roundProgress: CampaignRoundProgress[];
+}
+
+interface CampaignPlayer {
+  id: number;
+  campaignId: number;
+  playerId: number;
+  player: { id: number; name: string } | null;
+  totalScore: number;
+  joinedAt: string;
+}
+
+interface CampaignRoundProgress {
+  id: number;
+  campaignId: number;
+  roundNumber: number;
+  status: CampaignRoundStatus;
+  chosenSongId: number | null;
+  bestScore: number | null;
+  xpEarned: number;
+  completedAt: string | null;
+  singingId: number | null;
+}
+```
+
+### Postęp gracza
+
+```typescript
+interface PlayerProgress {
+  id: number;
+  playerId: number;
+  category: ProgressCategory;
+  xp: number;
+  level: number;
+  xpToNextLevel: number;
+  updatedAt: string;
+}
+
+interface SkillDefinition {
+  id: number;
+  name: string;
+  description: string | null;
+  iconUrl: string | null;
+  scope: SkillScope;
+  effectKey: string;       // np. "extra_song_choice", "score_multiplier"
+  effectValue: string | null; // np. "1", "1.5"
+  requiredLevel: number;
+  requiredCategory: ProgressCategory | null;
+}
+
+interface PlayerSkill {
+  id: number;
+  playerId: number;
+  skillDefinitionId: number;
+  skillDefinition: SkillDefinition | null;
+  unlockedInCampaignId: number | null;
+  unlockedAt: string;
+  usageCount: number;
+}
+```
+
+### Requesty
+
+```typescript
+interface StartCampaignRequest {
+  templateId: number;
+  coopMode?: CampaignCoopMode;  // default: Solo (0)
+}
+
+interface SubmitRoundScoreRequest {
+  score: number;
+  singingId?: number;
+}
+
+interface AddXpRequest {
+  category: ProgressCategory;
+  amount: number;
+  source?: string;
+}
+```
+
+---
+
+## XP za śpiewanie — automatyczne
+
+XP jest **automatycznie przyznawane** przy każdym zapisie wyników śpiewania (`POST /api/karaoke/save-results`). Formuła:
+
+```
+bazowe = 10
++ score / 1000
++ perfect / 10
++ combo / 20
+minimum: 1 XP
+```
+
+| Wynik | Perfect | Combo | XP |
+|---|---|---|---|
+| 5000 | 50 | 100 | 10 + 5 + 5 + 5 = **25** |
+| 9000 | 200 | 300 | 10 + 9 + 20 + 15 = **54** |
+| 1000 | 10 | 20 | 10 + 1 + 1 + 1 = **13** |
+
+XP trafia do kategorii **Karaoke** (`category: 0`). XP za kampanię trafia do kategorii **Campaign** (`category: 2`).
+
+### Formuła poziomów
+
+```
+XP do następnego poziomu = 100 × level^1.5
+```
+
+| Poziom | XP do następnego |
+|---|---|
+| 1 | 100 |
+| 2 | 283 |
+| 3 | 520 |
+| 5 | 1118 |
+| 10 | 3162 |
+
+---
+
+## Flow kampanii — diagram
+
+```
+1. GET /campaigns/templates          → lista szablonów
+2. POST /campaigns/start             → rozpocznij kampanię (dostajesz roundProgress)
+3. GET /campaigns/{id}               → sprawdź stan (które rundy odblokowane)
+4. POST /.../rounds/1/choose-song    → wybierz piosenkę z puli
+5. [gracz śpiewa w UI karaoke]
+6. POST /.../rounds/1/submit-score   → zgłoś wynik
+   ├─ score < threshold → status=Unlocked (spróbuj jeszcze raz)
+   └─ score >= threshold → status=Completed, runda 2 Unlocked, XP przyznane, skill odblokowany
+7. Powtarzaj 4–6 dla kolejnych rund
+8. Wszystkie rundy Completed → kampania ukończona (completedAt != null)
+```
+
+### Coop flow
+
+```
+1. Gracz A: POST /campaigns/start    → coopMode: AllMustPass
+2. Gracz B: POST /campaigns/{id}/join
+3. Obaj grają — submit-score per gracz
+4. AllMustPass: runda zaliczona gdy OBAJ osiągną threshold
+   AnyOnePass: runda zaliczona gdy KTÓRYKOLWIEK osiągnie threshold
+```
+
+---
+
+## Sugestie implementacji na froncie
+
+### Mapa kampanii — wyświetlanie rund
+
+```tsx
+{campaign.roundProgress.map(rp => {
+  const templateRound = campaign.template?.rounds.find(r => r.roundNumber === rp.roundNumber);
+  return (
+    <div key={rp.roundNumber} className={`round round--${CampaignRoundStatus[rp.status].toLowerCase()}`}>
+      <h3>{templateRound?.name ?? `Runda ${rp.roundNumber}`}</h3>
+      <span className="mode">{KaraokeRoundMode[templateRound?.singingMode ?? 0]}</span>
+      <span className="threshold">Pułap: {templateRound?.scoreThreshold}</span>
+      {rp.status === CampaignRoundStatus.Completed && (
+        <span className="score">✅ {rp.bestScore} / {rp.xpEarned} XP</span>
+      )}
+      {rp.status === CampaignRoundStatus.Locked && <span>🔒</span>}
+      {rp.status === CampaignRoundStatus.Unlocked && (
+        <button onClick={() => openRound(rp.roundNumber)}>▶️ Graj</button>
+      )}
+    </div>
+  );
+})}
+```
+
+### Pasek XP
+
+```tsx
+const ProgressBar = ({ progress }: { progress: PlayerProgress }) => (
+  <div className="xp-bar">
+    <span>Poziom {progress.level}</span>
+    <div className="xp-bar__fill" style={{ width: `${(progress.xp / progress.xpToNextLevel) * 100}%` }} />
+    <span>{progress.xp} / {progress.xpToNextLevel} XP</span>
+  </div>
+);
+```
+
+### Wybór piosenki w rundzie
+
+```tsx
+const SongPicker = ({ songPool, onChoose }: { songPool: CampaignTemplateRoundSong[]; onChoose: (songId: number) => void }) => (
+  <div className="song-picker">
+    {songPool.map(s => (
+      <button key={s.songId} onClick={() => onChoose(s.songId)}>
+        🎵 {s.song?.title} — {s.song?.artist}
+      </button>
+    ))}
+  </div>
+);

@@ -1,0 +1,271 @@
+/* Styles for BunnyGame (3D ragdoll platformer) */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+  position: relative;
+  min-height: 70vh;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scoreItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gray-100);
+  transition: opacity 0.3s;
+}
+
+.dead {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+
+.scoreColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.scoreValue {
+  min-width: 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.gameViewport {
+  position: relative;
+  width: 960px;
+  max-width: 100%;
+  aspect-ratio: 8 / 5;
+  border: 2px solid var(--gray-800);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0e1520;
+}
+
+.threeCanvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.hudCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.canvas {
+  width: 960px;
+  max-width: 100%;
+  border: 2px solid var(--gray-800);
+  border-radius: 6px;
+  background: var(--editor-bg-deep);
+}
+
+/* Game Over overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  border-radius: 6px;
+  color: var(--gray-100);
+  gap: 1rem;
+  animation: fadeIn 0.3s ease-out;
+  z-index: 10;
+}
+
+.overlay h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.winnerText {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.overlayActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.restartBtn {
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--game-blue), var(--game-blue-dark));
+  color: var(--color-white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.restartBtn:hover {
+  transform: scale(1.05);
+}
+
+.backBtnOverlay {
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  border: 2px solid var(--gray-700);
+  background: transparent;
+  color: var(--gray-300);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.backBtnOverlay:hover {
+  border-color: var(--gray-500);
+  color: var(--color-white);
+}
+
+.overlayHint {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Tutorial ──────────────────────────────────────────── */
+.tutorialOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+.tutorialCard {
+  background: linear-gradient(135deg, #1a1e2e, #252a3a);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.tutorialIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+.tutorialTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 0 0 0.75rem;
+}
+.tutorialDesc {
+  font-size: 0.95rem;
+  color: var(--gray-300);
+  line-height: 1.6;
+  margin: 0 0 0.5rem;
+}
+.tutorialTip {
+  font-size: 0.85rem;
+  color: #ffcc66;
+  background: rgba(255, 200, 50, 0.08);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+.tutorialProgress {
+  font-size: 0.75rem;
+  color: var(--gray-600);
+  margin: 0.75rem 0 0.5rem;
+}
+.tutorialNav {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.tutorialBtn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--gray-200);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tutorialBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--gray-500);
+  color: var(--color-white);
+}
+.tutorialBtnPrimary {
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent-primary);
+  background: rgba(76, 175, 80, 0.2);
+  color: #6deb71;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tutorialBtnPrimary:hover {
+  background: rgba(76, 175, 80, 0.35);
+}
+.tutorialSkip {
+  margin-top: 0.75rem;
+}
+.tutorialSkipBtn {
+  background: none;
+  border: none;
+  color: var(--gray-700);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.tutorialSkipBtn:hover {
+  color: var(--gray-550);
+}
+
+/* ── Tooltip icons ─────────────────────────────────────── */
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  padding: 0.15rem 0;
+}
+.tooltipIcon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}

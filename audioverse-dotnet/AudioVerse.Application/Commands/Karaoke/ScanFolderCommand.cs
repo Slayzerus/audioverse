@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using AudioVerse.Domain.Entities.Karaoke;
 using System.Collections.Generic;
+using AudioVerse.Domain.Entities.Karaoke.KaraokeSongFiles;
 
 namespace AudioVerse.Application.Commands.Karaoke
 {

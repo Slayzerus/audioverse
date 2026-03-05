@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MIME, PoseDetectionResult, PoseEngine } from "../../../../models/modelsAiVideo";
 import { postPoseImage, labelForEngine } from "../../../../scripts/api/apiLibraryAiVideo";
 import { PoseCamGameProps } from "./PoseCamGame.types";
@@ -11,6 +12,7 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
                                                             distanceScale = 0.4,
                                                             onScore,
                                                         }) => {
+    const { t } = useTranslation();
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const leftCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const rightCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -37,8 +39,8 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
                 await videoRef.current.play();
                 setRunning(true);
             }
-        } catch (e: any) {
-            setError(String(e?.message ?? e));
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : String(e));
         }
     }, []);
 
@@ -87,8 +89,8 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
                 const sim = comparePoses(targetNormRef.current, liveNorm, distanceScale);
                 setScore(sim.score);
                 onScore?.(sim.score);
-            } catch (e: any) {
-                setError(String(e?.message ?? e));
+            } catch (e: unknown) {
+                setError(e instanceof Error ? e.message : String(e));
             }
         }
         rafRef.current = requestAnimationFrame(tick);
@@ -109,7 +111,7 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
     return (
         <div style={{ display: "grid", gap: 12 }}>
             <fieldset style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <legend>Controls</legend>
+                <legend>{t('poseCamGame.controls', 'Controls')}</legend>
 
                 <select value={engineSel} onChange={(e) => setEngineSel(e.target.value as PoseEngine)} disabled={running}>
                     <option value="mediapipe">{labelForEngine("mediapipe")}</option>
@@ -119,14 +121,14 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
                 </select>
 
                 {!running ? (
-                    <button onClick={startCam}>Start camera</button>
+                    <button onClick={startCam}>{t('poseCamGame.startCamera', 'Start camera')}</button>
                 ) : (
-                    <button onClick={stopCam}>Stop camera</button>
+                    <button onClick={stopCam}>{t('poseCamGame.stopCamera', 'Stop camera')}</button>
                 )}
-                <button onClick={captureTarget} disabled={!running}>Save current pose</button>
+                <button onClick={captureTarget} disabled={!running}>{t('poseCamGame.savePose', 'Save current pose')}</button>
 
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
-                    <span>Score</span>
+                    <span>{t('poseCamGame.score', 'Score')}</span>
                     <div style={{ width: 160, height: 10, border: "1px solid #999", position: "relative" }}>
                         <div style={{ width: `${score}%`, height: "100%", background: "#29b06f" }} />
                     </div>
@@ -138,11 +140,11 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Target pose</div>
-                    <canvas ref={leftCanvasRef} style={{ width: "100%", border: "1px solid #ddd", background: "#000" }} />
+                    <div style={{ marginBottom: 6 }}>{t('poseCamGame.targetPose', 'Target pose')}</div>
+                    <canvas ref={leftCanvasRef} style={{ width: "100%", border: "1px solid #ddd", background: "#000" }}  role="img" aria-label="Pose Cam canvas"/>
                 </div>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Live camera</div>
+                    <div style={{ marginBottom: 6 }}>{t('poseCamGame.liveCamera', 'Live camera')}</div>
                     <div style={{ position: "relative" }}>
                         <video
                             ref={videoRef}
@@ -159,13 +161,15 @@ export const PoseCamGame: React.FC<PoseCamGameProps> = ({
                                 width: "100%",
                                 pointerEvents: "none",
                             }}
+                            role="img"
+                            aria-label="Pose detection overlay canvas"
                         />
                     </div>
                 </div>
             </div>
 
             <details>
-                <summary>Last detection (live) JSON</summary>
+                <summary>{t('poseCamGame.lastDetection', 'Last detection (live) JSON')}</summary>
                 <pre style={{ margin: 0, maxHeight: 240, overflow: "auto", background: "#0b0b0b", color: "#d6ffd6", padding: 8, border: "1px solid #222" }}>
                     {lastDet ? JSON.stringify(lastDet, null, 2) : "{}"}
                 </pre>

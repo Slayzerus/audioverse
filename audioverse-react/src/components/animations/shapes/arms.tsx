@@ -19,9 +19,9 @@ export type ArmProps = {
 
 function pal(c: string[]) {
     return {
-        skin: pick(c, 0, "#FFD2B3"),
-        sleeve: pick(c, 1, "#3B82F6"),
-        stroke: pick(c, 2, "#111"),
+        skin: pick(c, 0, "var(--anim-skin, #FFD2B3)"),
+        sleeve: pick(c, 1, "var(--anim-sleeve, #3B82F6)"),
+        stroke: pick(c, 2, "var(--anim-stroke, #111)"),
     };
 }
 

@@ -1,3 +1,7 @@
+import { logger } from "../utils/logger";
+
+const log = logger.scoped('generateSpeech');
+
 export function generateSpeech(
     text: string,
     voiceURI: string,
@@ -7,7 +11,7 @@ export function generateSpeech(
 ): Promise<Blob | null> {
     return new Promise((resolve, reject) => {
         if (!window.speechSynthesis) {
-            console.error("[TTS] Web Speech API nie jest dostępne w tej przeglądarce!");
+            log.error("Web Speech API is not available in this browser!");
             return reject("Web Speech API not supported");
         }
 
@@ -19,50 +23,45 @@ export function generateSpeech(
         const voices = window.speechSynthesis.getVoices();
         const selectedVoice = voices.find((v) => v.voiceURI === voiceURI);
         if (!selectedVoice) {
-            console.error("[TTS] Nie znaleziono głosu!", { availableVoices: voices });
+            log.error("Voice not found!", { availableVoices: voices });
             return reject("Voice not found");
         }
         utterance.voice = selectedVoice;
 
-        console.log("[TTS] Rozpoczynam generowanie mowy...");
-
-        // 🔹 Tworzymy Web Audio API
+        // Create Web Audio API context
         const audioContext = new AudioContext();
         const destination = audioContext.createMediaStreamDestination();
         const mediaRecorder = new MediaRecorder(destination.stream);
         const chunks: BlobPart[] = [];
 
         mediaRecorder.ondataavailable = (event) => {
-            console.log("[TTS] Otrzymano fragment dźwięku:", event.data);
             chunks.push(event.data);
         };
 
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(chunks, { type: "audio/wav" });
             if (audioBlob.size === 0) {
-                console.error("[TTS] Błąd: Pusty plik audio!", { audioBlob });
+                log.error("Error: Empty audio file!", { audioBlob });
                 return reject("Empty audio file");
             }
-            console.log("[TTS] Utworzono plik audio:", audioBlob);
             resolve(audioBlob);
         };
 
-        // 🔹 Tworzymy MediaStreamAudioSourceNode dla syntezatora mowy
+        // Create MediaStreamAudioSourceNode for speech synthesizer
         const utteranceSource = audioContext.createMediaStreamSource(destination.stream);
         utteranceSource.connect(audioContext.destination);
-        utteranceSource.connect(destination); // Połącz strumień z MediaRecorder
+        utteranceSource.connect(destination); // Connect stream with MediaRecorder
 
         mediaRecorder.start();
 
         utterance.onend = () => {
-            console.log("[TTS] Mowa zakończona, zatrzymuję nagrywanie...");
             setTimeout(() => {
                 mediaRecorder.stop();
             }, 500);
         };
 
         utterance.onerror = (event) => {
-            console.error("[TTS] Błąd syntezy mowy:", event);
+            log.error("Speech synthesis error:", event);
             reject("Speech synthesis error");
         };
 

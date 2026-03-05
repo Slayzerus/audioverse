@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AudioVerse.Application.Queries;
 using AudioVerse.Application.Queries.Karaoke;
 
-namespace AudioVerse.Application.Handlers
+namespace AudioVerse.Application.Handlers.Karaoke
 {
     public class GetCoverImageHandler : IRequestHandler<GetCoverImageQuery, string>
     {
@@ -22,7 +22,7 @@ namespace AudioVerse.Application.Handlers
             if (File.Exists(pngPath))
                 return pngPath;
 
-            return "https://via.placeholder.com/100"; // Domyślny placeholder
+            return string.Empty;
         }
     }
 }

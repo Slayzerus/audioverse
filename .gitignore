@@ -360,3 +360,32 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Dev settings with local credentials
+**/appsettings.Development.json
+
+
+# ================================================================
+# AudioVerse - large files / generated content
+# ================================================================
+
+# Unity project (use separate repo or Git LFS)
+audioverse-unity/
+
+# Playwright test reports and results
+audioverse-react/playwright-report/
+audioverse-react/test-results/
+
+# Large binary files that should not be in Git
+*.flac
+*.sf2
+*.eps
+*.psd
+*.dylib
+*.tar.gz
+
+# Seed data archives
+audioverse-dotnet/Seeds/
+
+# VSTS agent
+env/vsts-agent-*.tar.gz

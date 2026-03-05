@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { postPose3dFromSequence, postPose3dFromVideo } from "../../../scripts/api/apiLibraryAiVideo";
 import { MIME, Pose3DSequenceResult, Pose2DSequencePayload } from "../../../models/modelsAiVideo";
 import { Pose3DLifterProps } from "./Pose3DLifter.types";
 
 /// Simple test harness for PoseFormer 3D lifting (JSON sequence or MP4).
 export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
+    const { t } = useTranslation();
     const [mode, setMode] = useState<"json" | "video">("json");
     const [file, setFile] = useState<File | null>(null);
     const [busy, setBusy] = useState(false);
@@ -21,12 +23,12 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
             return;
         }
         if (mode === "json" && f.type !== MIME.json) {
-            setError("Accepted JSON for sequence.");
+            setError(t('pose3d.acceptedJson', 'Accepted JSON for sequence.'));
             setFile(null);
             return;
         }
         if (mode === "video" && f.type !== MIME.videoMp4) {
-            setError("Accepted: MP4.");
+            setError(t('pose3d.acceptedMp4', 'Accepted: MP4.'));
             setFile(null);
             return;
         }
@@ -36,7 +38,7 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
     /// Executes lifting depending on mode.
     const onRun = async () => {
         if (!file) {
-            setError("Select a file first.");
+            setError(t('pose3d.selectFile', 'Select a file first.'));
             return;
         }
         setBusy(true);
@@ -53,8 +55,8 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
                 setResult(res);
                 onResult?.(res);
             }
-        } catch (e: any) {
-            setError(String(e?.message ?? e));
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : String(e));
         } finally {
             setBusy(false);
         }
@@ -63,7 +65,7 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
     return (
         <div style={{ display: "grid", gap: 12 }}>
             <fieldset style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <legend>Input</legend>
+                <legend>{t('pose3d.input', 'Input')}</legend>
                 <label>
                     <input
                         type="radio"
@@ -105,7 +107,7 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Summary</div>
+                    <div style={{ marginBottom: 6 }}>{t('pose3d.summary', 'Summary')}</div>
                     <div style={{ border: "1px solid #ddd", padding: 8 }}>
                         <div>Model: {result?.model ?? "-"}</div>
                         <div>FPS: {result?.fps ?? "-"}</div>
@@ -114,7 +116,7 @@ export const Pose3DLifter: React.FC<Pose3DLifterProps> = ({ onResult }) => {
                     </div>
                 </div>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Response JSON</div>
+                    <div style={{ marginBottom: 6 }}>{t('pose3d.responseJson', 'Response JSON')}</div>
                     <pre
                         style={{
                             margin: 0,

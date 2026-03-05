@@ -1,0 +1,481 @@
+// EventDetailPage.tsx — Read-only event detail view with tabs
+import React, { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { usePartyQuery } from "../../scripts/api/apiKaraoke";
+import { useEventPhotosQuery } from "../../scripts/api/apiEventPhotos";
+import { useEventCommentsQuery } from "../../scripts/api/apiEventComments";
+import { usePollsQuery } from "../../scripts/api/apiEventPolls";
+import { useExpensesQuery, useSettlementQuery } from "../../scripts/api/apiEventBilling";
+import {
+    EventNotificationLevel,
+    EventNotificationCategory,
+    useSubscriptionCheckQuery,
+    useEventSubscriptionQuery,
+    useSubscribeToEventMutation,
+    useUnsubscribeMutation,
+    useEventSubscribersQuery,
+} from "../../scripts/api/apiEventSubscriptions";
+import {
+    useMyEventListsQuery,
+    useEventExistsInListQuery,
+    useAddEventToListMutation,
+} from "../../scripts/api/apiEventLists";
+
+// ── Styles ─────────────────────────────────────────────────────
+const page: React.CSSProperties = {
+    width: "100%", height: "100%", padding: 20,
+    display: "flex", flexDirection: "column", gap: 20, overflow: "auto",
+};
+const card: React.CSSProperties = {
+    border: "1px solid var(--border-color, #ddd)", padding: 20,
+    borderRadius: 8, display: "flex", flexDirection: "column", gap: 12,
+};
+const tabBar: React.CSSProperties = {
+    display: "flex", gap: 4, flexWrap: "wrap", borderBottom: "2px solid var(--border-color, #ddd)",
+    paddingBottom: 4,
+};
+const tabBtn = (active: boolean): React.CSSProperties => ({
+    padding: "8px 16px", borderRadius: "6px 6px 0 0", border: "none", cursor: "pointer",
+    fontWeight: active ? 700 : 400, fontSize: 13,
+    backgroundColor: active ? "var(--accent, #5865F2)" : "transparent",
+    color: active ? "#fff" : "inherit",
+});
+const grid: React.CSSProperties = {
+    display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 10,
+};
+const commentCard: React.CSSProperties = {
+    border: "1px solid var(--border-color, #eee)", borderRadius: 6,
+    padding: 10, fontSize: 13,
+};
+
+type Tab = "overview" | "photos" | "comments" | "polls" | "billing" | "subscription" | "lists";
+
+// ── Subscription helpers ─────────────────────────────────────────
+const levelLabels: Record<EventNotificationLevel, { label: string; color: string }> = {
+    [EventNotificationLevel.Muted]: { label: "Muted", color: "#636e72" },
+    [EventNotificationLevel.Essential]: { label: "Essential", color: "#e17055" },
+    [EventNotificationLevel.Standard]: { label: "Standard", color: "#0984e3" },
+    [EventNotificationLevel.All]: { label: "All", color: "#00b894" },
+};
+const categoryLabels: { value: EventNotificationCategory; label: string }[] = [
+    { value: EventNotificationCategory.Cancellation, label: "Cancellation" },
+    { value: EventNotificationCategory.DateTimeChange, label: "Date/Time" },
+    { value: EventNotificationCategory.Reminder24h, label: "24h" },
+    { value: EventNotificationCategory.Reminder1h, label: "1h" },
+    { value: EventNotificationCategory.ScheduleUpdate, label: "Schedule" },
+    { value: EventNotificationCategory.NewParticipant, label: "Participants" },
+    { value: EventNotificationCategory.News, label: "News" },
+    { value: EventNotificationCategory.Comments, label: "Comments" },
+    { value: EventNotificationCategory.Polls, label: "Polls" },
+    { value: EventNotificationCategory.Media, label: "Media" },
+    { value: EventNotificationCategory.GameUpdates, label: "Games" },
+];
+const btn = (accent = false): React.CSSProperties => ({
+    padding: "6px 14px", borderRadius: 6, border: "none", cursor: "pointer",
+    fontWeight: 600, fontSize: 13,
+    backgroundColor: accent ? "var(--accent, #5865F2)" : "var(--bg-secondary, #2b2d31)",
+    color: accent ? "#fff" : "inherit",
+});
+const badgeSmall = (bg: string): React.CSSProperties => ({
+    display: "inline-block", padding: "2px 8px", borderRadius: 10,
+    fontSize: 11, fontWeight: 600, backgroundColor: bg, color: "#fff",
+});
+
+const EventDetailPage: React.FC = () => {
+    const { t } = useTranslation();
+    const { partyId } = useParams<{ partyId: string }>();
+    const id = Number(partyId) || 0;
+    const [tab, setTab] = useState<Tab>("overview");
+
+    const { data: party, isLoading: partyLoading } = usePartyQuery(id, { enabled: id > 0 });
+    const { data: photosPage } = useEventPhotosQuery(id, 1, 50, { enabled: id > 0 && tab === "photos" });
+    const { data: commentsPage } = useEventCommentsQuery(id, 1, 100, { enabled: id > 0 && tab === "comments" });
+    const { data: polls } = usePollsQuery(id, { enabled: id > 0 && tab === "polls" });
+    const { data: expenses } = useExpensesQuery(id, { enabled: id > 0 && tab === "billing" });
+    const { data: settlement } = useSettlementQuery(id);
+
+    // ── Subscription hooks ──
+    const { data: isSubscribed } = useSubscriptionCheckQuery(id, { enabled: id > 0 });
+    const { data: mySub } = useEventSubscriptionQuery(id, { enabled: id > 0 && tab === "subscription" });
+    const { data: subscribers } = useEventSubscribersQuery(id, { enabled: id > 0 && tab === "subscription" });
+    const subscribeMut = useSubscribeToEventMutation();
+    const unsubscribeMut = useUnsubscribeMutation();
+
+    // ── Add-to-list hooks ──
+    const { data: myLists } = useMyEventListsQuery({ enabled: tab === "lists" });
+    const [checkListId, setCheckListId] = useState<number>(0);
+    const { data: existsInList } = useEventExistsInListQuery(checkListId, id, {
+        enabled: checkListId > 0 && id > 0,
+    });
+    const addToList = useAddEventToListMutation();
+    const [addNote, setAddNote] = useState("");
+
+    if (partyLoading) return <div style={page}><p>{t("common.loading", "Loading…")}</p></div>;
+    if (!party) return <div style={page}><p>{t("common.notFound", "Not found.")}</p></div>;
+
+    const photos = photosPage?.items ?? [];
+    const comments = commentsPage?.items ?? [];
+
+    const tabs: { key: Tab; label: string; icon: string }[] = [
+        { key: "overview", label: t("eventDetail.overview", "Overview"), icon: "clipboard-list" },
+        { key: "photos", label: t("eventDetail.photos", "Photos"), icon: "camera" },
+        { key: "comments", label: t("eventDetail.comments", "Comments"), icon: "comments" },
+        { key: "polls", label: t("eventDetail.polls", "Polls"), icon: "chart-bar" },
+        { key: "billing", label: t("eventDetail.billing", "Billing"), icon: "coins" },
+        { key: "subscription", label: isSubscribed ? `✓ ${t("eventDetail.subscribed", "Subscribed")}` : t("eventDetail.subscribe", "Subscribe"), icon: "bell" },
+        { key: "lists", label: t("eventDetail.addToList", "Lists"), icon: "list" },
+    ];
+
+    return (
+        <div style={page}>
+            {/* Header */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                <Link to={`/parties/${id}`} style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>
+                    ← {t("eventDetail.backToEvent", "Back to event")}
+                </Link>
+            </div>
+            <h1 style={{ margin: 0 }}>
+                {party.title || party.name || `Event #${party.id}`}
+            </h1>
+
+            {/* Tab bar */}
+            <div style={tabBar}>
+                {tabs.map((tb) => (
+                    <button key={tb.key} type="button" style={tabBtn(tab === tb.key)} onClick={() => setTab(tb.key)}>
+                        <i className={`fa-solid fa-${tb.icon}`} />{" "}{tb.label}
+                    </button>
+                ))}
+            </div>
+
+            {/* ──── Overview tab ──── */}
+            {tab === "overview" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-clipboard-list" />{" "}{t("eventDetail.overview", "Overview")}</h2>
+                    {party.description && <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{party.description}</p>}
+                    <div style={{ display: "flex", gap: 24, flexWrap: "wrap", fontSize: 13 }}>
+                        {party.startTime && (
+                            <span><strong><i className="fa-solid fa-calendar" />{" "}{t("eventDetail.start", "Start")}:</strong> {new Date(party.startTime).toLocaleString()}</span>
+                        )}
+                        {party.endTime && (
+                            <span><strong><i className="fa-solid fa-flag-checkered" />{" "}{t("eventDetail.end", "End")}:</strong> {new Date(party.endTime).toLocaleString()}</span>
+                        )}
+                        {party.locationName && (
+                            <span><strong><i className="fa-solid fa-location-dot" />{" "}{t("eventDetail.location", "Location")}:</strong> {party.locationName}</span>
+                        )}
+                        {party.maxParticipants != null && (
+                            <span><strong>👥 Max:</strong> {party.maxParticipants}</span>
+                        )}
+                    </div>
+                    {party.poster && (
+                        <img src={party.poster} alt="Event poster" style={{ maxWidth: 400, borderRadius: 8 }} />
+                    )}
+                </div>
+            )}
+
+            {/* ──── Photos tab ──── */}
+            {tab === "photos" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-camera" />{" "}{t("eventDetail.photos", "Photos")} ({photos.length})</h2>
+                    {photos.length === 0 ? (
+                        <p style={{ color: "#888", fontSize: 13 }}>{t("eventDetail.noPhotos", "No photos.")}</p>
+                    ) : (
+                        <div style={grid}>
+                            {photos.map((ph: any) => (
+                                <div key={ph.id} style={{ borderRadius: 6, overflow: "hidden", border: "1px solid var(--border-color, #eee)" }}>
+                                    <img
+                                        src={ph.objectKey ? `/api/files/${ph.objectKey}` : "/placeholder.png"}
+                                        alt={ph.caption || "Photo"}
+                                        style={{ width: "100%", height: 120, objectFit: "cover" }}
+                                    />
+                                    {ph.caption && <p style={{ margin: 0, padding: 4, fontSize: 11 }}>{ph.caption}</p>}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* ──── Comments tab ──── */}
+            {tab === "comments" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-comments" />{" "}{t("eventDetail.comments", "Comments")} ({comments.length})</h2>
+                    {comments.length === 0 ? (
+                        <p style={{ color: "#888", fontSize: 13 }}>{t("eventDetail.noComments", "No comments.")}</p>
+                    ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                            {comments.map((c: any) => (
+                                <div key={c.id} style={commentCard}>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                        <strong>{c.userId ? `User #${c.userId}` : t("eventDetail.anon", "Anonymous")}</strong>
+                                        <span style={{ fontSize: 11, color: "#888" }}>{new Date(c.createdAt).toLocaleString()}</span>
+                                    </div>
+                                    <p style={{ margin: "4px 0 0", whiteSpace: "pre-wrap" }}>{c.text}</p>
+                                    {c.replies && c.replies.length > 0 && (
+                                        <div style={{ marginLeft: 20, marginTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
+                                            {c.replies.map((r: any) => (
+                                                <div key={r.id} style={{ ...commentCard, backgroundColor: "var(--bg-secondary, #f5f5f5)" }}>
+                                                    <strong>{r.userId ? `User #${r.userId}` : "Anon"}</strong>
+                                                    <p style={{ margin: "2px 0 0" }}>{r.text}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* ──── Polls tab ──── */}
+            {tab === "polls" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-chart-bar" />{" "}{t("eventDetail.polls", "Polls")} ({polls?.length ?? 0})</h2>
+                    {(!polls || polls.length === 0) ? (
+                        <p style={{ color: "#888", fontSize: 13 }}>{t("eventDetail.noPolls", "No polls.")}</p>
+                    ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                            {polls.map((p) => (
+                                <div key={p.id} style={{ ...commentCard, border: "1px solid var(--border-color, #ddd)" }}>
+                                    <strong>{p.title || `Poll #${p.id}`}</strong>
+                                    {p.description && <p style={{ margin: "4px 0 0", fontSize: 12, color: "#888" }}>{p.description}</p>}
+                                    <div style={{ fontSize: 12, marginTop: 4 }}>
+                                        <span>{t("eventDetail.active", "Active")}: {p.isActive ? <i className="fa-solid fa-check" /> : <i className="fa-solid fa-xmark" />}</span>
+                                        {p.expiresAt && <span> · {t("eventDetail.expires", "Expires")}: {new Date(p.expiresAt).toLocaleDateString()}</span>}
+                                    </div>
+                                    {p.options && p.options.length > 0 && (
+                                        <ul style={{ margin: "8px 0 0 16px", padding: 0, fontSize: 13 }}>
+                                            {p.options.map((o) => (
+                                                <li key={o.id}>{o.text || `Option ${o.sortOrder}`}</li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* ──── Billing tab ──── */}
+            {tab === "billing" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-coins" />{" "}{t("eventDetail.billing", "Billing")}</h2>
+
+                    <h3 style={{ margin: 0 }}>
+                        {t("eventDetail.expenses", "Expenses")} ({expenses?.length ?? 0})
+                    </h3>
+                    {(!expenses || expenses.length === 0) ? (
+                        <p style={{ color: "#888", fontSize: 13 }}>{t("eventDetail.noExpenses", "No expenses.")}</p>
+                    ) : (
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                            <thead>
+                                <tr style={{ borderBottom: "2px solid var(--border-color, #ddd)" }}>
+                                    <th style={{ textAlign: "left", padding: 6 }}>{t("eventDetail.desc", "Description")}</th>
+                                    <th style={{ textAlign: "right", padding: 6 }}>{t("eventDetail.amount", "Amount")}</th>
+                                    <th style={{ textAlign: "left", padding: 6 }}>{t("eventDetail.paidBy", "Paid by")}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {expenses.map((e: any) => (
+                                    <tr key={e.id} style={{ borderBottom: "1px solid var(--border-color, #eee)" }}>
+                                        <td style={{ padding: 6 }}>{e.description || "-"}</td>
+                                        <td style={{ padding: 6, textAlign: "right", fontWeight: 600 }}>
+                                            {e.amount?.toFixed(2) ?? "-"} {e.currency || "PLN"}
+                                        </td>
+                                        <td style={{ padding: 6 }}>{e.paidByUserId ? `User #${e.paidByUserId}` : "-"}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+                    {settlement != null && (
+                        <>
+                            <h3 style={{ margin: "8px 0 0" }}>
+                                {t("eventDetail.settlement", "Settlement")}
+                            </h3>
+                            <pre style={{ fontSize: 12, whiteSpace: "pre-wrap", margin: 0, padding: 10, borderRadius: 6, backgroundColor: "var(--bg-secondary, #f5f5f5)" }}>
+                                {JSON.stringify(settlement, null, 2)}
+                            </pre>
+                        </>
+                    )}
+                </div>
+            )}
+
+            {/* ──── Subscription tab ──── */}
+            {tab === "subscription" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-bell" />{" "}{t("eventDetail.subscriptionTitle", "Subscription")}</h2>
+
+                    {/* Subscribe / Unsubscribe button */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                        {isSubscribed ? (
+                            <>
+                                <span style={{ ...badgeSmall("#00b894"), fontSize: 13 }}>
+                                    ✓ {t("eventDetail.subscribed", "Subscribed")}
+                                </span>
+                                <button style={{ ...btn(), color: "#e74c3c" }}
+                                    onClick={() => { if (confirm(t("eventDetail.confirmUnsub", "Unsubscribe from this event?"))) unsubscribeMut.mutate(id); }}
+                                    disabled={unsubscribeMut.isPending}>
+                                    {t("eventDetail.unsubscribe", "Unsubscribe")}
+                                </button>
+                            </>
+                        ) : (
+                            <button style={btn(true)}
+                                onClick={() => subscribeMut.mutate({ eventId: id, level: EventNotificationLevel.Standard, pushEnabled: true })}
+                                disabled={subscribeMut.isPending}>
+                                <i className="fa-solid fa-bell" />{" "}
+                                {subscribeMut.isPending
+                                    ? t("common.saving", "Saving…")
+                                    : t("eventDetail.subscribeBtn", "Subscribe to notifications")}
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Current subscription details */}
+                    {mySub && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 8 }}>
+                            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                <strong style={{ fontSize: 13 }}>{t("eventDetail.level", "Level")}:</strong>
+                                <span style={badgeSmall(levelLabels[mySub.level]?.color ?? "#636e72")}>
+                                    {levelLabels[mySub.level]?.label ?? "Unknown"}
+                                </span>
+                            </div>
+                            <div style={{ display: "flex", gap: 8, fontSize: 13 }}>
+                                <span>✉️ {mySub.emailEnabled ? "On" : "Off"}</span>
+                                <span><i className="fa-solid fa-bell" /> {mySub.pushEnabled ? "On" : "Off"}</span>
+                            </div>
+                            {mySub.customCategories != null && mySub.customCategories > 0 && (
+                                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                                    {categoryLabels
+                                        .filter((c) => (mySub.customCategories! & c.value) !== 0)
+                                        .map((c) => (
+                                            <span key={c.value} style={badgeSmall("#5865F2")}>{c.label}</span>
+                                        ))}
+                                </div>
+                            )}
+                            <p style={{ fontSize: 12, opacity: 0.6, margin: 0 }}>
+                                {t("eventDetail.manageSubLink", "Manage all subscriptions on")}
+                                {" "}
+                                <Link to="/my-subscriptions" style={{ color: "var(--accent, #5865F2)" }}>
+                                    {t("eventDetail.subsPage", "My Subscriptions")}
+                                </Link>
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Subscribers list (organizer view) */}
+                    {subscribers && subscribers.length > 0 && (
+                        <div style={{ marginTop: 12 }}>
+                            <h3 style={{ margin: 0, fontSize: 14 }}>
+                                <i className="fa-solid fa-users" />{" "}
+                                {t("eventDetail.subscribers", "Subscribers")} ({subscribers.length})
+                            </h3>
+                            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, marginTop: 8 }}>
+                                <thead>
+                                    <tr style={{ borderBottom: "2px solid var(--border-color, #ddd)" }}>
+                                        <th style={{ textAlign: "left", padding: 6 }}>{t("eventDetail.user", "User")}</th>
+                                        <th style={{ textAlign: "left", padding: 6 }}>{t("eventDetail.level", "Level")}</th>
+                                        <th style={{ textAlign: "center", padding: 6 }}>✉️</th>
+                                        <th style={{ textAlign: "center", padding: 6 }}><i className="fa-solid fa-bell" /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {subscribers.map((sub) => (
+                                        <tr key={sub.id} style={{ borderBottom: "1px solid var(--border-color, #eee)" }}>
+                                            <td style={{ padding: 6 }}>User #{sub.userId}</td>
+                                            <td style={{ padding: 6 }}>
+                                                <span style={badgeSmall(levelLabels[sub.level]?.color ?? "#636e72")}>
+                                                    {levelLabels[sub.level]?.label ?? "?"}
+                                                </span>
+                                            </td>
+                                            <td style={{ padding: 6, textAlign: "center" }}>
+                                                {sub.emailEnabled ? "✓" : "—"}
+                                            </td>
+                                            <td style={{ padding: 6, textAlign: "center" }}>
+                                                {sub.pushEnabled ? "✓" : "—"}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* ──── Add to List tab ──── */}
+            {tab === "lists" && (
+                <div style={card}>
+                    <h2 style={{ margin: 0 }}><i className="fa-solid fa-list" />{" "}{t("eventDetail.addToListTitle", "Add to Event List")}</h2>
+
+                    {!myLists || myLists.length === 0 ? (
+                        <p style={{ opacity: 0.6, fontSize: 13 }}>
+                            {t("eventDetail.noLists", "You have no event lists.")}{" "}
+                            <Link to="/my-event-lists" style={{ color: "var(--accent, #5865F2)" }}>
+                                {t("eventDetail.createList", "Create one")}
+                            </Link>
+                        </p>
+                    ) : (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                            {/* List selector with exists check */}
+                            <label style={{ fontSize: 13 }}>
+                                {t("eventDetail.selectList", "Select a list")}
+                                <select
+                                    style={{ display: "block", marginTop: 4, padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border-color, #555)", backgroundColor: "var(--bg-secondary, #2b2d31)", color: "inherit", fontSize: 13, width: "100%" }}
+                                    value={checkListId}
+                                    onChange={(e) => setCheckListId(Number(e.target.value))}
+                                >
+                                    <option value={0}>— {t("eventDetail.chooselist", "Choose list")} —</option>
+                                    {myLists.map((l) => (
+                                        <option key={l.id} value={l.id}>
+                                            {l.name} ({l.itemCount ?? l.items?.length ?? 0} items)
+                                        </option>
+                                    ))}
+                                </select>
+                            </label>
+
+                            {checkListId > 0 && existsInList != null && (
+                                <span style={{ fontSize: 13 }}>
+                                    {existsInList
+                                        ? <span style={{ color: "#00b894" }}>✓ {t("eventDetail.alreadyInList", "Event is already in this list")}</span>
+                                        : <span style={{ color: "var(--text-secondary, #888)" }}>{t("eventDetail.notInList", "Event is not in this list yet")}</span>}
+                                </span>
+                            )}
+
+                            {/* Note input */}
+                            <label style={{ fontSize: 13 }}>
+                                {t("eventDetail.noteOptional", "Note (optional)")}
+                                <input
+                                    style={{ display: "block", marginTop: 4, padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border-color, #555)", backgroundColor: "var(--bg-secondary, #2b2d31)", color: "inherit", fontSize: 13, width: "100%" }}
+                                    value={addNote}
+                                    onChange={(e) => setAddNote(e.target.value)}
+                                    placeholder={t("eventDetail.notePlaceholder", "Add a note…")}
+                                />
+                            </label>
+
+                            {/* Add button */}
+                            <button
+                                style={btn(true)}
+                                disabled={!checkListId || existsInList === true || addToList.isPending}
+                                onClick={() => {
+                                    addToList.mutate({ listId: checkListId, req: { eventId: id, note: addNote || undefined } }, {
+                                        onSuccess: () => setAddNote(""),
+                                    });
+                                }}
+                            >
+                                {addToList.isPending
+                                    ? t("common.saving", "Saving…")
+                                    : t("eventDetail.addToListBtn", "Add to list")}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default EventDetailPage;

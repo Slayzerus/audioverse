@@ -1,8 +1,7 @@
-﻿using AudioVerse.Application.Commands.Editor;
-using AudioVerse.Domain.Repositories;
+﻿using AudioVerse.Domain.Repositories;
 using MediatR;
 
-namespace AudioVerse.Application.Handlers.Editor
+namespace AudioVerse.Application.Commands.Editor
 {
     public class AddLayerItemsHandler : IRequestHandler<AddLayerItemsCommand, bool>
     {

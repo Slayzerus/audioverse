@@ -1,0 +1,359 @@
+// LibraryCatalogPage.tsx — Library Catalog Explorer: Songs, Albums, Artists, Files, Scan
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+    useLibrarySongsQuery, useCreateLibrarySongMutation, useUpdateLibrarySongMutation, useDeleteLibrarySongMutation, useAutoTagSongMutation,
+    useLibraryAlbumsQuery, useCreateLibraryAlbumMutation, useUpdateLibraryAlbumMutation, useDeleteLibraryAlbumMutation,
+    useLibraryArtistsQuery, useCreateLibraryArtistMutation, useUpdateLibraryArtistMutation, useDeleteLibraryArtistMutation,
+    useAudioFilesQuery, useDeleteAudioFileMutation,
+    useLibraryScanImportMutation,
+} from "../../scripts/api/apiLibraryCatalog";
+import type { Song, Album, Artist } from "../../models/modelsLibrary";
+
+const cardStyle: React.CSSProperties = { background: "var(--card-bg, #23272f)", borderRadius: 12, padding: 20, border: "1px solid var(--border-primary, rgba(255,255,255,0.08))" };
+const inputStyle: React.CSSProperties = { width: "100%", padding: "8px 12px", borderRadius: 8, border: "1px solid var(--border-primary, rgba(255,255,255,0.15))", background: "var(--bg-primary, #1a1d23)", color: "var(--text-primary, #fff)", fontSize: 14, boxSizing: "border-box" as const };
+const labelStyle: React.CSSProperties = { fontSize: 12, color: "var(--text-secondary, #aaa)", fontWeight: 500, display: "block", marginBottom: 4 };
+const btn = (v: "pri" | "sec" | "dan" | "suc"): React.CSSProperties => ({ padding: "8px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 600, fontSize: 13, color: "#fff", background: v === "pri" ? "var(--accent, #5865F2)" : v === "dan" ? "#e53935" : v === "suc" ? "#66bb6a" : "var(--bg-secondary, #2c2f36)" });
+
+type Tab = "songs" | "albums" | "artists" | "files" | "scan";
+
+const LibraryCatalogPage: React.FC = () => {
+    const { t } = useTranslation();
+    const [tab, setTab] = useState<Tab>("songs");
+    const [search, setSearch] = useState("");
+
+    // ── Debounced search (300 ms) ──
+    const [debouncedSearch, setDebouncedSearch] = useState(search);
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 300);
+        return () => clearTimeout(timer);
+    }, [search]);
+
+    const tabBtn = (active: boolean): React.CSSProperties => ({
+        padding: "8px 20px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 600, fontSize: 14,
+        background: active ? "var(--accent, #5865F2)" : "var(--bg-secondary, #2c2f36)",
+        color: active ? "#fff" : "var(--text-secondary, #aaa)",
+    });
+
+    return (
+        <div style={{ padding: 24, maxWidth: 1100, margin: "0 auto" }}>
+            <h2 style={{ color: "var(--text-primary)", fontWeight: 800, marginBottom: 8 }}>
+                📀 {t("library.catalogTitle", "Library Catalog")}
+            </h2>
+            <p style={{ color: "var(--text-secondary)", fontSize: 13, marginBottom: 16 }}>
+                {t("library.catalogDesc", "Manage songs, albums, artists, audio files, and folder scan/import.")}
+            </p>
+
+            <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
+                {(["songs", "albums", "artists", "files", "scan"] as Tab[]).map((t2) => (
+                    <button key={t2} style={tabBtn(tab === t2)} onClick={() => { setTab(t2); setSearch(""); }}>
+                        {{ songs: <><i className="fa-solid fa-music" />{" "}Songs</>, albums: <><i className="fa-solid fa-compact-disc" />{" "}Albums</>, artists: <><i className="fa-solid fa-microphone" />{" "}Artists</>, files: <><i className="fa-solid fa-folder" />{" "}Files</>, scan: <><i className="fa-solid fa-magnifying-glass" />{" "}Scan</> }[t2]}
+                    </button>
+                ))}
+                {tab !== "scan" && (
+                    <>
+                        <div style={{ flex: 1 }} />
+                        <input style={{ ...inputStyle, maxWidth: 220 }} placeholder={t("library.search", "Search…")} value={search} onChange={(e) => setSearch(e.target.value)} />
+                    </>
+                )}
+            </div>
+
+            {tab === "songs" && <SongsTab search={debouncedSearch} />}
+            {tab === "albums" && <AlbumsTab search={debouncedSearch} />}
+            {tab === "artists" && <ArtistsTab search={debouncedSearch} />}
+            {tab === "files" && <FilesTab />}
+            {tab === "scan" && <ScanTab />}
+        </div>
+    );
+};
+
+// ══════════════ SONGS TAB ══════════════
+const SongsTab: React.FC<{ search: string }> = ({ search }) => {
+    const { t } = useTranslation();
+    const { data: songs = [], isLoading } = useLibrarySongsQuery(search || undefined);
+    const createMut = useCreateLibrarySongMutation();
+    const updateMut = useUpdateLibrarySongMutation();
+    const deleteMut = useDeleteLibrarySongMutation();
+    const autoTagMut = useAutoTagSongMutation();
+
+    const [editing, setEditing] = useState<Partial<Song> | null>(null);
+    const [editId, setEditId] = useState<number | null>(null);
+
+    const save = () => {
+        if (!editing?.title?.trim()) return;
+        if (editId) {
+            updateMut.mutate({ id: editId, song: editing }, { onSuccess: () => { setEditing(null); setEditId(null); } });
+        } else {
+            createMut.mutate(editing, { onSuccess: () => { setEditing(null); } });
+        }
+    };
+
+    return (
+        <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{songs.length} songs</span>
+                <button style={btn("pri")} onClick={() => { setEditing({ title: "" }); setEditId(null); }}>+ {t("library.addSong", "Add Song")}</button>
+            </div>
+
+            {editing && (
+                <div style={{ ...cardStyle, marginBottom: 12 }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                        <div>
+                            <label style={labelStyle}>Title *</label>
+                            <input style={inputStyle} value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
+                        </div>
+                        <div>
+                            <label style={labelStyle}>ISRC</label>
+                            <input style={inputStyle} value={editing.isrc ?? ""} onChange={(e) => setEditing({ ...editing, isrc: e.target.value })} />
+                        </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                        <button style={btn("pri")} onClick={save}>{editId ? "Save" : "Create"}</button>
+                        <button style={btn("sec")} onClick={() => { setEditing(null); setEditId(null); }}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {isLoading ? <p style={{ color: "var(--text-secondary)", textAlign: "center" }}>Loading…</p> : (
+                <div style={{ display: "grid", gap: 6 }}>
+                    {songs.map((s) => (
+                        <div key={s.id} style={{ ...cardStyle, padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div>
+                                <div style={{ fontWeight: 600, color: "var(--text-primary)" }}>{s.title ?? `Song #${s.id}`}</div>
+                                <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+                                    {s.primaryArtist?.name && <span><i className="fa-solid fa-microphone" />{" "}{s.primaryArtist.name} · </span>}
+                                    {s.album?.title && <span><i className="fa-solid fa-compact-disc" />{" "}{s.album.title} · </span>}
+                                    {s.isrc && <span>ISRC: {s.isrc}</span>}
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", gap: 6 }}>
+                                <button style={btn("suc")} title="Auto-tag with AI" onClick={() => autoTagMut.mutate(s.id!)}>🤖</button>
+                                <button style={btn("sec")} onClick={() => { setEditing({ ...s }); setEditId(s.id!); }}>✏️</button>
+                                <button style={btn("dan")} onClick={() => { if (confirm(`Delete "${s.title}"?`)) deleteMut.mutate(s.id!); }}>✖</button>
+                            </div>
+                        </div>
+                    ))}
+                    {songs.length === 0 && <p style={{ color: "var(--text-secondary)", textAlign: "center", padding: 20 }}>No songs found.</p>}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ══════════════ ALBUMS TAB ══════════════
+const AlbumsTab: React.FC<{ search: string }> = ({ search }) => {
+    const { t } = useTranslation();
+    const { data: albums = [], isLoading } = useLibraryAlbumsQuery(search || undefined);
+    const createMut = useCreateLibraryAlbumMutation();
+    const updateMut = useUpdateLibraryAlbumMutation();
+    const deleteMut = useDeleteLibraryAlbumMutation();
+
+    const [editing, setEditing] = useState<Partial<Album> | null>(null);
+    const [editId, setEditId] = useState<number | null>(null);
+
+    const save = () => {
+        if (!editing?.title?.trim()) return;
+        if (editId) {
+            updateMut.mutate({ id: editId, album: editing }, { onSuccess: () => { setEditing(null); setEditId(null); } });
+        } else {
+            createMut.mutate(editing, { onSuccess: () => { setEditing(null); } });
+        }
+    };
+
+    return (
+        <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{albums.length} albums</span>
+                <button style={btn("pri")} onClick={() => { setEditing({ title: "" }); setEditId(null); }}>+ {t("library.addAlbum", "Add Album")}</button>
+            </div>
+
+            {editing && (
+                <div style={{ ...cardStyle, marginBottom: 12 }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                        <div>
+                            <label style={labelStyle}>Title *</label>
+                            <input style={inputStyle} value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
+                        </div>
+                        <div>
+                            <label style={labelStyle}>Release Year</label>
+                            <input style={inputStyle} type="number" value={editing.releaseYear ?? ""} onChange={(e) => setEditing({ ...editing, releaseYear: e.target.value ? Number(e.target.value) : undefined })} />
+                        </div>
+                        <div>
+                            <label style={labelStyle}>Cover URL</label>
+                            <input style={inputStyle} value={editing.coverUrl ?? ""} onChange={(e) => setEditing({ ...editing, coverUrl: e.target.value })} />
+                        </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                        <button style={btn("pri")} onClick={save}>{editId ? "Save" : "Create"}</button>
+                        <button style={btn("sec")} onClick={() => { setEditing(null); setEditId(null); }}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {isLoading ? <p style={{ color: "var(--text-secondary)", textAlign: "center" }}>Loading…</p> : (
+                <div style={{ display: "grid", gap: 6 }}>
+                    {albums.map((a) => (
+                        <div key={a.id} style={{ ...cardStyle, padding: "12px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+                            {a.coverUrl ? <img src={a.coverUrl} alt={a.title || 'Album cover'} style={{ width: 48, height: 48, borderRadius: 6, objectFit: "cover" }} /> : <div style={{ width: 48, height: 48, borderRadius: 6, background: "var(--bg-secondary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}><i className="fa-solid fa-compact-disc" /></div>}
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 600, color: "var(--text-primary)" }}>{a.title ?? `Album #${a.id}`}</div>
+                                <div style={{ fontSize: 12, color: "var(--text-secondary)" }}>
+                                    {a.releaseYear && <span>{a.releaseYear} · </span>}
+                                    {(a.songs?.length ?? 0) > 0 && <span>{a.songs!.length} songs</span>}
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", gap: 6 }}>
+                                <button style={btn("sec")} onClick={() => { setEditing({ ...a }); setEditId(a.id!); }}>✏️</button>
+                                <button style={btn("dan")} onClick={() => { if (confirm(`Delete "${a.title}"?`)) deleteMut.mutate(a.id!); }}>✖</button>
+                            </div>
+                        </div>
+                    ))}
+                    {albums.length === 0 && <p style={{ color: "var(--text-secondary)", textAlign: "center", padding: 20 }}>No albums found.</p>}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ══════════════ ARTISTS TAB ══════════════
+const ArtistsTab: React.FC<{ search: string }> = ({ search }) => {
+    const { t } = useTranslation();
+    const { data: artists = [], isLoading } = useLibraryArtistsQuery(search || undefined);
+    const createMut = useCreateLibraryArtistMutation();
+    const updateMut = useUpdateLibraryArtistMutation();
+    const deleteMut = useDeleteLibraryArtistMutation();
+
+    const [editing, setEditing] = useState<Partial<Artist> | null>(null);
+    const [editId, setEditId] = useState<number | null>(null);
+
+    const save = () => {
+        if (!editing?.name?.trim()) return;
+        if (editId) {
+            updateMut.mutate({ id: editId, artist: editing }, { onSuccess: () => { setEditing(null); setEditId(null); } });
+        } else {
+            createMut.mutate(editing, { onSuccess: () => { setEditing(null); } });
+        }
+    };
+
+    return (
+        <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{artists.length} artists</span>
+                <button style={btn("pri")} onClick={() => { setEditing({ name: "" }); setEditId(null); }}>+ {t("library.addArtist", "Add Artist")}</button>
+            </div>
+
+            {editing && (
+                <div style={{ ...cardStyle, marginBottom: 12 }}>
+                    <div>
+                        <label style={labelStyle}>Name *</label>
+                        <input style={inputStyle} value={editing.name ?? ""} onChange={(e) => setEditing({ ...editing, name: e.target.value })} />
+                    </div>
+                    <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
+                        <button style={btn("pri")} onClick={save}>{editId ? "Save" : "Create"}</button>
+                        <button style={btn("sec")} onClick={() => { setEditing(null); setEditId(null); }}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
+            {isLoading ? <p style={{ color: "var(--text-secondary)", textAlign: "center" }}>Loading…</p> : (
+                <div style={{ display: "grid", gap: 6 }}>
+                    {artists.map((a) => (
+                        <div key={a.id} style={{ ...cardStyle, padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div>
+                                <div style={{ fontWeight: 600, color: "var(--text-primary)" }}>{a.name ?? `Artist #${a.id}`}</div>
+                                {a.detail?.country && <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>🌍 {a.detail.country}</span>}
+                                {a.detail?.bio && <p style={{ fontSize: 12, color: "var(--text-secondary)", margin: "4px 0 0", maxWidth: 500 }}>{a.detail.bio.slice(0, 120)}…</p>}
+                            </div>
+                            <div style={{ display: "flex", gap: 6 }}>
+                                <button style={btn("sec")} onClick={() => { setEditing({ ...a }); setEditId(a.id!); }}>✏️</button>
+                                <button style={btn("dan")} onClick={() => { if (confirm(`Delete "${a.name}"?`)) deleteMut.mutate(a.id!); }}>✖</button>
+                            </div>
+                        </div>
+                    ))}
+                    {artists.length === 0 && <p style={{ color: "var(--text-secondary)", textAlign: "center", padding: 20 }}>No artists found.</p>}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ══════════════ FILES TAB ══════════════
+const FilesTab: React.FC = () => {
+    const { data: files = [], isLoading } = useAudioFilesQuery();
+    const deleteMut = useDeleteAudioFileMutation();
+
+    const formatSize = (b?: number | null) => b ? `${(b / 1024 / 1024).toFixed(1)} MB` : "—";
+    const formatDur = (s?: number | null) => s ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}` : "—";
+
+    return (
+        <div>
+            <span style={{ fontSize: 13, color: "var(--text-secondary)", display: "block", marginBottom: 12 }}>{files.length} audio files</span>
+            {isLoading ? <p style={{ color: "var(--text-secondary)", textAlign: "center" }}>Loading…</p> : (
+                <div style={{ overflowX: "auto" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                        <thead>
+                            <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                                {["File", "Song", "Duration", "Format", "Size", "Genre", "Year", ""].map((h) => (
+                                    <th key={h} style={{ textAlign: "left", padding: "8px 10px", color: "var(--text-secondary)", fontWeight: 500, fontSize: 12 }}>{h}</th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {files.map((f) => (
+                                <tr key={f.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-primary)" }}>{f.fileName ?? f.filePath?.split("/").pop() ?? "—"}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{f.song?.title ?? "—"}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{formatDur(f.duration)}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{f.audioMimeType ?? "—"}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{formatSize(f.size)}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{f.genre ?? "—"}</td>
+                                    <td style={{ padding: "8px 10px", color: "var(--text-secondary)" }}>{f.year ?? "—"}</td>
+                                    <td style={{ padding: "8px 10px" }}>
+                                        <button style={btn("dan")} onClick={() => { if (confirm("Delete this file?")) deleteMut.mutate(f.id!); }}>✖</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {files.length === 0 && <p style={{ color: "var(--text-secondary)", textAlign: "center", padding: 20 }}>No audio files found.</p>}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ══════════════ SCAN TAB ══════════════
+const ScanTab: React.FC = () => {
+    const { t } = useTranslation();
+    const [folderPath, setFolderPath] = useState("");
+    const [recursive, setRecursive] = useState(true);
+    const scanMut = useLibraryScanImportMutation();
+
+    return (
+        <div style={cardStyle}>
+            <h4 style={{ color: "var(--text-primary)", fontWeight: 700, marginTop: 0 }}>
+                {t("library.scanTitle", "Scan & Import Folder")}
+            </h4>
+            <p style={{ color: "var(--text-secondary)", fontSize: 13, marginBottom: 16 }}>
+                {t("library.scanDesc", "Scan a server folder for audio files and auto-import them into the library catalog.")}
+            </p>
+            <div style={{ display: "flex", gap: 10, alignItems: "flex-end", flexWrap: "wrap" }}>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                    <label style={labelStyle}>{t("library.folderPath", "Folder Path")}</label>
+                    <input style={inputStyle} placeholder="/music/collection" value={folderPath} onChange={(e) => setFolderPath(e.target.value)} />
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, paddingBottom: 4 }}>
+                    <input type="checkbox" id="scanRecursive" checked={recursive} onChange={(e) => setRecursive(e.target.checked)} />
+                    <label htmlFor="scanRecursive" style={{ fontSize: 13, color: "var(--text-primary)" }}>Recursive</label>
+                </div>
+                <button style={btn("suc")} disabled={!folderPath.trim() || scanMut.isPending} onClick={() => scanMut.mutate({ folderPath, recursive })}>
+                    {scanMut.isPending ? "Scanning…" : t("library.scanBtn", "Scan & Import")}
+                </button>
+            </div>
+            {scanMut.isSuccess && <p style={{ color: "#66bb6a", marginTop: 12, fontSize: 13 }}><i className="fa-solid fa-check" />{" "}{t("library.scanDone", "Scan and import completed!")}</p>}
+            {scanMut.isError && <p style={{ color: "#e53935", marginTop: 12, fontSize: 13 }}><i className="fa-solid fa-xmark" />{" "}{t("library.scanError", "Scan failed. Check the folder path.")}</p>}
+        </div>
+    );
+};
+
+export default LibraryCatalogPage;

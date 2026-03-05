@@ -1,0 +1,15 @@
+Rysunek 4.6 — Diagram pipeline modułu laboratoryjnego
+
+CO PRZEDSTAWIA:
+Diagram przepływu danych w module laboratoryjnym: Upload WAV →
+LaboratoryController → audio_separate (Demucs) → audio_pitch (pYIN/CREPE) →
+ComputeMetrics (RMSE, Acc@50c, Pearson r) → sing_score (DTW) →
+LaboratoryReportPdfService (QuestPDF) → PDF response.
+Widoczne endpointy i ich kolejność w pipeline full-report.
+
+JAK ZDOBYĆ:
+1. Otwórz plik diagramu:
+   audioverse-dotnet/AudioVerse.API/Docs/diagrams/13-laboratory-pipeline-flow.drawio
+   Pełna ścieżka: c:\Users\Radko\source\repos\AudioVerse\audioverse-dotnet\AudioVerse.API\Docs\diagrams\13-laboratory-pipeline-flow.drawio
+2. Otwórz w https://app.diagrams.net (File → Open from → Device)
+3. Eksportuj jako PNG (300 DPI, białe tło)

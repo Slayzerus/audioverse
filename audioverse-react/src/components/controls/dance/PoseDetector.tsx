@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { labelForEngine, postPoseImage } from "../../../scripts/api/apiLibraryAiVideo";
 import { MIME, PoseDetectionResult, PoseEngine } from "../../../models/modelsAiVideo";
 import { drawPoseOnCanvas } from "./PoseDetector.logic";
@@ -6,6 +7,7 @@ import { PoseDetectorProps } from "./PoseDetector.types";
 
 /// Simple test harness for single-image 2D dance detection.
 export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "mediapipe", onResult }) => {
+    const { t } = useTranslation();
     const [engine, setEngine] = useState<PoseEngine>(initialEngine);
     const [file, setFile] = useState<File | null>(null);
     const [imgUrl, setImgUrl] = useState<string | null>(null);
@@ -33,7 +35,7 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
         if (f) {
             const mimeOk = f.type === MIME.imageJpeg || f.type === MIME.imagePng;
             if (!mimeOk) {
-                setError("Accepted: JPEG/PNG.");
+                setError(t('poseDetector.acceptedJpegPng', 'Accepted: JPEG/PNG.'));
                 setFile(null);
                 return;
             }
@@ -47,7 +49,7 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
     /// Executes detection using current engine and file.
     const onRun = async () => {
         if (!file) {
-            setError("Select an image first.");
+            setError(t('poseDetector.selectImage', 'Select an image first.'));
             return;
         }
         setBusy(true);
@@ -56,8 +58,8 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
             const res = await postPoseImage(engine, file);
             setResult(res);
             onResult?.(res);
-        } catch (e: any) {
-            setError(String(e?.message ?? e));
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : String(e));
         } finally {
             setBusy(false);
         }
@@ -67,7 +69,7 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas || !imgUrl || !result) return;
-        drawPoseOnCanvas(canvas, imgUrl, result).catch(() => void 0);
+        drawPoseOnCanvas(canvas, imgUrl, result).catch(() => { /* Expected: canvas draw may fail for invalid image data */ });
     }, [imgUrl, result]);
 
     const engines = useMemo<PoseEngine[]>(() => ["mediapipe", "openpose", "alphapose", "vitpose"], []);
@@ -75,7 +77,7 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
     return (
         <div style={{ display: "grid", gap: 12 }}>
             <fieldset style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <legend>Engine</legend>
+                <legend>{t('poseDetector.engine', 'Engine')}</legend>
                 <select
                     value={engine}
                     onChange={(e) => setEngine(e.target.value as PoseEngine)}
@@ -108,14 +110,16 @@ export const PoseDetector: React.FC<PoseDetectorProps> = ({ initialEngine = "med
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Preview</div>
+                    <div style={{ marginBottom: 6 }}>{t('poseDetector.preview', 'Preview')}</div>
                     <canvas
                         ref={canvasRef}
                         style={{ width: "100%", border: "1px solid #ddd", background: "#000" }}
+                        role="img"
+                        aria-label="Pose detection preview canvas"
                     />
                 </div>
                 <div>
-                    <div style={{ marginBottom: 6 }}>Response JSON</div>
+                    <div style={{ marginBottom: 6 }}>{t('poseDetector.responseJson', 'Response JSON')}</div>
                     <pre
                         style={{
                             margin: 0,

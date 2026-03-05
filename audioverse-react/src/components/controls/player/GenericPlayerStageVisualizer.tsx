@@ -5,7 +5,7 @@ import { getAudioContext, resumeAudioContext } from "../../../scripts/audioConte
 export type VisualizerMode = "video" | "cover" | "spectrum" | "bars" | "waveform" | "palette";
 
 type Props = {
-    // środowisko odtwarzania
+    // playback environment
     kind: "youtube" | "audio" | "hls";
     audioRef: React.MutableRefObject<HTMLAudioElement | null>;
     hlsRef?: React.MutableRefObject<HlsJs | null>;
@@ -18,18 +18,16 @@ type Props = {
     subtitle?: string;
     label?: string;
 
-    // konfiguracja trybów
-    defaultMode?: VisualizerMode;                 // domyślny startowy (zapisujemy w localStorage)
+    // mode configuration
+    defaultMode?: VisualizerMode;                 // default starting (saved in localStorage)
     storageKey?: string;                          // np. "gp-stage:mode"
-    allowedModes?: VisualizerMode[];              // filtrowanie (np. YT: ["video","cover"])
+    allowedModes?: VisualizerMode[];              // filtering (e.g. YT: ["video","cover"])
 
-    // gdy dla YT chcesz zostawić wideo pod spodem – renderujemy tylko overlay (np. VU)
+    // when for YT you want to keep video underneath – render only overlay (e.g. VU)
     overlayOnly?: boolean;
 };
 
-const MODES_ORDER: VisualizerMode[] = ["video", "cover", "spectrum", "bars", "waveform", "palette"];
-
-// mała pomoc do localStorage bez krzyków SSR
+// small localStorage helper without SSR screams
 function useLocalStorageState<T>(key: string, initial: T) {
     const [state, setState] = useState<T>(() => {
         try {
@@ -42,25 +40,18 @@ function useLocalStorageState<T>(key: string, initial: T) {
     useEffect(() => {
         try {
             localStorage.setItem(key, JSON.stringify(state));
-        } catch {}
+        } catch { /* Best-effort — no action needed on failure */ }
     }, [key, state]);
     return [state, setState] as const;
 }
 
-const barBg = "#0f172a";
-const textDim = "#94a3b8";
+const textDim = "var(--text-dim, #94a3b8)";
 
-/// <summary>
 /// Small button used to switch visualizer modes.
-/// </summary>
 const ModeButton: React.FC<{
-    /// <summary>Whether the button represents the active mode.</summary>
     active: boolean;
-    /// <summary>Click handler.</summary>
     onClick: () => void;
-    /// <summary>Accessible title attribute.</summary>
     title: string;
-    /// <summary>Button content (label).</summary>
     children?: React.ReactNode;
 }> = ({ active, onClick, title, children }) => (
     <button
@@ -71,15 +62,21 @@ const ModeButton: React.FC<{
             padding: "4px 8px",
             borderRadius: 6,
             fontSize: 12,
-            border: `1px solid ${active ? "#6366f1" : "#334155"}`,
-            background: active ? "rgba(99,102,241,.12)" : "rgba(15,23,42,.6)",
-            color: active ? "#e2e8f0" : "#cbd5e1",
+            border: `1px solid ${active ? "var(--accent, #6366f1)" : "var(--border-muted, #334155)"}`,
+            background: active ? "var(--accent-muted, rgba(99,102,241,.12))" : "var(--surface-overlay, rgba(15,23,42,.6))",
+            color: active ? "var(--text-on-accent, #e2e8f0)" : "var(--text, #cbd5e1)",
             cursor: "pointer",
         }}
     >
         {children}
     </button>
 );
+
+/** Wizualizator sceny:
+ *  - pamięta wybrany tryb w localStorage
+ *  - tryby: video | cover | spectrum | bars | waveform | palette
+ *  - VU meter zawsze dostępny jako overlay (dla audio/hls)
+ */
 
 /**
  * Wizualizator sceny:
@@ -99,13 +96,13 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                                                            defaultMode = "cover",
                                                            storageKey = "gp-stage:mode",
                                                            allowedModes,
-                                                           overlayOnly = false,
+                                                           overlayOnly: _overlayOnly = false,
                                                        }) => {
 
-    // dostępne tryby w zależności od źródła
+    // available modes depending on source
     const modes = useMemo<VisualizerMode[]>(() => {
         if (allowedModes?.length) return allowedModes;
-        if (kind === "youtube") return ["video", "cover"]; // na YT nie próbujemy WebAudio
+        if (kind === "youtube") return ["video", "cover"]; // on YT we don't try WebAudio
         return ["cover", "spectrum", "bars", "waveform", "palette"];
     }, [kind, allowedModes]);
 
@@ -124,7 +121,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
 
     const [mode, setMode] = useLocalStorageState<VisualizerMode>(storageKey, firstMode);
 
-    // ANALYSER pod audio/hls
+    // ANALYSER for audio/hls
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [vu, setVu] = useState(0); // 0..1
     const rafRef = useRef<number | null>(null);
@@ -139,7 +136,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
     useEffect(() => {
         if (kind === "youtube") return;          // omijamy YT (CORS)
         if (!visualActive) {
-            // sprzątnij animację, ale zostaw source pod audioRef
+            // clean up animation, but leave source under audioRef
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             return;
         }
@@ -149,12 +146,12 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
         const audio = audioRef.current;
         if (!audio) return;
 
-        // łączenie jeden raz (na egzemplarz audioRef)
+        // connecting once (per audioRef instance)
         if (!sourceNodeRef.current) {
             try {
                 sourceNodeRef.current = ctx.createMediaElementSource(audio);
             } catch {
-                // jeśli zostało już połączone (np. drugi mount tego samego elementu) – ignorujemy
+                // if already connected (e.g. second mount of same element) – ignore
             }
         }
 
@@ -164,13 +161,13 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
             analyser.smoothingTimeConstant = 0.85;
             analyserRef.current = analyser;
 
-            // podłączamy – wpinamy w out żeby leciał dźwięk
+            // connecting – plugging into output so sound plays
             try {
                 sourceNodeRef.current?.connect(analyser);
-            } catch {}
+            } catch { /* Best-effort — no action needed on failure */ }
             try {
                 analyser.connect(ctx.destination);
-            } catch {}
+            } catch { /* Best-effort — no action needed on failure */ }
         }
 
         const analyser = analyserRef.current!;
@@ -188,7 +185,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
 
             g.clearRect(0, 0, w, h);
 
-            // pobranie danych
+            // fetching data
             if (mode === "waveform") {
                 analyser.getByteTimeDomainData(timeRef.current!);
             } else {
@@ -205,7 +202,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
             energy = Math.sqrt(energy / data.length);
             setVu(Math.min(1, energy));
 
-            // rysowanie
+            // drawing
             if (mode === "spectrum" || mode === "bars") {
                 const arr = binsRef.current!;
                 const bars = mode === "bars" ? 48 : Math.min(arr.length, 256);
@@ -235,7 +232,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                 }
                 g.stroke();
             } else if (mode === "palette") {
-                // animowana paleta: kafelki wiersz x kol, kolor zależny od energii i przesunięcia H
+                // animated palette: tiles row x col, color depending on energy and H offset
                 const cols = 12;
                 const rows = 6;
                 const tileW = w / cols;
@@ -255,7 +252,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                 }
             }
 
-            hueShiftRef.current = (hueShiftRef.current + 0.4) % 360;
+                    g.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--waveform-stroke') || '#c7d2fe';
             rafRef.current = requestAnimationFrame(draw);
         };
 
@@ -278,7 +275,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
         };
     }, [visualActive, kind, audioRef, mode]);
 
-    // prosty VU meter (overlay) – tylko dla audio/hls
+    // simple VU meter (overlay) – only for audio/hls
     const VuOverlay = () => {
         if (kind === "youtube") return null;
         const segments = 12;
@@ -295,7 +292,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                 backdropFilter: "blur(2px)"
             }}>
                 {Array.from({ length: segments }).map((_, i) => {
-                    const hue = 120 * (i / segments); // zielony->żółty->czerwony
+                    const hue = 120 * (i / segments); // green->yellow->red
                     return (
                         <div key={i} style={{
                             width: 6, height: 18,
@@ -307,38 +304,6 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
             </div>
         );
     };
-
-    // pasek wyboru trybów (persist w localStorage)
-    const ModeSwitcher = () => (
-        <div
-            style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                display: "flex",
-                gap: 6,
-                background: "rgba(2,6,23,.5)",
-                padding: "6px",
-                borderRadius: 10,
-                border: "1px solid #334155",
-                backdropFilter: "blur(2px)",
-                pointerEvents: "auto",   // ✅ pozwól klikać
-                zIndex: 10               // ✅ nad YT iframe
-            }}
-        >
-            {modes.map(m => (
-                <ModeButton
-                    key={m}
-                    active={mode === m}
-                    onClick={() => setMode(m)}
-                    title={`Tryb: ${m}`}
-                    aria-pressed={mode === m}   // ♿
-                >
-                    {m}
-                </ModeButton>
-            ))}
-        </div>
-    );
 
 
     // CONTENT
@@ -357,9 +322,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
         </div>
     );
 
-    const canDraw = mode !== "video" && (mode === "cover" || kind !== "youtube");
-
-    // ZAMIANA całego return na poniższy
+    // REPLACE entire return with the following
     return (
         <>
             {/* LAYER 1: tylko wizualizacja (nie-klikalna) */}
@@ -367,7 +330,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                 style={{
                     position: "absolute",
                     inset: 0,
-                    pointerEvents: "none",      // <-- blokuje kliknięcia TYLKO tu
+                    pointerEvents: "none",      // <-- blocks clicks ONLY here
                 }}
             >
                 {mode === "cover" ? (
@@ -391,6 +354,8 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                             borderRadius: 8,
                             // pointerEvents: "none" - domyślnie dziedziczy z rodzica
                         }}
+                        role="img"
+                        aria-label="Stage visualizer canvas"
                     />
                 )}
             </div>
@@ -400,7 +365,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                 style={{
                     position: "absolute",
                     inset: 0,
-                    pointerEvents: "none",      // najpierw wyłączamy dla całej warstwy…
+                    pointerEvents: "none",      // first we disable for the entire layer…
                 }}
             >
                 <div
@@ -415,7 +380,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                         borderRadius: 10,
                         border: "1px solid #334155",
                         backdropFilter: "blur(2px)",
-                        pointerEvents: "auto",    // …a WŁĄCZAMY tylko dla switchera
+                        pointerEvents: "auto",    // …and ENABLE only for the switcher
                         zIndex: 9999,             // ponad iframe YT
                     }}
                 >
@@ -431,7 +396,7 @@ const GenericPlayerStageVisualizer: React.FC<Props> = ({
                     ))}
                 </div>
 
-                {/* VU może zostać nieklikalny */}
+                {/* VU can remain non-clickable */}
                 <div style={{ position: "absolute", right: 10, bottom: 10, pointerEvents: "none", zIndex: 9998 }}>
                     <VuOverlay />
                 </div>

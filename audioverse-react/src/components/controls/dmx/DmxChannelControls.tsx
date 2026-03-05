@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import {
     DmxChannelType,
     DmxDeviceChannelInfo,
@@ -54,6 +55,7 @@ const Label = ({ title, extra }: { title: string; extra?: React.ReactNode }) => 
 export const DmxSliderControl: React.FC<BaseProps & { showDirectionHint?: boolean }> = ({
                                                                                             channel, value, onChange, onCommit, showDirectionHint
                                                                                         }) => {
+    const { t } = useTranslation();
     const [local, setLocal] = useState(NumberClamp(value));
     const seg = useMemo(() => resolveSegment(channel, local), [channel, local]);
 
@@ -75,7 +77,7 @@ export const DmxSliderControl: React.FC<BaseProps & { showDirectionHint?: boolea
                 width: "100%", marginTop: 8, padding: "6px 10px",
                 borderRadius: 6, border: "1px solid #d1d5db", background: "#f9fafb", cursor: "pointer"
             }}
-            title="Wyłącz kanał (ustaw zakres OFF)"
+            title={t('dmxChannel.turnOffChannel', 'Turn off channel (set OFF range)')}
         >
             OFF
         </button>
@@ -126,7 +128,7 @@ export const DmxSliderControl: React.FC<BaseProps & { showDirectionHint?: boolea
 export const DmxOptionsControl: React.FC<BaseProps> = ({
                                                            channel, value, onChange, onCommit
                                                        }) => {
-    // Posortuj: OFF na początku, reszta po nazwie
+    // Sort: OFF first, rest by name
     const segments = useMemo(() => {
         const segs = [...channel.segments];
         segs.sort((a, b) => {

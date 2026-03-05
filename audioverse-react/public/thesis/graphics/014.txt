@@ -1,0 +1,20 @@
+Rysunek 5.4 — Wykres latencji mikroserwisów AI
+
+CO PRZEDSTAWIA:
+Wykres słupkowy poziomy lub pionowy z latencjami 7 mikroserwisów AI (avg ms).
+Pozioma linia 150 ms jako próg wymagań czasu rzeczywistego (WNF01).
+Zaznaczono: audio_pitch pYIN (78.2 ms) — poniżej progu (zielony);
+audio_pitch CREPE (310.4 ms), sing_score (520 ms) — powyżej (czerwony).
+audio_separate (4200 ms) — zdecydowanie powyżej.
+
+JAK ZDOBYĆ:
+1. Uruchom benchmark: POST /api/karaoke/lab/benchmark/latency?runs=10
+2. Wykres jest zawarty w raporcie PDF (POST /api/karaoke/lab/report/pdf)
+3. Alternatywnie: narysuj w Pythonie z danych z Tabeli 5.3:
+   services = ['pYIN', 'CREPE', 'DTW', 'Separate', 'Rhythm', 'VAD', 'Analysis']
+   latency = [78.2, 310.4, 520.0, 4200, 45.1, 28.7, 190.0]
+   colors = ['green' if v < 150 else 'red' for v in latency]
+   plt.barh(services, latency, color=colors)
+   plt.axvline(150, ls='--', c='orange', label='Próg 150 ms')
+   plt.xlabel('Latencja [ms]'); plt.legend()
+   plt.savefig('014.png', dpi=300, bbox_inches='tight')

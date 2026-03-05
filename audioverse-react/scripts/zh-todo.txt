@@ -1,0 +1,1495 @@
+Type
+Description
+Token ID
+ID
+Velvet Night
+Smooth velvety shades for a luxurious dark UI.
+Saffron Glow
+Warm, spice-toned palette with amber highlights.
+Crimson Silk
+Sensual deep reds with silky contrasts.
+Amber Kiss
+Honeyed, cozy colors with warm accents.
+Velvet Plum
+Deep purples and rich plum tones.
+Rose Whisper
+Subtle pinks and beiges for a gentle look.
+Midnight Bloom
+Night-blooming floral palette with moody contrasts.
+Moonlit Amber
+Warm moonlit tones with amber highlights.
+Silk Noir
+Elegant black with refined, high-contrast accents.
+Cocoa Mist
+Chocolate-inspired warm browns and creams.
+Opal Dusk
+Shimmering, cool dusk tones with opalescent highlights.
+Desert Rose
+Earthy, desert-inspired warm tones.
+Moonshadow
+Cool, soft shadowy hues for a calm UI.
+Rosewood
+Woodsy, warm hues inspired by natural timber.
+Silken Azure
+Soft azure and sky-blue tones with airy feel.
+Nocturne
+A musical, moody night palette with deep contrasts.
+Lavender Haze
+Soft lavender pastels with a mellow atmosphere.
+Seduction
+Intense, sensual palette with bold accents.
+Coral Veil
+Delicate coral and blush tones with warmth.
+Garnet
+Rich jewel-red tones for dramatic emphasis.
+Opaline
+Pearlescent, semi-translucent soft shades.
+Silhouette
+Minimalist, high-contrast monochrome styling.
+Honeyed
+Sweet, warm pastels with cozy accents.
+Eclipse
+Deep, contrasting tones reminiscent of an eclipse.
+Amber Night
+Warm night-lights and amber glows.
+Pearl Veil
+Subtle pearly accents and soft blues.
+Scarlet Lace
+Lacy scarlet reds with refined contrast.
+Velour
+Soft, enveloping colors with plush tones.
+Silk Rose
+Delicate petal-inspired rosy shades.
+Twilight Silk
+Nocturnal silky tones with twilight highlights.
+Click any element to edit its color
+Wszystkie
+Komentarz moderatora...
+All Audit Logs (Admin)
+Failed to fetch audit logs.
+Username
+Filter by username
+Loading...
+Admin Dashboard
+User Management
+Manage users, create new accounts, block/unblock users
+Password Requirements
+Configure password policies and security requirements
+Admin Settings
+Change admin password and other settings
+Scoring Presets
+Edit karaoke scoring presets used by the parity harness and live scoring
+Skins
+Manage available UI skins used in the theme picker
+Feature Visibility
+News Feeds
+Powiadomienia
+Test SMS (SMSAPI) i e-mail
+OTP
+Audit Logs
+Login Attempts
+Audit Dashboard
+Honey Tokens
+Security Dashboard
+Powiadomienia — test
+Test SMS
+Numer telefonu
+Test E-mail
+Adresat
+Temat
+Loading password requirements...
+Failed to load password requirements
+Failed to save password requirements
+Password requirements updated successfully!
+Active
+Min
+Max
+Upper
+Lower
+Digit
+Special
+No password requirements found
+Saving...
+Save Changes
+Change Password
+Current Password
+New Password
+Confirm Password
+Enter your current password
+Enter your new password
+Confirm your new password
+Changing...
+Passwords do not match
+New password must be at least 6 characters long
+Password changed successfully!
+Failed to change password
+Move left
+Duplicate
+Move right
+Remove
+Arpeggiator
+Mode
+Rate
+Octaves
+Gate
+Swing
+Repeats
+Pixel Editor
+Vector Editor
+3D Model Editor
+Convert
+Type to search songs...
+Searching...
++ Add
+No video games found
+No board games found
+Cancel
+Verse Editor v0.01
+Custom name
+Enter custom device name
+Available audio devices
+Processing...
+Add Layer
+Load Preset
+Save Preset
+New Project
+Project name
+Create
+Audio Source Properties
+Name
+Audio Type
+Parameters
+Separate Tracks (Demucs)
+Analyzing track:
+Action
+Details
+Timestamp
+IP
+User-Agent
+Password does not meet requirements
+Password changed successfully
+Betting
+Balance
+Markets
+My Bets
+Wallet
+No betting markets for this event.
+Create Market
+Place Bet
+My Bet History
+Log in to see your wallet.
+No bets placed yet.
+My Wallet
+Total Wagered
+Total Won
+Expenses
+Payments
+Settlement
+Title
+Amount
+Food
+Drinks
+Transport
+Accommodation
+Other
+Split equally
+No expenses yet.
+Cash
+Transfer
+BLIK
+Card
+Note
+Confirm
+No payments yet.
+Settlement Summary
+No settlement data.
+Export Collection
+Import Collection
+This will add games from the file to your collection. Duplicates might occur. Continue?
+Loading BGG suggestions...
+No BGG suggestions
+Jam Session
+Honeytokens
+Song chosen!
+Failed to choose song
+Joined campaign!
+Failed to join
+Completed
+Players
+Join
+Total Score
+XP Earned
+Round Map
+Round
+Done
+Open
+Locked
+Threshold
+songs
+Play
+Choose a Song
+No songs in pool.
+rounds
+Start
+rounds completed
+Campaign started!
+Failed to start campaign
+Karaoke Campaigns
+My Campaigns
+Templates
+No campaigns yet. Start one from the Templates tab!
+No templates available.
+Start Campaign
+Co-op Mode
+Solo
+All Must Pass
+Any One Pass
+CAPTCHA Type:
+Question Answer
+Reverse String
+Image Question
+Math Problem
+Image Selection
+Image Region Selection
+Puzzle Matching
+Audio Question
+Generate CAPTCHA
+Curve
+Linear
+Step
+Exponential
+CC Automation Lane
+events
+Click to draw. Double-click to add/remove points. Drag to draw curves.
+12 characters minimum
+At least 1 digit
+At least 1 special character
+CAPTCHA loading error
+Incorrect CAPTCHA answer
+CAPTCHA validation error
+JSON
+Selected file
+Processing
+clear
+(no entries)
+Click the link below to download ZIP with stems.
+Download ZIP with stems
+remember to call URL.revokeObjectURL after download
+ Play
+ Pause
+ Stop
+ -5s
+ +5s
+File information
+Size
+MIME Type
+Duration
+(unknown)
+Last modified
+AudioClip Library
+Add AudioClip
+Add New AudioClip
+Close
+Audio Clips List
+AudioClip added!
+Upload
+Collaborators
+Search users (min 3 chars)
+Search
+Add (Write)
+No permission
+Allow everyone to modify this song
+Current collaborators
+None
+No search results
+Collages
+Collage name
+items
+No collages yet.
+Add photo
+Add video
+Yes
+No
+Save
+Delete
+Edit
+Add
+Prev
+Next
+Back
+OK
+Search external...
+No results
+(no title)
+Select
+Hide Results
+Show Results
+End
+Remove vote
+vote(s)
+Update
+Hide Ranking
+Show Ranking
+Import
+sec
+signup(s)
+Reset
+No matches
+Updating…
+Dance Styles Reference
+Song ID
+🎵 Match
+🏷️ Classify
+📊 Analyze
+Enter a song ID to look up dance information.
+Audio Analysis
+No analysis data available.
+Dance Matches
+Classification Results
+Style
+Confidence
+BPM
+No results for this song.
+Beta
+Use camera and AI for body position recognition. Match poses, track movement, or analyze 3D video.
+ Pose Game
+Pose Cam Game
+Save a target pose, then match it with your body in front of the camera. The more accurate  the higher the score!
+ Detect (2D)
+Pose Detection  Image
+Load a single image and detect 2D poses using an AI engine.
+ Track (Video)
+Pose Tracking  Video
+Load a video and track body movements frame by frame.
+ 3D Lift
+2D  3D Lifting
+Transform a 2D sequence into a 3D pose estimation.
+Dance Classification
+Classify songs into dance styles, view matches, and analyze audio parameters.
+Presets
+This weekend
+Next week
+Next 7 days
+Display Settings
+Karaoke Gradient Colors
+Choose a color preset or create your own custom gradient for sung lyrics.
+Live Preview
+Sung Text Gradient
+Gold Notes Gradient
+Timeline Animation
+Choose how the karaoke timeline animates during singing.
+Choose a font for the karaoke timeline canvas and lyrics overlay.
+Settings saved!
+Turn off channel (set OFF range)
+Mode:
+Open port
+Close port
+Apply configuration
+Channels
+DMX Editor
+Manage DMX devices, port configuration and channels.
+Control DMX lighting via serial port
+MIDI
+A/B/1
++ EQ3
+Restore Backup
+Save Full Backup
+YouTube video player
+Song Metadata
+Metadata parse warning:
+Artist
+Album
+Genre
+Year
+Search artist / title...
+Apply to Song
+Project auto-save
+Auto-save mode
+Off
+On every change
+At set interval
+Both
+Auto-save frequency (seconds)
+Auto-save works locally (localStorage/browser). Manual save (PUT) always overwrites the project on the server.
+Project change history
+Undo last change (Ctrl+Z)
+Undo
+Redo change (Ctrl+Y or Ctrl+Shift+Z)
+Redo
+Undo/Redo works on the entire project (all editor changes). After each change Redo is cleared.
+Bar
+Beat
+1/16
+Second
+EQ Presets
+Delete preset...
+Preset name...
+Save Current
+Count-in (bars)
+Overdub (play background)
+Clear punch
+Empire RTS
+PvP
+Delete this comment?
+Anonymous
+Reply
+Comments
+Replying to comment
+Write a comment...
+Posting...
+Post
+No comments yet. Start the conversation!
+Filmy
+Nowa kolekcja
+Anuluj
+Edytuj film
+Delete this photo?
+Caption (optional)
+Uploading...
+Event Photos
+No photos yet. Be the first to upload!
+Like
+Edit photo
+Podpis (opcjonalnie)
+Permanently delete this event?
+Cancellation reason (optional):
+Events Manager
+Create Event
+Search events…
+New Event
+Edit Event
+Access
+Visibility
+Location Type
+Location Name
+Max Participants
+Poster URL
+Enable waiting list
+No events found.
+Hello World!
+Browse free internet radio stations from around the world.
+All Countries
+e.g. rock, jazz, news...
+stations found
+Website
+Fantasy Teams
+Team name
+No fantasy teams.
+Fantasy Leaderboard
+Professional Audio Editing
+A full-featured digital audio workstation right in your browser. Record, edit, mix, and master with studio-grade tools.
+Multiplayer Karaoke Experience
+Full-featured player management with AI-powered scoring, real-time visuals, and competitive game modes.
+Karaoke Song Management
+Edit, create, and manage karaoke files with UltraStar-compatible timing, canvas visuals, and AI scoring.
+AudioVerse Features
+Everything you need for karaoke parties, audio production, and multiplayer musical experiences — all in one platform.
+Ready to get started? Jump into karaoke, create a session, or explore the editor.
+Delete this round?
+Select a session to score
+Board Game Scoring
+Video Game Scoring
+Add Round
+No rounds yet
+Add part
+No parts yet
+Add player
+Player
+Score
+Click to edit score
+Xbox Gamepad Controller
+No gamepad detected. Connect an Xbox controller.
+Registered user gamepads
+Visible
+Previous
+Create player
+No songs. Add the first one below.
+Add song
+Playlist
+Paste multiple items at once
+Paste lines in format:
+Artist - Title (Version)
+Artist  Title [Remastered 2011]
+OR: Artist;Title;Version
+Each line will be added as a separate song.
+Add from list
+Create gift lists for events. Share them so guests can contribute to group gifts.
+New Gift Registry
+e.g. Wedding Gift List
+Description (optional)
+No gift registries yet.
+Shared Gift Registry
+Gift registry not found or link has expired.
+This gift registry is currently closed for contributions.
+No gifts in this registry yet.
+Add Gift
+Gift name
+Max people
+Fully Reserved
+View Product
+contributors
+Your name
+Amount (optional)
+Message (optional)
+Contribute anonymously
+Contributions:
+Parties
+HoneyToken Management
+Failed to fetch honeytokens
+Triggered Honeytokens:
+Token #{{id}} triggered at {{time}}
+Failed to create token
+Creating...
+Create Token
+Input Type
+Device
+Invite Templates
+Template name
+Email subject
+Email body (HTML)
+Bulk Invite
+Without template
+Email addresses (comma or newline separated)
+Send Bulk Invites
+Status
+Sent
+Failed
+Preset
+Free Play
+Metronome
+Backing Track
+Ready
+Recent events
+Press keys or tap pads to start jamming!
+ABCD-1234
+Linked Artist
+Language
+Browse by
+All sources
+All songs
+With metadata
+Without metadata
+Min (min)
+Max (min)
+Move up
+Move down
+Song Picks
+Song Title
+Import from Playlist ID
+Ranked Songs
+No song picks yet.
+Sign Up
+Remove Signup
+Failed to load song data.
+Song is missing required data.
+Song has no karaoke notes.
+Failed to load song.
+Loading player data…
+Karaoke Editor (Preview with audio and lyrics)
+Drag syllable edges to adjust timing; hold Shift to snap to beat grid.
+No text
+ No artist/title data for search
+ Searching YouTube...
+ Not found on YouTube
+ Search error
+Hit notes with keys or pad!
+Higher difficulty = more keys.
+Browser requires a click to unlock
+microphone and audio playback.
+Pad Mode  Activate audio
+Activate audio
+Player Recordings
+Player {{id}}
+Download
+No recording
+Reconnect — game will resume automatically. Click to dismiss.
+Could not load karaoke projects. The server may be unavailable.
+🏠 Session Ranking
+🏆 Top 10
+Report
+Restart
+Continue
+Click or drag & drop to upload an Ultrastar file (.txt)
+Change Song
+ Click to enable audio
+Adjust frequency gain for each note
+Change language
+Latency Calibrator  microphone
+Requesting microphone... click allow if prompted
+Playing test tone and recording...
+No signal detected  try louder or check microphone
+Calibration error: 
+Saved locally (no mic record on backend)
+Saved to profile (backend)
+Save error: 
+Calibrate
+Clear
+none
+Measured offset
+Save (to backend)
+Rounds
+Audio Layer
+Layer name
+Save layer
+Leagues
+League name
+No leagues yet.
+Schedule
+Participant name
+Standings
+Fantasy
+No standings data.
+Pts
+LFO
+Library Catalog
+Manage songs, albums, artists, audio files, and folder scan/import.
+Search…
+Add Song
+Add Album
+Add Artist
+Scan & Import Folder
+Scan a server folder for audio files and auto-import them into the library catalog.
+Folder Path
+Scan & Import
+Scan and import completed!
+Scan failed. Check the folder path.
+Play now
+Add to queue
+Add to playlist
+No files.
+File
+Actions
+Library
+Streaming
+Open in Editor
+Search...
+Search library
+Search library (Audio)...
+Search Ultrastar...
+Type to search...
+No results.
+Clear selection
+Audio
+Ultrastar
+Live Score
+Live Singing Score
+Test the live singing score endpoint. Start the microphone, sing, and see your score in real time. This helps verify the effectiveness of the scoring algorithm.
+Test the live singing score endpoint to verify accuracy.
+Stop
+Perfect!
+Great
+Good
+Miss
+Average
+Connection lost — retries exhausted
+Select a location...
+Saved
+Restauracja, klub, adres…
+No saved locations
+Lokalizacje i mapa
+Moja lokalizacja
+Wyszukaj miejsce
+Szukaj
+Wyniki
+Wybierz
+Dane Google Places
+Godziny
+Strefa czasowa
+Brak imprez w podanym promieniu.
+Odwrotne geokodowanie
+Trasa A → B
+Punkt A (start)
+Punkt B (cel)
+Dystans
+Czas
+Kroki nawigacji
+All Actions
+Login
+Szukaj...
+lub
+zmiana trybu
+Informacje
+Magic Decks TCG
+Skip
+Next →
+Start Playing!
+⚔️ Campaign
+Battle through chapters to earn cards and XP
+Complete
+In Progress
+Reward
+cards
+🎲 Looking for Trouble
+Fight a random opponent at your level. Capture cards by defeating them decisively!
+⚔️ Fight!
+🔄 Different opponent
+🎲 Find Opponent
+🔧 Deck Builder
+All
+Deck name...
+Click to remove
+💾 Save Deck
+Boss
+🃏 Magic Decks TCG
+Synergy
+Power
+Overall
+Books
+Add Book
+Search OpenLibrary / Google Books to auto-fill...
+Author
+Search your books...
+No books yet. Use the lookup above to import from external sources.
+Movies
+Add Movie
+Search TMDb to auto-fill...
+Director
+Release date
+Search your movies...
+No movies yet. Use the lookup above to import from TMDb.
+Sports
+Add Sport Activity
+Search TheSportsDB to auto-fill...
+Event name
+Sport
+League
+Home team
+Away team
+Venue
+Search your sport activities...
+No sport activities yet. Use the lookup above to search TheSportsDB.
+Leagues & Upcoming Events
+Select a league...
+No upcoming events for this league.
+TV Shows
+Add TV Show
+Creator
+First air date
+Search your TV shows...
+seasons
+No TV shows yet. Use the lookup above to import from TMDb.
+MIDI Seed Demo
+Key
+Scale
+Tempo
+Bars
+Progression
+Drums
+Melody density
+Octave
+Seed
+Generate
+Import to editor
+Imports generated MIDI notes into current project layers
+{{count}} notes in {{layers}} layers
+bars
+random
+Team Wins!
+The dungeon has claimed your party...
+Survived
+Explore
+VS Wasteland
+Map Size
+Starting Gear
+Basic
+Military
+Scavenger
+Fallout
+Turn Mode
+Turn-Based
+Real-Time
+Combat Mode
+Classic (endgame scoring)
+Immediate (resolve on contact)
+Game Duration
+5 Minutes
+8 Minutes
+12 Minutes
+Eight Minute Empire
+Victory!
+Conquest (60% systems)
+Co-op Campaign
+VS Skirmish
+Heroes of Might & Magic
+Co-op Raid
+Draft (pick cards first)
+Starting Life
+Deck Style
+Aggro
+Control
+Balanced
+Magic The Gathering
+Free Roam
+VS Rampage
+Co-op Heist
+Police Aggression
+City Size
+GTA 2
+Idle (Free Play)
+VS Race
+Co-op Target
+Time Limit
+Starting Cash
+Adventure Capitalist
+Career
+VS Tycoon
+Co-op — Dealers
+Starting Budget
+Auction House
+Gather (collect only, no enemies)
+Combo (gather + survival)
+Spawn Rate
+Frenzy
+Starting Weapon
+Single Shot
+Spread (3 projectiles)
+Rapid Fire
+Auto Survivors
+Skirmish (FFA)
+Gold per Village
+Battle of Wesnoth
+VS — Distance
+Lane Count
+Start Speed
+Car Dodge
+Science (all techs)
+Timed — High Score
+Standard
+Game Speed
+Civilization
+Campaign
+VS Deathmatch
+Level Size
+Fist Only
+Pistol
+Shotgun
+Doom
+Everyone
+Too slow!
+Single Race
+Co-op Relay
+Race Count
+Starting Money
+Rich
+Drag Racing
+Adventure
+Co-op Escape
+Room Count
+Hint Cost
+Free
+Cheap (5 coins)
+Expensive (20 coins)
+Escape Room
+Race Over!
+No one finished!
+Grand Prix
+AI Difficulty
+Easy (3 nodes)
+Hard (7 nodes)
+Horizon Chase
+Climb
+VS Height
+Co-op Climb
+Icy Tower
+Blue Team
+Red Team
+Classic 5v5
+ARAM (1 Lane)
+Co-op vs AI
+Match Duration
+League of Legends
+Galaxy Size
+Starting Systems
+Master of Orion
+Co-op Clear
+Solo Challenge
+Board Size
+Power-Ups
+On
+Memo
+Coop Dungeon
+Dungeon Size
+Might & Magic
+Chill (solo relaxation)
+3 Minutes
+7 Minutes
+Season
+Summer
+Winter
+Spring
+No Time To Relax
+Co-op Victory!
+Tycoon (Free Play)
+VS Market (Sabotage enabled)
+Co-op Empire (Shared wealth)
+10 Minutes
+Oil Imperium
+Co-op Kitchen
+VS Kitchen
+Order Speed
+Kitchen Layout
+Simple
+Complex
+Overcooked
+Puzzle
+Co-op Plumb
+Flow Speed
+Pipes
+Adventure complete!
+VS Battle
+Co-op Quest
+Starting Creatures
+Wild Encounter Rate
+Normal
+Pokémon
+Mission Failed
+VS Cops & Robbers
+Hostages
+Police Stories
+VS Puzzle
+Co-op Solve
+Story Co-op
+VS Brawl
+Wave Count
+River City Girls
+Defeat
+World Theme
+Temperate
+Desert
+Snow
+Alien
+Starting Age
+Age 1 — Stone
+Age 2 — Medieval
+Age 3 — Industrial
+RTS Command
+Quick Match
+2 Minutes
+Team Size
+Sensible Soccer
+Build (Free Play)
+VS Conquest
+Co-op Settlement
+Starting Resources
+Settlers
+VS Naval
+Co-op Pirates
+Enemy Count
+Few
+Many
+Ships
+Arcade
+VS Score
+Auto-Fire
+Bullet Density
+Bullet Hell
+Shmup
+Free Build
+VS Mayor (compete for highest population)
+Co-op City (reach population target together)
+Disaster Frequency
+SimCity
+Sandbox
+VS Rating
+Co-op Tower
+Max Floors
+SimTower
+Kills to Win
+VS — Biggest Wins
+Co-op — Combined Size Target
+World Size
+Growth Rate
+Spore
+Free Trade
+VS — Wealth
+Planets
+Pirates
+Star Merchant
+Arena VS
+Co-op Tournament
+Rounds to Win
+Swords & Sandals
+Battle (VS)
+Start Level
+Tetris
+Map
+Random
+Starting Gold
+Tooth & Tail
+Co-op Network
+Transport Tycoon
+Party (competitive)
+Co-op Build
+Build Time (seconds)
+Ultimate Chicken Horse
+Contracts
+VS Hack Race
+Trace Speed
+Contract Difficulty
+Uplink
+Real-Time Battle (VS)
+Worms Per Team
+Terrain
+Hills
+Flat
+Islands
+Worms
+Mode Type
+Tickets per Team
+Warzone
+Game in progress — your input is live!
+Sources found for tracks
+My Audit Logs
+Export to Spotify
+Export to Tidal
+Export to YouTube
+Exported to {{platform}}!
+Export failed.
+Select a playlist first.
+Music
+Games
+Social
+Video Games
+Honest Living
+Karaoke
+Contacts
+Campaigns
+Wiki / Docs
+Wiki — Manage pages
+Features
+Progress
+Main navigation
+Radio
+{{page}} / {{total}}
+URL
+Page not found
+Go to homepage
+just now
+Notifications
+Mark all as read
+No notifications
+Are you sure?
+Organizations
++ New Organization
+Edit Organization
+New Organization
+Logo URL
+No organizations yet.
+Page size
+email@example.com
+Cancel party
+Active filters
+Reset filters
+Chat
+Join round
+Join and play
+Assignments
+Click a player to assign
+Auto assign
+Microphones
+No microphones detected
+Gamepads
+Attractions
+Add Attraction
+No attractions suggested yet.
+Suggest something for the group!
+Date Proposals
+Best Dates
+No date proposals yet.
+Game Picks
+Game name
+Board Game ID
+Video Game ID
+Import from Collection ID
+Ranked Games
+No game picks yet.
+Graj
+Gracz
+Wybierz gracza...
+Mikrofon
+Bez mikrofonu
+Zapisano ✓
+graczy
+Przypisania
+Auto przypisanie
+Mikrofony
+Pady
+Lobby
+Billing
+Polls
+Zmniejsz
+Atrakcja nie znaleziona.
+Sesja
+Odrzucona propozycja
+Propozycja atrakcji
+Opis
+Dodaj opis atrakcji...
+Brak opisu
+Nazwa sesji
+Np. Karaoke - Runda 1
+Czas trwania (min)
+Ogranicz do playlisty eventu
+Tryb sesji
+Rundy
+Propozycje
+Zatwierdzone
+Odrzucone propozycje
+Propozycja
+Odrzucone
+Sesja aktywna
+Wirtualna
+Stacjonarna
+Publiczny
+Prywatny
+Link
+Brak imprez
+Game Scoring
+Gra wideo
+Gra planszowa
+Parkiet
+Inna atrakcja
+Create Party
+Party Name
+Enter party name
+Enter description
+Organizer ID
+Enter organizer ID
+All fields are required!
+Party created successfully!
+Min. {{count}} characters
+Max. {{count}} characters
+At least one uppercase letter
+At least one lowercase letter
+At least one digit
+At least one special character
+Password Requirements:
+Objective
+Keyboard Controls
+Gamepad Controls
+Tips
+Zastosuj
+Hit That Note
+Previous track
+Pause
+Next track
+Seek position
+Volume
+Add Player
+Color
+Auto
+Cap shape
+Pattern
+Pattern only (flat, no 3D)
+Pattern color
+Highlight
+Glow
+Transparency (glass)
+Texture
+Texture scale
+Email
+Ikona
+Pitch algorithm
+Autocorrelation
+Pitchy (local)
+CREPE (server)
+Librosa pYIN (server)
+Bar style
+🎵 Filled bar (hit)
+⬜ Empty bar (unsung)
+⭐ Gold filled bar (hit)
+⭐ Gold empty bar (unsung)
+🔤 Font
+The quick brown fox jumps over the lazy dog
+Font size
+Font color
+Outline
+Text shadow
+Reset to defaults
+Playlists
+Selected
+tracks
+Search and add to playlist...
+Full search (Enter does not add, full list below)
+Playlist name...
+{{count}} songs
+No playlists. Add the first one 
+Export
+Export All
+Export Selected
+Successfully imported playlists!
+Successfully exported playlists!
+This import might overwrite existing playlists. Continue?
+Import Options
+Merge Tags
+Merge Folders
+Overwrite Existing
+Toggle AND/OR
+Match all / any of these rules
+Dynamic Rules
+Tracks matching these rules will automatically be included in the playlist.
+Max tracks:
+(leave empty for unlimited)
+No tracks found in file.
+Unsupported file format. Use .json, .m3u, .m3u8 or .csv.
+Select a playlist first
+Export failed
+Export format
+Create Poll
+Single choice
+Multiple choice
+Quantity
+Track costs per option
+Closed
+💰
+Results
+Emails (comma separated)
+Send
+No polls yet. Create one to gather votes from participants.
+Accepted JSON for sequence.
+Accepted: MP4.
+Select a file first.
+Input
+Summary
+Response JSON
+Controls
+Start camera
+Stop camera
+Save current pose
+Target pose
+Live camera
+Last detection (live) JSON
+Accepted: JPEG/PNG.
+Select an image first.
+Engine
+Preview
+Select a video first.
+Error editing profile player
+Error adding profile player
+Player name
+Player color
+#rrggbb
+Set as primary player
+Please log in to see your progress.
+Your Progress
+XP & Levels
+No progress data yet. Start singing!
+Unlocked Skills
+No skills unlocked yet. Complete campaign rounds to earn skills!
+Project List
+Projects List
+Add Project
+No radio station selected.
+LIVE
+No schedule available.
+Type a message...
+Total
+This invite link is invalid or has expired.
+You have been added as a guest to {{station}}.
+Go to Radio Station
+You have been invited to join as a guest DJ.
+Valid from {{from}} to {{to}}
+Your display name (optional)
+Failed to accept the invite. Please try again.
+Karaoke Ranking
+Your rank
+Leaderboard
+My History
+Activity
+No ranking data yet.
+Songs
+Best
+My Singing History
+Log in to see your activity.
+No singing history yet. Time to sing! 🎤
+Song
+Date
+Singing Activity
+days
+No activity data for this period.
+Songs per day
+Total Songs
+Total Points
+Avg / Day
+Dodatkowy komentarz (opcjonalnie)...
+Admin
+Dashboard
+Audit
+Users
+Settings
+HoneyTokens
+ Save
+ Load
+Edit scoring presets. Changes are saved to backend if available, otherwise to localStorage.
+Difficulty
+Delete section
+Security Analytics
+Loading analytics...
+Audit Events Trend
+Triggered Honeytokens Trend
+More security metrics and analytics coming soon...
+Failed to load analytics data
+vs
+edited
+Show spoiler
+Write a reply…
+Post reply
+Add a comment…
+Contains spoilers
+No comments yet.
+Ratings
+votes
+Edit your rating
+Write a review (optional)…
+Tags
+My Lists
+No tags yet.
+Add a tag…
+Add a note (optional)…
+Browse
+My Playlists
+Create playlist
+Playlist name
+No playlists yet
+Delete playlist
+Online Playlists
+No online playlists
+All Songs
+By Genre
+By Year
+Rename
+Publish (make public)
+Copy share link
+Save to My Playlists
+Filter Songs
+Enter title
+Enter artist
+Wg gatunku
+Gatunek: Wszystkie
+Wg roku
+Rok: Wszystkie
+piosenek
+Song Mini-Games
+Play musical challenges generated from real karaoke songs
+Search songs...
+No songs found
+This song has no note data. Please pick another song.
+Choose game type
+Start Game
+streak
+At
+Memorize and repeat:
+Accuracy
+Best Streak
+Avg Response
+Play Again
+Change Game
+Free for all
+Round robin
+Host only
+First come
+GO! Pick a song!
+picks!
+New race
+Start race
+Wait for the race to start!
+Source
+Speech Synth
+Enter text...
+Auto-play
+ Generate
+Separation returned no audio tracks.
+Audio Stem Separation (Demucs)
+Separate the uploaded audio into individual stems (vocals, drums, bass, etc.) using AI. You can then preview each stem and choose which one to analyze for pitch detection.
+Stems:
+Separating…
+Separate Tracks
+Use Original File
+Processing with Demucs — this can take 1-3 minutes depending on file length…
+Separation Error
+Try Again
+Select track to analyze:
+Use Selected Stem for Analysis
+Step Sequencer
+Click steps to toggle. Drag velocity bars vertically.
+Tuning Harness
+Analyze and tune karaoke scoring parameters with fixture data
+Import Fixture
+Scoring Parameters
+Sweep -500..+500 ms to find offset that maximises scoring total
+Auto-find best offset
+Segmentation Heatmap
+Preset Sweep
+Tuning Run History
+Save current params & score to history
+Save Run
+Clear All
+Per-Note Detail
+Edit in Karaoke Editor
+Loading user info...
+Welcome, {{username}}
+Password change required at first login!
+DJ
+reviews
+No price list items yet.
+Price
+Unit
+Unavailable
+No menu items yet.
+Vegetarian
+Vegan
+Gluten-free
+Allergens
+No portfolio items yet.
+No reviews yet.
+Write a Review
+Rating
+Your comment (optional)...
+Submit Review
+Thank you for your review!
+Your Name
+Your Email
+Event Date
+Guest Count
+Budget
+Message
+Send Inquiry
+Your inquiry has been sent! The vendor will contact you soon.
+No rating
+City
+vendors
+Version History
+You do not have permission to view version history.
+No versions available.
+Select a version to preview
+Preview JSON
+Reason for reverting
+Reverting
+Revert
+You do not have permission to revert versions.
+Vocal Effects
+Apply live vocal effects to your microphone. Choose from 20 effects — stack multiple at once. Hear the results through your speakers in real time.
+Apply live vocal effects — chipmunk, robot, echo, and more.
+Start Mic
+Monitor
+Vol
+Gain
+active
+Click effects to toggle. Multiple effects can be active simultaneously. Adjust intensity with the slider.
+Sundberg, J. (1987). The Science of the Singing Voice. DeKalb: Northern Illinois University Press. | Boersma, P. (1993). "Accurate short-term analysis of the fundamental period and the harmonics-to-noise ratio of a sampled sound." IFA Proceedings, 17, pp. 97–110.
+Create and manage your wishlists. Share them publicly or sync with Steam.
+Create New Wishlist
+Wishlist name
+Public
+No wishlists yet.
+Shared Wishlist
+Wishlist not found or link has expired.
+This wishlist is empty.
+Priority
+Item name
+Steam ID (e.g. 76561198...)
+Sync Now
+Last sync
+Manage your YouTube channel subscriptions.
+No subscriptions found. Make sure your YouTube account is linked.
+Total subscriptions: {{count}}
+Unsubscribe from {{title}}?

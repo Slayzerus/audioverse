@@ -1,0 +1,248 @@
+/* KaraokeRankingPage — extracted from inline styles */
+
+.page {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  color: var(--text-primary);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.myRank {
+  color: var(--accent, #5865F2);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.tabBar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tabBtn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--bg-secondary, #2c2f36);
+  color: var(--text-secondary, #aaa);
+  transition: background 0.2s;
+}
+
+.tabBtnActive {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--accent, #5865F2);
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.card {
+  background: var(--card-bg, #23272f);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.select {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.emptyMessage {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 20px;
+}
+
+.rankingHeader {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 80px 200px;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-primary);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.rankingRow {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 80px 200px;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+}
+
+.rankingRowMe {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 80px 200px;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+  background: rgba(88, 101, 242, 0.08);
+  border-radius: 8px;
+}
+
+.medal {
+  font-weight: 700;
+  text-align: center;
+}
+
+.username {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.usernameMe {
+  font-weight: 600;
+  color: var(--accent, #5865F2);
+}
+
+.scoreCell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.statCell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.progressBar {
+  height: 10px;
+  background: var(--bg-primary);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.historyHeader {
+  display: grid;
+  grid-template-columns: 1fr 100px 160px;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-primary);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.historyRow {
+  display: grid;
+  grid-template-columns: 1fr 100px 160px;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+}
+
+.songTitle {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.historyScore {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.dateCell {
+  text-align: right;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.barChart {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 160px;
+  margin-bottom: 16px;
+}
+
+.activityBar {
+  flex: 1;
+  min-width: 6px;
+  max-width: 32px;
+  background: var(--accent, #5865F2);
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.activityBar:hover {
+  opacity: 1;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.statCard {
+  text-align: center;
+  padding: 12px;
+  background: var(--bg-primary);
+  border-radius: 8px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}

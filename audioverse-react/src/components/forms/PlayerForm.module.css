@@ -1,0 +1,266 @@
+/* PlayerForm.module.css — extracted from inline styles */
+
+.container {
+    color: #ddd;
+}
+
+.formLabel {
+    color: #ccc;
+}
+
+.formLabelBold {
+    font-weight: 600;
+    color: #ccc;
+}
+
+.formLabelSmBold {
+    font-weight: 600;
+    font-size: 13px;
+    color: #ccc;
+}
+
+.formLabelSm {
+    font-size: 13px;
+    color: #ccc;
+}
+
+.photoBox {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.photoOverlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.photoLabel {
+    width: 100%;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.photoPlaceholder {
+    font-size: 28px;
+    color: #fff;
+    opacity: 0.5;
+}
+
+.iconBox {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.iconPreview {
+    font-size: 32px;
+    color: #fff;
+}
+
+.colorPalette {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.colorSwatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.swatchBadge {
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    background: #fff;
+    color: #111;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.preferredStrip {
+    margin-bottom: 14px;
+}
+
+.preferredStripInner {
+    display: inline-flex;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.preferredSwatch {
+    width: 40px;
+    height: 28px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.preferredSwatchLabel {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.5);
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+}
+
+.sectionWrap {
+    margin-bottom: 12px;
+}
+
+.sectionHeader {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sectionArrow {
+    transition: transform 0.15s;
+}
+
+.sectionArrowLg {
+    font-size: 12px;
+}
+
+.sectionArrowSm {
+    font-size: 11px;
+}
+
+.barContent {
+    margin-top: 8px;
+    padding: 8px 0;
+}
+
+.barSection {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.fontButtonsRow {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.fontPreview {
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+}
+
+.controlRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.outlineWidth {
+    max-width: 120px;
+}
+
+.outlineLabel {
+    font-size: 12px;
+}
+
+.shadowButtonsRow {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.shadowBtn {
+    font-size: 12px;
+}
+
+.pitchWrap {
+    margin-bottom: 12px;
+}
+
+.pitchLabel {
+    font-weight: 600;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.loadingProfileMsg {
+    color: #b08800;
+    margin-bottom: 8px;
+}
+
+.errorMsg {
+    color: red;
+    margin-bottom: 8px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 0;
+    margin-top: 12px;
+}
+
+.actionBtnLeft {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    border-radius: 6px 0 0 6px;
+}
+
+.actionBtnRight {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    border-radius: 0 6px 6px 0;
+}
+
+.colorPickerInput {
+    width: 36px;
+    height: 28px;
+    padding: 2px;
+}
+
+.fileInputHidden {
+    display: none;
+}
